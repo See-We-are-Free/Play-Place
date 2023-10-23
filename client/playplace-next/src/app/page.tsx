@@ -1,5 +1,8 @@
 export default function Home() {
   return (
-    <main>PlayPlace Home</main>
+    <main>
+      <h1>PlayPlace Home</h1>
+      <h2>함께 만드는 위치 기반 공유 플레이리스트</h2>
+      </main>
   )
 }
