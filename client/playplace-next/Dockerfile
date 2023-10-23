@@ -10,7 +10,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 # 의존성 패키지 설치
 COPY package.json package-lock.json ./
-RUN npm install
+RUN npm ci
 
 FROM base AS builder
 WORKDIR /app
