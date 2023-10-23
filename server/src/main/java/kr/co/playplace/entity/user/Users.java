@@ -1,6 +1,6 @@
-package kr.co.playplace.server.entity.user;
+package kr.co.playplace.entity.user;
 
-import kr.co.playplace.server.entity.TimeBaseEntity;
+import kr.co.playplace.entity.TimeBaseEntity;
 import lombok.*;
 
 import javax.persistence.Column;

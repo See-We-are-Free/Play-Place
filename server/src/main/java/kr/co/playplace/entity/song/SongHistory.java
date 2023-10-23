@@ -1,8 +1,8 @@
-package kr.co.playplace.server.entity.stats;
+package kr.co.playplace.entity.song;
 
-import kr.co.playplace.server.entity.song.Song;
-import kr.co.playplace.server.entity.TimeBaseEntity;
-import kr.co.playplace.server.entity.location.Village;
+import kr.co.playplace.entity.location.Village;
+import kr.co.playplace.entity.user.Users;
+import kr.co.playplace.entity.TimeBaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,11 +12,15 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class SongAreaStats extends TimeBaseEntity {
+public class SongHistory extends TimeBaseEntity {
     @Id
     @GeneratedValue
-    @Column(name= "song_area_stats_id")
+    @Column(name = "song_history_id")
     Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    Users user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "youtube_id")
@@ -25,5 +29,4 @@ public class SongAreaStats extends TimeBaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "village_id")
     Village village;
-
 }

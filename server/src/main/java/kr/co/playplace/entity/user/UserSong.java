@@ -1,7 +1,7 @@
-package kr.co.playplace.server.entity.chatbot;
+package kr.co.playplace.entity.user;
 
-import kr.co.playplace.server.entity.song.Song;
-import kr.co.playplace.server.entity.TimeBaseEntity;
+import kr.co.playplace.entity.song.Song;
+import kr.co.playplace.entity.TimeBaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,17 +11,18 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class ChatbotSong extends TimeBaseEntity {
+public class UserSong extends TimeBaseEntity {
     @Id
     @GeneratedValue
-    @Column(name = "chatbot_song_id")
+    @Column(name = "user_song_id")
     Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chaybot_message_id")
-    ChatbotMessage chatbotMessage;
+    @JoinColumn(name = "user_id")
+    Users user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "youtube_id")
     Song song;
+
 }

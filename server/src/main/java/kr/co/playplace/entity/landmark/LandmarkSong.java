@@ -1,8 +1,8 @@
-package kr.co.playplace.server.entity.landmark;
+package kr.co.playplace.entity.landmark;
 
-import kr.co.playplace.server.entity.song.Song;
-import kr.co.playplace.server.entity.TimeBaseEntity;
-import kr.co.playplace.server.entity.user.Users;
+import kr.co.playplace.entity.song.Song;
+import kr.co.playplace.entity.TimeBaseEntity;
+import kr.co.playplace.entity.user.Users;
 import lombok.*;
 
 import javax.persistence.*;

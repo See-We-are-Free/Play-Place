@@ -1,4 +1,4 @@
-package kr.co.playplace.server.entity.location;
+package kr.co.playplace.entity.location;
 
 import lombok.*;
 
@@ -9,13 +9,13 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class City {
+public class Village {
     @Id
     @GeneratedValue
-    @Column(name = "city_id")
+    @Column(name = "village_id")
     int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "state_id")
-    State state;
+    @JoinColumn(name = "city_id")
+    City city;
 }

@@ -1,4 +1,4 @@
-package kr.co.playplace.server.entity;
+package kr.co.playplace.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

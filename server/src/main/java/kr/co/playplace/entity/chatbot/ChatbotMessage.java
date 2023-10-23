@@ -1,7 +1,7 @@
-package kr.co.playplace.server.entity.chatbot;
+package kr.co.playplace.entity.chatbot;
 
-import kr.co.playplace.server.entity.TimeBaseEntity;
-import kr.co.playplace.server.entity.user.Users;
+import kr.co.playplace.entity.TimeBaseEntity;
+import kr.co.playplace.entity.user.Users;
 import lombok.*;
 
 import javax.persistence.*;

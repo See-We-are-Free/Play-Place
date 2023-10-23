@@ -1,4 +1,4 @@
-package kr.co.playplace.server.entity.location;
+package kr.co.playplace.entity.location;
 
 import lombok.*;
 

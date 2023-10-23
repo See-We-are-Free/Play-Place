@@ -1,4 +1,4 @@
-package kr.co.playplace.server;
+package kr.co.playplace;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package kr.co.playplace.server.entity.user;
+package kr.co.playplace.entity.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
