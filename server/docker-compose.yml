@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   db:
     image: mysql:8.0.34
@@ -17,7 +17,7 @@ services:
     build: .
     depends_on:
       - db
-    image: back-image:latest
+    image: playplace-spring:latest
     container_name: playplace-spring
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/playplace?useUnicode=true&rewriteBatchedStatements=true&useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8&allowPublicKeyRetrieval=true
