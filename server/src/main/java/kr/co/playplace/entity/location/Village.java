@@ -18,4 +18,7 @@ public class Village {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id")
     City city;
+
+    String name;
+    int code;
 }

@@ -15,3 +15,7 @@ logging:
         security : DEBUG
         web : info
 
+spring:
+  batch:
+    job:
+      enabled: false
