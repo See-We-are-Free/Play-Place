@@ -7,6 +7,39 @@ export const GlobalStyles = createGlobalStyle`
     
     :root {
         /* color */
+        --primary-grandiant-main: linear-gradient(90deg, #FEAC5E 0%, #C779D0 25.52%, #4BC0C8 100%);
+        --primary-grandiant-sub-orange: linear-gradient(90deg, #FEAC5E 0%, #C779D0 100%);
+        --primary-grandiant-sub-puple: linear-gradient(90deg, #A62AEC 0%, #8527F2 48.33%, #7125F6 100%);
+        --primary-orange: #FEAC5E;
+        --primary-purple: #C779D0;
+        --primary-mint: #4BC0C8;
+        --bottom-shadow: linear-gradient(180deg, rgba(0, 0, 0, 0) 60.07%, rgba(34, 34, 34, 0.8) 100%);
+        
+        --bg-black-alpa-25: rgba(0, 0, 0, 0.25);
+        --bg-black-alpa-50: rgba(0, 0, 0, 0.50);
+        --bg-black-alpa-75: rgba(0, 0, 0, 0.75);
+
+        --white: #fff;
+        --white-100: #F1F1F1;
+        --white-200: #E2E2E2;
+        --white-300: #D4D4D4;
+        --white-400: #C5C5C5;
+        --white-500: #B7B7B7;
+        --white-600: #929292;
+        --white-700: #6E6E6E;
+        --white-800: #494949;
+        --white-900: #252525;
+
+        --black: #222;
+        --black-100: #D4D4D4;
+        --black-200: #AAAAAA;
+        --black-300: #7F7F7F;
+        --black-400: #545454;
+        --black-500: #2A2A2A;
+        --black-600: #222222;
+        --black-700: #191919;
+        --black-800: #111111;
+        --black-900: #080808;
 
         /* radius */
         --radius-s : 5px;
