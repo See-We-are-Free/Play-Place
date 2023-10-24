@@ -26,14 +26,13 @@ export const GlobalStyles = createGlobalStyle`
         font-family: ${notoSansKR.style.fontFamily};
         padding: 0;
         margin: 0;
-        overflow-y: scroll;
         font-weight: normal;
         position: relative;
+        line-height: normal;
     };
 
     // 스크롤 바
     &::-webkit-scrollbar {
-		display: none; /* Chrome, Safari, Opera*/
     } 
 
     a{
