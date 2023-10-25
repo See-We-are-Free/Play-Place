@@ -3,7 +3,9 @@ package kr.co.playplace.common.util;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import kr.co.playplace.entity.location.City;
 import kr.co.playplace.entity.location.State;
+import kr.co.playplace.repository.CityJDBCRepository;
 import kr.co.playplace.repository.StateJDBCRepository;
 import kr.co.playplace.repository.VillageJDBCRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,7 @@ import java.util.List;
 public class DataLoader {
 
     private final StateJDBCRepository stateJDBCRepository;
+    private final CityJDBCRepository cityJDBCRepository;
     private final VillageJDBCRepository villageJDBCRepository;
 
     @Bean
@@ -62,39 +65,39 @@ public class DataLoader {
         return csvToBean.parse();
     }
 
-//    @Bean
-//    public CommandLineRunner villageLoad() {
-//        return (args) -> {
-//            boolean exists = villageJDBCRepository.isExistsData();
-//            ClassPathResource resource = new ClassPathResource("location/village.csv");
-//
-//            // InputStream을 사용하여 파일을 읽음
-//            try (InputStream inputStream = resource.getInputStream();
-//                 Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
-//                if (!exists) {
-//                    List<Village> villages = readVillagesFromCSV(reader);
-//                    villageJDBCRepository.bulkInsert(villages);
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        };
-//    }
-//
-//    public List<Village> readVillagesFromCSV(Reader reader) throws IOException {
-//        ColumnPositionMappingStrategy<Village> strategy = new ColumnPositionMappingStrategy<>();
-//        strategy.setType(Village.class);
-//        String[] memberFieldsToBindTo = { "name", "code" };
-//        strategy.setColumnMapping(memberFieldsToBindTo);
-//
-//        CsvToBean<Village> csvToBean = new CsvToBeanBuilder<Village>(reader)
-//                .withMappingStrategy(strategy)
-//                .withSkipLines(1)
-//                .withType(Village.class)
-//                .build();
-//
-//        return csvToBean.parse();
-//    }
+    @Bean
+    public CommandLineRunner cityLoad() {
+        return (args) -> {
+            boolean exists = cityJDBCRepository.isExistsData();
+            ClassPathResource resource = new ClassPathResource("location/city.csv");
+
+            // InputStream을 사용하여 파일을 읽음
+            try (InputStream inputStream = resource.getInputStream();
+                 Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
+                if (!exists) {
+                    List<CityCsvDto> cities = readCitiesFromCSV(reader);
+                    cityJDBCRepository.bulkInsert(cities);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        };
+    }
+
+    public List<CityCsvDto> readCitiesFromCSV(Reader reader) throws IOException {
+        ColumnPositionMappingStrategy<CityCsvDto> strategy = new ColumnPositionMappingStrategy<>();
+        strategy.setType(CityCsvDto.class);
+        String[] memberFieldsToBindTo = { "id", "name", "code", "stateId" };
+        strategy.setColumnMapping(memberFieldsToBindTo);
+
+        CsvToBean<CityCsvDto> csvToBean = new CsvToBeanBuilder<CityCsvDto>(reader)
+                .withMappingStrategy(strategy)
+                .withSkipLines(1)
+                .withType(CityCsvDto.class)
+                .build();
+
+        return csvToBean.parse();
+    }
 
 //    @Bean
 //    public CommandLineRunner foodDataLoad() {
