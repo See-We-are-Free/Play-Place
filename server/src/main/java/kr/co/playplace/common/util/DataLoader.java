@@ -28,39 +28,39 @@ public class DataLoader {
     private final StateJDBCRepository stateJDBCRepository;
     private final VillageJDBCRepository villageJDBCRepository;
 
-//    @Bean
-//    public CommandLineRunner stateLoad() {
-//        return (args) -> {
-//            boolean exists = stateJDBCRepository.isExistsData();
-//            ClassPathResource resource = new ClassPathResource("location/state.csv");
-//
-//            // InputStream을 사용하여 파일을 읽음
-//            try (InputStream inputStream = resource.getInputStream();
-//                 Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
-//                if (!exists) {
-//                    List<State> states = readStatesFromCSV(reader);
-//                    stateJDBCRepository.bulkInsert(states);
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        };
-//    }
-//
-//    public List<State> readStatesFromCSV(Reader reader) throws IOException {
-//        ColumnPositionMappingStrategy<State> strategy = new ColumnPositionMappingStrategy<>();
-//        strategy.setType(State.class);
-//        String[] memberFieldsToBindTo = { "state_id", "code", "name" };
-//        strategy.setColumnMapping(memberFieldsToBindTo);
-//
-//        CsvToBean<State> csvToBean = new CsvToBeanBuilder<State>(reader)
-//                .withMappingStrategy(strategy)
-//                .withSkipLines(1)
-//                .withType(State.class)
-//                .build();
-//
-//        return csvToBean.parse();
-//    }
+    @Bean
+    public CommandLineRunner stateLoad() {
+        return (args) -> {
+            boolean exists = stateJDBCRepository.isExistsData();
+            ClassPathResource resource = new ClassPathResource("location/state.csv");
+
+            // InputStream을 사용하여 파일을 읽음
+            try (InputStream inputStream = resource.getInputStream();
+                 Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
+                if (!exists) {
+                    List<State> states = readStatesFromCSV(reader);
+                    stateJDBCRepository.bulkInsert(states);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        };
+    }
+
+    public List<State> readStatesFromCSV(Reader reader) throws IOException {
+        ColumnPositionMappingStrategy<State> strategy = new ColumnPositionMappingStrategy<>();
+        strategy.setType(State.class);
+        String[] memberFieldsToBindTo = { "id", "code", "name" };
+        strategy.setColumnMapping(memberFieldsToBindTo);
+
+        CsvToBean<State> csvToBean = new CsvToBeanBuilder<State>(reader)
+                .withMappingStrategy(strategy)
+                .withSkipLines(1)
+                .withType(State.class)
+                .build();
+
+        return csvToBean.parse();
+    }
 
 //    @Bean
 //    public CommandLineRunner villageLoad() {
