@@ -18,4 +18,11 @@ public class Song extends TimeBaseEntity {
     @GeneratedValue
     @Column(name = "song_id")
     Long id;
+
+    String youtubeId;
+    String title;
+    String artist;
+    String albumImg;
+    String playTime;
+
 }

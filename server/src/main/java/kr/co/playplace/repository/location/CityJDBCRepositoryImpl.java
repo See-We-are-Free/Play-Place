@@ -1,7 +1,6 @@
-package kr.co.playplace.repository;
+package kr.co.playplace.repository.location;
 
 import kr.co.playplace.common.util.CityCsvDto;
-import kr.co.playplace.entity.location.City;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
