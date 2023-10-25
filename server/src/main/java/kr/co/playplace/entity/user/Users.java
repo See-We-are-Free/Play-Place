@@ -10,7 +10,6 @@ import javax.persistence.Id;
 
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Users extends TimeBaseEntity {
@@ -18,4 +17,32 @@ public class Users extends TimeBaseEntity {
     @GeneratedValue
     @Column(name = "user_id")
     Long id;
+
+    @Column(length = 24)
+    String nickname;
+
+    @Column(length = 512)
+    String profileImg;
+
+    @Column(length = 50)
+    String outhId;
+
+    int isRemoved;
+
+    int isPush;
+
+    int isShake;
+
+    String role;
+
+    @Builder
+    public Users(String nickname, String profileImg, String outhId, int isRemoved, int isPush, int isShake, String role) {
+        this.nickname = nickname;
+        this.profileImg = profileImg;
+        this.outhId = outhId;
+        this.isRemoved = isRemoved;
+        this.isPush = isPush;
+        this.isShake = isShake;
+        this.role = role;
+    }
 }

@@ -1,5 +1,8 @@
-package kr.co.playplace.config;
+package kr.co.playplace.common.security.config;
 
+import kr.co.playplace.common.security.filter.JwtAuthFilter;
+import kr.co.playplace.common.security.handler.MyAuthenticationFailureHandler;
+import kr.co.playplace.common.security.handler.MyAuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,8 +31,9 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션관리 정책을 STATELESS(세션이 있으면 쓰지도 않고, 없으면 만들지도 않는다)
                 .and()
                 .authorizeRequests() // 요청에 대한 인증 설정
-                .antMatchers("/auth/**").permitAll() // 토큰 발급을 위한 경로는 모두 허용
-                .antMatchers("/", "/css/**","/images/**","/js/**","/favicon.ico").permitAll()
+                .antMatchers("/**").permitAll()
+                .antMatchers("/api/**").permitAll()
+//                .antMatchers("/auth/**").permitAll() // 토큰 발급을 위한 경로는 모두 허용
                 .anyRequest().authenticated() // 그 외의 모든 요청은 인증이 필요하다.
                 .and()
                 .oauth2Login() // OAuth2 로그인 설정시작
@@ -43,3 +47,4 @@ public class SecurityConfig {
         return http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+}
