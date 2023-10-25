@@ -24,7 +24,6 @@ public class UserService {
         Users user = Users.builder()
                 .outhId(email).build();
 
-        log.info("저장 환료");
         userRepository.save(user);
     }
 }

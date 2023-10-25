@@ -15,7 +15,6 @@ public class UserController {
 
     @GetMapping
     public ApiResponse<Object> register(@RequestParam(name="email") String email, @RequestParam(name="provider") String provider){
-        log.info("컨트롤러 왔어요");
         userService.save(email);
 
         return ApiResponse.messageOk("Success");
