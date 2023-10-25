@@ -23,7 +23,7 @@ public class SongHistory extends TimeBaseEntity {
     Users user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "youtube_id")
+    @JoinColumn(name = "song_id")
     Song song;
 
     @ManyToOne(fetch = FetchType.LAZY)

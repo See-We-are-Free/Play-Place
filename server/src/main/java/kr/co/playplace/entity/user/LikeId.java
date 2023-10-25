@@ -16,6 +16,6 @@ public class LikeId implements Serializable {
     @Column(name = "user_id")
     private String userId;
 
-    @Column(name = "youtube_id")
+    @Column(name = "song_id")
     private String songId;
 }

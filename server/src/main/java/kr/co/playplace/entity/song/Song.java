@@ -16,6 +16,6 @@ import javax.persistence.Id;
 public class Song extends TimeBaseEntity {
     @Id
     @GeneratedValue
-    @Column(name = "youtube_id")
+    @Column(name = "song_id")
     Long id;
 }
