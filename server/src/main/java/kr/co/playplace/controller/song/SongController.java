@@ -17,6 +17,7 @@ public class SongController {
 
     @PostMapping
     public ResponseEntity<?> saveSong(@ModelAttribute SaveSongRequest saveSongRequest){
+        songService.saveSong(saveSongRequest);
         return ResponseEntity.ok().build();
     }
 }

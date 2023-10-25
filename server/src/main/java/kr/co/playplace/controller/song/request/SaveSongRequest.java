@@ -15,7 +15,7 @@ public class SaveSongRequest {
     private String youtubeId;
     private String title;
     private String artist;
-//    private MultipartFile albumImg;
+    private MultipartFile albumImg;
     private String playTime;
 
     public Song toEntity(String albumImgUrl){
