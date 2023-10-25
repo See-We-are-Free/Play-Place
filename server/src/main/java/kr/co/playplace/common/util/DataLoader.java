@@ -99,74 +99,37 @@ public class DataLoader {
         return csvToBean.parse();
     }
 
-//    @Bean
-//    public CommandLineRunner foodDataLoad() {
-//        return (args) -> {
-//            boolean exists = foodSearchRepository.isExistsData();
-//            ClassPathResource resource = new ClassPathResource("food/foody_food.csv");
-//
-//            try (InputStream inputStream = resource.getInputStream();
-//                 Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
-//                if(!exists) {
-//                    List<FoodSearch> foodSearchList = readFoodsFromCSV(reader);
-//                    foodSearchRepository.bulkInsert(foodSearchList);
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        };
-//    }
-//
-//    public List<FoodSearch> readFoodsFromCSV(Reader reader) {
-//        ColumnPositionMappingStrategy<FoodSearch> strategy = new ColumnPositionMappingStrategy<>();
-//        strategy.setType(FoodSearch.class);
-//        String[] memberFieldsToBindTo = {
-//                "id", "name", "energy", "carbohydrates",
-//                "protein", "dietaryFiber", "calcium", "sodium", "iron", "fats", "vitaminA", "vitaminC"
-//        };
-//        strategy.setColumnMapping(memberFieldsToBindTo);
-//
-//        CsvToBean<FoodSearch> csvToBean = new CsvToBeanBuilder<FoodSearch>(reader)
-//                .withMappingStrategy(strategy)
-//                .withSkipLines(1)
-//                .withType(FoodSearch.class)
-//                .build();
-//
-//        return csvToBean.parse();
-//    }
-//
-//    @Bean
-//    public CommandLineRunner ingredientDataLoad() {
-//        return (args) -> {
-//            boolean exits = ingredientJDBCRepository.isExistsData();
-//            ClassPathResource resource = new ClassPathResource("ingredient/foody_ingredient.csv");
-//
-//            try (InputStream inputStream = resource.getInputStream();
-//                 Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
-//                if(!exits) {
-//                    List<IngredientCSV> ingredients = readIngredientsFromCSV(reader);
-//                    ingredientJDBCRepository.bulkInsert(ingredients);
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        };
-//    }
-//
-//    public List<IngredientCSV> readIngredientsFromCSV(Reader reader) throws IOException {
-//        ColumnPositionMappingStrategy<IngredientCSV> strategy = new ColumnPositionMappingStrategy<>();
-//        strategy.setType(IngredientCSV.class);
-//        String[] memberFieldsToBindTo = {
-//                "ingredientId","ingredientName","ingredientType", "ingredientCategoryId", "iconImg"
-//        };
-//        strategy.setColumnMapping(memberFieldsToBindTo);
-//
-//        CsvToBean<IngredientCSV> csvToBean = new CsvToBeanBuilder<IngredientCSV>(reader)
-//                .withMappingStrategy(strategy)
-//                .withSkipLines(1)
-//                .withType(IngredientCSV.class)
-//                .build();
-//
-//        return csvToBean.parse();
-//    }
+    @Bean
+    public CommandLineRunner villageLoad() {
+        return (args) -> {
+            boolean exists = villageJDBCRepository.isExistsData();
+            ClassPathResource resource = new ClassPathResource("location/village.csv");
+
+            // InputStream을 사용하여 파일을 읽음
+            try (InputStream inputStream = resource.getInputStream();
+                 Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
+                if (!exists) {
+                    List<VillageCsvDto> villages = readVillagesFromCSV(reader);
+                    villageJDBCRepository.bulkInsert(villages);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        };
+    }
+
+    public List<VillageCsvDto> readVillagesFromCSV(Reader reader) throws IOException {
+        ColumnPositionMappingStrategy<VillageCsvDto> strategy = new ColumnPositionMappingStrategy<>();
+        strategy.setType(VillageCsvDto.class);
+        String[] memberFieldsToBindTo = { "id", "code", "name", "cityId" };
+        strategy.setColumnMapping(memberFieldsToBindTo);
+
+        CsvToBean<VillageCsvDto> csvToBean = new CsvToBeanBuilder<VillageCsvDto>(reader)
+                .withMappingStrategy(strategy)
+                .withSkipLines(1)
+                .withType(VillageCsvDto.class)
+                .build();
+
+        return csvToBean.parse();
+    }
 }
