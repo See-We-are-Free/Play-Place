@@ -7,11 +7,11 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class City {
     @Id
-    @GeneratedValue
     @Column(name = "city_id")
     int id;
 
@@ -19,6 +19,8 @@ public class City {
     @JoinColumn(name = "state_id")
     State state;
 
+    @Column(name = "name", nullable = false, columnDefinition = "VARCHAR(255) CHARACTER SET UTF8")
     String name;
+
     int code;
 }
