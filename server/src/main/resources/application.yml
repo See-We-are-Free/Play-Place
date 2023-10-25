@@ -19,3 +19,14 @@ spring:
   batch:
     job:
       enabled: false
+cloud:
+  aws:
+    credentials:
+      access-key: ${S3_ACCESS_KEY}
+      secret-key: ${S3_SECRET_KEY}
+    s3:
+      bucket: playplacebucket
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
