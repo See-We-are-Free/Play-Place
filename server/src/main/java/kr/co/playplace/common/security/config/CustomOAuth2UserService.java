@@ -2,6 +2,7 @@ package kr.co.playplace.common.security.config;
 
 
 import kr.co.playplace.entity.user.Users;
+import kr.co.playplace.service.user.UserQueryService;
 import kr.co.playplace.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
-    private final UserService userService;
+    private final UserQueryService userQueryService;
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         // 기본 OAuth2UserService 객체 생성
@@ -49,7 +50,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         // 사용자 email(또는 id) 정보를 가져온다.
         String email = (String) memberAttribute.get("email");
         // 이메일로 가입된 회원인지 조회한다.
-        Optional<Users> findMember = userService.findByEmail(email);
+        Optional<Users> findMember = userQueryService.findByEmail(email);
 
         if (findMember.isEmpty()) {
             // 회원이 존재하지 않을경우, memberAttribute의 exist 값을 false로 넣어준다.

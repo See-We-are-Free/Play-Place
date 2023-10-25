@@ -5,12 +5,12 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class TokenResponseStatus {
+public class TokenStatusResponse {
 
     private Integer status;
     private String accessToken;
 
-    public static TokenResponseStatus addStatus(Integer status, String accessToken) {
-        return new TokenResponseStatus(status, accessToken);
+    public static TokenStatusResponse addStatus(Integer status, String accessToken) {
+        return new TokenStatusResponse(status, accessToken);
     }
 }

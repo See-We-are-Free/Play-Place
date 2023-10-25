@@ -2,7 +2,7 @@ package kr.co.playplace.controller.auth;
 
 import kr.co.playplace.common.security.dto.StatusResponseDto;
 import kr.co.playplace.common.util.SecurityUtils;
-import kr.co.playplace.controller.auth.response.TokenResponseStatus;
+import kr.co.playplace.controller.auth.response.TokenStatusResponse;
 import kr.co.playplace.service.user.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,14 +32,14 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<TokenResponseStatus> refresh(@RequestHeader("Authorization") final String accessToken) {
+    public ResponseEntity<TokenStatusResponse> refresh(@RequestHeader("Authorization") final String accessToken) {
 
         String newAccessToken = tokenService.republishAccessToken(accessToken);
         if (StringUtils.hasText(newAccessToken)) {
-            return ResponseEntity.ok(TokenResponseStatus.addStatus(200, newAccessToken));
+            return ResponseEntity.ok(TokenStatusResponse.addStatus(200, newAccessToken));
         }
 
-        return ResponseEntity.badRequest().body(TokenResponseStatus.addStatus(400, null));
+        return ResponseEntity.badRequest().body(TokenStatusResponse.addStatus(400, null));
     }
 
 }

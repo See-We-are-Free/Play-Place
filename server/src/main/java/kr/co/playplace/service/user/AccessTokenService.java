@@ -17,9 +17,7 @@ public class AccessTokenService {
     private final RefreshTokenRepository tokenRepository;
 
     public void saveTokenInfo(String email, String refreshToken, String accessToken) {
-        log.info("token redis에 저장 시작");
         tokenRepository.save(new RefreshToken(email, accessToken, refreshToken));
-        log.info("token redis에 저장 종료");
 
     }
 }
