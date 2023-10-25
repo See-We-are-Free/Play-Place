@@ -57,6 +57,9 @@ dependencies {
 	//csv util
 	// https://mvnrepository.com/artifact/com.opencsv/opencsv
 	implementation 'com.opencsv:opencsv:5.7.1'
+
+	//geo-hash
+	implementation 'ch.hsr:geohash:1.4.0'
 }
 
 tasks.named('test') {
