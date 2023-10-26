@@ -1,5 +1,6 @@
 package kr.co.playplace.controller.song;
 
+import kr.co.playplace.controller.song.request.SaveSongHistoryRequest;
 import kr.co.playplace.controller.song.request.SaveSongRequest;
 import kr.co.playplace.service.SongService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,12 @@ public class SongController {
     @PostMapping
     public ResponseEntity<?> saveSong(@ModelAttribute SaveSongRequest saveSongRequest){
         songService.saveSong(saveSongRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/play")
+    public ResponseEntity<?> saveSongHistory(@RequestBody SaveSongHistoryRequest saveSongHistoryRequest){
+        songService.saveSongHistory(saveSongHistoryRequest);
         return ResponseEntity.ok().build();
     }
 }

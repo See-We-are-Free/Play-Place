@@ -1,5 +1,6 @@
 package kr.co.playplace.service;
 
+import kr.co.playplace.controller.song.request.SaveSongHistoryRequest;
 import kr.co.playplace.controller.song.request.SaveSongRequest;
 import kr.co.playplace.entity.song.Song;
 import kr.co.playplace.repository.song.SongRepository;
@@ -37,7 +38,15 @@ public class SongService {
         saveSongInPlayList();
     }
 
-    public void saveSongInPlayList(){
+    private void saveSongInPlayList(){
         // TODO: user 확인해서 곡을 재생목록에 추가
+    }
+
+    public void saveSongHistory(SaveSongHistoryRequest saveSongHistoryRequest){
+        // 로그인한 사용자
+        // 재생한 곡
+        // 1. 위도 경도로 api 호출해서 지역 코드 받아오기
+        // 2. 위도 경도로 날씨 받아오기
+        // 3. 곡 기록에 저장
     }
 }
