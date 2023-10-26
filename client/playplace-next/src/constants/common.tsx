@@ -1,7 +1,7 @@
-import Home from '@root/public/assets/Home.svg';
-import Map from '@root/public/assets/Map.svg';
-import Radar from '@root/public/assets/Radar.svg';
-import Search from '@root/public/assets/Search.svg';
+import Home from '@root/public/assets/icons/Home.svg';
+import Map from '@root/public/assets/icons/Map.svg';
+import Radar from '@root/public/assets/icons/Radar.svg';
+import Search from '@root/public/assets/icons/Search.svg';
 
 export const MENUS = [
 	{ title: '홈', icon: <Home />, path: '/' },
