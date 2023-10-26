@@ -8,9 +8,15 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ErrorCode {
 
-    /* UserException */
-    INVALID_REFRESH_TOKEN("MEMBER03", HttpStatus.BAD_REQUEST, "유효한 토큰이 아닙니다.");
+    /* 400 BAD_REQUEST */
+    INVALID_REFRESH_TOKEN("MEMBER03", HttpStatus.BAD_REQUEST, "유효한 토큰이 아닙니다."), // UserException
 
+    /* 401 UNAUTHORIZED */
+    /* 403 FORBIDDEN */
+    /* 404 NOT_FOUND */
+    NOT_FOUND_RECENT_SONG("PLAY04", HttpStatus.NOT_FOUND, "최근에 재생한 곡이 없습니다.");
+
+    /* 409 CONFLICT */
     private final String code;
     private final HttpStatus httpStatus;
     private final String message;

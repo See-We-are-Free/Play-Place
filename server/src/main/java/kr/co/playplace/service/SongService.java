@@ -2,6 +2,7 @@ package kr.co.playplace.service;
 
 import kr.co.playplace.controller.song.request.SaveSongHistoryRequest;
 import kr.co.playplace.controller.song.request.SaveSongRequest;
+import kr.co.playplace.controller.song.response.GetRecentSongResponse;
 import kr.co.playplace.entity.song.Song;
 import kr.co.playplace.repository.song.SongRepository;
 import lombok.RequiredArgsConstructor;
@@ -48,5 +49,12 @@ public class SongService {
         // 1. 위도 경도로 api 호출해서 지역 코드 받아오기
         // 2. 위도 경도로 날씨 받아오기
         // 3. 곡 기록에 저장
+    }
+
+    public GetRecentSongResponse getRecentSong(){
+        // 로그인한 사용자
+        // 재생 기록 확인
+        // 없으면? throw NOT_FOUND_RECENT_SONG / 있으면? return GetRecentSongResponse
+        return null;
     }
 }
