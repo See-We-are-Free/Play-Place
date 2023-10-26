@@ -61,6 +61,12 @@ dependencies {
 	// https://mvnrepository.com/artifact/com.opencsv/opencsv
 	implementation 'com.opencsv:opencsv:5.7.1'
 
+	// s3
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
+	// jsonobject
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+
 	//geo-hash
 	implementation 'ch.hsr:geohash:1.4.0'
 }

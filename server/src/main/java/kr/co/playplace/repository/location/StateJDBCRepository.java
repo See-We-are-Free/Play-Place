@@ -1,4 +1,4 @@
-package kr.co.playplace.repository;
+package kr.co.playplace.repository.location;
 
 import kr.co.playplace.entity.location.State;
 

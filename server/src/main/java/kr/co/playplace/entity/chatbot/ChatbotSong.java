@@ -22,6 +22,6 @@ public class ChatbotSong extends TimeBaseEntity {
     ChatbotMessage chatbotMessage;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "youtube_id")
+    @JoinColumn(name = "song_id")
     Song song;
 }

@@ -1,7 +1,6 @@
-package kr.co.playplace.repository;
+package kr.co.playplace.repository.location;
 
-import kr.co.playplace.common.util.CityCsvDto;
-import kr.co.playplace.entity.location.City;
+import kr.co.playplace.common.util.location.CityCsvDto;
 
 import java.util.List;
 

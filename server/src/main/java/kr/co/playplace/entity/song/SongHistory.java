@@ -1,5 +1,6 @@
 package kr.co.playplace.entity.song;
 
+import kr.co.playplace.entity.Weather;
 import kr.co.playplace.entity.location.Village;
 import kr.co.playplace.entity.user.Users;
 import kr.co.playplace.entity.TimeBaseEntity;
@@ -23,10 +24,12 @@ public class SongHistory extends TimeBaseEntity {
     Users user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "youtube_id")
+    @JoinColumn(name = "song_id")
     Song song;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "village_id")
     Village village;
+
+    Weather weather;
 }
