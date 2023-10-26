@@ -2,6 +2,7 @@
 
 import { ReactNode } from 'react';
 import { LayoutWithTabbarContainer } from './style';
+import Tabbar from '@/components/molecules/Tabbar/Tabbar';
 
 interface LayoutWithTabbarProps {
 	children: ReactNode;
@@ -15,7 +16,7 @@ export default function LayoutWithTabbar({ children, $padding, $margin }: Layout
 			<LayoutWithTabbarContainer $padding={$padding} $margin={$margin}>
 				{children}
 			</LayoutWithTabbarContainer>
-			<>탭바</>
+			<Tabbar />
 		</>
 	);
 }
