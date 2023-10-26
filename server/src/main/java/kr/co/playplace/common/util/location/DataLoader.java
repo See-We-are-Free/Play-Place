@@ -1,4 +1,4 @@
-package kr.co.playplace.common.util;
+package kr.co.playplace.common.util.location;
 
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;

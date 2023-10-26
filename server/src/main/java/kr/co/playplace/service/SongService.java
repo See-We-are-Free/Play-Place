@@ -1,5 +1,7 @@
 package kr.co.playplace.service;
 
+import kr.co.playplace.common.util.Geocoder;
+import kr.co.playplace.common.util.S3Uploader;
 import kr.co.playplace.controller.song.request.SaveSongHistoryRequest;
 import kr.co.playplace.controller.song.request.SaveSongRequest;
 import kr.co.playplace.controller.song.response.GetRecentSongResponse;
@@ -19,7 +21,9 @@ import java.io.IOException;
 public class SongService {
 
     private final SongRepository songRepository;
+
     private final S3Uploader s3Uploader;
+    private final Geocoder geocoder;
 
     public void saveSong(SaveSongRequest saveSongRequest){
         boolean alreadySaved = songRepository.existsByYoutubeId(saveSongRequest.getYoutubeId());
@@ -47,6 +51,7 @@ public class SongService {
         // 로그인한 사용자
         // 재생한 곡
         // 1. 위도 경도로 api 호출해서 지역 코드 받아오기
+        geocoder.getGeoCode(saveSongHistoryRequest.getLat(), saveSongHistoryRequest.getLon());
         // 2. 위도 경도로 날씨 받아오기
         // 3. 곡 기록에 저장
     }

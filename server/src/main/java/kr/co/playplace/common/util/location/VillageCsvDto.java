@@ -1,13 +1,13 @@
-package kr.co.playplace.common.util;
+package kr.co.playplace.common.util.location;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class CityCsvDto {
+public class VillageCsvDto {
     int id;
-    String name;
     int code;
-    int stateId;
+    String name;
+    int cityId;
 }
