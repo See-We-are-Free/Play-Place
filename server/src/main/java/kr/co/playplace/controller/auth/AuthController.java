@@ -2,7 +2,6 @@ package kr.co.playplace.controller.auth;
 
 import kr.co.playplace.common.security.dto.StatusResponseDto;
 import kr.co.playplace.common.util.SecurityUtils;
-import kr.co.playplace.controller.auth.response.TokenStatusResponse;
 import kr.co.playplace.service.user.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
+import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
 @RestController
@@ -32,14 +31,15 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<TokenStatusResponse> refresh(@RequestHeader("Authorization") final String accessToken) {
+    public ResponseEntity<StatusResponseDto> refresh(@RequestHeader("Authorization") final String accessToken, HttpServletResponse response) {
 
         String newAccessToken = tokenService.republishAccessToken(accessToken);
         if (StringUtils.hasText(newAccessToken)) {
-            return ResponseEntity.ok(TokenStatusResponse.addStatus(200, newAccessToken));
+            response.setHeader("Authorization", "Bearer " + accessToken);
+            return ResponseEntity.ok(StatusResponseDto.addStatus(200));
         }
 
-        return ResponseEntity.badRequest().body(TokenStatusResponse.addStatus(400, null));
+        return ResponseEntity.badRequest().body(StatusResponseDto.addStatus(400));
     }
 
 }
