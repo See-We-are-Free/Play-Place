@@ -18,7 +18,7 @@ public class UserLandmarkSong extends TimeBaseEntity {
     Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "youtube_id")
+    @JoinColumn(name = "song_id")
     Song song;
 
     @ManyToOne(fetch = FetchType.LAZY)

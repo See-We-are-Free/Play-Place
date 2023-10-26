@@ -1,7 +1,6 @@
-package kr.co.playplace.repository;
+package kr.co.playplace.repository.location;
 
-import kr.co.playplace.common.util.CityCsvDto;
-import kr.co.playplace.entity.location.City;
+import kr.co.playplace.common.util.location.CityCsvDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -34,7 +33,6 @@ public class CityJDBCRepositoryImpl implements CityJDBCRepository {
     }
 
     private void batchInsert(List<CityCsvDto> cities) {
-        log.info(cities.toString());
         String sql = "INSERT INTO city (city_id, code, name, state_id) "
                 + "VALUES (?, ?, ?, ?)";
 

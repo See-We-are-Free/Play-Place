@@ -1,13 +1,12 @@
-package kr.co.playplace.common.util;
+package kr.co.playplace.common.util.location;
 
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
-import kr.co.playplace.entity.location.City;
 import kr.co.playplace.entity.location.State;
-import kr.co.playplace.repository.CityJDBCRepository;
-import kr.co.playplace.repository.StateJDBCRepository;
-import kr.co.playplace.repository.VillageJDBCRepository;
+import kr.co.playplace.repository.location.CityJDBCRepository;
+import kr.co.playplace.repository.location.StateJDBCRepository;
+import kr.co.playplace.repository.location.VillageJDBCRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
