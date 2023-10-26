@@ -3,10 +3,7 @@ package kr.co.playplace.entity.song;
 import kr.co.playplace.entity.TimeBaseEntity;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -15,14 +12,14 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class Song extends TimeBaseEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "song_id")
-    Long id;
+    private Long id;
 
-    String youtubeId;
-    String title;
-    String artist;
-    String albumImg;
-    String playTime;
+    private String youtubeId;
+    private String title;
+    private String artist;
+    private String albumImg;
+    private String playTime;
 
 }

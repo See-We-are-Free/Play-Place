@@ -13,11 +13,11 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class SongWeatherStats extends TimeBaseEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "song_weather_stats_id")
-    Long id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "song_id")
-    Song song;
+    private Song song;
 }

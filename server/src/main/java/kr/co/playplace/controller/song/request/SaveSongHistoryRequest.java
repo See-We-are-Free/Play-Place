@@ -19,13 +19,4 @@ public class SaveSongHistoryRequest {
     private long songId;
     private double lat;
     private double lon;
-
-    public SongHistory toEntity(Song song, Users user, Village village, Weather weather){
-        return SongHistory.builder()
-                .song(song)
-                .user(user)
-                .village(village)
-                .weather(weather)
-                .build();
-    }
 }

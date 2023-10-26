@@ -23,9 +23,9 @@ public class GetWeather {
 
     @Value("${weather.service-key}")
     String serviceKey;
-    StringBuilder url = new StringBuilder("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst?pageNo=1&numOfRows=19&dataType=JSON");
 
     public Weather getWeatherCode(double lat, double lon){
+        StringBuilder url = new StringBuilder("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst?pageNo=1&numOfRows=19&dataType=JSON");
         url.append("&serviceKey="+serviceKey);
 
         /**
@@ -59,6 +59,7 @@ public class GetWeather {
             JSONObject sky = (JSONObject) item.get(18); // SKY
             ptyCode = (String) pty.get("fcstValue");
             skyCode = (String) sky.get("fcstValue");
+            url.setLength(0);
         } catch (IOException | ParseException e) {
             throw new RuntimeException(e);
         }

@@ -13,14 +13,14 @@ import javax.persistence.*;
 public class City {
     @Id
     @Column(name = "city_id")
-    int id;
+    private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "state_id")
-    State state;
+    private State state;
 
     @Column(name = "name", nullable = false, columnDefinition = "VARCHAR(255) CHARACTER SET UTF8")
-    String name;
+    private String name;
 
-    int code;
+    private int code;
 }

@@ -13,15 +13,15 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class ChatbotSong extends TimeBaseEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chatbot_song_id")
-    Long id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chaybot_message_id")
-    ChatbotMessage chatbotMessage;
+    private ChatbotMessage chatbotMessage;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "song_id")
-    Song song;
+    private Song song;
 }

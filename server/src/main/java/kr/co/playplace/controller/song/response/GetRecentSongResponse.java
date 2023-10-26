@@ -19,4 +19,15 @@ public class GetRecentSongResponse {
     private String artist;
     private String albumImg;
     private String playTime;
+
+    public static GetRecentSongResponse of(Song song){
+        return GetRecentSongResponse.builder()
+                .songId(song.getId())
+                .youtubeId(song.getYoutubeId())
+                .title(song.getTitle())
+                .artist(song.getArtist())
+                .albumImg(song.getAlbumImg())
+                .playTime(song.getPlayTime())
+                .build();
+    }
 }

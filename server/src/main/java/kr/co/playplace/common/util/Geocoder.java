@@ -15,13 +15,14 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 @Component
+@Slf4j
 public class Geocoder {
 
     @Value("${geocoder.api-key}")
     String apiKey;
-    StringBuilder url = new StringBuilder("https://api.vworld.kr/req/address?service=address&request=getAddress&version=2.0&type=PARCEL&zipcode=false&simple=true");
 
     public int getGeoCode(double lat, double lon){
+        StringBuilder url = new StringBuilder("https://api.vworld.kr/req/address?service=address&request=getAddress&version=2.0&type=PARCEL&zipcode=false&simple=true");
         int result = 0;
         url.append("&point="+lat+","+lon);
         url.append("&key="+apiKey);
@@ -34,6 +35,7 @@ public class Geocoder {
             JSONObject jsst = (JSONObject) jsonfor.get("structure");
             String level = (String) jsst.get("level4AC");
             result = Integer.parseInt(level.substring(0, 8));
+            url.setLength(0);
         } catch (IOException | ParseException e) {
             throw new RuntimeException(e);
         }

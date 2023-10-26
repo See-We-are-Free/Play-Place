@@ -14,16 +14,16 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class SongAreaStats extends TimeBaseEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name= "song_area_stats_id")
-    Long id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "song_id")
-    Song song;
+    private Song song;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "village_id")
-    Village village;
+    private Village village;
 
 }

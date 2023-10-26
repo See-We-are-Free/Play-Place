@@ -13,15 +13,15 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class UserLandmarkGroup extends TimeBaseEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_landmark_group_id")
-    Long id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "landmark_id")
-    Landmark landmark;
+    private Landmark landmark;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    Users user;
+    private Users user;
 }

@@ -16,11 +16,11 @@ import javax.persistence.Id;
 public class State {
     @Id
     @Column(name = "state_id")
-    int id;
+    private int id;
 
     @Column
-    int code;
+    private int code;
 
     @Column(name = "name", nullable = false, columnDefinition = "VARCHAR(255) CHARACTER SET UTF8")
-    String name;
+    private String name;
 }
