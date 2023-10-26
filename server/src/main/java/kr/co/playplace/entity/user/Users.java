@@ -21,8 +21,7 @@ public class Users extends TimeBaseEntity {
     @Column(length = 24)
     String nickname;
 
-    @Column(length = 512)
-    String profileImg;
+    int profileImg;
 
     @Column(length = 50)
     String outhId;
@@ -36,7 +35,7 @@ public class Users extends TimeBaseEntity {
     String role;
 
     @Builder
-    public Users(String nickname, String profileImg, String outhId, int isRemoved, int isPush, int isShake, String role) {
+    public Users(String nickname, int profileImg, String outhId, int isRemoved, int isPush, int isShake, String role) {
         this.nickname = nickname;
         this.profileImg = profileImg;
         this.outhId = outhId;
