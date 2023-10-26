@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import StyledComponentsRegistry from '@/lib/registry';
 import { Providers } from './providers';
+import Tabbar from '@/components/molecules/Tabbar/Tabbar';
 
 export const metadata: Metadata = {
 	title: {
@@ -15,7 +16,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		<html lang="ko">
 			<body>
 				<StyledComponentsRegistry>
-					<Providers>{children}</Providers>
+					<Providers>
+						{children}
+						<Tabbar />
+					</Providers>
 				</StyledComponentsRegistry>
 			</body>
 		</html>
