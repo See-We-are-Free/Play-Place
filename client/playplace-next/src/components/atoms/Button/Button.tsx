@@ -1,5 +1,5 @@
 import React, { ButtonHTMLAttributes } from 'react';
-import { ButtonWrapper } from './style';
+import ButtonWrapper from './style';
 
 interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	content: string;
@@ -16,3 +16,7 @@ function Button({ content, onClick, buttontype }: IButtonProps) {
 }
 
 export default Button;
+
+Button.defaultProps = {
+	onClick: () => '',
+};

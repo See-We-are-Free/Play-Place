@@ -1,6 +1,7 @@
 'use client';
 
 import { ReactNode } from 'react';
+import Tabbar from '@/components/molecules/Tabbar/Tabbar';
 import { LayoutWithHeaderAndTabbarContainer } from './style';
 
 interface LayoutWithHeaderAndTabbarProps {
@@ -10,19 +11,20 @@ interface LayoutWithHeaderAndTabbarProps {
 	$margin?: string;
 }
 
-export default function LayoutWithHeaderAndTabbar({
-	header,
-	children,
-	$padding,
-	$margin,
-}: LayoutWithHeaderAndTabbarProps) {
+export default function LayoutWithHeaderAndTabbar(props: LayoutWithHeaderAndTabbarProps) {
+	const { header, children, $padding, $margin } = props;
 	return (
 		<>
 			{header}
 			<LayoutWithHeaderAndTabbarContainer $padding={$padding} $margin={$margin}>
 				{children}
 			</LayoutWithHeaderAndTabbarContainer>
-			<>탭바</>
+			<Tabbar />
 		</>
 	);
 }
+
+LayoutWithHeaderAndTabbar.defaultProps = {
+	$padding: '0',
+	$margin: '0',
+};

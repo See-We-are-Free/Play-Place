@@ -1,8 +1,8 @@
 'use client';
 
 import { ReactNode } from 'react';
-import { LayoutWithTabbarContainer } from './style';
 import Tabbar from '@/components/molecules/Tabbar/Tabbar';
+import { LayoutWithTabbarContainer } from './style';
 
 interface LayoutWithTabbarProps {
 	children: ReactNode;
@@ -10,7 +10,8 @@ interface LayoutWithTabbarProps {
 	$margin?: string;
 }
 
-export default function LayoutWithTabbar({ children, $padding, $margin }: LayoutWithTabbarProps) {
+export default function LayoutWithTabbar(props: LayoutWithTabbarProps) {
+	const { children, $padding, $margin } = props;
 	return (
 		<>
 			<LayoutWithTabbarContainer $padding={$padding} $margin={$margin}>
@@ -20,3 +21,8 @@ export default function LayoutWithTabbar({ children, $padding, $margin }: Layout
 		</>
 	);
 }
+
+LayoutWithTabbar.defaultProps = {
+	$padding: '0',
+	$margin: '0',
+};

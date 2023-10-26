@@ -1,9 +1,9 @@
 'use client';
 
 import TabbarItem from '@/components/atoms/TabbarItem/TabbarItem';
-import { MENUS } from '@/constants/common';
+import MENUS from '@/constants/common';
 import React from 'react';
-import { TabbarContainer } from './style';
+import TabbarContainer from './style';
 
 function Tabbar() {
 	return (

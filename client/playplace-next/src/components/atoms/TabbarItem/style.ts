@@ -1,11 +1,10 @@
 import styled from 'styled-components';
-import css from 'styled-jsx/css';
 
 interface TabbarItemWrapperProps {
 	$isActive: boolean;
 }
 
-export const TabbarItemWrapper = styled.div<TabbarItemWrapperProps>`
+const TabbarItemWrapper = styled.div<TabbarItemWrapperProps>`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -27,3 +26,5 @@ export const TabbarItemWrapper = styled.div<TabbarItemWrapperProps>`
 		}
 	}
 `;
+
+export default TabbarItemWrapper;

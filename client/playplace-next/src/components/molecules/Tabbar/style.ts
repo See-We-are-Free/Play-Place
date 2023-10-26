@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const TabbarContainer = styled.div`
+const TabbarContainer = styled.div`
 	height: 80px;
 	position: fixed;
 	bottom: 0;
@@ -12,3 +12,5 @@ export const TabbarContainer = styled.div`
 		flex-basis: 25%;
 	}
 `;
+
+export default TabbarContainer;

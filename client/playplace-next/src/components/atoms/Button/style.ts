@@ -31,9 +31,11 @@ const ButtonTypes = {
 	`,
 };
 
-export const ButtonWrapper = styled.button<ICommonButtonStyleProps>`
+const ButtonWrapper = styled.button<ICommonButtonStyleProps>`
 	color: var(--white);
 	border-radius: 5px;
 	width: 100%;
 	${({ buttontype }) => ButtonTypes[buttontype]}
 `;
+
+export default ButtonWrapper;
