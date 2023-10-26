@@ -14,7 +14,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-@Slf4j
 @Component
 public class Geocoder {
 
@@ -24,19 +23,17 @@ public class Geocoder {
 
     public int getGeoCode(double lat, double lon){
         int result = 0;
-        url.append("&point=");
+        url.append("&point="+lat+","+lon);
         url.append("&key="+apiKey);
         try{
             JSONParser jspa = new JSONParser();
             JSONObject jsob = (JSONObject) jspa.parse(new BufferedReader(new InputStreamReader(new URL(url.toString()).openStream(), StandardCharsets.UTF_8)));
             JSONObject jsrs = (JSONObject) jsob.get("response");
             JSONArray jsonArray = (JSONArray) jsrs.get("result");
-            JSONObject jsonfor = new JSONObject();
-
-            for (int i = 0; i< jsonArray.size(); i++){
-                jsonfor = (JSONObject) jsonArray.get(i);
-                log.info(jsonfor.get("text").toString());
-            }
+            JSONObject jsonfor = (JSONObject) jsonArray.get(0);
+            JSONObject jsst = (JSONObject) jsonfor.get("structure");
+            String level = (String) jsst.get("level4AC");
+            result = Integer.parseInt(level.substring(0, 8));
         } catch (IOException | ParseException e) {
             throw new RuntimeException(e);
         }

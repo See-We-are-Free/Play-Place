@@ -51,7 +51,8 @@ public class SongService {
         // 로그인한 사용자
         // 재생한 곡
         // 1. 위도 경도로 api 호출해서 지역 코드 받아오기
-        geocoder.getGeoCode(saveSongHistoryRequest.getLat(), saveSongHistoryRequest.getLon());
+        int code = geocoder.getGeoCode(saveSongHistoryRequest.getLat(), saveSongHistoryRequest.getLon());
+        log.info("code: {}", code);
         // 2. 위도 경도로 날씨 받아오기
         // 3. 곡 기록에 저장
     }
