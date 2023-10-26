@@ -4,6 +4,7 @@ package kr.co.playplace.common.security.filter;
 import kr.co.playplace.common.security.dto.SecurityUserDto;
 import kr.co.playplace.common.security.util.JwtUtil;
 import kr.co.playplace.entity.user.Users;
+import kr.co.playplace.service.user.UserQueryService;
 import kr.co.playplace.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +32,7 @@ import java.util.List;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-    private final UserService userService;
+    private final UserQueryService userQueryService;
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
@@ -58,7 +59,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         if (jwtUtil.verifyToken(atc)) {
 
             // AccessToken 내부의 payload에 있는 email로 user를 조회한다. 없다면 예외를 발생시킨다 -> 정상 케이스가 아님
-            Users findMember = userService.findByEmail(jwtUtil.getUid(atc))
+            Users findMember = userQueryService.findByEmail(jwtUtil.getUid(atc))
                     .orElseThrow(IllegalStateException::new);
 
             // SecurityContext에 등록할 User 객체를 만들어준다.
