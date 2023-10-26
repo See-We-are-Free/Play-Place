@@ -1,5 +1,7 @@
 package kr.co.playplace.service;
 
+import kr.co.playplace.common.exception.BaseException;
+import kr.co.playplace.common.exception.ErrorCode;
 import kr.co.playplace.common.util.Geocoder;
 import kr.co.playplace.common.util.GetWeather;
 import kr.co.playplace.common.util.S3Uploader;
@@ -24,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -78,6 +81,7 @@ public class SongService {
         Optional<Song> song = songRepository.findById(saveSongHistoryRequest.getSongId());
 
         // 1. 위도 경도로 api 호출해서 지역 코드 받아오기
+        log.info("lat{} lon{}", saveSongHistoryRequest.getLat(), saveSongHistoryRequest.getLon());
         int code = geocoder.getGeoCode(saveSongHistoryRequest.getLat(), saveSongHistoryRequest.getLon());
         Optional<Village> village = villageRepository.findByCode(code);
 
@@ -96,8 +100,17 @@ public class SongService {
 
     public GetRecentSongResponse getRecentSong(){
         // 로그인한 사용자
+        Optional<Users> user = userRepository.findById(SecurityUtils.getUser().getUserId());
+
         // 재생 기록 확인
-        // 없으면? throw NOT_FOUND_RECENT_SONG / 있으면? return GetRecentSongResponse
-        return null;
+        List<SongHistory> songHistories = songHistoryRepository.findAllByUser_Id(user.get().getId());
+
+        // 없으면? throw NOT_FOUND_RECENT_SONG
+        if(songHistories.isEmpty()) {
+            throw new BaseException(ErrorCode.NOT_FOUND_RECENT_SONG);
+        }
+
+        // 있으면? return GetRecentSongResponse
+        return GetRecentSongResponse.of(songHistories.get(songHistories.size()-1).getSong());
     }
 }
