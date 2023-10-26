@@ -13,12 +13,17 @@ export const TabbarItemWrapper = styled.div<TabbarItemWrapperProps>`
 
 	span {
 		font-size: 10px;
-		color: ${({ $isActive }) => ($isActive ? 'red' : 'gray')};
+		background: ${({ $isActive }) => ($isActive ? 'var(--primary-grandiant-main)' : 'var(--white-700)')};
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
 	}
 
 	svg {
 		width: 24px;
 		height: 24px;
-		fill: ${({ $isActive }) => ($isActive ? 'red' : 'gray')};
+
+		path {
+			fill: ${({ $isActive }) => ($isActive ? '' : 'var(--white-700)')};
+		}
 	}
 `;
