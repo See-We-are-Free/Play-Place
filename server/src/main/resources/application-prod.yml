@@ -19,7 +19,8 @@ spring:
           google:
             client-id: ${CLIENT_ID}
             client-secret: ${CLIENT_SECRET}
-            redirect-uri: "https://k9c109.p.ssafy.io:8080/login/oauth2/code/google"
+#            redirect-uri: "https://k9c109.p.ssafy.io:8080/login/oauth2/code/google"
+            redirect-uri: "https://k9c109.p.ssafy.io/login/oauth2/code/google"
             authorization-grant-type: authorization_code
             scope: email
   redis:
