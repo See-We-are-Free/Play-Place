@@ -1,5 +1,7 @@
+import Layout from '@/components/templates/layout/Layout/Layout';
+
 const Loading = () => {
-	return <div>로딩~</div>;
+	return <Layout>로딩~</Layout>;
 };
 
 export default Loading;

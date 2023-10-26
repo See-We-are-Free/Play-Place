@@ -62,6 +62,8 @@ export const GlobalStyles = createGlobalStyle`
         font-weight: normal;
         position: relative;
         line-height: normal;
+        background: var(--black-700);
+        color: var(--white-100);
     };
 
     // 스크롤 바
@@ -81,6 +83,7 @@ export const GlobalStyles = createGlobalStyle`
         padding: 0;
         border: 0;
         font-size: 18px;
+        color: var(--white-100);
         vertical-align: baseline;
     }
 
