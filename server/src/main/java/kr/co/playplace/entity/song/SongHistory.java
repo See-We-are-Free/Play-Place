@@ -15,21 +15,21 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class SongHistory extends TimeBaseEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "song_history_id")
-    Long id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    Users user;
+    private Users user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "song_id")
-    Song song;
+    private Song song;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "village_id")
-    Village village;
+    private Village village;
 
-    Weather weather;
+    private Weather weather;
 }

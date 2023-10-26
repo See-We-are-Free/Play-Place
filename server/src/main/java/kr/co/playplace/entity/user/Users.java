@@ -3,10 +3,7 @@ package kr.co.playplace.entity.user;
 import kr.co.playplace.entity.TimeBaseEntity;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -14,25 +11,25 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class Users extends TimeBaseEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    Long id;
+    private Long id;
 
     @Column(length = 24)
-    String nickname;
+    private String nickname;
 
-    int profileImg;
+    private int profileImg;
 
     @Column(length = 50)
-    String outhId;
+    private String outhId;
 
-    int isRemoved;
+    private int isRemoved;
 
-    int isPush;
+    private int isPush;
 
-    int isShake;
+    private int isShake;
 
-    String role;
+    private String role;
 
     @Builder
     public Users(String nickname, int profileImg, String outhId, int isRemoved, int isPush, int isShake, String role) {
