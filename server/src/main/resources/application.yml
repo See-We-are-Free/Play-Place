@@ -12,7 +12,7 @@ logging:
     org:
       springframework:
         boot : info
-        security : DEBUG
+        security : debug
         web : info
 
 spring:
