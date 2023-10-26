@@ -33,7 +33,6 @@ public class CityJDBCRepositoryImpl implements CityJDBCRepository {
     }
 
     private void batchInsert(List<CityCsvDto> cities) {
-        log.info(cities.toString());
         String sql = "INSERT INTO city (city_id, code, name, state_id) "
                 + "VALUES (?, ?, ?, ?)";
 

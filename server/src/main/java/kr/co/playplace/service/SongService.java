@@ -1,10 +1,12 @@
 package kr.co.playplace.service;
 
 import kr.co.playplace.common.util.Geocoder;
+import kr.co.playplace.common.util.GetWeather;
 import kr.co.playplace.common.util.S3Uploader;
 import kr.co.playplace.controller.song.request.SaveSongHistoryRequest;
 import kr.co.playplace.controller.song.request.SaveSongRequest;
 import kr.co.playplace.controller.song.response.GetRecentSongResponse;
+import kr.co.playplace.entity.Weather;
 import kr.co.playplace.entity.song.Song;
 import kr.co.playplace.repository.song.SongRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ public class SongService {
 
     private final S3Uploader s3Uploader;
     private final Geocoder geocoder;
+    private final GetWeather getWeather;
 
     public void saveSong(SaveSongRequest saveSongRequest){
         boolean alreadySaved = songRepository.existsByYoutubeId(saveSongRequest.getYoutubeId());
@@ -54,6 +57,8 @@ public class SongService {
         int code = geocoder.getGeoCode(saveSongHistoryRequest.getLat(), saveSongHistoryRequest.getLon());
         log.info("code: {}", code);
         // 2. 위도 경도로 날씨 받아오기
+        Weather weather = getWeather.getWeatherCode(saveSongHistoryRequest.getLat(), saveSongHistoryRequest.getLon());
+        log.info("weahter: {}", weather);
         // 3. 곡 기록에 저장
     }
 

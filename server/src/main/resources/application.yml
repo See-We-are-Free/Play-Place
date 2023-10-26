@@ -34,3 +34,5 @@ cloud:
 
 geocoder:
   api-key: ${GEOCODER_API_KEY}
+weather:
+  service-key: ${WEATHER_SERVICE_KEY}
