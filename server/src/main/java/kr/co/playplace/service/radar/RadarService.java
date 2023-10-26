@@ -13,8 +13,6 @@ public class RadarService {
 
     public void findAroundUser(double longitude, double latitude) {
 
-        redisTemplate.
-
         GeoHash geoHash = GeoHash.withCharacterPrecision(latitude, longitude, 7);
         GeoHash[] adjHash = geoHash.getAdjacent();
 
