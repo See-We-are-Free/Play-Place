@@ -1,7 +1,7 @@
 package kr.co.playplace.entity.landmark;
 
-import kr.co.playplace.entity.song.Song;
 import kr.co.playplace.entity.TimeBaseEntity;
+import kr.co.playplace.entity.song.Song;
 import kr.co.playplace.entity.user.Users;
 import lombok.*;
 
@@ -14,19 +14,22 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class LandmarkSong extends TimeBaseEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "landmark_song_id")
-    Long id;
+    private Long id;
+
+    @Column(length = 512)
+    private String representativeImg;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "landmark_id")
-    Landmark landmark;
+    private Landmark landmark;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    Users user;
+    private Users user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "song_id")
-    Song song;
+    private Song song;
 }
