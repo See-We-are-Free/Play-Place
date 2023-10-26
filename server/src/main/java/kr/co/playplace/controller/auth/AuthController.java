@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/vi/auth")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
 
     private final RefreshTokenService tokenService;
