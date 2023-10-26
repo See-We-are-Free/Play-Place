@@ -1,11 +1,14 @@
 package kr.co.playplace.controller.user.requeset;
 
 import kr.co.playplace.service.user.dto.JoinUserDto;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
 public class JoinUserRequest {
 
     String email;

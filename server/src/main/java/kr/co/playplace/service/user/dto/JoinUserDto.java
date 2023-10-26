@@ -3,9 +3,11 @@ package kr.co.playplace.service.user.dto;
 import kr.co.playplace.entity.user.Users;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
 public class JoinUserDto {
     String email;
     String nickname;
