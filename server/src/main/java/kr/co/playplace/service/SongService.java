@@ -3,18 +3,24 @@ package kr.co.playplace.service;
 import kr.co.playplace.common.util.Geocoder;
 import kr.co.playplace.common.util.GetWeather;
 import kr.co.playplace.common.util.S3Uploader;
+import kr.co.playplace.common.util.SecurityUtils;
 import kr.co.playplace.controller.song.request.SaveSongHistoryRequest;
 import kr.co.playplace.controller.song.request.SaveSongRequest;
 import kr.co.playplace.controller.song.response.GetRecentSongResponse;
 import kr.co.playplace.entity.Weather;
 import kr.co.playplace.entity.song.Song;
+import kr.co.playplace.entity.user.UserSong;
+import kr.co.playplace.entity.user.Users;
+import kr.co.playplace.repository.UserRepository;
 import kr.co.playplace.repository.song.SongRepository;
+import kr.co.playplace.repository.user.UserSongRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -23,6 +29,8 @@ import java.io.IOException;
 public class SongService {
 
     private final SongRepository songRepository;
+    private final UserSongRepository userSongRepository;
+    private final UserRepository userRepository;
 
     private final S3Uploader s3Uploader;
     private final Geocoder geocoder;
@@ -37,17 +45,23 @@ public class SongService {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
             Song song = saveSongRequest.toEntity(imgUrl);
             songRepository.save(song);
-        }
 
-        // TODO: user 확인해서 곡을 재생목록에 추가
-        saveSongInPlayList();
+            saveSongInPlayList(song);
+        }else{ // db에 있다면 찾아서 재생목록에 추가
+            Optional<Song> song = songRepository.findByYoutubeId(saveSongRequest.getYoutubeId());
+            saveSongInPlayList(song.get());
+        }
     }
 
-    private void saveSongInPlayList(){
-        // TODO: user 확인해서 곡을 재생목록에 추가
+    private void saveSongInPlayList(Song song){ // user 확인해서 곡을 재생목록에 추가
+        Optional<Users> user = userRepository.findById(SecurityUtils.getUser().getUserId());
+        UserSong userSong = UserSong.builder()
+                .user(user.get())
+                .song(song)
+                .build();
+        userSongRepository.save(userSong);
     }
 
     public void saveSongHistory(SaveSongHistoryRequest saveSongHistoryRequest){
