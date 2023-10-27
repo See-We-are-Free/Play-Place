@@ -31,9 +31,14 @@ const ButtonTypes = {
 	`,
 };
 
-export const ButtonWrapper = styled.button<ICommonButtonStyleProps>`
+export const ButtonContainer = styled.button<ICommonButtonStyleProps>`
 	color: var(--white);
-	border-radius: 5px;
-	width: 100%;
+	border-radius: var(--radius-s);
+	width: var(--content-width-full);
 	${({ buttontype }) => ButtonTypes[buttontype]}
+`;
+
+export const SocialImage = styled.img`
+	width: 20px;
+	height: 20px;
 `;

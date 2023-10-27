@@ -1,17 +1,20 @@
 import React, { ButtonHTMLAttributes } from 'react';
-import { ButtonWrapper } from './style';
+import { ButtonContainer, SocialImage } from './style';
 
 interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	content: string;
 	buttontype: 'primary' | 'outlinePrimary' | 'success' | 'cancel';
 	onClick?: () => void;
+	socialImg: boolean;
 }
 
-function Button({ content, onClick, buttontype }: IButtonProps) {
+function Button({ content, onClick, buttontype, socialImg }: IButtonProps) {
+	const test = 'dd';
 	return (
-		<ButtonWrapper buttontype={buttontype} onClick={onClick}>
+		<ButtonContainer buttontype={buttontype} onClick={onClick}>
+			{socialImg ? <SocialImage src={test} alt="" /> : <></>}
 			{content}
-		</ButtonWrapper>
+		</ButtonContainer>
 	);
 }
 
