@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const TabbarContainer = styled.div`
+const TabbarContainer = styled.nav`
 	height: 80px;
 	position: fixed;
 	bottom: 0;
