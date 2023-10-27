@@ -1,10 +1,11 @@
 import React, { ButtonHTMLAttributes } from 'react';
 import GoogleLogo from '@root/public/assets/images/googleLogo.png';
+import { ButtonStyles } from '@/types/styles.d';
 import { ButtonContainer, SocialImage } from './style';
 
 interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	content: string;
-	buttonType: 'primary' | 'outlinePrimary' | 'success' | 'cancel';
+	buttonType: ButtonStyles;
 	onClick?: () => void;
 	socialImg: boolean;
 }
