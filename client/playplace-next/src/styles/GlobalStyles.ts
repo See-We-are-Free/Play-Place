@@ -1,8 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
-import { notoSansKR } from './GlobalFonts';
+import notoSansKR from './GlobalFonts';
 
-export const GlobalStyles = createGlobalStyle`
+const GlobalStyles = createGlobalStyle`
     ${reset};
     
     :root {
@@ -96,3 +96,5 @@ export const GlobalStyles = createGlobalStyle`
         cursor: pointer;
     }
 `;
+
+export default GlobalStyles;

@@ -1,6 +1,7 @@
 'use client';
 
 import { ReactNode } from 'react';
+import Tabbar from '@/components/molecules/Tabbar/Tabbar';
 import { LayoutWithTabbarContainer } from './style';
 
 interface LayoutWithTabbarProps {
@@ -9,13 +10,19 @@ interface LayoutWithTabbarProps {
 	$margin?: string;
 }
 
-export default function LayoutWithTabbar({ children, $padding, $margin }: LayoutWithTabbarProps) {
+export default function LayoutWithTabbar(props: LayoutWithTabbarProps) {
+	const { children, $padding, $margin } = props;
 	return (
 		<>
 			<LayoutWithTabbarContainer $padding={$padding} $margin={$margin}>
 				{children}
 			</LayoutWithTabbarContainer>
-			<>탭바</>
+			<Tabbar />
 		</>
 	);
 }
+
+LayoutWithTabbar.defaultProps = {
+	$padding: '0',
+	$margin: '0',
+};

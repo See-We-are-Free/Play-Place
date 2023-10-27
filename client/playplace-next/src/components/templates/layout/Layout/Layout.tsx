@@ -17,3 +17,9 @@ export default function Layout({ children, $padding, $margin, $background }: Lay
 		</LayoutContainer>
 	);
 }
+
+Layout.defaultProps = {
+	$padding: '0',
+	$margin: '0',
+	$background: 'transparent',
+};

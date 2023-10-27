@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import StyledComponentsRegistry from '@/lib/registry';
-import { Providers } from './providers';
 import Tabbar from '@/components/molecules/Tabbar/Tabbar';
+import Providers from './providers';
 
 export const metadata: Metadata = {
 	title: {

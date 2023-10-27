@@ -20,3 +20,8 @@ export default function LayoutWithHeader({ header, children, $padding, $margin }
 		</>
 	);
 }
+
+LayoutWithHeader.defaultProps = {
+	$padding: '0',
+	$margin: '0',
+};
