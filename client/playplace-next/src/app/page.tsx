@@ -2,6 +2,8 @@
 
 import Button from '@/components/atoms/Button/Button';
 import LayoutWithHeaderAndTabbar from '@/components/templates/layout/LayoutWithHeaderAndTabbar/LayoutWithHeaderAndTabbar';
+import { ButtonStyles } from '@/types/styles.d';
+
 import Link from 'next/link';
 
 export default function Home() {
@@ -11,11 +13,11 @@ export default function Home() {
 
 	return (
 		<LayoutWithHeaderAndTabbar header={<header>헤더</header>}>
-			<Button buttonType="primary" content="눌러주세요" onClick={test} socialImg={false} />
-			<Button buttonType="outlinePrimary" content="눌러주세요" onClick={test} socialImg={false} />
-			<Button buttonType="success" content="눌러주세요" onClick={test} socialImg={false} />
-			<Button buttonType="cancel" content="눌러주세요" onClick={test} socialImg={false} />
-			<Button buttonType="cancel" content="눌러주세요" onClick={test} socialImg />
+			<Button buttonType={ButtonStyles.primary} content="눌러주세요" onClick={test} socialImg={false} />
+			<Button buttonType={ButtonStyles.outlinePrimary} content="눌러주세요" onClick={test} socialImg={false} />
+			<Button buttonType={ButtonStyles.success} content="눌러주세요" onClick={test} socialImg={false} />
+			<Button buttonType={ButtonStyles.cancel} content="눌러주세요" onClick={test} socialImg={false} />
+			<Button buttonType={ButtonStyles.cancel} content="눌러주세요" onClick={test} socialImg />
 			<h1>PlayPlace Home</h1>
 			<h2>함께 만드는 위치 기반 공유 플레이리스트</h2>
 			<h3>C109</h3>

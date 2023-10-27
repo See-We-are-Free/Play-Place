@@ -1,8 +1,9 @@
+import { ButtonStyles } from '@/types/styles.d';
 import Image from 'next/image';
 import styled, { css } from 'styled-components';
 
 interface ICommonButtonStyleProps {
-	$buttonType: 'primary' | 'outlinePrimary' | 'success' | 'cancel';
+	$buttonType: ButtonStyles;
 }
 
 const ButtonTypes = {
