@@ -10,7 +10,8 @@ interface LayoutWithHeaderProps {
 	$margin?: string;
 }
 
-export default function LayoutWithHeader({ header, children, $padding, $margin }: LayoutWithHeaderProps) {
+export default function LayoutWithHeader(props: LayoutWithHeaderProps) {
+	const { header, children, $padding = '0', $margin = '0' } = props;
 	return (
 		<>
 			{header}
@@ -20,8 +21,3 @@ export default function LayoutWithHeader({ header, children, $padding, $margin }
 		</>
 	);
 }
-
-LayoutWithHeader.defaultProps = {
-	$padding: '0',
-	$margin: '0',
-};

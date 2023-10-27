@@ -28,6 +28,7 @@
       "react/jsx-filename-extension": ["warn", { "extensions": [".ts", ".tsx"] }],
       "no-useless-catch": "off",
       "react/jsx-no-useless-fragment" : "off",
+      "react/require-default-props" : "off",
       "prettier/prettier": [
         "error",
         {

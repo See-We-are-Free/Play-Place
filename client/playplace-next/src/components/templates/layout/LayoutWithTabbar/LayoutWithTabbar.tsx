@@ -11,7 +11,7 @@ interface LayoutWithTabbarProps {
 }
 
 export default function LayoutWithTabbar(props: LayoutWithTabbarProps) {
-	const { children, $padding, $margin } = props;
+	const { children, $padding = '0', $margin = '0' } = props;
 	return (
 		<>
 			<LayoutWithTabbarContainer $padding={$padding} $margin={$margin}>
@@ -21,8 +21,3 @@ export default function LayoutWithTabbar(props: LayoutWithTabbarProps) {
 		</>
 	);
 }
-
-LayoutWithTabbar.defaultProps = {
-	$padding: '0',
-	$margin: '0',
-};
