@@ -14,7 +14,7 @@ const useActiveTab = (path: string) => {
 		} else {
 			setActive(false);
 		}
-	}, [pathname]);
+	}, [pathname, path]);
 
 	return active;
 };
