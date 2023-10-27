@@ -1,6 +1,6 @@
 import React, { ButtonHTMLAttributes } from 'react';
-import { ButtonContainer, SocialImage } from './style';
 import GoogleLogo from '@root/public/assets/images/googleLogo.png';
+import { ButtonContainer, SocialImage } from './style';
 
 interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	content: string;
@@ -9,7 +9,9 @@ interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	socialImg: boolean;
 }
 
-function Button({ content, onClick, buttontype, socialImg }: IButtonProps) {
+function Button(props: IButtonProps) {
+	const { content, onClick = () => {}, buttontype, socialImg } = props;
+
 	return (
 		<ButtonContainer buttontype={buttontype} onClick={onClick}>
 			{socialImg ? <SocialImage src={GoogleLogo} alt="" /> : <></>}
