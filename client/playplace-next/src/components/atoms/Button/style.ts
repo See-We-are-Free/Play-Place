@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import styled, { css } from 'styled-components';
 
 interface ICommonButtonStyleProps {
@@ -38,7 +39,7 @@ export const ButtonContainer = styled.button<ICommonButtonStyleProps>`
 	${({ buttontype }) => ButtonTypes[buttontype]}
 `;
 
-export const SocialImage = styled.img`
+export const SocialImage = styled(Image)`
 	width: 20px;
 	height: 20px;
 `;
