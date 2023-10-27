@@ -3,6 +3,7 @@ services:
   db:
     image: mysql:8.0.34
     container_name: mysql
+    restart: always
     environment:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
