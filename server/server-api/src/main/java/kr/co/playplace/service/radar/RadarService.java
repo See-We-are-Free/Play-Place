@@ -3,10 +3,9 @@ package kr.co.playplace.service.radar;
 import ch.hsr.geohash.GeoHash;
 import kr.co.playplace.entity.location.UserLocation;
 import kr.co.playplace.repository.location.UserLocationRepository;
-import kr.co.playplace.service.radar.dto.UserLocationDto;
+import kr.co.playplace.controller.radar.request.UserLocationRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -28,7 +27,7 @@ public class RadarService {
         }
     }
 
-    public void saveUserLocationTest(long userId, UserLocationDto userLocationDto) {
+    public void saveUserLocationTest(long userId, UserLocationRequest userLocationDto) {
         UserLocation userLocation = UserLocation.builder()
                 .id(userId)
                 .longitude(userLocationDto.getLongitude())

@@ -1,8 +1,8 @@
 package kr.co.playplace.controller.radar;
 
 import kr.co.playplace.common.security.dto.SecurityUserDto;
+import kr.co.playplace.controller.radar.request.UserLocationRequest;
 import kr.co.playplace.service.radar.RadarService;
-import kr.co.playplace.service.radar.dto.UserLocationDto;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ public class RadarController {
     }
 
     @PostMapping
-    public void saveUserLocationTest(@AuthenticationPrincipal SecurityUserDto securityUserDto, @RequestBody UserLocationDto userLocationDto) {
+    public void saveUserLocationTest(@AuthenticationPrincipal SecurityUserDto securityUserDto, @RequestBody UserLocationRequest userLocationDto) {
         radarService.saveUserLocationTest(1L, userLocationDto);
     }
 
