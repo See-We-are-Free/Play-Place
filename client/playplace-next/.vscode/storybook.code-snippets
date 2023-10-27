@@ -1,0 +1,24 @@
+{
+	"Storybook Default": {
+	  "scope": "typescript,typescriptreact",
+	  "prefix": "sbd",
+	  "body": [
+		"import type { Meta, StoryObj } from '@storybook/react';",
+		"",
+		"import ${1:${TM_FILENAME_BASE/.(?:story|stories).*//gi}} from './${1:${TM_FILENAME_BASE/.(?:story|stories).*//gi}}';",
+		"",
+		"const meta: Meta<typeof ${1:${TM_FILENAME_BASE/.(?:story|stories).*//gi}}> = {",
+		"\tcomponent:${1:${TM_FILENAME_BASE/.(?:story|stories).*//gi}},",
+		"};",
+		""
+		"export default meta;",
+		"type Story = StoryObj<typeof ${1:${TM_FILENAME_BASE/.(?:story|stories).*//gi}}>;",
+		"",
+		"export const Primary: Story = {",
+		"\tname:'${1:${TM_FILENAME_BASE/.(?:story|stories).*//gi}}',",
+		"\trender:()=> <${1:${TM_FILENAME_BASE/.(?:story|stories).*//gi}}/>",
+		"}"
+	  ],
+	  "description": "Scaffold a Basic Story Setup using CSF 2.0 (React TS)"
+	},
+  }
