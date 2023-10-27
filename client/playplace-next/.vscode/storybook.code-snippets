@@ -19,6 +19,6 @@
 		"\trender:()=> <${1:${TM_FILENAME_BASE/.(?:story|stories).*//gi}}/>",
 		"}"
 	  ],
-	  "description": "Scaffold a Basic Story Setup using CSF 2.0 (React TS)"
+	  "description": "storybook default snippet for React+TS By Jeonny"
 	},
   }
