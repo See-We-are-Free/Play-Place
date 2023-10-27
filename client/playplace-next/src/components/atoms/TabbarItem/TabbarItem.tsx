@@ -1,9 +1,9 @@
 'use client';
 
-import { ReactNode, useState } from 'react';
-import { TabbarItemWrapper } from './style';
+import { ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import useActiveTab from '@/hooks/useActiveTab';
+import TabbarItemWrapper from './style';
 
 interface ITabbarItemProps {
 	icon: ReactNode;
@@ -22,7 +22,7 @@ function TabbarItem(props: ITabbarItemProps) {
 
 	return (
 		<TabbarItemWrapper onClick={handleClick} $isActive={isActive}>
-			<>{icon}</>
+			{icon}
 			<span>{title}</span>
 		</TabbarItemWrapper>
 	);

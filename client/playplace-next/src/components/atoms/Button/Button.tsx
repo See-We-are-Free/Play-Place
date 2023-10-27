@@ -19,3 +19,7 @@ function Button({ content, onClick, buttontype, socialImg }: IButtonProps) {
 }
 
 export default Button;
+
+Button.defaultProps = {
+	onClick: () => '',
+};
