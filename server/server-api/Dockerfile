@@ -1,5 +1,5 @@
 # 빌드 스테이지
-FROM openjdk:17-alpine AS build
+FROM openjdk:11-jdk AS build
 
 WORKDIR /workspace
 
@@ -17,7 +17,7 @@ RUN chmod +x gradlew
 RUN ./gradlew bootJar -x test
 
 # 런타임 스테이지
-FROM openjdk:17-alpine
+FROM openjdk:11-jdk
 
 # 빌드 스테이지에서 생성된 JAR 파일을 복사
 COPY --from=build /workspace/build/libs/*.jar app.jar
