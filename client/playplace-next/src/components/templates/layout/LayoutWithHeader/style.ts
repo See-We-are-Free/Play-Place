@@ -6,13 +6,8 @@ export type LayoutWithHeaderContainerProps = {
 };
 
 export const LayoutWithHeaderContainer = styled.main<LayoutWithHeaderContainerProps>`
-	padding: ${(props) => props.$padding}px;
-	margin: ${(props) => props.$margin}px;
+	padding: ${(props) => props.$padding || '0'}px;
+	margin: ${(props) => props.$margin || '0'}px;
 	padding-top: 60px; // 헤더 높이 + 여백 10px
 	padding-bottom: 20px; // 콘텐츠 아래 여백
 `;
-
-LayoutWithHeaderContainer.defaultProps = {
-	$padding: '0',
-	$margin: '0',
-};

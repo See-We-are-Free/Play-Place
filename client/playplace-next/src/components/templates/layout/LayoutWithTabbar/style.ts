@@ -6,13 +6,8 @@ export type LayoutWithTabbarContainerProps = {
 };
 
 export const LayoutWithTabbarContainer = styled.main<LayoutWithTabbarContainerProps>`
-	padding: ${(props) => props.$padding}px;
-	margin: ${(props) => props.$margin}px;
+	padding: ${(props) => props.$padding || '0'}px;
+	margin: ${(props) => props.$margin || '0'}px;
 	padding-bottom: 20px; // 탭바 위 여백
 	margin-bottom: 80px; // 탭바 높이
 `;
-
-LayoutWithTabbarContainer.defaultProps = {
-	$padding: '0',
-	$margin: '0',
-};

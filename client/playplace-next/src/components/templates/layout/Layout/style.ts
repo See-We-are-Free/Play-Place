@@ -7,13 +7,7 @@ export type LayoutContainerProps = {
 };
 
 export const LayoutContainer = styled.main<LayoutContainerProps>`
-	padding: ${(props) => props.$padding}px;
-	margin: ${(props) => props.$margin}px;
-	background: ${(props) => `var(${props.$background})`};
+	padding: ${(props) => props.$padding || 0}px;
+	margin: ${(props) => props.$margin || 0}px;
+	background: ${(props) => `var(${props.$background})` || `var(--black-700)`};
 `;
-
-LayoutContainer.defaultProps = {
-	$padding: '0',
-	$margin: '0',
-	$background: '--black-700',
-};

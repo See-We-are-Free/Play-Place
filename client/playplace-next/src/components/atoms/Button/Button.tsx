@@ -8,7 +8,7 @@ interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	socialImg: boolean;
 }
 
-function Button({ content, onClick, buttontype, socialImg }: IButtonProps) {
+function Button({ content, onClick = () => {}, buttontype, socialImg }: IButtonProps) {
 	const test = 'dd';
 	return (
 		<ButtonContainer buttontype={buttontype} onClick={onClick}>
@@ -19,7 +19,3 @@ function Button({ content, onClick, buttontype, socialImg }: IButtonProps) {
 }
 
 export default Button;
-
-Button.defaultProps = {
-	onClick: () => '',
-};

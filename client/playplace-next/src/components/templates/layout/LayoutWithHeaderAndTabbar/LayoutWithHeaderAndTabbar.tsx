@@ -12,7 +12,7 @@ interface LayoutWithHeaderAndTabbarProps {
 }
 
 export default function LayoutWithHeaderAndTabbar(props: LayoutWithHeaderAndTabbarProps) {
-	const { header, children, $padding, $margin } = props;
+	const { header, children, $padding = '0', $margin = '0' } = props;
 	return (
 		<>
 			{header}
@@ -23,8 +23,3 @@ export default function LayoutWithHeaderAndTabbar(props: LayoutWithHeaderAndTabb
 		</>
 	);
 }
-
-LayoutWithHeaderAndTabbar.defaultProps = {
-	$padding: '0',
-	$margin: '0',
-};

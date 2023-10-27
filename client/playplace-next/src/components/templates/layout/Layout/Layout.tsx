@@ -10,16 +10,11 @@ interface LayoutProps {
 	$background?: string;
 }
 
-export default function Layout({ children, $padding, $margin, $background }: LayoutProps) {
+export default function Layout(props: LayoutProps) {
+	const { children, $padding, $margin = '0', $background = '0' } = props;
 	return (
 		<LayoutContainer $padding={$padding} $margin={$margin} $background={$background}>
 			{children}
 		</LayoutContainer>
 	);
 }
-
-Layout.defaultProps = {
-	$padding: '0',
-	$margin: '0',
-	$background: 'transparent',
-};
