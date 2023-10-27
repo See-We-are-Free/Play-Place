@@ -2,7 +2,7 @@ import Image from 'next/image';
 import styled, { css } from 'styled-components';
 
 interface ICommonButtonStyleProps {
-	buttontype: 'primary' | 'outlinePrimary' | 'success' | 'cancel';
+	$buttonType: 'primary' | 'outlinePrimary' | 'success' | 'cancel';
 }
 
 const ButtonTypes = {
@@ -36,7 +36,7 @@ export const ButtonContainer = styled.button<ICommonButtonStyleProps>`
 	color: var(--white);
 	border-radius: var(--radius-s);
 	width: var(--content-width-full);
-	${({ buttontype }) => ButtonTypes[buttontype]}
+	${({ $buttonType }) => ButtonTypes[$buttonType]}
 `;
 
 export const SocialImage = styled(Image)`

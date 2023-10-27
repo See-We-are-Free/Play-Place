@@ -4,16 +4,16 @@ import { ButtonContainer, SocialImage } from './style';
 
 interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	content: string;
-	buttontype: 'primary' | 'outlinePrimary' | 'success' | 'cancel';
+	buttonType: 'primary' | 'outlinePrimary' | 'success' | 'cancel';
 	onClick?: () => void;
 	socialImg: boolean;
 }
 
 function Button(props: IButtonProps) {
-	const { content, onClick = () => {}, buttontype, socialImg } = props;
+	const { content, onClick = () => {}, buttonType, socialImg } = props;
 
 	return (
-		<ButtonContainer buttontype={buttontype} onClick={onClick}>
+		<ButtonContainer $buttonType={buttonType} onClick={onClick}>
 			{socialImg ? <SocialImage src={GoogleLogo} alt="" /> : <></>}
 			{content}
 		</ButtonContainer>
