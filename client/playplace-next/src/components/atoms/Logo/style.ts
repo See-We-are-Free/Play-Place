@@ -1,7 +1,12 @@
 import styled from 'styled-components';
 
-const ImageWrapper = styled.div`
-	background-color: red;
+interface ImageWrapperProps {
+	width?: string;
+}
+
+const ImageWrapper = styled.div<ImageWrapperProps>`
+	width: ${({ width }) => width || `100%`};
+	margin: 0 auto 30px;
 
 	img {
 		width: 100%;
