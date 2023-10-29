@@ -7,6 +7,8 @@ const TabbarContainer = styled.div`
 	width: 100%;
 	display: flex;
 	flex-direction: row;
+	background-color: var(--black-500);
+	z-index: var(--zindex-fixed);
 
 	& > * {
 		flex-basis: 25%;
