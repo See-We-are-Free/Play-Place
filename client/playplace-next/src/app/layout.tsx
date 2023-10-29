@@ -4,6 +4,7 @@ import Tabbar from '@/components/molecules/Tabbar/Tabbar';
 import PlayBar from '@/components/organisms/player/PlayBar/PlayBar';
 import PlayModal from '@/components/pages/PlayModal/PlayModal';
 import Layout from '@/components/templates/layout/Layout/Layout';
+import PlayBack from '@/components/atoms/player/PlayBack/PlayBack';
 import Providers from './providers';
 
 export const metadata: Metadata = {
@@ -24,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 						<PlayBar />
 						<Tabbar />
 						<PlayModal />
-						<PlayModal />
+						<PlayBack />
 					</Providers>
 				</StyledComponentsRegistry>
 			</body>
