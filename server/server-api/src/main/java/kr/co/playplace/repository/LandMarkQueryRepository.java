@@ -2,7 +2,7 @@ package kr.co.playplace.repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import kr.co.playplace.service.dto.FindLandMarkDto;
+import kr.co.playplace.service.landmark.dto.FindLandMarkDto;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -26,9 +26,8 @@ public class LandMarkQueryRepository {
                         landmark.title,
                         landmark.latitude,
                         landmark.longitude,
-                        landmarkSong.representativeImg))
+                        landmark.representativeImg))
                 .from(landmark)
-                .leftJoin(landmarkSong).on(landmark.id.eq(landmarkSong.landmark.id))
                 .fetch();
 
     }

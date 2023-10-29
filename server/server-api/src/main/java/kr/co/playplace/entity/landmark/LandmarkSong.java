@@ -18,9 +18,6 @@ public class LandmarkSong extends TimeBaseEntity {
     @Column(name = "landmark_song_id")
     private Long id;
 
-    @Column(length = 512)
-    private String representativeImg;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "landmark_id")
     private Landmark landmark;
@@ -32,4 +29,11 @@ public class LandmarkSong extends TimeBaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "song_id")
     private Song song;
+
+    @Builder
+    public LandmarkSong(Landmark landmark, Users user, Song song) {
+        this.landmark = landmark;
+        this.user = user;
+        this.song = song;
+    }
 }

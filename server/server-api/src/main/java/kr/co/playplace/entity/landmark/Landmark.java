@@ -23,15 +23,19 @@ public class Landmark {
     private String title;
 
     @Column(precision = 16, scale = 14)
-    private double latitude;
+    private Double latitude;
 
     @Column(precision = 17, scale = 14)
-    private double longitude;
+    private Double longitude;
+
+    @Column(length = 512)
+    private String representativeImg;
 
     @Builder
-    public Landmark(String title, double latitude, double longitude) {
+    public Landmark(String title, Double latitude, Double longitude, String representativeImg) {
         this.title = title;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.representativeImg = representativeImg;
     }
 }
