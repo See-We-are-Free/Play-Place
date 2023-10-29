@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 
 interface IconButtonWrapperProps {
 	$size: 's' | 'l';
+	$color: 'white100' | 'black300';
 }
 
 const IconButtonSize = {
@@ -24,12 +25,24 @@ const IconButtonSize = {
 		}
 	`,
 };
+
+const IconButtonColor = {
+	black300: css`
+		svg {
+			fill: var(--black-300);
+		}
+	`,
+	white100: css`
+		svg {
+			fill: var(--white-100);
+		}
+	`,
+};
+
 const IconButtonWrapper = styled.button<IconButtonWrapperProps>`
 	padding: 0;
-	svg {
-		fill: var(--white-100);
-	}
 
+	${({ $color }) => IconButtonColor[$color]};
 	${({ $size }) => IconButtonSize[$size]};
 `;
 

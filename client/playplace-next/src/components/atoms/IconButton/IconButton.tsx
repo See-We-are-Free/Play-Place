@@ -3,15 +3,16 @@ import IconButtonWrapper from './style';
 
 interface IIconButtonProps {
 	size: 's' | 'l';
+	color: 'white100' | 'black300';
 	Icon: ReactNode;
 	onClick: () => void;
 }
 
 function IconButton(props: IIconButtonProps) {
-	const { size, Icon, onClick } = props;
+	const { size, Icon, onClick, color } = props;
 
 	return (
-		<IconButtonWrapper $size={size} onClick={onClick}>
+		<IconButtonWrapper $color={color} $size={size} onClick={onClick}>
 			{Icon}
 		</IconButtonWrapper>
 	);
