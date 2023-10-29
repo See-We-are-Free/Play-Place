@@ -1,6 +1,8 @@
 'use client';
 
 import Button from '@/components/atoms/Button/Button';
+import HomeSubtitle from '@/components/atoms/HomeSubtitle/HomeSubtitle';
+import HomeAlbum from '@/components/molecules/HomeAlbum/HomeAlbum';
 import LayoutWithHeaderAndTabbar from '@/components/templates/layout/LayoutWithHeaderAndTabbar/LayoutWithHeaderAndTabbar';
 import { ButtonStyles } from '@/types/styles.d';
 
@@ -11,8 +13,13 @@ export default function Home() {
 		console.log(1);
 	};
 
+	const name = '임하스';
+
 	return (
 		<LayoutWithHeaderAndTabbar header={<header>헤더</header>}>
+			<HomeAlbum artist="NewJeans" imgSrc="test" title="HypeBoy" />
+			<HomeSubtitle colorSubtitle="이번주" normalSubtitle="가장 많이 재생된 음악" />
+			<HomeSubtitle colorSubtitle={`${name}님 근처`} normalSubtitle="사람들의 음악" />
 			<Button buttonType={ButtonStyles.primary} content="눌러주세요" onClick={test} socialImg={false} />
 			<Button buttonType={ButtonStyles.outlinePrimary} content="눌러주세요" onClick={test} socialImg={false} />
 			<Button buttonType={ButtonStyles.success} content="눌러주세요" onClick={test} socialImg={false} />
