@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const TabbarContainer = styled.nav`
-	height: 80px;
+	height: 70px;
 	position: fixed;
 	bottom: 0;
 	width: 100%;

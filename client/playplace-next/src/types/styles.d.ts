@@ -12,3 +12,15 @@ export enum ButtonStyles {
 	success = 'success',
 	cancel = 'cancel',
 }
+
+export enum AlbumSequenceStyles {
+	one = 'one',
+	two = 'two',
+	three = 'three',
+	four = 'four',
+}
+
+export enum HomeSubtitleStyles {
+	color = 'color',
+	normal = 'normal',
+}
