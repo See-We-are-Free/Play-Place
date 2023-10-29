@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import StyledComponentsRegistry from '@/lib/registry';
 import Tabbar from '@/components/molecules/Tabbar/Tabbar';
+import PlayBar from '@/components/organisms/PlayBar/PlayBar';
+import PlayModal from '@/components/pages/PlayModal/PlayModal';
 import Layout from '@/components/templates/layout/Layout/Layout';
 import Providers from './providers';
 
@@ -19,7 +21,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				<StyledComponentsRegistry>
 					<Providers>
 						<Layout>{children}</Layout>
+						<PlayBar />
 						<Tabbar />
+						<PlayModal />
 					</Providers>
 				</StyledComponentsRegistry>
 			</body>

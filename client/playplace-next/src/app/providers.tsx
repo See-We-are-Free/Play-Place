@@ -1,13 +1,16 @@
 'use client';
 
 import { PropsWithChildren } from 'react';
+import { RecoilRoot } from 'recoil';
 import GlobalStyles from '../styles/GlobalStyles';
 
 function Providers({ children }: PropsWithChildren) {
 	return (
 		<>
-			<GlobalStyles />
-			{children}
+			<RecoilRoot>
+				<GlobalStyles />
+				{children}
+			</RecoilRoot>
 		</>
 	);
 }
