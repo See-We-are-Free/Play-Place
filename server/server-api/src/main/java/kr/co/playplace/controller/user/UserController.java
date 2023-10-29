@@ -24,7 +24,7 @@ public class UserController {
 
         String accessToken = userService.save(joinUserRequest.toJoinUserDto());
 
-        response.setHeader("Authorization", "Bearer " + accessToken);
+        response.setHeader("Authorization", accessToken);
 
         return ApiResponse.messageOk("Success");
     }
