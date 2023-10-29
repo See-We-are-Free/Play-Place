@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Metadata } from 'next';
-import Layout from '@/components/templates/layout/Layout/Layout';
+import LayoutWithHeader from '@/components/templates/layout/LayoutWithHeader/LayoutWithHeader';
 
 interface LayoutProps {
 	children: ReactNode;
@@ -15,5 +15,5 @@ export const metadata: Metadata = {
 };
 
 export default function SignUpLayout({ children }: LayoutProps) {
-	return <Layout>{children}</Layout>;
+	return <LayoutWithHeader header={<header>회원가입</header>}>{children}</LayoutWithHeader>;
 }
