@@ -1,13 +1,11 @@
 package kr.co.playplace.controller.radar;
 
-import kr.co.playplace.common.ApiResponse;
 import kr.co.playplace.common.security.dto.SecurityUserDto;
 import kr.co.playplace.controller.radar.request.UserLocationRequest;
+import kr.co.playplace.controller.radar.response.UsersNearbyResponse;
 import kr.co.playplace.service.radar.RadarService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -21,18 +19,16 @@ public class RadarController {
     private final RadarService radarService;
 
     @GetMapping
-    public void findAroundUser(@AuthenticationPrincipal SecurityUserDto securityUserDto, @RequestParam Double longitude, @RequestParam Double latitude) {
-        radarService.findAroundUser(securityUserDto.getUserId(), longitude, latitude);
+    public ResponseEntity<UsersNearbyResponse> findUsersNearby(@AuthenticationPrincipal SecurityUserDto securityUserDto, @RequestParam Double longitude, @RequestParam Double latitude) {
+        UsersNearbyResponse usersNearbyResponse = radarService.findUsersNearby(securityUserDto.getUserId(), longitude, latitude);
+//        UsersNearbyResponse usersNearbyResponse = radarService.findUsersNearby(1L, longitude, latitude);
+
+        return ResponseEntity.ok().body(usersNearbyResponse);
     }
 
     @PostMapping
-    public void saveUserLocationTest(@AuthenticationPrincipal SecurityUserDto securityUserDto, @RequestBody UserLocationRequest userLocationDto) {
-        radarService.saveUserLocationTest(1L, userLocationDto);
-    }
-
-    @GetMapping("/{test}")
-    public ApiResponse<?> findTestAPI(@PathVariable String test) {
-        return ApiResponse.of(HttpStatus.OK,"Success", test);
+    public void saveUserLocationTest(@AuthenticationPrincipal SecurityUserDto securityUserDto, @RequestBody UserLocationRequest userLocationRequest) {
+        radarService.saveUserLocationTest(userLocationRequest.getUserId(), userLocationRequest);
     }
 
 }
