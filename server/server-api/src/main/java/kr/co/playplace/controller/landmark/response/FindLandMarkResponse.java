@@ -9,14 +9,14 @@ import lombok.NoArgsConstructor;
 public class FindLandMarkResponse {
     private String title;
     private Double latitude;
-    private Double longitude;
+    private Double langitude;
     private String representativeImg;
 
     @Builder
-    public FindLandMarkResponse(String title, Double latitude, Double longitude, String representativeImg) {
+    public FindLandMarkResponse(String title, Double latitude, Double langitude, String representativeImg) {
         this.title = title;
         this.latitude = latitude;
-        this.longitude = longitude;
+        this.langitude = langitude;
         this.representativeImg = representativeImg;
     }
 }

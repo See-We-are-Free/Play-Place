@@ -2,9 +2,11 @@ package kr.co.playplace.controller.landmark;
 
 import kr.co.playplace.common.ApiResponse;
 import kr.co.playplace.controller.landmark.response.FindLandMarkResponse;
+import kr.co.playplace.controller.landmark.response.FindLandMarkSongResponse;
 import kr.co.playplace.service.landmark.LandMarkQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,4 +24,11 @@ public class LandMarkController {
         List<FindLandMarkResponse> responses = landMarkQueryService.findLandMarks();
         return ApiResponse.ok(responses);
     }
+
+    @GetMapping("/{landMarkId}")
+    public ApiResponse<Object> findLandMarkSongs(@PathVariable Long landMarkId){
+        List<FindLandMarkSongResponse> responses = landMarkQueryService.findLandMarksSongs(landMarkId);
+        return ApiResponse.ok(responses);
+    }
+
 }

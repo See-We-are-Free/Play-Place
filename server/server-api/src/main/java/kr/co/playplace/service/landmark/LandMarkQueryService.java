@@ -1,6 +1,7 @@
 package kr.co.playplace.service.landmark;
 
 import kr.co.playplace.controller.landmark.response.FindLandMarkResponse;
+import kr.co.playplace.controller.landmark.response.FindLandMarkSongResponse;
 import kr.co.playplace.repository.LandMarkQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,5 +18,9 @@ public class LandMarkQueryService {
 
     public List<FindLandMarkResponse> findLandMarks() {
         return landMarkQueryRepository.findLandMarks();
+    }
+
+    public List<FindLandMarkSongResponse> findLandMarksSongs(Long landMarkId) {
+        return landMarkQueryRepository.findLandMarkSongs(landMarkId);
     }
 }

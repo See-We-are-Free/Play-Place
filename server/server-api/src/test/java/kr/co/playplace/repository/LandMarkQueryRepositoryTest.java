@@ -2,6 +2,7 @@ package kr.co.playplace.repository;
 
 import kr.co.playplace.IntegrationTestSupport;
 import kr.co.playplace.controller.landmark.response.FindLandMarkResponse;
+import kr.co.playplace.controller.landmark.response.FindLandMarkSongResponse;
 import kr.co.playplace.repository.song.SongRepository;
 import kr.co.playplace.service.landmark.dto.FindLandMarkDto;
 import org.assertj.core.api.Assertions;
@@ -40,7 +41,23 @@ class LandMarkQueryRepositoryTest extends IntegrationTestSupport {
                 .containsExactlyInAnyOrder(
                         "test1", "test2", "test3"
                 );
-        ;
+
     }
+
+    @DisplayName("랜드마크의 플레이리스트를 조회 할 수 있다.")
+    @Test
+    void findLandMarkSongs() throws Exception {
+        //given
+        //when
+
+        List<FindLandMarkSongResponse> results = landMarkQueryRepository.findLandMarkSongs(1L);
+        //then
+        Assertions.assertThat(results).hasSize(2)// 원하는 기대값
+                .extracting("title") // 가져온 값 일치하는지 확인
+                .containsExactlyInAnyOrder(
+                        "Title1", "Title2"
+                );
+    }
+
 
 }
