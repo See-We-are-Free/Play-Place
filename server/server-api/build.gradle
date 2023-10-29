@@ -66,6 +66,9 @@ dependencies {
 
 	// jsonobject
 	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+
+	//geo-hash
+	implementation 'ch.hsr:geohash:1.4.0'
 }
 
 tasks.named('test') {

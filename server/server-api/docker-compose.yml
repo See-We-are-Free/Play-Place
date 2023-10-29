@@ -3,6 +3,7 @@ services:
   db:
     image: mysql:8.0.34
     container_name: mysql
+    restart: always
     environment:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -36,6 +37,9 @@ services:
 
       S3_ACCESS_KEY: ${S3_ACCESS_KEY}
       S3_SECRET_KEY: ${S3_SECRET_KEY}
+
+      GEOCODER_API_KEY: ${GEOCODER_API_KEY}
+      WEATHER_SERVICE_KEY: ${WEATHER_SERVICE_KEY}
     ports:
       - "8080:8080"
 volumes:
