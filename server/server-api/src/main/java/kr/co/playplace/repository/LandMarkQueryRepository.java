@@ -2,6 +2,7 @@ package kr.co.playplace.repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import kr.co.playplace.controller.landmark.response.FindLandMarkResponse;
 import kr.co.playplace.service.landmark.dto.FindLandMarkDto;
 import org.springframework.stereotype.Repository;
 
@@ -9,7 +10,6 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static kr.co.playplace.entity.landmark.QLandmark.landmark;
-import static kr.co.playplace.entity.landmark.QLandmarkSong.landmarkSong;
 
 @Repository
 public class LandMarkQueryRepository {
@@ -20,9 +20,9 @@ public class LandMarkQueryRepository {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    public List<FindLandMarkDto> findLandMarks() {
+    public List<FindLandMarkResponse> findLandMarks() {
         return queryFactory
-                .select(Projections.constructor(FindLandMarkDto.class,
+                .select(Projections.constructor(FindLandMarkResponse.class,
                         landmark.title,
                         landmark.latitude,
                         landmark.longitude,

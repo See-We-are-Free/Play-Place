@@ -1,6 +1,7 @@
 package kr.co.playplace.repository;
 
 import kr.co.playplace.IntegrationTestSupport;
+import kr.co.playplace.controller.landmark.response.FindLandMarkResponse;
 import kr.co.playplace.repository.song.SongRepository;
 import kr.co.playplace.service.landmark.dto.FindLandMarkDto;
 import org.assertj.core.api.Assertions;
@@ -31,7 +32,7 @@ class LandMarkQueryRepositoryTest extends IntegrationTestSupport {
         //data.sql 파일에 더미데이터
 
         //when
-        List<FindLandMarkDto> results = landMarkQueryRepository.findLandMarks(); // 테스트 대상
+        List<FindLandMarkResponse> results = landMarkQueryRepository.findLandMarks(); // 테스트 대상
 
         //then
         Assertions.assertThat(results).hasSize(3)// 원하는 기대값
