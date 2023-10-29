@@ -31,6 +31,10 @@ function ModalPlayBar() {
 		setPlayModal('playlist');
 	};
 
+	const handleNowPlay = () => {
+		setPlayModal('nowPlay');
+	};
+
 	return (
 		<ModalPlayBarContainer>
 			<IconButton size="l" Icon={<Heart />} onClick={handlePrevious} />
@@ -40,8 +44,8 @@ function ModalPlayBar() {
 			<IconButton
 				size="l"
 				Icon={playModal === 'nowPlay' ? <PlayList /> : <SongThumbnail src="" />}
-				onClick={handlePlayList}
-			/>{' '}
+				onClick={playModal === 'nowPlay' ? handlePlayList : handleNowPlay}
+			/>
 		</ModalPlayBarContainer>
 	);
 }
