@@ -15,8 +15,14 @@ function Button(props: IButtonProps) {
 
 	return (
 		<ButtonContainer $buttonType={buttonType} onClick={onClick}>
-			{socialImg ? <SocialImage src={GoogleLogo} alt="" /> : <></>}
-			{content}
+			{socialImg ? (
+				<>
+					<SocialImage src={GoogleLogo} alt="" />
+					<span>{content}</span>
+				</>
+			) : (
+				<>{content}</>
+			)}
 		</ButtonContainer>
 	);
 }

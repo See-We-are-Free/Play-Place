@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Metadata } from 'next';
-import LayoutWithTabbar from '@/components/templates/layout/LayoutWithTabbar/LayoutWithTabbar';
+import LayoutWithHeader from '@/components/templates/layout/LayoutWithHeader/LayoutWithHeader';
 
 interface LayoutProps {
 	children: ReactNode;
@@ -15,5 +15,5 @@ export const metadata: Metadata = {
 };
 
 export default function MapLayout({ children }: LayoutProps) {
-	return <LayoutWithTabbar>{children}</LayoutWithTabbar>;
+	return <LayoutWithHeader header={<header> 헤더</header>}>{children}</LayoutWithHeader>;
 }

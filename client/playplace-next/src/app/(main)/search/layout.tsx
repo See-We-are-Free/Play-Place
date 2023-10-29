@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Metadata } from 'next';
-import LayoutWithHeaderAndTabbar from '@/components/templates/layout/LayoutWithHeaderAndTabbar/LayoutWithHeaderAndTabbar';
+import LayoutWithHeader from '@/components/templates/layout/LayoutWithHeader/LayoutWithHeader';
 
 interface LayoutProps {
 	children: ReactNode;
@@ -15,5 +15,5 @@ export const metadata: Metadata = {
 };
 
 export default function SearchLayout({ children }: LayoutProps) {
-	return <LayoutWithHeaderAndTabbar header={<header>헤더</header>}>{children}</LayoutWithHeaderAndTabbar>;
+	return <LayoutWithHeader header={<header>헤더</header>}>{children}</LayoutWithHeader>;
 }
