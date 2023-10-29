@@ -1,6 +1,16 @@
 import styled from 'styled-components';
 
-const HomeAlbumContainer = styled.div`
+const HomeAlbumContainer = styled.ul`
+	overflow-x: scroll;
+	overflow-y: visible;
+	white-space: nowrap;
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	gap: 20px;
+`;
+
+export const HomeAlbumContent = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;

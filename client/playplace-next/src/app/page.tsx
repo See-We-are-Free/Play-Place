@@ -4,9 +4,11 @@ import Button from '@/components/atoms/Button/Button';
 import HomeSubtitle from '@/components/atoms/HomeSubtitle/HomeSubtitle';
 import HomeAlbum from '@/components/molecules/HomeAlbum/HomeAlbum';
 import LayoutWithHeaderAndTabbar from '@/components/templates/layout/LayoutWithHeaderAndTabbar/LayoutWithHeaderAndTabbar';
+import { SONG_DATA } from '@/types/home.d';
 import { ButtonStyles } from '@/types/styles.d';
 
 import Link from 'next/link';
+import { useState } from 'react';
 
 export default function Home() {
 	const test = () => {
@@ -14,10 +16,11 @@ export default function Home() {
 	};
 
 	const name = '임하스';
+	const [songData] = useState(SONG_DATA);
 
 	return (
 		<LayoutWithHeaderAndTabbar header={<header>헤더</header>}>
-			<HomeAlbum artist="NewJeans" imgSrc="test" title="HypeBoy" />
+			<HomeAlbum locationSongList={songData} />
 			<HomeSubtitle colorSubtitle="이번주" normalSubtitle="가장 많이 재생된 음악" />
 			<HomeSubtitle colorSubtitle={`${name}님 근처`} normalSubtitle="사람들의 음악" />
 			<Button buttonType={ButtonStyles.primary} content="눌러주세요" onClick={test} socialImg={false} />
