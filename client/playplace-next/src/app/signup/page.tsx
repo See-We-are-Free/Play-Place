@@ -1,5 +1,5 @@
-import JoinAgreement from '@/components/organism/JoinAgreement/JoinAgreement';
-import JoinInfo from '@/components/organism/JoinInfo/JoinInfo';
+import JoinAgreement from '@/components/organisms/JoinAgreement/JoinAgreement';
+import JoinInfo from '@/components/organisms/JoinInfo/JoinInfo';
 import ContentLayout from '@/components/templates/layout/ContentLayout/ContentLayout';
 import { ContentLayoutSizes } from '@/types/styles.d';
 

@@ -24,6 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 						<PlayBar />
 						<Tabbar />
 						<PlayModal />
+						<PlayModal />
 					</Providers>
 				</StyledComponentsRegistry>
 			</body>
