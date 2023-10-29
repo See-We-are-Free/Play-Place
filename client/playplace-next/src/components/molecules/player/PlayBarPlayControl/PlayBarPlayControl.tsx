@@ -28,10 +28,10 @@ function PlayBarPlayControl() {
 	};
 	return (
 		<PlayBarPlayControlContainer>
-			<IconButton size="s" Icon={<SkipPrevious />} onClick={handlePrevious} />
-			<IconButton size="s" Icon={<Play />} onClick={handlePlay} />
-			<IconButton size="s" Icon={<SkipNext />} onClick={handleNext} />
-			<IconButton size="s" Icon={<PlayList />} onClick={handlePlayList} />
+			<IconButton size="s" Icon={<SkipPrevious />} onClick={handlePrevious} color="white100" />
+			<IconButton size="s" Icon={<Play />} onClick={handlePlay} color="white100" />
+			<IconButton size="s" Icon={<SkipNext />} onClick={handleNext} color="white100" />
+			<IconButton size="s" Icon={<PlayList />} onClick={handlePlayList} color="white100" />
 		</PlayBarPlayControlContainer>
 	);
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import StyledComponentsRegistry from '@/lib/registry';
 import Tabbar from '@/components/molecules/Tabbar/Tabbar';
-import PlayBar from '@/components/organisms/PlayBar/PlayBar';
+import PlayBar from '@/components/organisms/player/PlayBar/PlayBar';
 import PlayModal from '@/components/pages/PlayModal/PlayModal';
 import Providers from './providers';
 
