@@ -3,6 +3,8 @@
 import { useRecoilState } from 'recoil';
 import { playModalState } from '@/recoil/play';
 import ModalPlayBar from '@/components/organisms/ModalPlayBar/ModalPlayBar';
+import NowPlay from '@/components/organisms/NowPlay/NowPlay';
+import PlayList from '@/components/organisms/PlayList/PlayList';
 import PlayModalContainer from './style';
 
 function PlayModal() {
@@ -13,6 +15,7 @@ function PlayModal() {
 			<button type="button" onClick={() => setPlayModal('none')}>
 				close
 			</button>
+			{playModal === 'nowPlay' ? <NowPlay /> : <PlayList />}
 			<ModalPlayBar />
 		</PlayModalContainer>
 	);
