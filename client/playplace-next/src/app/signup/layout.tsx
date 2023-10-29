@@ -15,5 +15,5 @@ export const metadata: Metadata = {
 };
 
 export default function SignUpLayout({ children }: LayoutProps) {
-	return <LayoutWithHeader header={<header>헤더</header>}>{children}</LayoutWithHeader>;
+	return <LayoutWithHeader header={<header>회원가입</header>}>{children}</LayoutWithHeader>;
 }

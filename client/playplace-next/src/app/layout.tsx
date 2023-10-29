@@ -3,6 +3,7 @@ import StyledComponentsRegistry from '@/lib/registry';
 import Tabbar from '@/components/molecules/Tabbar/Tabbar';
 import PlayBar from '@/components/organisms/PlayBar/PlayBar';
 import PlayModal from '@/components/pages/PlayModal/PlayModal';
+import Layout from '@/components/templates/layout/Layout/Layout';
 import Providers from './providers';
 
 export const metadata: Metadata = {
@@ -19,9 +20,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 			<body>
 				<StyledComponentsRegistry>
 					<Providers>
-						{children}
+						<Layout>{children}</Layout>
 						<PlayBar />
 						<Tabbar />
+						<PlayModal />
 						<PlayModal />
 					</Providers>
 				</StyledComponentsRegistry>

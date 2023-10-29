@@ -14,12 +14,74 @@ const ButtonTypes = {
 	`,
 	outlinePrimary: css`
 		font-size: 14px;
-		height: 100px;
-		border: 1px solid transparent;
-		background-image: linear-gradient(#222222, #222222),
-			linear-gradient(90deg, #feac5e 0%, #c779d0 25.52%, #4bc0c8 100%);
-		background-origin: border-box;
-		background-clip: content-box, border-box;
+		height: 50px;
+		display: flex;
+		position: relative;
+		justify-content: center;
+		align-items: center;
+
+		&::before,
+		&::after {
+			content: '';
+			display: block;
+			border-radius: 5px;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			z-index: -1;
+		}
+		&::before {
+			background: var(--primary-grandiant-main);
+			width: 100%;
+			height: 100%;
+		}
+		&::after {
+			background: var(--black-500);
+			width: calc(100% - 2px);
+			height: calc(100% - 2px);
+		}
+	`,
+	outlinePrimaryLogin: css`
+		height: 50px;
+		position: relative;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		gap: 8px;
+
+		img,
+		span {
+			position: relative;
+			z-index: 1;
+			font-size: 14px;
+		}
+
+		&::before,
+		&::after {
+			content: '';
+			display: block;
+			border-radius: 5px;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+		&::before {
+			background: var(--primary-grandiant-main);
+			width: calc(100% - 20px);
+			height: 100%;
+		}
+		&::after {
+			background: var(--black-500);
+			width: calc(100% - 22px);
+			height: calc(100% - 2px);
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+		}
 	`,
 	success: css`
 		background: var(--primary-grandiant-sub-puple);
