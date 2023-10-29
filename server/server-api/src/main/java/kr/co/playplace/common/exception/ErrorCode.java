@@ -14,7 +14,8 @@ public enum ErrorCode {
     /* 401 UNAUTHORIZED */
     /* 403 FORBIDDEN */
     /* 404 NOT_FOUND */
-    NOT_FOUND_RECENT_SONG("PLAY04", HttpStatus.NOT_FOUND, "최근에 재생한 곡이 없습니다.");
+    NOT_FOUND_RECENT_SONG("PLAY04", HttpStatus.NOT_FOUND, "최근에 재생한 곡이 없습니다."),
+    NOT_FOUND_LANDMARK_SONG("LAND02", HttpStatus.NOT_FOUND, "랜드마크에 곡이 없습니다.");
 
     /* 409 CONFLICT */
     private final String code;

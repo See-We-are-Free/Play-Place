@@ -1,5 +1,7 @@
 package kr.co.playplace.service.landmark;
 
+import kr.co.playplace.common.exception.BaseException;
+import kr.co.playplace.common.exception.ErrorCode;
 import kr.co.playplace.controller.landmark.response.FindLandMarkResponse;
 import kr.co.playplace.controller.landmark.response.FindLandMarkSongResponse;
 import kr.co.playplace.repository.LandMarkQueryRepository;
@@ -21,6 +23,8 @@ public class LandMarkQueryService {
     }
 
     public List<FindLandMarkSongResponse> findLandMarksSongs(Long landMarkId) {
-        return landMarkQueryRepository.findLandMarkSongs(landMarkId);
+        List<FindLandMarkSongResponse> responses = landMarkQueryRepository.findLandMarkSongs(landMarkId);
+        if (responses.isEmpty()) throw new BaseException(ErrorCode.NOT_FOUND_LANDMARK_SONG);
+        return responses;
     }
 }
