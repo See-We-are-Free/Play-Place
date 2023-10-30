@@ -37,7 +37,8 @@ function JoinInfo() {
 						const token = headers.get('authorization');
 						console.log(token);
 						alert('회원가입 OR 로그인 성공');
-						router.push(`/`);
+						localStorage.setItem('accessToken', `${token}`);
+						router.push('/');
 					}
 				}
 			} else {

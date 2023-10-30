@@ -11,7 +11,17 @@ export const joinApi = ({ body }: JoinApiParams) => {
 	return response;
 };
 
+export const getUserInfoApi = () => {
+	const response = localHttp.get('/users');
+	return response;
+};
+
 export const developJoinApi = ({ body }: JoinApiParams) => {
 	const response = localHttp.post('/users', body);
+	return response;
+};
+
+export const developGetUserInfoApi = () => {
+	const response = localHttp.get('/users');
 	return response;
 };
