@@ -29,7 +29,7 @@ public class SongQueryService {
         // 로그인한 사용자
         Optional<Users> user = userRepository.findById(SecurityUtils.getUser().getUserId());
 
-        // 재생 기록 확인
+        // 재생 기록 확인 -> TODO: redis 확인 후 mysql 확인
         List<SongHistory> songHistories = songHistoryRepository.findAllByUser_Id(user.get().getId());
 
         // 없으면? throw NOT_FOUND_RECENT_SONG

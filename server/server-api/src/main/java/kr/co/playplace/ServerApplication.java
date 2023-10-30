@@ -4,11 +4,13 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.TimeZone;
 
 @EnableBatchProcessing // 배치 사용을 위한 선언
 @EnableJpaAuditing
+@EnableScheduling
 @SpringBootApplication
 public class ServerApplication {
 

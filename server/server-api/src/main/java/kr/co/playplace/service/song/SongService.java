@@ -21,6 +21,7 @@ import kr.co.playplace.repository.user.UserSongRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -123,9 +124,9 @@ public class SongService {
         }else{
             redisTemplate.opsForHash().put(key, savePlaySongRequest.getPlaylistSongId(),"false");
         }
-//        syncPlaySong();
     }
 
+    @Scheduled(cron = "0 0/30 * * * ?") // Redis -> MySQL 30분 마다 동기화
     public void syncPlaySong(){
         Set<String> changeUserKeys = redisTemplate.keys("play:*");
         if (changeUserKeys.isEmpty()) return;
