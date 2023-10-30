@@ -25,6 +25,7 @@ public class LandMarkQueryRepository {
     public List<FindLandMarkResponse> findLandMarks() {
         return queryFactory
                 .select(Projections.constructor(FindLandMarkResponse.class,
+                        landmark.id,
                         landmark.title,
                         landmark.latitude,
                         landmark.langitude,
