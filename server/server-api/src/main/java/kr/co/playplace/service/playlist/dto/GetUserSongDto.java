@@ -19,7 +19,7 @@ public class GetUserSongDto {
     private String title;
     private String artist;
     private String albumImg;
-    private String playTime;
+    private long playTime;
 
     public static GetUserSongDto of(UserSong userSong){
         return GetUserSongDto.builder()

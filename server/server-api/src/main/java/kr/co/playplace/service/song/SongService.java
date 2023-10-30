@@ -51,13 +51,14 @@ public class SongService {
     public void saveSong(SaveSongRequest saveSongRequest){
         boolean alreadySaved = songRepository.existsByYoutubeId(saveSongRequest.getYoutubeId());
         if(!alreadySaved){ // db에 없는 곡이라면 저장
-            String imgUrl = "";
-            try {
-                imgUrl = s3Uploader.upload(saveSongRequest.getAlbumImg(), "album");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            Song song = saveSongRequest.toEntity(imgUrl);
+//            String imgUrl = "";
+//            try {
+//                imgUrl = s3Uploader.upload(saveSongRequest.getAlbumImg(), "album");
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//            Song song = saveSongRequest.toEntity(imgUrl);
+            Song song = saveSongRequest.toEntity();
             songRepository.save(song);
 
             saveSongInPlayList(song);

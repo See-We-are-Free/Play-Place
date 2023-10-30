@@ -21,7 +21,7 @@ public class SongController {
     private final SongQueryService songQueryService;
 
     @PostMapping
-    public ResponseEntity<?> saveSong(@ModelAttribute SaveSongRequest saveSongRequest){
+    public ResponseEntity<?> saveSong(@RequestBody SaveSongRequest saveSongRequest){
         songService.saveSong(saveSongRequest);
         return ResponseEntity.ok().build();
     }
