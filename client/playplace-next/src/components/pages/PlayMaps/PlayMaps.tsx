@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { GoogleMap, useJsApiLoader, MarkerF, Circle } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader, Circle } from '@react-google-maps/api';
 import { MapsCenter } from '@/types/maps';
 import LocateButton from '@/components/atoms/LocateButton/LocateButton';
 import { containerStyle, nightModeStyles } from './style';
