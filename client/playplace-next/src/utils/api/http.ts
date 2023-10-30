@@ -11,12 +11,30 @@ const http = axios.create({
 	},
 });
 
+// Axios 요청시 인터셉트
+http.interceptors.request.use((req) => {
+	const accessToken = localStorage.getItem('accessToken');
+	if (accessToken) {
+		req.headers.authorization = accessToken;
+	}
+	return req;
+});
+
 export const localHttp = axios.create({
 	baseURL: authLocalURL,
 	headers: {
 		'Access-Control-Allow-Origin': '*',
 		'Content-Type': 'application/json',
 	},
+});
+
+// Axios 요청시 인터셉트
+localHttp.interceptors.request.use((req) => {
+	const accessToken = localStorage.getItem('accessToken');
+	if (accessToken) {
+		req.headers.authorization = accessToken;
+	}
+	return req;
 });
 
 export default http;
