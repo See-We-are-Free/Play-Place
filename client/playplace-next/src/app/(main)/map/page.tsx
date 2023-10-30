@@ -1,10 +1,11 @@
-import Link from 'next/link';
+'use client';
+
+import PlayMaps from '@/components/pages/PlayMaps/PlayMaps';
 
 function Map() {
 	return (
 		<>
-			<h1>플레이맵</h1>
-			<Link href="/">홈으로</Link>
+			<PlayMaps />
 		</>
 	);
 }
