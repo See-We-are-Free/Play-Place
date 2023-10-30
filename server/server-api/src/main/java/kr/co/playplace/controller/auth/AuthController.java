@@ -35,7 +35,7 @@ public class AuthController {
 
         String newAccessToken = tokenService.republishAccessToken(accessToken);
         if (StringUtils.hasText(newAccessToken)) {
-            response.setHeader("Authorization", "Bearer " + accessToken);
+            response.setHeader("Authorization", accessToken);
             return ResponseEntity.ok(StatusResponseDto.addStatus(200));
         }
 
