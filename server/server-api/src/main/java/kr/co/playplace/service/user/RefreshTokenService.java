@@ -3,7 +3,7 @@ package kr.co.playplace.service.user;
 import kr.co.playplace.common.security.dto.RefreshToken;
 import kr.co.playplace.common.security.dto.SecurityUserDto;
 import kr.co.playplace.common.security.util.JwtUtil;
-import kr.co.playplace.repository.RefreshTokenRepository;
+import kr.co.playplace.repository.auth.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

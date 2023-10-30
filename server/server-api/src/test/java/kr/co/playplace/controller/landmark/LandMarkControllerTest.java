@@ -37,13 +37,13 @@ class LandMarkControllerTest extends ControllerTestSupport {
         FindLandMarkResponse response1 = FindLandMarkResponse.builder()
                 .title("해운대")
                 .latitude(37.566535)
-                .langitude(126.977969)
+                .longitude(126.977969)
                 .representativeImg("이야 바다다")
                 .build();
         FindLandMarkResponse response2 = FindLandMarkResponse.builder()
                 .title("남산")
                 .latitude(37.566535)
-                .langitude(126.977969)
+                .longitude(126.977969)
                 .representativeImg("이야 산이다")
                 .build();
 

@@ -4,7 +4,7 @@ import kr.co.playplace.common.exception.BaseException;
 import kr.co.playplace.common.exception.ErrorCode;
 import kr.co.playplace.controller.landmark.response.FindLandMarkResponse;
 import kr.co.playplace.controller.landmark.response.FindLandMarkSongResponse;
-import kr.co.playplace.repository.LandMarkQueryRepository;
+import kr.co.playplace.repository.landmark.LandMarkQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

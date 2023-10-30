@@ -3,18 +3,15 @@ package kr.co.playplace.repository;
 import kr.co.playplace.IntegrationTestSupport;
 import kr.co.playplace.controller.landmark.response.FindLandMarkResponse;
 import kr.co.playplace.controller.landmark.response.FindLandMarkSongResponse;
-import kr.co.playplace.repository.song.SongRepository;
-import kr.co.playplace.service.landmark.dto.FindLandMarkDto;
+import kr.co.playplace.repository.landmark.LandMarkQueryRepository;
+import kr.co.playplace.repository.landmark.LandMarkRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.tuple;
 
 @Transactional
 class LandMarkQueryRepositoryTest extends IntegrationTestSupport {

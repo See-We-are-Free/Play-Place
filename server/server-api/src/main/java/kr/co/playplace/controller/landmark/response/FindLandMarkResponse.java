@@ -10,15 +10,15 @@ public class FindLandMarkResponse {
     private Long landMarkId;
     private String title;
     private Double latitude;
-    private Double langitude;
+    private Double longitude;
     private String representativeImg;
 
     @Builder
-    public FindLandMarkResponse(Long landMarkId, String title, Double latitude, Double langitude, String representativeImg) {
+    public FindLandMarkResponse(Long landMarkId, String title, Double latitude, Double longitude, String representativeImg) {
         this.landMarkId = landMarkId;
         this.title = title;
         this.latitude = latitude;
-        this.langitude = langitude;
+        this.longitude = longitude;
         this.representativeImg = representativeImg;
     }
 }

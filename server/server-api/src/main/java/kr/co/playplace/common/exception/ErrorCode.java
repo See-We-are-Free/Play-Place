@@ -18,7 +18,10 @@ public enum ErrorCode {
     NOT_FOUND_LANDMARK_SONG("LAND02", HttpStatus.NOT_FOUND, "랜드마크에 곡이 없습니다."),
 
     /* 409 CONFLICT */
-    ALREADY_EXIST_USER("MEMBER01", HttpStatus.CONFLICT, "이미 회원가입 되었습니다.");
+    ALREADY_EXIST_USER("MEMBER01", HttpStatus.CONFLICT, "이미 회원가입 되었습니다."),
+    ALREADY_ADD_SONG("LAND03", HttpStatus.CONFLICT, "이미 추가하셨습니다."),
+    ALREADY_EXIST_SONG("LAND3", HttpStatus.CONFLICT, "이미 존재하는 곡입니다");
+
     private final String code;
     private final HttpStatus httpStatus;
     private final String message;

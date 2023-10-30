@@ -1,4 +1,4 @@
-package kr.co.playplace.repository;
+package kr.co.playplace.repository.user;
 
 import kr.co.playplace.entity.user.Users;
 import org.springframework.data.jpa.repository.JpaRepository;

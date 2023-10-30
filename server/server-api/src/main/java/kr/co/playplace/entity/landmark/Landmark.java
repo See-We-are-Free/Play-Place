@@ -26,16 +26,16 @@ public class Landmark {
     private Double latitude;
 
     @Column(precision = 17, scale = 14)
-    private Double langitude;
+    private Double longitude;
 
     @Column(length = 512)
     private String representativeImg;
 
     @Builder
-    public Landmark(String title, Double latitude, Double langitude, String representativeImg) {
+    public Landmark(String title, Double latitude, Double longitude, String representativeImg) {
         this.title = title;
         this.latitude = latitude;
-        this.langitude = langitude;
+        this.longitude = longitude;
         this.representativeImg = representativeImg;
     }
 }

@@ -1,4 +1,4 @@
-package kr.co.playplace.repository;
+package kr.co.playplace.repository.auth;
 
 
 import kr.co.playplace.common.security.dto.RefreshToken;
