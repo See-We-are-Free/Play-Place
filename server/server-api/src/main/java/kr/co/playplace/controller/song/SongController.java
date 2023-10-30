@@ -1,5 +1,6 @@
 package kr.co.playplace.controller.song;
 
+import kr.co.playplace.controller.song.request.SavePlaySongRequest;
 import kr.co.playplace.controller.song.request.SaveSongHistoryRequest;
 import kr.co.playplace.controller.song.request.SaveSongRequest;
 import kr.co.playplace.controller.song.response.GetRecentSongResponse;
@@ -25,7 +26,7 @@ public class SongController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/play")
+    @PostMapping("/history")
     public ResponseEntity<?> saveSongHistory(@RequestBody SaveSongHistoryRequest saveSongHistoryRequest){
         songService.saveSongHistory(saveSongHistoryRequest);
         return ResponseEntity.ok().build();
@@ -35,5 +36,11 @@ public class SongController {
     public ResponseEntity<?> getRecentSong(){
         GetRecentSongResponse getRecentSongResponse = songQueryService.getRecentSong();
         return ResponseEntity.ok().body(getRecentSongResponse);
+    }
+
+    @PostMapping("/play")
+    public ResponseEntity<?> playSong(@RequestBody SavePlaySongRequest savePlaySongRequest){
+        songService.playSong(savePlaySongRequest);
+        return ResponseEntity.ok().build();
     }
 }
