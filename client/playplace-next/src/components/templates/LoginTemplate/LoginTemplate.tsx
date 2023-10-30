@@ -9,19 +9,18 @@ import getConfig from 'next/config';
 import ContentLayout from '../layout/ContentLayout/ContentLayout';
 import LoginContainer from './style';
 
-const { serverRuntimeConfig } = getConfig();
-
 // const LOGIN_PATH = process.env.NEXT_PUBLIC_GOOGLE_LOGIN_PATH || '';
 // const LOGIN_PATH = process.env.NEXT_PUBLIC_DEVELOP_GOOGLE_LOGIN_PATH || ''; // 개발용
 
 function LoginTemplate() {
 	const params = useSearchParams();
 	const router = useRouter();
+	const { serverRuntimeConfig } = getConfig();
 
 	const login = () => {
-		console.log('로그인', serverRuntimeConfig);
-		if (serverRuntimeConfig !== '') {
-			router.push(serverRuntimeConfig);
+		console.log('로그인', serverRuntimeConfig.googleLoginPath);
+		if (serverRuntimeConfig.googleLoginPath !== '') {
+			router.push(serverRuntimeConfig.googleLoginPath);
 		}
 	};
 
