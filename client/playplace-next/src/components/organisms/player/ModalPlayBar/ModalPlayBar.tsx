@@ -37,14 +37,15 @@ function ModalPlayBar() {
 
 	return (
 		<ModalPlayBarContainer>
-			<IconButton size="l" Icon={<Heart />} onClick={handlePrevious} />
-			<IconButton size="l" Icon={<SkipPrevious />} onClick={handlePrevious} />
-			<IconButton size="l" Icon={<Play />} onClick={handlePlay} />
-			<IconButton size="l" Icon={<SkipNext />} onClick={handleNext} />
+			<IconButton size="l" Icon={<Heart />} onClick={handlePrevious} color="white100" />
+			<IconButton size="l" Icon={<SkipPrevious />} onClick={handlePrevious} color="white100" />
+			<IconButton size="l" Icon={<Play />} onClick={handlePlay} color="white100" />
+			<IconButton size="l" Icon={<SkipNext />} onClick={handleNext} color="white100" />
 			<IconButton
 				size="l"
 				Icon={playModal === 'nowPlay' ? <PlayList /> : <SongThumbnail src="" />}
 				onClick={playModal === 'nowPlay' ? handlePlayList : handleNowPlay}
+				color="black300"
 			/>
 		</ModalPlayBarContainer>
 	);

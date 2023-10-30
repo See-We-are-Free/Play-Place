@@ -12,6 +12,7 @@ const PlayModalContainer = styled.div<IPlayModalContainerProps>`
 	width: 100vw;
 	height: 100vh;
 	transition: all 0.2s;
+	z-index: var(--zindex-modal);
 
 	${({ $playModal }) =>
 		$playModal === 'none'

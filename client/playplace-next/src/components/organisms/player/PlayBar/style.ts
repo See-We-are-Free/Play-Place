@@ -13,6 +13,7 @@ const PlayBarContainer = styled.div`
 	background-color: var(--black-500);
 	padding: 0 10px;
 	border-bottom: 1px solid var(--white-800);
+	z-index: var(--zindex-fixed);
 `;
 
 export default PlayBarContainer;

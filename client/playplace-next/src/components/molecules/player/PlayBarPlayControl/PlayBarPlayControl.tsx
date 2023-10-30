@@ -7,9 +7,9 @@ import PlayList from '@root/public/assets/icons/PlayList.svg';
 import IconButton from '@/components/atoms/IconButton/IconButton';
 import { useRecoilState } from 'recoil';
 import { playModalState } from '@/recoil/play';
-import PlayBarMenuContainer from './style';
+import PlayBarPlayControlContainer from './style';
 
-function PlayBarMenu() {
+function PlayBarPlayControl() {
 	const [, setPlayModal] = useRecoilState(playModalState);
 	const handlePrevious = () => {
 		alert('이전 곡');
@@ -27,13 +27,13 @@ function PlayBarMenu() {
 		setPlayModal('playlist');
 	};
 	return (
-		<PlayBarMenuContainer>
-			<IconButton size="s" Icon={<SkipPrevious />} onClick={handlePrevious} />
-			<IconButton size="s" Icon={<Play />} onClick={handlePlay} />
-			<IconButton size="s" Icon={<SkipNext />} onClick={handleNext} />
-			<IconButton size="s" Icon={<PlayList />} onClick={handlePlayList} />
-		</PlayBarMenuContainer>
+		<PlayBarPlayControlContainer>
+			<IconButton size="s" Icon={<SkipPrevious />} onClick={handlePrevious} color="white100" />
+			<IconButton size="s" Icon={<Play />} onClick={handlePlay} color="white100" />
+			<IconButton size="s" Icon={<SkipNext />} onClick={handleNext} color="white100" />
+			<IconButton size="s" Icon={<PlayList />} onClick={handlePlayList} color="white100" />
+		</PlayBarPlayControlContainer>
 	);
 }
 
-export default PlayBarMenu;
+export default PlayBarPlayControl;

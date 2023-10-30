@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const SongInfoContainer = styled.div`
+const PlayBarSongInfoContainer = styled.div`
 	display: flex;
 	flex-direction: row;
 	gap: 10px;
@@ -25,4 +25,4 @@ const SongInfoContainer = styled.div`
 	}
 `;
 
-export default SongInfoContainer;
+export default PlayBarSongInfoContainer;
