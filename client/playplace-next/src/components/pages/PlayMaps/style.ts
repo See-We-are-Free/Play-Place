@@ -83,4 +83,3 @@ export const nightModeStyles = [
 		stylers: [{ color: '#17263c' }],
 	},
 ];
- 
