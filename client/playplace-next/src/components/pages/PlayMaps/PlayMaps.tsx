@@ -1,7 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { GoogleMap, useJsApiLoader, Circle } from '@react-google-maps/api';
-import { MapsCenter } from '@/types/maps';
+import { GoogleMap, useJsApiLoader, Circle, MarkerF } from '@react-google-maps/api';
+import { LandMarkInfo, MapsCenter } from '@/types/maps';
 import LocateButton from '@/components/atoms/LocateButton/LocateButton';
+import getLandmarksApi from '@/utils/api/playmaps';
 import { containerStyle, nightModeStyles } from './style';
 
 function PlayMaps() {
@@ -10,6 +11,7 @@ function PlayMaps() {
 		lat: 0,
 		lng: 0,
 	});
+	const [landMarks, setLandMarks] = useState<LandMarkInfo[]>([]);
 	// google api 키
 	const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS || '';
 
@@ -41,7 +43,15 @@ function PlayMaps() {
 		});
 	}, [map]);
 
+	const test = async () => {
+		const response = await getLandmarksApi();
+		if (response && response.status === 200) {
+			setLandMarks(response.data.data);
+		}
+	};
+
 	useEffect(() => {
+		test();
 		// 사용자의 위치 권한을 체크하고, 현재 위치를 가져와 center 상태를 업데이트합니다.
 		navigator.geolocation.getCurrentPosition((position) => {
 			setCenter({
@@ -49,6 +59,8 @@ function PlayMaps() {
 				lng: position.coords.longitude,
 			});
 		});
+
+		console.log(landMarks);
 	}, []);
 
 	// 현재위치 표시
@@ -74,7 +86,10 @@ function PlayMaps() {
 
 	return (
 		<>
-			{isLoaded && (
+			<button type="button" onClick={test}>
+				test
+			</button>
+			{landMarks && isLoaded && (
 				<div style={{ position: 'relative', ...containerStyle }}>
 					<LocateButton onLocateClick={locateUser} />
 					<GoogleMap
@@ -91,7 +106,10 @@ function PlayMaps() {
 							streetViewControl: false,
 						}}
 					>
-						{/* <MarkerF position={center} /> */}
+						{Array.isArray(landMarks) &&
+							landMarks.map((landMark) => (
+								<MarkerF key={landMark.landMarkId} position={{ lat: landMark.latitude, lng: landMark.langitude }} />
+							))}
 						<Circle center={center} options={circleRangeOptions} />
 						<Circle center={center} options={markerCircleOptions} />
 					</GoogleMap>
