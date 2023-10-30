@@ -24,7 +24,15 @@ const config: StorybookConfig = {
 			config.resolve.alias['@'] = path.resolve(__dirname, '../src/');
 			config.resolve.alias['@root'] = path.resolve(__dirname, '../');
 		}
-		return config;
+		return {
+			...config,
+			plugins: config?.plugins?.filter((plugin) => {
+				if (plugin?.constructor.name === 'ESLintWebpackPlugin') {
+					return false;
+				}
+				return true;
+			}),
+		};
 	},
 };
 export default config;
