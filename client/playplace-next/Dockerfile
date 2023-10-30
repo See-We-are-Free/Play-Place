@@ -46,10 +46,6 @@ FROM base AS runner
 
 WORKDIR /app
 
-# 잘 뜨나 볼거야.
-RUN ["echo", " 안녕 나는 환경변수가 잘 뜨나 볼거야."]
-RUN ["echo", " " + NEXT_PUBLIC_SERVER_URL]
-RUN ["echo", " " + $NEXT_PUBLIC_SERVER_URL]
 
 # 보안 문제가 발생할 수 있으므로 도커 컨테이너 내에서 루트 권한으로 서버 프로세스를 실행하지 않는 것이 좋다.
 RUN addgroup --system --gid 1001 nodejs
