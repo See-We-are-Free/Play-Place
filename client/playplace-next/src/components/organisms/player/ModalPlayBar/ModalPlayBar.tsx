@@ -1,31 +1,19 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { playModalState } from '@/recoil/play';
+import { nowPlaySongState, playModalState, playbackState } from '@/recoil/play';
 import SkipPrevious from '@root/public/assets/icons/SkipPrevious.svg';
 import Play from '@root/public/assets/icons/Play.svg';
 import SkipNext from '@root/public/assets/icons/SkipNext.svg';
 import Heart from '@root/public/assets/icons/Heart.svg';
 import IconButton from '@/components/atoms/IconButton/IconButton';
 import PlayList from '@root/public/assets/icons/PlayList.svg';
-
 import SongThumbnail from '@/components/atoms/SongThumbnail/SongThumbnail';
-
+import usePlayer from '@/hooks/usePlayer';
 import ModalPlayBarContainer from './style';
 
 function ModalPlayBar() {
 	const [playModal, setPlayModal] = useRecoilState(playModalState);
-
-	const handlePrevious = () => {
-		alert('이전 곡');
-	};
-
-	const handlePlay = () => {
-		alert('재생');
-	};
-
-	const handleNext = () => {
-		alert('다음 곡');
-	};
+	const { playPreviousSong, playNextSong, playSong } = usePlayer();
 
 	const handlePlayList = () => {
 		setPlayModal('playlist');
@@ -37,10 +25,17 @@ function ModalPlayBar() {
 
 	return (
 		<ModalPlayBarContainer>
-			<IconButton size="l" Icon={<Heart />} onClick={handlePrevious} color="white100" />
-			<IconButton size="l" Icon={<SkipPrevious />} onClick={handlePrevious} color="white100" />
-			<IconButton size="l" Icon={<Play />} onClick={handlePlay} color="white100" />
-			<IconButton size="l" Icon={<SkipNext />} onClick={handleNext} color="white100" />
+			<IconButton
+				size="l"
+				Icon={<Heart />}
+				onClick={() => {
+					console.log('하트');
+				}}
+				color="white100"
+			/>
+			<IconButton size="l" Icon={<SkipPrevious />} onClick={playPreviousSong} color="white100" />
+			<IconButton size="l" Icon={<Play />} onClick={playSong} color="white100" />
+			<IconButton size="l" Icon={<SkipNext />} onClick={playNextSong} color="white100" />
 			<IconButton
 				size="l"
 				Icon={playModal === 'nowPlay' ? <PlayList /> : <SongThumbnail src="" />}

@@ -1,28 +1,15 @@
 'use client';
 
+import { nowPlaySongState, playbackState } from '@/recoil/play';
+import { PlaybackType } from '@/types/play';
 import { useRef } from 'react';
-import Youtube from 'react-youtube';
-
-// react-youtube 라이브러리의 YouTube 타입 확장
-interface ExtendedYouTube extends Youtube {
-	pauseVideo(): void;
-}
+import YouTube, { YouTubeProps } from 'react-youtube';
+import { useRecoilState } from 'recoil';
 
 function PlayBack() {
-	const playerRef = useRef<ExtendedYouTube | null>(null); // YouTube 플레이어 참조
-	console.log(playerRef.current?.internalPlayer);
-
-	const handleStart = () => {
-		playerRef.current?.internalPlayer.playVideo();
-	};
-
-	const handlePause = () => {
-		playerRef.current?.internalPlayer.pauseVideo();
-	};
-
-	const handleCurrent = async () => {
-		console.log(await playerRef.current?.internalPlayer.getPlayerState());
-	};
+	const [, setPlayback] = useRecoilState(playbackState);
+	const [nowPlaySong] = useRecoilState(nowPlaySongState);
+	const playbackRef = useRef<PlaybackType | null>(null); // YouTube 플레이어 참조
 
 	const opts = {
 		width: '0',
@@ -33,19 +20,20 @@ function PlayBack() {
 		},
 	};
 
+	const onPlayerReady: YouTubeProps['onReady'] = () => {
+		if (playbackRef == null) {
+			setPlayback(playbackRef);
+		}
+	};
+
 	return (
-		<div>
-			<button type="button" onClick={handleStart}>
-				start
-			</button>
-			<button type="button" onClick={handlePause}>
-				pause
-			</button>
-			<button type="button" onClick={handleCurrent}>
-				handleCurrent
-			</button>
-			<Youtube key="OMjDI2NqQ9M" videoId="OMjDI2NqQ9M" opts={opts} ref={playerRef} />
-		</div>
+		<YouTube
+			key={nowPlaySong?.youtubeId}
+			videoId={nowPlaySong?.youtubeId}
+			opts={opts}
+			ref={playbackRef}
+			onReady={onPlayerReady}
+		/>
 	);
 }
 
