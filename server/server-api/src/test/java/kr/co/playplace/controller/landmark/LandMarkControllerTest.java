@@ -1,23 +1,32 @@
 package kr.co.playplace.controller.landmark;
 
 import kr.co.playplace.ControllerTestSupport;
+import kr.co.playplace.controller.GenerateMockToken;
+import kr.co.playplace.controller.landmark.requset.SaveLandMarkSongRequest;
 import kr.co.playplace.controller.landmark.response.FindLandMarkResponse;
 import kr.co.playplace.controller.landmark.response.FindLandMarkSongResponse;
 import kr.co.playplace.service.landmark.LandMarkQueryService;
+import kr.co.playplace.service.landmark.LandMarkService;
+import kr.co.playplace.testUser.WithMockCustomAccount;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,7 +39,11 @@ class LandMarkControllerTest extends ControllerTestSupport {
     @MockBean
     private LandMarkQueryService landMarkQueryService;
 
+    @MockBean
+    private LandMarkService landMarkService;
+
     @DisplayName("사용자는 전체 랜드마크를 조회 할 수 있다")
+    @WithMockCustomAccount
     @Test
     void findLandMarks() throws Exception {
         //given
@@ -64,6 +77,7 @@ class LandMarkControllerTest extends ControllerTestSupport {
     }
 
     @DisplayName("사용자는 랜드마크의 곡들을 조회 할 수 있다.")
+    @WithMockCustomAccount
     @Test
     void findLandMarkSongs() throws Exception {
         //given
@@ -88,7 +102,7 @@ class LandMarkControllerTest extends ControllerTestSupport {
 
         //when //then
         mockMvc.perform(
-                        get("/api/v1/landmarks/{landMarkId}",1L)
+                        get("/api/v1/landmarks/{landMarkId}", 1L)
                 )
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -96,6 +110,35 @@ class LandMarkControllerTest extends ControllerTestSupport {
                 .andExpect(jsonPath("$.status").value("OK"))
                 .andExpect(jsonPath("$.message").value("SUCCESS"))
                 .andExpect(jsonPath("$.data").isArray());
+    }
+
+    @DisplayName("사용자는 랜드마크의 공유 재생목록에 노래를 추가 할 수 있다.")
+    @WithMockCustomAccount
+    @Test
+    void saveLandMarkSong() throws Exception {
+        //given
+        SaveLandMarkSongRequest request = SaveLandMarkSongRequest.builder()
+                .landMarkId(3L)
+                .youtubeId("youtudeId")
+                .albumImg("img")
+                .artist("hong")
+                .playTime("04:00")
+                .title("test")
+                .build();
+
+        //when
+        mockMvc.perform(
+                        post("/api/v1/landmarks")
+                                .headers(GenerateMockToken.getToken())
+                                .with(csrf())
+                                .content(objectMapper.writeValueAsString(request))
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.status").value("OK"))
+                .andExpect(jsonPath("$.message").value("SUCCESS"));
     }
 
 }

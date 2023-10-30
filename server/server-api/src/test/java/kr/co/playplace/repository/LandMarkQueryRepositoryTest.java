@@ -33,10 +33,10 @@ class LandMarkQueryRepositoryTest extends IntegrationTestSupport {
         List<FindLandMarkResponse> results = landMarkQueryRepository.findLandMarks(); // 테스트 대상
 
         //then
-        Assertions.assertThat(results).hasSize(3)// 원하는 기대값
+        Assertions.assertThat(results).hasSize(4)// 원하는 기대값
                 .extracting("representativeImg") // 가져온 값 일치하는지 확인
                 .containsExactlyInAnyOrder(
-                        "test1", "test2", "test3"
+                        "test1", "test2", "test3","test4"
                 );
 
     }
