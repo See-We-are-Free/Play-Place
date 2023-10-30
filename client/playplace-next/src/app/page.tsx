@@ -2,7 +2,7 @@
 
 import HomeSubtitle from '@/components/atoms/HomeSubtitle/HomeSubtitle';
 import HomeAlbum from '@/components/molecules/HomeAlbum/HomeAlbum';
-
+import LandMark from '@root/public/assets/icons/LandMark.svg';
 import Link from 'next/link';
 
 export default function Home() {
@@ -10,6 +10,7 @@ export default function Home() {
 
 	return (
 		<>
+			<LandMark />
 			<HomeAlbum artist="NewJeans" imgSrc="test" title="HypeBoy" />
 			<HomeSubtitle colorSubtitle="이번주" normalSubtitle="가장 많이 재생된 음악" />
 			<HomeSubtitle colorSubtitle={`${name}님 근처`} normalSubtitle="사람들의 음악" />
