@@ -30,6 +30,7 @@
       "react/jsx-no-useless-fragment" : "off",
       "react/require-default-props" : "off",
       "import/no-extraneous-dependencies" : "off",
+      "@typescript-eslint/parserOptions.project": "off",
       "prettier/prettier": [
         "error",
         {
