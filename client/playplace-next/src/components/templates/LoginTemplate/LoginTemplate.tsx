@@ -16,6 +16,7 @@ function LoginTemplate() {
 	const router = useRouter();
 
 	const login = () => {
+		console.log('로그인', LOGIN_PATH);
 		if (LOGIN_PATH !== '') {
 			router.push(LOGIN_PATH);
 		}
