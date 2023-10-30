@@ -2,6 +2,7 @@
 
 import HomeSubtitle from '@/components/atoms/HomeSubtitle/HomeSubtitle';
 import HomeAlbum from '@/components/molecules/HomeAlbum/HomeAlbum';
+import HypeBoy from '@root/public/assets/images/hypeBoy.jpg';
 
 import Link from 'next/link';
 
@@ -10,7 +11,7 @@ export default function Home() {
 
 	return (
 		<>
-			<HomeAlbum artist="NewJeans" imgSrc="test" title="HypeBoy" />
+			<HomeAlbum artist="NewJeans" imgSrc={HypeBoy} title="HypeBoy" />
 			<HomeSubtitle colorSubtitle="이번주" normalSubtitle="가장 많이 재생된 음악" />
 			<HomeSubtitle colorSubtitle={`${name}님 근처`} normalSubtitle="사람들의 음악" />
 			<h1>PlayPlace Home</h1>
