@@ -11,7 +11,7 @@
       "node": true,
       "es6": true
     },
-    "ignorePatterns": ["node_modules/"],
+    "ignorePatterns": ["node_modules/", ".eslintrc.json"],
     "extends": [
       "airbnb",
       "airbnb-typescript",
