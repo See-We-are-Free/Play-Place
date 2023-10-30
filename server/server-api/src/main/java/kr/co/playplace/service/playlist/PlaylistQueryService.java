@@ -33,11 +33,11 @@ public class PlaylistQueryService {
         List<UserSong> userSongs = userSongRepository.findAllByUser_Id(user.get().getId());
         List<GetUserSongDto> basicSongs = new ArrayList<>();
         for (UserSong userSong : userSongs) { // usersong entity -> usersong dto
-            log.info(userSong.toString());
             basicSongs.add(GetUserSongDto.of(userSong));
         }
 
         // TODO: 그룹 재생목록
+
 
         return GetMyPlaylistResponse.of(basicSongs);
     }

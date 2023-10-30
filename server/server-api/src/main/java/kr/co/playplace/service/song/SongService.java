@@ -62,11 +62,20 @@ public class SongService {
 
     private void saveSongInPlayList(Song song){ // user 확인해서 곡을 재생목록에 추가
         Optional<Users> user = userRepository.findById(SecurityUtils.getUser().getUserId());
+
+//        deleteSongInPlayList(user.get());
+
         UserSong userSong = UserSong.builder()
                 .user(user.get())
                 .song(song)
                 .build();
         userSongRepository.save(userSong);
+    }
+
+    private void deleteSongInPlayList(Users user){
+        int cnt = userSongRepository.countUserSongByUser_Id(user.getId());
+        if(cnt < 99) return;
+        userSongRepository.deleteUserSongByUser_Id(user.getId());
     }
 
     public void saveSongHistory(SaveSongHistoryRequest saveSongHistoryRequest){
