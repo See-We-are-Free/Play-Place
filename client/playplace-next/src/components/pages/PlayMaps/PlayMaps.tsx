@@ -3,7 +3,41 @@ import { GoogleMap, useJsApiLoader, Circle, MarkerF } from '@react-google-maps/a
 import { LandMarkInfo, MapsCenter } from '@/types/maps';
 import LocateButton from '@/components/atoms/LocateButton/LocateButton';
 import getLandmarksApi from '@/utils/api/playmaps';
+import LandMarkDefault from '@root/public/assets/images/LandMarkDefault.png';
 import { containerStyle, nightModeStyles } from './style';
+
+function deg2rad(deg: number) {
+	return deg * (Math.PI / 180);
+}
+
+function CalDistance(lat1: number, lat2: number, lng1: number, lng2: number) {
+	const Earth = 6371;
+	const dLat = deg2rad(lat2 - lat1);
+	const dLon = deg2rad(lng2 - lng1);
+	const a =
+		Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+		Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+	const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+	const distance = Earth * c; // 두 지점 간의 거리 (단위: km)
+	return distance;
+}
+
+function landMarkIcon(landMarkImg: string | null): string {
+	const imgsrc = landMarkImg || LandMarkDefault;
+
+	return `
+	<svg width="57" height="69" viewBox="0 0 57 69" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path fill-rule="evenodd" clip-rule="evenodd" d="M0.13283 28C0.13283 12.536 12.6689 0 28.1328 0C43.5968 0 56.1328 12.536 56.1328 28C57.1328 33.8333 52.9328 50.2 28.1329 69C3.33304 50.2001 -0.867085 33.8336 0.13283 28.0001V28Z" fill="url(#paint0_linear_1209_1100)"/>
+		<image href="${imgsrc}" x="0" y="0" height="69" width="57"/>
+		<defs>
+			<linearGradient id="paint0_linear_1209_1100" x1="4.19213e-07" y1="34.4998" x2="56.2657" y2="34.4998" gradientUnits="userSpaceOnUse">
+			<stop stop-color="#FEAC5E" />
+			<stop offset="0.255208" stop-color="#C779D0" />
+			<stop offset="1" stop-color="#4BC0C8" />
+			</linearGradient>
+		</defs>
+	</svg>`;
+}
 
 function PlayMaps() {
 	const [map, setMap] = useState<google.maps.Map | null>(null);
@@ -50,6 +84,16 @@ function PlayMaps() {
 		}
 	};
 
+	const test2 = (LandLat: number, LandLng: number) => {
+		const distance = CalDistance(center.lat, LandLat, center.lng, LandLng);
+
+		if (distance <= 0.1) {
+			alert('100m이내');
+		} else {
+			alert('100m초과');
+		}
+	};
+
 	useEffect(() => {
 		test();
 		// 사용자의 위치 권한을 체크하고, 현재 위치를 가져와 center 상태를 업데이트합니다.
@@ -59,8 +103,6 @@ function PlayMaps() {
 				lng: position.coords.longitude,
 			});
 		});
-
-		console.log(landMarks);
 	}, []);
 
 	// 현재위치 표시
@@ -86,9 +128,6 @@ function PlayMaps() {
 
 	return (
 		<>
-			<button type="button" onClick={test}>
-				test
-			</button>
 			{landMarks && isLoaded && (
 				<div style={{ position: 'relative', ...containerStyle }}>
 					<LocateButton onLocateClick={locateUser} />
@@ -108,7 +147,16 @@ function PlayMaps() {
 					>
 						{Array.isArray(landMarks) &&
 							landMarks.map((landMark) => (
-								<MarkerF key={landMark.landMarkId} position={{ lat: landMark.latitude, lng: landMark.langitude }} />
+								<MarkerF
+									key={landMark.landMarkId}
+									position={{ lat: landMark.latitude, lng: landMark.langitude }}
+									onClick={() => test2(landMark.latitude, landMark.langitude)}
+									icon={{
+										url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(
+											landMarkIcon(landMark.representativeImg),
+										)}`,
+									}}
+								/>
 							))}
 						<Circle center={center} options={circleRangeOptions} />
 						<Circle center={center} options={markerCircleOptions} />
