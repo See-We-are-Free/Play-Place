@@ -6,13 +6,13 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data
-public class FindLandMarkSongDto {
+public class FindLandmarkSongDto {
 
     private Long userId;
     private Long songId;
 
     @Builder
-    public FindLandMarkSongDto(Long userId, Long songId) {
+    public FindLandmarkSongDto(Long userId, Long songId) {
         this.userId = userId;
         this.songId = songId;
     }

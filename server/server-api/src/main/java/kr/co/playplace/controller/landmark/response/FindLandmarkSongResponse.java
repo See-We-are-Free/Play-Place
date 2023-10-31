@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @Data
-public class FindLandMarkSongResponse {
+public class FindLandmarkSongResponse {
 
     private String title;
     private String artist;
@@ -15,7 +15,7 @@ public class FindLandMarkSongResponse {
     private String playTime;
 
     @Builder
-    public FindLandMarkSongResponse(String title, String artist, String albumImg, String playTime) {
+    public FindLandmarkSongResponse(String title, String artist, String albumImg, String playTime) {
         this.title = title;
         this.artist = artist;
         this.albumImg = albumImg;

@@ -2,9 +2,9 @@ package kr.co.playplace.repository.landmark;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import kr.co.playplace.controller.landmark.response.FindLandMarkResponse;
-import kr.co.playplace.controller.landmark.response.FindLandMarkSongResponse;
-import kr.co.playplace.service.landmark.dto.FindLandMarkSongDto;
+import kr.co.playplace.controller.landmark.response.FindLandmarkResponse;
+import kr.co.playplace.controller.landmark.response.FindLandmarkSongResponse;
+import kr.co.playplace.service.landmark.dto.FindLandmarkSongDto;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -13,18 +13,19 @@ import java.util.List;
 import static kr.co.playplace.entity.landmark.QLandmark.landmark;
 import static kr.co.playplace.entity.landmark.QLandmarkSong.landmarkSong;
 
+
 @Repository
-public class LandMarkQueryRepository {
+public class LandmarkQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public LandMarkQueryRepository(EntityManager em) {
+    public LandmarkQueryRepository(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    public List<FindLandMarkResponse> findLandMarks() {
+    public List<FindLandmarkResponse> findLandmarks() {
         return queryFactory
-                .select(Projections.constructor(FindLandMarkResponse.class,
+                .select(Projections.constructor(FindLandmarkResponse.class,
                         landmark.id,
                         landmark.title,
                         landmark.latitude,
@@ -34,27 +35,27 @@ public class LandMarkQueryRepository {
                 .fetch();
     }
 
-    public List<FindLandMarkSongResponse> findLandMarkSongs(Long landMarkId) {
+    public List<FindLandmarkSongResponse> findLandmarkSongs(Long landmarkId) {
         return queryFactory
-                .select(Projections.constructor(FindLandMarkSongResponse.class,
+                .select(Projections.constructor(FindLandmarkSongResponse.class,
                         landmarkSong.song.title,
                         landmarkSong.song.artist,
                         landmarkSong.song.albumImg,
                         landmarkSong.song.playTime))
                 .from(landmarkSong)
-                .where(landmarkSong.landmark.id.eq(landMarkId))
+                .where(landmarkSong.landmark.id.eq(landmarkId))
                 .orderBy(landmarkSong.createdDate.desc())
                 .limit(99)
                 .fetch();
     }
 
-    public List<FindLandMarkSongDto> findLandMarkSongInfo(Long landMarkId) {
+    public List<FindLandmarkSongDto> findLandmarkSongInfo(Long landmarkId) {
         return queryFactory
-                .select(Projections.constructor(FindLandMarkSongDto.class,
+                .select(Projections.constructor(FindLandmarkSongDto.class,
                         landmarkSong.user.id,
                         landmarkSong.song.id))
                 .from(landmarkSong)
-                .where(landmarkSong.landmark.id.eq(landMarkId))
+                .where(landmarkSong.landmark.id.eq(landmarkId))
                 .orderBy(landmarkSong.createdDate.desc())
                 .limit(99)
                 .fetch();

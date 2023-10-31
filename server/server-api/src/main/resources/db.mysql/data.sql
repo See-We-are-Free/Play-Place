@@ -9,10 +9,10 @@ VALUES (1, 'yId1', 'Title1', 'Artist1', 'AlbumImg1', '03:30', NOW(), NOW()),
        (3, 'yId3', 'Title3', 'Artist3', 'AlbumImg3', '03:45', NOW(), NOW());
 
 INSERT INTO landmark (landmark_id, title, latitude, longitude, representative_img)
-VALUES (1, 'Landmark1', 37.566535, 126.977969, "test1"),
-       (2, 'Landmark2', 37.551229, 126.988205, "test2"),
-       (3, 'Landmark3', 37.579617, 126.977041, "test3"),
-       (4, 'Landmark4', 37.579617, 126.977041, "test4");
+VALUES (1, 'landmark1', 37.566535, 126.977969, "test1"),
+       (2, 'landmark2', 37.551229, 126.988205, "test2"),
+       (3, 'landmark3', 37.579617, 126.977041, "test3"),
+       (4, 'landmark4', 37.579617, 126.977041, "test4");
 
 
 

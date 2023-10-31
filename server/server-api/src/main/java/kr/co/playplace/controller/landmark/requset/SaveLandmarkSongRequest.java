@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data
-public class SaveLandMarkSongRequest {
+public class SaveLandmarkSongRequest {
 
-    private Long landMarkId;
+    private Long landmarkId;
     private String youtubeId;
     private String title;
     private String artist;
@@ -17,8 +17,8 @@ public class SaveLandMarkSongRequest {
     private String playTime;
 
     @Builder
-    public SaveLandMarkSongRequest(Long landMarkId, String youtubeId, String title, String artist, String albumImg, String playTime) {
-        this.landMarkId = landMarkId;
+    public SaveLandmarkSongRequest(Long landmarkId, String youtubeId, String title, String artist, String albumImg, String playTime) {
+        this.landmarkId = landmarkId;
         this.youtubeId = youtubeId;
         this.title = title;
         this.artist = artist;

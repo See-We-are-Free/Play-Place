@@ -9,8 +9,8 @@ endif::[]
 :toclevels: 2
 :sectlinks:
 
-[[Landmark-API]]
-== Landmark API
+[[landmark-API]]
+== landmark API
 
 include::api/landmark/landmark_search.adoc[]
 include::api/landmark/landmark_song_search.adoc[]

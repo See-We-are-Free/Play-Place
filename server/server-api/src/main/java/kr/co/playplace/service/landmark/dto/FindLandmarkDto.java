@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class FindLandMarkDto {
+public class FindLandmarkDto {
 
     private String title;
     private Double latitude;
@@ -14,7 +14,7 @@ public class FindLandMarkDto {
     private String representativeImg;
 
     @Builder
-    public FindLandMarkDto(String title, Double latitude, Double longitude, String representativeImg) {
+    public FindLandmarkDto(String title, Double latitude, Double longitude, String representativeImg) {
         this.title = title;
         this.latitude = latitude;
         this.longitude = longitude;
