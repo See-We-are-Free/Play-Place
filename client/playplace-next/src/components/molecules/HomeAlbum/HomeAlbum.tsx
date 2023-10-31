@@ -1,8 +1,9 @@
 import HomeAlbumItems from '@/components/atoms/HomeAlbumItems/HomeAlbumItems';
+import { StaticImageData } from 'next/image';
 import HomeAlbumContainer, { HomeAlbumArtist, HomeAlbumTitle } from './style';
 
 interface HomeAlbumProps {
-	imgSrc: string;
+	imgSrc: StaticImageData;
 	title: string;
 	artist: string;
 }

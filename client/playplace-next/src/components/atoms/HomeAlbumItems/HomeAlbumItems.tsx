@@ -1,10 +1,10 @@
 import React from 'react';
 import { AlbumSequenceStyles } from '@/types/styles.d';
-import HypeBoy from '@root/public/assets/images/hypeBoy.jpg';
+import { StaticImageData } from 'next/image';
 import HomeAlbumItemsContainer, { AlbumImage, AlbumInnerRound } from './style';
 
 interface HomeAlbumItemsProps {
-	imgSrc: string;
+	imgSrc: StaticImageData;
 }
 
 function HomeAlbumItems(props: HomeAlbumItemsProps) {
@@ -12,8 +12,7 @@ function HomeAlbumItems(props: HomeAlbumItemsProps) {
 
 	return (
 		<HomeAlbumItemsContainer>
-			<p>{imgSrc}</p>
-			<AlbumImage src={HypeBoy} alt="" />
+			<AlbumImage src={imgSrc} alt="" />
 			<AlbumInnerRound $roundSequence={AlbumSequenceStyles.one} />
 			<AlbumInnerRound $roundSequence={AlbumSequenceStyles.two} />
 			<AlbumInnerRound $roundSequence={AlbumSequenceStyles.three} />

@@ -4,15 +4,19 @@ const PlayBarSongInfoContainer = styled.div`
 	display: flex;
 	flex-direction: row;
 	gap: 10px;
+	width: 60%;
 
 	#song {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		overflow: hidden;
+		width: 65%;
 
 		p {
 			height: fit-content;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
 		}
 	}
 

@@ -63,6 +63,7 @@ const GlobalStyles = createGlobalStyle`
         --zindex-popover: 1070;
         --zindex-tooltip: 1080;
         --zindex-toast: 1090;
+        --zindex-header: 999;
     }
 
     body{

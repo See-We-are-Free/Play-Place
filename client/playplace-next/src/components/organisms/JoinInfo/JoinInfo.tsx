@@ -28,7 +28,7 @@ function JoinInfo() {
 					profileImg,
 				};
 				const response = await joinApi({ body });
-				// const response = await developJoinApi({ body });
+				// const response = await developJoinApi({ body }); // 개발용
 				if (response && response.status === 200) {
 					console.log(response);
 					const { headers } = response;
@@ -67,6 +67,8 @@ function JoinInfo() {
 				setEmail(params.get('email'));
 			} else {
 				console.log('잘못된 접근');
+				alert('잘못된 접근입니다.');
+				router.push('/');
 			}
 		}
 	}, [email, params]);
@@ -75,6 +77,10 @@ function JoinInfo() {
 		console.log('nickname', nickname);
 		console.log('profileImg', profileImg);
 	}, [nickname, profileImg]);
+
+	if (!email) {
+		return <></>;
+	}
 
 	return (
 		<>
