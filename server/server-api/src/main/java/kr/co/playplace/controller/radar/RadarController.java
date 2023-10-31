@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/radar")
@@ -19,16 +21,15 @@ public class RadarController {
     private final RadarService radarService;
 
     @GetMapping
-    public ResponseEntity<UsersNearbyResponse> findUsersNearby(@AuthenticationPrincipal SecurityUserDto securityUserDto, @RequestParam Double longitude, @RequestParam Double latitude) {
-        UsersNearbyResponse usersNearbyResponse = radarService.findUsersNearby(securityUserDto.getUserId(), longitude, latitude);
-//        UsersNearbyResponse usersNearbyResponse = radarService.findUsersNearby(1L, longitude, latitude);
+    public ResponseEntity<List<UsersNearbyResponse>> findUsersNearby(@AuthenticationPrincipal SecurityUserDto securityUserDto, @RequestParam Double longitude, @RequestParam Double latitude) {
+        List<UsersNearbyResponse> usersNearbyResponses = radarService.findUsersNearby(securityUserDto.getUserId(), longitude, latitude);
 
-        return ResponseEntity.ok().body(usersNearbyResponse);
+        return ResponseEntity.ok().body(usersNearbyResponses);
     }
 
     @PostMapping
     public void saveUserLocationTest(@AuthenticationPrincipal SecurityUserDto securityUserDto, @RequestBody UserLocationRequest userLocationRequest) {
-        radarService.saveUserLocationTest(userLocationRequest.getUserId(), userLocationRequest);
+        radarService.saveUserLocationTest(securityUserDto.getUserId(), userLocationRequest);
     }
 
 }

@@ -2,6 +2,7 @@ package kr.co.playplace.service.radar;
 
 import ch.hsr.geohash.GeoHash;
 import kr.co.playplace.controller.radar.response.UsersNearbyResponse;
+import kr.co.playplace.entity.user.Users;
 import kr.co.playplace.repository.UserRepository;
 import kr.co.playplace.repository.location.UserLocationRepository;
 import kr.co.playplace.controller.radar.request.UserLocationRequest;
@@ -11,6 +12,9 @@ import org.springframework.data.geo.*;
 import org.springframework.data.redis.core.GeoOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.springframework.data.redis.connection.RedisGeoCommands.*;
 
@@ -24,11 +28,7 @@ public class RadarService {
 
     private final RedisTemplate redisTemplate;
 
-//    public Song findNearbyUserSong(long userId) {
-//
-//    }
-
-    public UsersNearbyResponse findUsersNearby(long userId, double longitude, double latitude) {
+    public List<UsersNearbyResponse> findUsersNearby(long userId, double longitude, double latitude) {
 
 //        GeoHash geoHash = GeoHash.withCharacterPrecision(latitude, longitude, 7);
 //        GeoHash[] adjHash = geoHash.getAdjacent();
@@ -57,6 +57,8 @@ public class RadarService {
         GeoResults<GeoLocation<String>> results = geoOperations
                 .radius("geoPoints", circle, args);
 
+        List<UsersNearbyResponse> list = new ArrayList<>();
+
         // 범위 안에 있는 사용자에 대해 최근 재생 곡 조회
        for(GeoResult<GeoLocation<String>> result : results) {
            GeoLocation<String> location = result.getContent();
@@ -64,10 +66,16 @@ public class RadarService {
            Long userNearbyId = Long.parseLong(location.getName());
            log.debug("userNearby:{}", userNearbyId);
 
+           Users user = userRepository.findById(userNearbyId).get();
+
+           UsersNearbyResponse usersNearbyResponse = new UsersNearbyResponse();
+
            // TODO: 사용자 최신 재생 곡 정보 가져오기
+
+           list.add(usersNearbyResponse);
        }
 
-        return null;
+        return list;
 
     }
 
