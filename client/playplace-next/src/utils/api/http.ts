@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
 const authLocalURL = process.env.NEXT_PUBLIC_DEVELOP_URL;
+const youtubeURL = process.env.NEXT_PUBLIC_YOUTUBE_URL;
 
 const http = axios.create({
 	baseURL,
@@ -35,6 +36,10 @@ localHttp.interceptors.request.use((req) => {
 		req.headers.authorization = accessToken;
 	}
 	return req;
+});
+
+export const youtubleHttp = axios.create({
+	baseURL: youtubeURL,
 });
 
 export default http;
