@@ -69,6 +69,12 @@ dependencies {
 
 	//geo-hash
 	implementation 'ch.hsr:geohash:1.4.0'
+
+	//rest docs
+	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.0'
 }
 
 tasks.named('test') {
@@ -101,4 +107,31 @@ configurations {
 }
 compileQuerydsl {
 	options.annotationProcessorPath = configurations.querydsl
+}
+
+//rest docs
+ext { // 전역 변수
+	snippetsDir = file('build/generated-snippets')
+}
+
+test {
+	outputs.dir snippetsDir
+}
+
+asciidoctor {
+	inputs.dir snippetsDir
+	configurations 'asciidoctorExt'
+
+	sources { // 특정 파일만 html로 만든다.
+		include("**/index.adoc")
+	}
+	baseDirFollowsSourceFile() // 다른 adoc 파일을 include 할 때 경로를 baseDir로 맞춘다.
+	dependsOn test
+}
+
+bootJar {
+	dependsOn asciidoctor
+	from("${asciidoctor.outputDir}") {
+		into 'static/docs'
+	}
 }
