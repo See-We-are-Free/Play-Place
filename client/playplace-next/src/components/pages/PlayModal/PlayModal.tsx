@@ -2,7 +2,7 @@
 
 import { useRecoilState } from 'recoil';
 import { playModalState } from '@/recoil/play';
-import ModalPlayBar from '@/components/organisms/player/ModalPlayBar/ModalPlayBar';
+import ModalPlayBar from '@/components/organisms/player/ModalPlayControl/ModalPlayControl';
 import NowPlay from '@/components/organisms/player/NowPlay/NowPlay';
 import PlayList from '@/components/organisms/player/PlayList/PlayList';
 import PlayModalContainer from './style';

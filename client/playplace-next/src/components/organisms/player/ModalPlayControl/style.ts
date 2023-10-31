@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 
-const ModalPlayBarContainer = styled.div`
-	height: 70px;
-	padding: 0 10px;
+const ModalPlayControlContainer = styled.div`
+	padding: 20px;
 	position: fixed;
 	bottom: 0;
 	width: 100%;
@@ -10,11 +9,6 @@ const ModalPlayBarContainer = styled.div`
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
-
-	svg {
-		width: 60px;
-		height: 60px;
-	}
 `;
 
-export default ModalPlayBarContainer;
+export default ModalPlayControlContainer;
