@@ -3,6 +3,8 @@ package kr.co.playplace.service.song;
 import kr.co.playplace.common.exception.BaseException;
 import kr.co.playplace.common.exception.ErrorCode;
 import kr.co.playplace.common.util.SecurityUtils;
+import kr.co.playplace.controller.home.request.PositionRequest;
+import kr.co.playplace.controller.home.response.SongResponse;
 import kr.co.playplace.controller.song.response.GetRecentSongResponse;
 import kr.co.playplace.entity.song.SongHistory;
 import kr.co.playplace.entity.user.Users;
@@ -39,5 +41,17 @@ public class SongQueryService {
 
         // 있으면? return GetRecentSongResponse
         return GetRecentSongResponse.of(songHistories.get(songHistories.size()-1).getSong());
+    }
+
+    public List<SongResponse> getSongInPosition(PositionRequest positionRequest){
+        return null;
+    }
+
+    public List<SongResponse> getSongInWeather(PositionRequest positionRequest){
+        return null;
+    }
+
+    public List<SongResponse> getSongInTimezone(){
+        return null;
     }
 }
