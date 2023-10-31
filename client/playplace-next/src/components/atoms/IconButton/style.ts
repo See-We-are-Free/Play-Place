@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 interface IconButtonWrapperProps {
-	$size: 's' | 'l';
+	$size: 's' | 'm' | 'l';
 	$color: 'white100' | 'black300';
 }
 
@@ -9,20 +9,14 @@ const IconButtonSize = {
 	s: css`
 		width: 30px;
 		height: 30px;
-
-		svg {
-			width: 30px;
-			height: 30px;
-		}
+	`,
+	m: css`
+		width: 35px;
+		height: 35px;
 	`,
 	l: css`
-		width: 60px;
-		height: 60px;
-
-		svg {
-			width: 60px;
-			height: 60px;
-		}
+		width: 50px;
+		height: 50px;
 	`,
 };
 
@@ -41,6 +35,16 @@ const IconButtonColor = {
 
 const IconButtonWrapper = styled.button<IconButtonWrapperProps>`
 	padding: 0;
+
+	svg {
+		width: 100%;
+		height: 100%;
+	}
+
+	img {
+		width: 100%;
+		height: 100%;
+	}
 
 	${({ $color }) => IconButtonColor[$color]};
 	${({ $size }) => IconButtonSize[$size]};
