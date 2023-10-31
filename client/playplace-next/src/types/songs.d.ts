@@ -1,9 +1,9 @@
 export interface Song {
 	basicSongId: number;
 	songId: number;
-	youtubeId: number;
+	youtubeId: string;
 	title: string;
 	artist: string;
 	albumImg: string;
-	playTime: string;
+	playTime: number;
 }

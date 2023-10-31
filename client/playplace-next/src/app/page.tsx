@@ -3,6 +3,7 @@
 import HomeSubtitle from '@/components/atoms/HomeSubtitle/HomeSubtitle';
 import Header from '@/components/molecules/Header/Header';
 import HomeAlbum from '@/components/molecules/HomeAlbum/HomeAlbum';
+import LandMark from '@root/public/assets/icons/LandMark.svg';
 import LayoutWithHeader from '@/components/templates/layout/LayoutWithHeader/LayoutWithHeader';
 import { HeaderStyles } from '@/types/styles.d';
 import HypeBoy from '@root/public/assets/images/hypeBoy.jpg';
@@ -23,6 +24,7 @@ export default function Home() {
 	return (
 		<LayoutWithHeader header={header}>
 			<ContentLayout $margin="0 0 140px">
+				<LandMark />
 				<HomeAlbum artist="NewJeans" imgSrc={HypeBoy} title="HypeBoy" />
 				<HomeSubtitle colorSubtitle="이번주" normalSubtitle="가장 많이 재생된 음악" />
 				<HomeSubtitle colorSubtitle={`${name}님 근처`} normalSubtitle="사람들의 음악" />

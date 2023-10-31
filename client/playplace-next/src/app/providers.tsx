@@ -11,8 +11,8 @@ function Providers({ children }: PropsWithChildren) {
 
 	useEffect(() => {
 		if (!localStorage.getItem('accessToken') && pathname !== '/login' && pathname !== '/signup') {
-			alert('로그인이 필요합니다.');
-			router.push('/login');
+			// alert('로그인이 필요합니다.');
+			// router.push('/login');
 		}
 	}, [pathname, router]);
 

@@ -1,4 +1,6 @@
-import { NowPlayInfoType, PlayModalType } from '@/types/play';
+import { PlayModalType, PlaybackType } from '@/types/play';
+import { Song } from '@/types/songs';
+import { MutableRefObject } from 'react';
 import { atom } from 'recoil';
 
 /**
@@ -13,12 +15,25 @@ export const playModalState = atom<PlayModalType>({
 });
 
 /**
- * 현재 노래 재생 상태
+ * 현재 노래 재생 중 상태
  */
-export const nowPlayInfoState = atom<NowPlayInfoType>({
-	key: 'nowPlayState',
-	default: {
-		isPlaying: false,
-		songPlaying: null,
-	},
+export const isNowPlayState = atom<boolean>({
+	key: 'isNowPlayState',
+	default: false,
+});
+
+/**
+ * 현재 재생 중인 노래 정보
+ */
+export const nowPlaySongState = atom<Song | null>({
+	key: 'nowPlaySongState',
+	default: null,
+});
+
+/**
+ * 플레이백
+ */
+export const playbackState = atom<MutableRefObject<PlaybackType | null> | null>({
+	key: 'playbackState',
+	default: null,
 });
