@@ -11,7 +11,7 @@ function NowPlaySongInfo() {
 
 	return (
 		<NowPlaySongInfoContainer>
-			<SongThumbnail src="" />
+			<SongThumbnail src={nowPlaySong?.albumImg || ''} />
 			<div id="song">
 				<Text text={nowPlaySong?.title || ''} fontSize={24} />
 				<Text text={nowPlaySong?.artist || ''} fontSize={18} color="gray" />

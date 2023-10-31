@@ -1,5 +1,4 @@
 import { nowPlaySongState, playbackState } from '@/recoil/play';
-import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 
 const usePlayer = () => {
@@ -18,14 +17,13 @@ const usePlayer = () => {
 			albumImg: 'https://image.bugsm.co.kr/album/images/500/40841/4084173.jpg',
 			artist: '서동현',
 		});
-		playback?.current?.internalPlayer.playVideo();
 	};
 
 	// 이전 곡
 	const playPreviousSong = () => {
 		// TODO : 재생 목록에서 현재 재생 중인 곡의 이전 곡을 찾아옴. Song
 		setNowPlaySong({
-			youtubeId: 'kopXaho2SOo',
+			youtubeId: 'XBVauz0iN8c',
 			title: 'LoveLee',
 			songId: 2,
 			playTime: 360,
@@ -33,22 +31,17 @@ const usePlayer = () => {
 			albumImg: 'https://image.bugsm.co.kr/album/images/500/40903/4090354.jpg',
 			artist: 'AKMU',
 		});
-		playback?.current?.internalPlayer.playVideo();
 	};
 
 	// 재생
 	const playSong = () => {
-		playback?.current?.internalPlayer.playVideo();
+		playback.playVideo();
 	};
 
 	// 일시정지
 	const pauseSong = () => {
 		playback?.current?.internalPlayer.pause();
 	};
-
-	useEffect(() => {
-		console.log(playback);
-	}, []);
 
 	return { playNextSong, playPreviousSong, playSong, pauseSong };
 };

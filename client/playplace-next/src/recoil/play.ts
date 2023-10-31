@@ -1,6 +1,6 @@
-import { PlayModalType, PlaybackType } from '@/types/play';
+import { IsNowPlayType, PlayModalType } from '@/types/play';
 import { Song } from '@/types/songs';
-import { MutableRefObject } from 'react';
+import { YouTubePlayer } from 'react-youtube';
 import { atom } from 'recoil';
 
 /**
@@ -17,9 +17,13 @@ export const playModalState = atom<PlayModalType>({
 /**
  * 현재 노래 재생 중 상태
  */
-export const isNowPlayState = atom<boolean>({
+export const isNowPlayState = atom<IsNowPlayType>({
 	key: 'isNowPlayState',
-	default: false,
+	default: {
+		isPlay: false,
+		playtime: 0,
+		duration: 0,
+	},
 });
 
 /**
@@ -33,7 +37,8 @@ export const nowPlaySongState = atom<Song | null>({
 /**
  * 플레이백
  */
-export const playbackState = atom<MutableRefObject<PlaybackType | null> | null>({
+export const playbackState = atom<YouTubePlayer | null>({
 	key: 'playbackState',
 	default: null,
+	dangerouslyAllowMutability: true,
 });

@@ -12,19 +12,18 @@ function PlayBack() {
 	const playbackRef = useRef<PlaybackType | null>(null); // YouTube 플레이어 참조
 
 	const opts = {
-		width: '0',
-		height: '0',
-		playerVars: {
-			// https://developers.google.com/youtube/player_parameters
-			autoplay: 1,
-		},
+		width: '70',
+		height: '70',
 	};
 
-	const onPlayerReady: YouTubeProps['onReady'] = () => {
-		if (playbackRef == null) {
-			setPlayback(playbackRef);
-		}
+	const onPlayerReady: YouTubeProps['onReady'] = (event) => {
+		setPlayback(event.target);
+		event.target.playVideo();
 	};
+
+	const onPlay: YouTubeProps['onPlay'] = (event) => {};
+
+	const onPause: YouTubeProps['onPause'] = (event) => {};
 
 	return (
 		<YouTube
@@ -33,6 +32,8 @@ function PlayBack() {
 			opts={opts}
 			ref={playbackRef}
 			onReady={onPlayerReady}
+			onPlay={onPlay}
+			onPause={onPause}
 		/>
 	);
 }
