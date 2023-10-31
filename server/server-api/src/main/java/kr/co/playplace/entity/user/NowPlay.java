@@ -1,6 +1,5 @@
 package kr.co.playplace.entity.user;
 
-import kr.co.playplace.entity.song.Song;
 import kr.co.playplace.entity.TimeBaseEntity;
 import lombok.*;
 
@@ -12,18 +11,21 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @ToString
-public class UserSong extends TimeBaseEntity {
+public class NowPlay extends TimeBaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_song_id")
+    @Column(name = "now_play_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private Users user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "song_id")
-    private Song song;
+    @JoinColumn(name = "user_song_id")
+    private UserSong userSong;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_landmark_song_id")
+    private UserLandmarkSong userLandmarkSong;
 
 }

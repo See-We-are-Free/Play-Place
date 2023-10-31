@@ -2,6 +2,7 @@ package kr.co.playplace.entity.user;
 
 import kr.co.playplace.entity.TimeBaseEntity;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -23,10 +24,13 @@ public class Users extends TimeBaseEntity {
     @Column(length = 50)
     private String outhId;
 
+    @ColumnDefault("0")
     private int isRemoved;
 
+    @ColumnDefault("0")
     private int isPush;
 
+    @ColumnDefault("0")
     private int isShake;
 
     private String role;
