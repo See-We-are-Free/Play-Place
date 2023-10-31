@@ -20,4 +20,9 @@ public class SongWeatherStats extends TimeBaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "song_id")
     private Song song;
+
+    private int sunnyCount;
+    private int snowCount;
+    private int rainCount;
+    private int cloudCount;
 }

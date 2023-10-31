@@ -43,7 +43,7 @@ public class SongQueryService {
         return GetRecentSongResponse.of(songHistories.get(songHistories.size()-1).getSong());
     }
 
-    public List<SongResponse> getSongInPosition(PositionRequest positionRequest){
+    public List<SongResponse> getSongInArea(PositionRequest positionRequest){
         return null;
     }
 

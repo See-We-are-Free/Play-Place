@@ -18,9 +18,9 @@ public class HomeController {
 
     private final SongQueryService songQueryService;
 
-    @PostMapping("/popular")
-    public ResponseEntity<?> getSongInPosition(@RequestBody PositionRequest positionRequest){
-        List<SongResponse> songResponseList = songQueryService.getSongInPosition(positionRequest);
+    @PostMapping("/area")
+    public ResponseEntity<?> getSongInArea(@RequestBody PositionRequest positionRequest){
+        List<SongResponse> songResponseList = songQueryService.getSongInArea(positionRequest);
         return ResponseEntity.ok().body(songResponseList);
     }
 
