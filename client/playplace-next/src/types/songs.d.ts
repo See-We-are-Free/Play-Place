@@ -7,3 +7,31 @@ export interface Song {
 	albumImg: string;
 	playTime: number;
 }
+
+export interface SearchSong {
+	kind: string;
+	etag: string;
+	id: SongId;
+	snippet: {
+		publishedAt: string;
+		channelId: string;
+		title: string;
+		description: string;
+		thumbnails: {
+			default: SongThumbnails;
+			medium: SongThumbnails;
+			high: SongThumbnails;
+		};
+	};
+}
+
+interface SongId {
+	kind: string;
+	videoId: string;
+}
+
+interface SongThumbnails {
+	url: string;
+	width: number;
+	height: number;
+}
