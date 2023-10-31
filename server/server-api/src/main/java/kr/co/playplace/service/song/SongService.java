@@ -16,6 +16,7 @@ import kr.co.playplace.entity.user.Users;
 import kr.co.playplace.repository.UserRepository;
 import kr.co.playplace.repository.location.VillageRepository;
 import kr.co.playplace.repository.song.SongHistoryRepository;
+import kr.co.playplace.repository.song.SongQueryRepository;
 import kr.co.playplace.repository.song.SongRepository;
 import kr.co.playplace.repository.user.UserSongRepository;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,8 @@ public class SongService {
     private final UserRepository userRepository;
     private final VillageRepository villageRepository;
     private final SongHistoryRepository songHistoryRepository;
+
+    private final SongQueryRepository songQueryRepository;
 
     private final S3Uploader s3Uploader;
     private final Geocoder geocoder;
@@ -72,7 +75,7 @@ public class SongService {
     private void saveSongInPlayList(Song song){ // user 확인해서 곡을 재생목록에 추가
         Optional<Users> user = userRepository.findById(SecurityUtils.getUser().getUserId());
 
-//        deleteSongInPlayList(user.get());
+        deleteSongInPlayList(user.get());
 
         UserSong userSong = UserSong.builder()
                 .user(user.get())
@@ -82,9 +85,11 @@ public class SongService {
     }
 
     private void deleteSongInPlayList(Users user){
-        int cnt = userSongRepository.countUserSongByUser_Id(user.getId());
-        if(cnt < 99) return;
-        userSongRepository.deleteUserSongByUser_Id(user.getId());
+        int cnt = userSongRepository.countUserSongByUser_Id(user.getId()); // 개수 세기
+        if(cnt < 999) return; // 999개보다 적으면 삭제할 필요 없음
+        List<Long> result = songQueryRepository.findOldUserSong(user); // 삭제해야 될 id 찾기
+        if(result.isEmpty()) return;
+        userSongRepository.deleteById(result.get(0));
     }
 
     public void saveSongHistory(SaveSongHistoryRequest saveSongHistoryRequest){
