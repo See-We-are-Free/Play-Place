@@ -100,7 +100,6 @@ public class SongService {
         Optional<Song> song = songRepository.findById(saveSongHistoryRequest.getSongId());
 
         // 1. 위도 경도로 api 호출해서 지역 코드 받아오기
-        log.info("lat{} lon{}", saveSongHistoryRequest.getLat(), saveSongHistoryRequest.getLon());
         int code = geocoder.getGeoCode(saveSongHistoryRequest.getLat(), saveSongHistoryRequest.getLon());
         Optional<Village> village = villageRepository.findByCode(code);
 
