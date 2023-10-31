@@ -23,3 +23,8 @@ VALUES (1, 1, 1, 1, NOW(), NOW()),
        (3, 2, 1, 2, NOW(), NOW()),
        (4, 3, 1, 1, NOW(), NOW()),
        (5, 3, 3, 1, NOW(), NOW());
+
+INSERT INTO user_landmark_group (user_landmark_group_id, user_id, landmark_id, created_date, modified_date)
+VALUES (1, 1, 1, NOW(), NOW()),
+       (2, 1, 2, NOW(), NOW()),
+       (3, 2, 2, NOW(), NOW());

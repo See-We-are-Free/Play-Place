@@ -24,7 +24,7 @@ public class LandmarkQueryService {
 
     public List<FindLandmarkSongResponse> findLandmarksSongs(Long landmarkId) {
         List<FindLandmarkSongResponse> responses = landmarkQueryRepository.findLandmarkSongs(landmarkId);
-        if (responses.isEmpty()) throw new BaseException(ErrorCode.NOT_FOUND_landmark_SONG);
+        if (responses.isEmpty()) throw new BaseException(ErrorCode.NOT_FOUND_LANDMARK_SONG);
         return responses;
     }
 }
