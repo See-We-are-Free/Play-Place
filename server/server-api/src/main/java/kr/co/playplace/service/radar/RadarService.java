@@ -64,6 +64,12 @@ public class RadarService {
            GeoLocation<String> location = result.getContent();
 
            Long userNearbyId = Long.parseLong(location.getName());
+
+           // 본인은 제외
+           if(userNearbyId == userId) {
+               continue;
+           }
+
            log.debug("userNearby:{}", userNearbyId);
 
            Users user = userRepository.findById(userNearbyId).get();
