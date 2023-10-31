@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import IconButtonWrapper from './style';
 
 interface IIconButtonProps {
-	size: 's' | 'l';
+	size: 's' | 'm' | 'l';
 	color: 'white100' | 'black300';
 	Icon: ReactNode;
 	onClick: () => void;

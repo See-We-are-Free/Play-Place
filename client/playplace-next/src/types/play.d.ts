@@ -16,3 +16,9 @@ export type PlayModalType = 'none' | 'nowPlay' | 'playlist';
 export interface PlaybackType extends Youtube {
 	pauseVideo(): void;
 }
+
+export interface IsNowPlayType {
+	isPlay: boolean;
+	playtime: number;
+	duration: number;
+}

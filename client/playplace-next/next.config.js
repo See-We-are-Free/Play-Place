@@ -8,6 +8,9 @@ const nextConfig = {
 	compiler: {
 		styledComponents: true,
 	},
+	images: {
+		domains: ['image.bugsm.co.kr'],
+	},
 	webpack: (config) => {
 		config.module.rules.push({
 			test: /\.svg$/,
