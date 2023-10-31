@@ -1,4 +1,4 @@
-import { IsNowPlayType, PlayModalType } from '@/types/play';
+import { PlayModalType } from '@/types/play';
 import { Song } from '@/types/songs';
 import { YouTubePlayer } from 'react-youtube';
 import { atom } from 'recoil';
@@ -17,13 +17,9 @@ export const playModalState = atom<PlayModalType>({
 /**
  * 현재 노래 재생 중 상태
  */
-export const isNowPlayState = atom<IsNowPlayType>({
+export const isNowPlayState = atom<boolean>({
 	key: 'isNowPlayState',
-	default: {
-		isPlay: false,
-		playtime: 0,
-		duration: 0,
-	},
+	default: false,
 });
 
 /**
@@ -31,7 +27,15 @@ export const isNowPlayState = atom<IsNowPlayType>({
  */
 export const nowPlaySongState = atom<Song | null>({
 	key: 'nowPlaySongState',
-	default: null,
+	default: {
+		basicSongId: 3,
+		songId: 3,
+		youtubeId: 'wtnC7HivieA',
+		title: '작업 치과를 아세여?',
+		artist: '마산대 작업치료과',
+		albumImg: 'https://image.bugsm.co.kr/album/images/130/40883/4088350.jpg?version=20230706063943.0',
+		playTime: 200,
+	},
 });
 
 /**

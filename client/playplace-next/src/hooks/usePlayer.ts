@@ -1,9 +1,10 @@
-import { nowPlaySongState, playbackState } from '@/recoil/play';
+import { isNowPlayState, nowPlaySongState, playbackState } from '@/recoil/play';
 import { useRecoilState } from 'recoil';
 
 const usePlayer = () => {
 	const [playback] = useRecoilState(playbackState);
 	const [, setNowPlaySong] = useRecoilState(nowPlaySongState);
+	const [, setIsNowPlay] = useRecoilState(isNowPlayState);
 
 	// 다음곡
 	const playNextSong = () => {
@@ -17,6 +18,7 @@ const usePlayer = () => {
 			albumImg: 'https://image.bugsm.co.kr/album/images/500/40841/4084173.jpg',
 			artist: '서동현',
 		});
+		setIsNowPlay(true);
 	};
 
 	// 이전 곡
@@ -31,6 +33,7 @@ const usePlayer = () => {
 			albumImg: 'https://image.bugsm.co.kr/album/images/500/40903/4090354.jpg',
 			artist: 'AKMU',
 		});
+		setIsNowPlay(true);
 	};
 
 	// 재생
@@ -40,7 +43,7 @@ const usePlayer = () => {
 
 	// 일시정지
 	const pauseSong = () => {
-		playback?.current?.internalPlayer.pause();
+		playback.pauseVideo();
 	};
 
 	return { playNextSong, playPreviousSong, playSong, pauseSong };
