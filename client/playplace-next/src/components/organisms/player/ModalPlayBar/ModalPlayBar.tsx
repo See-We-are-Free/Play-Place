@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { nowPlaySongState, playModalState, playbackState } from '@/recoil/play';
+import { playModalState } from '@/recoil/play';
 import SkipPrevious from '@root/public/assets/icons/SkipPrevious.svg';
 import Play from '@root/public/assets/icons/Play.svg';
 import SkipNext from '@root/public/assets/icons/SkipNext.svg';
