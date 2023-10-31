@@ -24,3 +24,14 @@ export enum HomeSubtitleStyles {
 	color = 'color',
 	normal = 'normal',
 }
+
+export enum HeaderStyles {
+	home = 'home',
+	map = 'map',
+	radar = 'radar',
+	my = 'my',
+	back = 'back',
+	playlist = 'playlist',
+	search = 'search',
+	signup = 'signup',
+}
