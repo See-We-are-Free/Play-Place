@@ -8,7 +8,7 @@ const PlayBarSongInfoContainer = styled.div`
 	#song {
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
+		justify-content: space-evenly;
 		overflow: hidden;
 
 		p {
