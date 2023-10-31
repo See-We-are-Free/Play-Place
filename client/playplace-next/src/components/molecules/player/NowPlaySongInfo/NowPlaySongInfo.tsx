@@ -11,12 +11,16 @@ function NowPlaySongInfo() {
 
 	return (
 		<NowPlaySongInfoContainer>
-			<SongThumbnail src={nowPlaySong?.albumImg || ''} />
 			<div id="song">
-				<Text text={nowPlaySong?.title || ''} fontSize={24} />
-				<Text text={nowPlaySong?.artist || ''} fontSize={18} color="gray" />
+				<SongThumbnail src={nowPlaySong?.albumImg || ''} />
+				<div id="text">
+					<Text text={nowPlaySong?.title || ''} fontSize={24} />
+					<Text text={nowPlaySong?.artist || ''} fontSize={18} color="gray" />
+				</div>
 			</div>
-			<NowPlayProgress />
+			<div id="progress">
+				<NowPlayProgress />
+			</div>
 		</NowPlaySongInfoContainer>
 	);
 }
