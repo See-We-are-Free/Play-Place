@@ -12,7 +12,7 @@ export const joinApi = ({ body }: JoinApiParams) => {
 };
 
 export const getUserInfoApi = () => {
-	const response = localHttp.get('/users');
+	const response = http.get('/users');
 	return response;
 };
 
