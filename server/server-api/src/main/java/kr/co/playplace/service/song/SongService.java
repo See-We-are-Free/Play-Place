@@ -7,6 +7,7 @@ import kr.co.playplace.common.util.SecurityUtils;
 import kr.co.playplace.controller.song.request.SavePlaySongRequest;
 import kr.co.playplace.controller.song.request.SaveSongHistoryRequest;
 import kr.co.playplace.controller.song.request.SaveSongRequest;
+import kr.co.playplace.controller.song.response.SaveSongResponse;
 import kr.co.playplace.entity.Weather;
 import kr.co.playplace.entity.location.Village;
 import kr.co.playplace.entity.song.Song;
@@ -52,7 +53,8 @@ public class SongService {
     private final GetWeather getWeather;
     private final RedisTemplate redisTemplate;
 
-    public void saveSong(SaveSongRequest saveSongRequest){
+    public SaveSongResponse saveSong(SaveSongRequest saveSongRequest){
+        long result = 0;
         boolean alreadySaved = songRepository.existsByYoutubeId(saveSongRequest.getYoutubeId());
         if(!alreadySaved){ // db에 없는 곡이라면 저장
 //            String imgUrl = "";
@@ -65,14 +67,16 @@ public class SongService {
             Song song = saveSongRequest.toEntity();
             songRepository.save(song);
 
-            saveSongInPlayList(song);
+            result = saveSongInPlayList(song);
         }else{ // db에 있다면 찾아서 재생목록에 추가
             Optional<Song> song = songRepository.findByYoutubeId(saveSongRequest.getYoutubeId());
-            saveSongInPlayList(song.get());
+            result = saveSongInPlayList(song.get());
         }
+
+        return SaveSongResponse.builder().playListSongId(result).build();
     }
 
-    private void saveSongInPlayList(Song song){ // user 확인해서 곡을 재생목록에 추가
+    private long saveSongInPlayList(Song song){ // user 확인해서 곡을 재생목록에 추가
         Optional<Users> user = userRepository.findById(SecurityUtils.getUser().getUserId());
 
         deleteSongInPlayList(user.get());
@@ -82,6 +86,7 @@ public class SongService {
                 .song(song)
                 .build();
         userSongRepository.save(userSong);
+        return userSong.getId();
     }
 
     private void deleteSongInPlayList(Users user){

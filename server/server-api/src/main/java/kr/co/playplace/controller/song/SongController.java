@@ -4,6 +4,7 @@ import kr.co.playplace.controller.song.request.SavePlaySongRequest;
 import kr.co.playplace.controller.song.request.SaveSongHistoryRequest;
 import kr.co.playplace.controller.song.request.SaveSongRequest;
 import kr.co.playplace.controller.song.response.GetRecentSongResponse;
+import kr.co.playplace.controller.song.response.SaveSongResponse;
 import kr.co.playplace.service.song.SongQueryService;
 import kr.co.playplace.service.song.SongService;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,8 @@ public class SongController {
 
     @PostMapping
     public ResponseEntity<?> saveSong(@RequestBody SaveSongRequest saveSongRequest){
-        songService.saveSong(saveSongRequest);
-        return ResponseEntity.ok().build();
+        SaveSongResponse saveSongResponse = songService.saveSong(saveSongRequest);
+        return ResponseEntity.ok().body(saveSongResponse);
     }
 
     @PostMapping("/history")
