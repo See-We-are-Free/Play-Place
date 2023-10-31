@@ -1,20 +1,26 @@
+'use client';
+
+import Header from '@/components/molecules/Header/Header';
 import JoinAgreement from '@/components/organisms/JoinAgreement/JoinAgreement';
 import JoinInfo from '@/components/organisms/JoinInfo/JoinInfo';
 import ContentLayout from '@/components/templates/layout/ContentLayout/ContentLayout';
-import { ContentLayoutSizes } from '@/types/styles.d';
+import LayoutWithHeader from '@/components/templates/layout/LayoutWithHeader/LayoutWithHeader';
+import { ContentLayoutSizes, HeaderStyles } from '@/types/styles.d';
 
 function SignUp() {
+	const header = <Header $headerType={HeaderStyles.signup} />;
+
 	return (
-		<ContentLayout size={ContentLayoutSizes.md}>
-			<ContentLayout>
-				step 1 : 개인정보수집 및 활용 동의
-				<JoinAgreement />
+		<LayoutWithHeader header={header}>
+			<ContentLayout size={ContentLayoutSizes.md}>
+				<ContentLayout>
+					<JoinAgreement />
+				</ContentLayout>
+				<ContentLayout>
+					<JoinInfo />
+				</ContentLayout>
 			</ContentLayout>
-			<ContentLayout>
-				step 2 : 이모지, 닉네임 입력
-				<JoinInfo />
-			</ContentLayout>
-		</ContentLayout>
+		</LayoutWithHeader>
 	);
 }
 
