@@ -12,7 +12,13 @@ INSERT INTO landmark (landmark_id, title, latitude, longitude, representative_im
 VALUES (1, 'landmark1', 37.566535, 126.977969, "test1"),
        (2, 'landmark2', 37.551229, 126.988205, "test2"),
        (3, 'landmark3', 37.579617, 126.977041, "test3"),
-       (4, 'landmark4', 37.579617, 126.977041, "test4");
+       (4, 'landmark4', 37.579617, 126.977041, "test4"),
+       (5, 'landmark5', 37.566535, 126.977969, "test5"),
+       (6, 'landmark6', 37.551229, 126.988205, "test6"),
+       (7, 'landmark7', 37.579617, 126.977041, "test7"),
+       (8, 'landmark8', 37.579617, 126.977041, "test8"),
+       (9, 'landmark9', 37.566535, 126.977969, "test9"),
+       (10, 'landmark10', 37.551229, 126.988205, "test10");
 
 
 

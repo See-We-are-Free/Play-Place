@@ -10,7 +10,7 @@ public enum ErrorCode {
 
     /* 400 BAD_REQUEST */
     INVALID_REFRESH_TOKEN("MEMBER03", HttpStatus.BAD_REQUEST, "유효한 토큰이 아닙니다."), // UserException
-    INVALID_ADD_LANDMARK_PLAYLIST("LAND", HttpStatus.BAD_REQUEST, "더이상 재생목록에 공유재생목록을 추가 할 수 없습니다"),
+    INVALID_ADD_LANDMARK_PLAYLIST("LAND", HttpStatus.BAD_REQUEST, "더이상 재생목록에 공유재생목록을 추가 할 수 없습니다."),
     /* 401 UNAUTHORIZED */
     /* 403 FORBIDDEN */
     /* 404 NOT_FOUND */

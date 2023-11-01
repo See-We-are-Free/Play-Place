@@ -14,6 +14,7 @@ import kr.co.playplace.repository.landmark.UserLandmarkGroupRepository;
 import kr.co.playplace.repository.landmark.UserLandmarkSongRepository;
 import kr.co.playplace.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional
 @Service
+@Slf4j
 public class LandmarkUserService {
     private final UserLandmarkSongRepository userLandmarkSongRepository;
     private final UserLandmarkGroupRepository userLandmarkGroupRepository;
@@ -31,7 +33,7 @@ public class LandmarkUserService {
     private final UserRepository userRepository;
     private final LandmarkRepository landmarkRepository;
 
-    public void saveLandmarkPlayListToUserPlayList(Long landmarkId) {
+    public Long saveLandmarkPlayListToUserPlayList(Long landmarkId) {
         Users user = userRepository.findByOuthId(SecurityUtils.getUserId()).orElseThrow(() -> new BaseException(ErrorCode.NOT_FOUND_USER));
         Landmark landmark = landmarkRepository.findById(landmarkId).orElseThrow(() -> new BaseException(ErrorCode.NOT_FOUND_LANDMARK));
         // 이미존재하는 랜드마크 공유 재생목록인지 확인
@@ -46,6 +48,7 @@ public class LandmarkUserService {
             userLandmarkSongRepository.deleteUserLandmarkSongByUserlandmarkGroupId(userLandmarkGroup.get().getId());
             userLandmarkGroupRepository.deleteUserLandmarkGroupByUserIdAndLandmarkId(user.getId(), landmarkId);
         }
+
         // 사용자 user - landmark 저장
         UserLandmarkGroup landmarkGroup = UserLandmarkGroup.builder()
                 .landmark(landmark)
@@ -64,5 +67,6 @@ public class LandmarkUserService {
                     .build();
             userLandmarkSongRepository.save(userLandmarkSong);
         }
+        return landmarkGroup.getId();
     }
 }
