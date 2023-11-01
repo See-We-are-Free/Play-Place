@@ -11,6 +11,7 @@ export enum ButtonStyles {
 	outlinePrimaryLogin = 'outlinePrimaryLogin',
 	success = 'success',
 	cancel = 'cancel',
+	outlinePrimaryBottom = 'outlinePrimaryBottom',
 }
 
 export enum AlbumSequenceStyles {
