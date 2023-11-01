@@ -3,7 +3,7 @@
 
 ==== HTTP Request
 include::{snippets}/landmark-song-save/http-request.adoc[]
-
+include::{snippets}/landmark-song-save/request-fields.adoc[]
 ==== HTTP Response
 include::{snippets}/landmark-song-save/http-response.adoc[]
 include::{snippets}/landmark-song-save/response-fields.adoc[]
