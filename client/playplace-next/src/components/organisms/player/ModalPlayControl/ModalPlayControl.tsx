@@ -47,7 +47,7 @@ function ModalPlayControl() {
 			) : (
 				<IconButton
 					size="s"
-					Icon={<SongThumbnail src={nowPlaySong?.albumImg || ''} />}
+					Icon={<SongThumbnail src={nowPlaySong?.albumImg || ''} $isFullSize />}
 					onClick={handleNowPlay}
 					color="black300"
 				/>

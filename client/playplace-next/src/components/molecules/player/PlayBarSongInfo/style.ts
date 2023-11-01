@@ -19,14 +19,6 @@ const PlayBarSongInfoContainer = styled.div`
 			overflow: hidden;
 		}
 	}
-
-	img {
-		border-radius: var(--radius-s);
-		width: 50px;
-		height: 50px;
-		min-width: 50px;
-		max-width: 50px;
-	}
 `;
 
 export default PlayBarSongInfoContainer;
