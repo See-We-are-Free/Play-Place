@@ -28,4 +28,10 @@ public class PlaylistController {
         playlistService.deleteMySong(isLandmark, songId);
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/group/{groupId}")
+    public ResponseEntity<?> deleteMySong(@PathVariable("groupId") long groupId){
+        playlistService.deleteMyGroup(groupId);
+        return ResponseEntity.ok().build();
+    }
 }
