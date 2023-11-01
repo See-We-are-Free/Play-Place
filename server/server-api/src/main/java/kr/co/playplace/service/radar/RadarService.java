@@ -2,6 +2,7 @@ package kr.co.playplace.service.radar;
 
 import ch.hsr.geohash.GeoHash;
 import kr.co.playplace.controller.radar.response.UsersNearbyResponse;
+import kr.co.playplace.entity.song.Song;
 import kr.co.playplace.entity.user.Users;
 import kr.co.playplace.repository.UserRepository;
 import kr.co.playplace.repository.location.UserLocationRepository;
@@ -51,7 +52,7 @@ public class RadarService {
                 .includeDistance()
                 .includeCoordinates()
                 .sortAscending()
-                .limit(30);
+                .limit(15);
 
         // 설정한 위치 범위 안에 있는 사용자들 검색
         GeoResults<GeoLocation<String>> results = geoOperations
@@ -74,9 +75,10 @@ public class RadarService {
 
            Users user = userRepository.findById(userNearbyId).get();
 
-           UsersNearbyResponse usersNearbyResponse = new UsersNearbyResponse();
-
            // TODO: 사용자 최신 재생 곡 정보 가져오기
+           Song song = new Song(1L, "youtube", "title", "artist", "img", 1);
+
+           UsersNearbyResponse usersNearbyResponse = UsersNearbyResponse.of(user, song, 0);
 
            list.add(usersNearbyResponse);
        }
@@ -99,11 +101,13 @@ public class RadarService {
 
 //        String key = GeoHash.withCharacterPrecision(userLocationRequest.getLatitude(), userLocationRequest.getLongitude(), 7).toBase32();
 
+        // redis geo 자료구조 설정
         GeoOperations<String, String> geoOperations = redisTemplate.opsForGeo();
 
         String key = "geoPoints";
         Point point = new Point(userLocationRequest.getLongitude(), userLocationRequest.getLatitude());
 
+        // redis에 geohash 별로 저장
         geoOperations.add(key, point, "" + userId);
 
         log.debug("geoHash: {}", geoOperations.hash(key,"" + userId));

@@ -28,8 +28,10 @@ public class RadarController {
     }
 
     @PostMapping
-    public void saveUserLocationTest(@AuthenticationPrincipal SecurityUserDto securityUserDto, @RequestBody UserLocationRequest userLocationRequest) {
+    public ResponseEntity<?> saveUserLocationTest(@AuthenticationPrincipal SecurityUserDto securityUserDto, @RequestBody UserLocationRequest userLocationRequest) {
         radarService.saveUserLocationTest(securityUserDto.getUserId(), userLocationRequest);
+
+        return ResponseEntity.noContent().build();
     }
 
 }
