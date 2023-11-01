@@ -5,19 +5,19 @@ const PlayListContainer = styled.div`
 	padding: 20px;
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
+	gap: 30px;
 	overflow-y: scroll;
 
 	#basic-song-group {
 		display: flex;
 		flex-direction: column;
-		gap: 5px;
+		gap: 10px;
 	}
 
 	#landmark-song-groups {
 		display: flex;
 		flex-direction: column;
-		gap: 5px;
+		gap: 10px;
 	}
 `;
 
