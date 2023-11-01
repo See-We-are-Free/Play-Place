@@ -26,7 +26,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 
 @Transactional
-class LandmarkServiceTest extends IntegrationTestSupport {
+class LandMarkServiceTest extends IntegrationTestSupport {
 
     @Autowired
     private LandmarkService landmarkService;

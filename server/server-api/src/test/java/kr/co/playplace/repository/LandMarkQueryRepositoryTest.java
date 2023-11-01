@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Transactional
-class LandmarkQueryRepositoryTest extends IntegrationTestSupport {
+class LandMarkQueryRepositoryTest extends IntegrationTestSupport {
 
     @Autowired
     private LandmarkRepository landmarkRepository;

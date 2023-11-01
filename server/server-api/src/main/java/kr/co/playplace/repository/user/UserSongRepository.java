@@ -10,12 +10,4 @@ public interface UserSongRepository extends JpaRepository<UserSong, Long> {
     List<UserSong> findAllByUser_Id(long userId);
 
     int countUserSongByUser_Id(long userId);
-
-//    @Query("DELETE FROM UserSong us WHERE us.user.id = :userId LIMIT 1")
-    void deleteUserSongByUser_Id(long userId);
-
-    /**
-     @Query("SELECT DISTINCT fh.funding FROM FundingHistory fh WHERE fh.member.id = :memberId")
-     List<Funding> findDistinctFundingByMemberId(Long memberId);
-     */
 }

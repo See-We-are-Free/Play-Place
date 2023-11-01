@@ -21,7 +21,6 @@ VALUES (1, 'landmark1', 37.566535, 126.977969, "test1"),
        (10, 'landmark10', 37.551229, 126.988205, "test10");
 
 
-
 INSERT INTO landmark_song (landmark_song_id, landmark_id, song_id, user_id, created_date,
                            modified_date)
 VALUES (1, 1, 1, 1, NOW(), NOW()),
@@ -29,6 +28,13 @@ VALUES (1, 1, 1, 1, NOW(), NOW()),
        (3, 2, 1, 2, NOW(), NOW()),
        (4, 3, 1, 1, NOW(), NOW()),
        (5, 3, 3, 1, NOW(), NOW());
+
+INSERT INTO user_song (user_song_id, user_id, song_id, created_date, modified_date)
+VALUES (1, 1, 1, NOW(), NOW());
+INSERT INTO user_song (user_song_id, user_id, song_id, created_date, modified_date)
+VALUES (2, 1, 2, NOW(), NOW());
+INSERT INTO user_song (user_song_id, user_id, song_id, created_date, modified_date)
+VALUES (3, 1, 3, NOW(), NOW());
 
 INSERT INTO user_landmark_group (user_landmark_group_id, user_id, landmark_id, created_date, modified_date)
 VALUES (1, 1, 1, NOW(), NOW()),
