@@ -54,9 +54,20 @@ const RoundTypes = {
 
 export const AlbumInnerRound = styled.div<IHomeAlbumStyleProps>`
 	position: absolute;
-	border: 1px solid var(--black-500);
+	border: 0.3px solid var(--black-500);
 	border-radius: 70%;
 	${({ $roundSequence }) => RoundTypes[$roundSequence]};
+`;
+
+export const AlbumButton = styled.button`
+	position: absolute;
+	border: none;
+	border-radius: 70%;
+
+	svg {
+		width: 16%;
+		height: 16%;
+	}
 `;
 
 export default HomeAlbumItemsContainer;
