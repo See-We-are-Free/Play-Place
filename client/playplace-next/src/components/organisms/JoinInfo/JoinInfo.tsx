@@ -4,13 +4,14 @@ import { JoinInfoType } from '@/types/auth';
 import { joinApi } from '@/utils/api/auth';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import Button from '@/components/atoms/Button/Button';
 import { ButtonStyles } from '@/types/styles.d';
-import { PROFILE_IMAGES } from '@/constants/member';
 
 import { AxiosHeaders } from 'axios';
 import ContentLayout from '@/components/templates/layout/ContentLayout/ContentLayout';
+import EmojiList from '@/components/molecules/EmojiList/EmojiList';
+import Text from '@/components/atoms/Text/Text';
+import NicknameContainer from './style';
 
 function JoinInfo() {
 	const params = useSearchParams();
@@ -42,17 +43,17 @@ function JoinInfo() {
 					}
 				}
 			} else {
-				console.log('값을 입력해');
+				alert('값을 입력해주세요.');
 				console.log('email', email);
 				console.log('nickname', nickname);
 				console.log('profileImg', profileImg);
 			}
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	};
 
-	const handleProfileImg = (idx: number) => {
+	const handleSelectEmoji = (idx: number) => {
 		setProfileImg(idx);
 	};
 
@@ -62,21 +63,14 @@ function JoinInfo() {
 
 	useEffect(() => {
 		if (!email) {
-			console.log("params.get('email')", params.get('email'));
 			if (params.get('email')) {
 				setEmail(params.get('email'));
 			} else {
-				console.log('잘못된 접근');
 				alert('잘못된 접근입니다.');
 				router.push('/');
 			}
 		}
 	}, [email, params]);
-
-	useEffect(() => {
-		console.log('nickname', nickname);
-		console.log('profileImg', profileImg);
-	}, [nickname, profileImg]);
 
 	if (!email) {
 		return <></>;
@@ -84,36 +78,20 @@ function JoinInfo() {
 
 	return (
 		<>
+			<EmojiList handleSelectEmoji={handleSelectEmoji} profileImg={profileImg} />
 			<ContentLayout>
-				나를 표현할 이모지를 골라주세요!
-				<ul>
-					<li>
-						<button type="button" onClick={() => handleProfileImg(0)}>
-							<Image src={PROFILE_IMAGES[0]} alt="프로필 이미지 1" />
-						</button>
-					</li>
-
-					<li>
-						<button type="button" onClick={() => handleProfileImg(1)}>
-							<Image src={PROFILE_IMAGES[1]} alt="프로필 이미지 1" />
-						</button>
-					</li>
-					<li>
-						<button type="button" onClick={() => handleProfileImg(2)}>
-							<Image src={PROFILE_IMAGES[2]} alt="프로필 이미지 1" />
-						</button>
-					</li>
-					<li>
-						<button type="button" onClick={() => handleProfileImg(3)}>
-							<Image src={PROFILE_IMAGES[3]} alt="프로필 이미지 1" />
-						</button>
-					</li>
-				</ul>
+				<NicknameContainer>
+					<Text text="닉네임" fontSize={16} />
+					<input
+						type="text"
+						onChange={handleInputChange}
+						value={nickname || ''}
+						placeholder="한글 또는 영문 10자 이내"
+						maxLength={10}
+					/>
+				</NicknameContainer>
 			</ContentLayout>
-			<ContentLayout>
-				닉네임 <input type="text" onChange={handleInputChange} value={nickname || ''} />
-			</ContentLayout>
-			<Button buttonType={ButtonStyles.outlinePrimary} content="가입하기" socialImg={false} onClick={join} />
+			<Button buttonType={ButtonStyles.outlinePrimaryBottom} content="가입하기" socialImg={false} onClick={join} />
 		</>
 	);
 }

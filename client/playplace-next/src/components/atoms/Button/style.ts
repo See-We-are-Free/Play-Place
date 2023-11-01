@@ -93,6 +93,40 @@ const ButtonTypes = {
 		height: 50px;
 		font-size: 10px;
 	`,
+	outlinePrimaryBottom: css`
+		font-size: 14px;
+		width: calc(100% - 40px);
+		height: 50px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: fixed;
+		bottom: 30px;
+		left: 50%;
+		transform: translateX(-50%);
+
+		&::before,
+		&::after {
+			content: '';
+			display: block;
+			border-radius: 5px;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			z-index: -1;
+		}
+		&::before {
+			background: var(--primary-grandiant-main);
+			width: 100%;
+			height: 100%;
+		}
+		&::after {
+			background: var(--black-500);
+			width: calc(100% - 2px);
+			height: calc(100% - 2px);
+		}
+	`,
 };
 
 export const ButtonContainer = styled.button<ICommonButtonStyleProps>`
