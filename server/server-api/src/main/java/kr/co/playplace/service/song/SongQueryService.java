@@ -4,11 +4,11 @@ import kr.co.playplace.common.exception.BaseException;
 import kr.co.playplace.common.exception.ErrorCode;
 import kr.co.playplace.common.util.SecurityUtils;
 import kr.co.playplace.controller.song.response.GetRecentSongResponse;
-import kr.co.playplace.entity.song.SongHistory;
 import kr.co.playplace.entity.user.NowPlay;
+import kr.co.playplace.entity.user.UserLandmarkSong;
 import kr.co.playplace.entity.user.UserSong;
 import kr.co.playplace.entity.user.Users;
-import kr.co.playplace.repository.song.SongHistoryRepository;
+import kr.co.playplace.repository.landmark.UserLandmarkSongRepository;
 import kr.co.playplace.repository.user.NowPlayRepository;
 import kr.co.playplace.repository.user.UserSongRepository;
 import kr.co.playplace.repository.user.UserRepository;
@@ -33,10 +33,11 @@ public class SongQueryService {
     private final UserRepository userRepository;
     private final UserSongRepository userSongRepository;
     private final NowPlayRepository nowPlayRepository;
+    private final UserLandmarkSongRepository userLandmarkSongRepository;
 
     private final RedisTemplate redisTemplate;
 
-    public GetRecentSongResponse getRecentSong(){
+    public GetRecentSongResponse getRecentSong(){ // 가장 최근 재생 곡
         // 로그인한 사용자
         Optional<Users> user = userRepository.findById(SecurityUtils.getUser().getUserId());
 
@@ -59,14 +60,14 @@ public class SongQueryService {
         }
 
         if(playListSongIds.get(1) == 0L){
-            // TODO: landmark
+            // landmark
+            Optional<UserLandmarkSong> userLandmarkSong = userLandmarkSongRepository.findById(playListSongIds.get(0));
+            return GetRecentSongResponse.of(userLandmarkSong.get().getSong(), playListSongIds.get(0), true);
         }else{
             // song
             Optional<UserSong> userSong = userSongRepository.findById(playListSongIds.get(0));
             return GetRecentSongResponse.of(userSong.get().getSong(), playListSongIds.get(0), false);
         }
-
-        return null;
     }
 
     private List<Long> checkRedis(Users user){

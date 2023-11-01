@@ -23,6 +23,8 @@ public class GetRecentSongResponse {
     private String albumImg;
     private long playTime;
 
+    private boolean like;
+
     public static GetRecentSongResponse of(Song song, long playListSongId, boolean isLandmark){
         return GetRecentSongResponse.builder()
                 .playListSongId(playListSongId)
@@ -33,6 +35,7 @@ public class GetRecentSongResponse {
                 .artist(song.getArtist())
                 .albumImg(song.getAlbumImg())
                 .playTime(song.getPlayTime())
+                .like(false) // TODO: redis
                 .build();
     }
 }

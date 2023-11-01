@@ -33,7 +33,7 @@ public class SongController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
+    @GetMapping // 가장 최근 재생 곡
     public ResponseEntity<?> getRecentSong(){
         GetRecentSongResponse getRecentSongResponse = songQueryService.getRecentSong();
         return ResponseEntity.ok().body(getRecentSongResponse);
