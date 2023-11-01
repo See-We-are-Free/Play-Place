@@ -8,6 +8,7 @@ import kr.co.playplace.controller.song.request.SavePlaySongRequest;
 import kr.co.playplace.controller.song.request.SaveSongHistoryRequest;
 import kr.co.playplace.controller.song.request.SaveSongRequest;
 import kr.co.playplace.controller.song.response.SaveSongResponse;
+import kr.co.playplace.entity.Timezone;
 import kr.co.playplace.entity.Weather;
 import kr.co.playplace.entity.location.Village;
 import kr.co.playplace.entity.song.Song;
@@ -32,6 +33,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -117,12 +119,24 @@ public class SongService {
         // 2. 위도 경도로 날씨 받아오기
         Weather weather = getWeather.getWeatherCode(saveSongHistoryRequest.getLat(), saveSongHistoryRequest.getLon());
 
+        // + 시간대 enum으로 저장
+        Timezone timezone = Timezone.DAWN;
+        int hour = LocalDateTime.now().getHour();
+        if(hour >= 6 && hour < 12){
+            timezone = Timezone.MORNING;
+        }else if(hour >= 12 && hour < 18){
+            timezone = Timezone.LUNCH;
+        }else if(hour >= 18){
+            timezone = Timezone.EVENING;
+        }
+
         // 3. 곡 기록에 저장
         SongHistory songHistory = SongHistory.builder()
                 .user(user.get())
                 .song(song.get())
                 .village(village.get())
                 .weather(weather)
+                .timezone(timezone)
                 .build();
         songHistoryRepository.save(songHistory);
     }
