@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
 @SpringBootTest
-class LandmarkControllerTest extends RestDocsSupport {
+class LandMarkControllerTest extends RestDocsSupport {
 
     @MockBean
     private LandmarkQueryService landmarkQueryService;

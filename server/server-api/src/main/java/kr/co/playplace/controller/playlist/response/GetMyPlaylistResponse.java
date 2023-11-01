@@ -1,7 +1,6 @@
 package kr.co.playplace.controller.playlist.response;
 
-import kr.co.playplace.entity.song.Song;
-import kr.co.playplace.entity.user.UserSong;
+import kr.co.playplace.service.playlist.dto.GetUserLandmarkGroupDto;
 import kr.co.playplace.service.playlist.dto.GetUserSongDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,14 +18,14 @@ public class GetMyPlaylistResponse {
     private int basicSongsCnt;
     private List<GetUserSongDto> basicSongs;
     private int landmarksCnt;
-//    private List<Landmark> landmarks;
+    private List<GetUserLandmarkGroupDto> landmarks;
 
-    public static GetMyPlaylistResponse of(List<GetUserSongDto> basicSongs){
+    public static GetMyPlaylistResponse of(List<GetUserSongDto> basicSongs, List<GetUserLandmarkGroupDto> landmarks){
         return GetMyPlaylistResponse.builder()
                 .basicSongsCnt(basicSongs.size())
                 .basicSongs(basicSongs)
-                .landmarksCnt(0)
-//                .landmarks(landmarks)
+                .landmarksCnt(landmarks.size())
+                .landmarks(landmarks)
                 .build();
     }
 }

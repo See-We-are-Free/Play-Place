@@ -4,6 +4,7 @@ import kr.co.playplace.controller.song.request.SavePlaySongRequest;
 import kr.co.playplace.controller.song.request.SaveSongHistoryRequest;
 import kr.co.playplace.controller.song.request.SaveSongRequest;
 import kr.co.playplace.controller.song.response.GetRecentSongResponse;
+import kr.co.playplace.controller.song.response.SaveSongResponse;
 import kr.co.playplace.service.song.SongQueryService;
 import kr.co.playplace.service.song.SongService;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,8 @@ public class SongController {
 
     @PostMapping
     public ResponseEntity<?> saveSong(@RequestBody SaveSongRequest saveSongRequest){
-        songService.saveSong(saveSongRequest);
-        return ResponseEntity.ok().build();
+        SaveSongResponse saveSongResponse = songService.saveSong(saveSongRequest);
+        return ResponseEntity.ok().body(saveSongResponse);
     }
 
     @PostMapping("/history")
@@ -32,13 +33,13 @@ public class SongController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
+    @GetMapping // 가장 최근 재생 곡
     public ResponseEntity<?> getRecentSong(){
         GetRecentSongResponse getRecentSongResponse = songQueryService.getRecentSong();
         return ResponseEntity.ok().body(getRecentSongResponse);
     }
 
-    @PostMapping("/play")
+    @PostMapping("/play") // 곡 재생(redis에 저장)
     public ResponseEntity<?> playSong(@RequestBody SavePlaySongRequest savePlaySongRequest){
         songService.playSong(savePlaySongRequest);
         return ResponseEntity.ok().build();

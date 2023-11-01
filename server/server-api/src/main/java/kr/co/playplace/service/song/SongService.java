@@ -7,15 +7,21 @@ import kr.co.playplace.common.util.SecurityUtils;
 import kr.co.playplace.controller.song.request.SavePlaySongRequest;
 import kr.co.playplace.controller.song.request.SaveSongHistoryRequest;
 import kr.co.playplace.controller.song.request.SaveSongRequest;
+import kr.co.playplace.controller.song.response.SaveSongResponse;
 import kr.co.playplace.entity.Weather;
 import kr.co.playplace.entity.location.Village;
 import kr.co.playplace.entity.song.Song;
 import kr.co.playplace.entity.song.SongHistory;
+import kr.co.playplace.entity.user.NowPlay;
+import kr.co.playplace.entity.user.UserLandmarkSong;
 import kr.co.playplace.entity.user.UserSong;
 import kr.co.playplace.entity.user.Users;
+import kr.co.playplace.repository.landmark.UserLandmarkSongRepository;
+import kr.co.playplace.repository.user.NowPlayRepository;
 import kr.co.playplace.repository.user.UserRepository;
 import kr.co.playplace.repository.location.VillageRepository;
 import kr.co.playplace.repository.song.SongHistoryRepository;
+import kr.co.playplace.repository.song.SongQueryRepository;
 import kr.co.playplace.repository.song.SongRepository;
 import kr.co.playplace.repository.user.UserSongRepository;
 import lombok.RequiredArgsConstructor;
@@ -43,13 +49,18 @@ public class SongService {
     private final UserRepository userRepository;
     private final VillageRepository villageRepository;
     private final SongHistoryRepository songHistoryRepository;
+    private final NowPlayRepository nowPlayRepository;
+    private final UserLandmarkSongRepository userLandmarkSongRepository;
+
+    private final SongQueryRepository songQueryRepository;
 
     private final S3Uploader s3Uploader;
     private final Geocoder geocoder;
     private final GetWeather getWeather;
     private final RedisTemplate redisTemplate;
 
-    public void saveSong(SaveSongRequest saveSongRequest){
+    public SaveSongResponse saveSong(SaveSongRequest saveSongRequest){
+        long result = 0;
         boolean alreadySaved = songRepository.existsByYoutubeId(saveSongRequest.getYoutubeId());
         if(!alreadySaved){ // db에 없는 곡이라면 저장
 //            String imgUrl = "";
@@ -62,29 +73,34 @@ public class SongService {
             Song song = saveSongRequest.toEntity();
             songRepository.save(song);
 
-            saveSongInPlayList(song);
+            result = saveSongInPlayList(song);
         }else{ // db에 있다면 찾아서 재생목록에 추가
             Optional<Song> song = songRepository.findByYoutubeId(saveSongRequest.getYoutubeId());
-            saveSongInPlayList(song.get());
+            result = saveSongInPlayList(song.get());
         }
+
+        return SaveSongResponse.builder().playListSongId(result).build();
     }
 
-    private void saveSongInPlayList(Song song){ // user 확인해서 곡을 재생목록에 추가
+    private long saveSongInPlayList(Song song){ // user 확인해서 곡을 재생목록에 추가
         Optional<Users> user = userRepository.findById(SecurityUtils.getUser().getUserId());
 
-//        deleteSongInPlayList(user.get());
+        deleteSongInPlayList(user.get());
 
         UserSong userSong = UserSong.builder()
                 .user(user.get())
                 .song(song)
                 .build();
         userSongRepository.save(userSong);
+        return userSong.getId();
     }
 
     private void deleteSongInPlayList(Users user){
-        int cnt = userSongRepository.countUserSongByUser_Id(user.getId());
-        if(cnt < 99) return;
-        userSongRepository.deleteUserSongByUser_Id(user.getId());
+        int cnt = userSongRepository.countUserSongByUser_Id(user.getId()); // 개수 세기
+        if(cnt < 999) return; // 999개보다 적으면 삭제할 필요 없음
+        List<Long> result = songQueryRepository.findOldUserSong(user); // 삭제해야 될 id 찾기
+        if(result.isEmpty()) return;
+        userSongRepository.deleteById(result.get(0));
     }
 
     public void saveSongHistory(SaveSongHistoryRequest saveSongHistoryRequest){
@@ -95,7 +111,6 @@ public class SongService {
         Optional<Song> song = songRepository.findById(saveSongHistoryRequest.getSongId());
 
         // 1. 위도 경도로 api 호출해서 지역 코드 받아오기
-        log.info("lat{} lon{}", saveSongHistoryRequest.getLat(), saveSongHistoryRequest.getLon());
         int code = geocoder.getGeoCode(saveSongHistoryRequest.getLat(), saveSongHistoryRequest.getLon());
         Optional<Village> village = villageRepository.findByCode(code);
 
@@ -112,8 +127,7 @@ public class SongService {
         songHistoryRepository.save(songHistory);
     }
 
-    public void playSong(SavePlaySongRequest savePlaySongRequest){
-        // redis에 저장
+    public void playSong(SavePlaySongRequest savePlaySongRequest){ // redis에 저장
         long userId = SecurityUtils.getUser().getUserId();
         String key = "play:"+userId;
         if(redisTemplate.hasKey(key)){
@@ -144,17 +158,24 @@ public class SongService {
         Set<Long> playlistSongIds = companyIdsObjects.stream()
                 .map(objectId -> (Long) objectId)
                 .collect(Collectors.toSet());
-
-        log.info(playlistSongIds.iterator().next().toString()); // playlistSongId
-        log.info(redisTemplate.opsForHash().get("play:" + user.getId(), playlistSongIds.iterator().next()).toString()); // isLandmark
+        Long playlistSongId = playlistSongIds.iterator().next();
 
         Object check = redisTemplate.opsForHash().get("play:" + user.getId(), playlistSongIds.iterator().next());
         if (check == null) return;
-        if (check.equals("true")) {
-//            if(!interestRepository.existsByMember_IdAndCompany_Id(member.getId(), com.getId())) saveCompany.add(com);
-        } else {
-//            Interest interest = interestRepository.findByMember_IdAndCompany_Id(member.getId(), com.getId());
-//            if (interest != null) interestRepository.delete(interest);
+        if (check.equals("true")) { // 랜드마크 송 저장
+            UserLandmarkSong userLandmarkSong = userLandmarkSongRepository.findById(playlistSongId).get();
+            NowPlay nowPlay = NowPlay.builder()
+                    .user(user)
+                    .userLandmarkSong(userLandmarkSong)
+                    .build();
+            nowPlayRepository.save(nowPlay);
+        } else { // 유저 송 저장
+            UserSong userSong = userSongRepository.findById(playlistSongId).get();
+            NowPlay nowPlay = NowPlay.builder()
+                    .user(user)
+                    .userSong(userSong)
+                    .build();
+            nowPlayRepository.save(nowPlay);
         }
     }
 }
