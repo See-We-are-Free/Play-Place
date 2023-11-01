@@ -1,3 +1,5 @@
+import Youtube from 'react-youtube';
+
 /**
  * 현재 재생 정보
  * @param isPlaying 현재 재생 중인가
@@ -9,3 +11,14 @@ export interface NowPlayInfoType {
 }
 
 export type PlayModalType = 'none' | 'nowPlay' | 'playlist';
+
+// react-youtube 라이브러리의 YouTube 타입 확장
+export interface PlaybackType extends Youtube {
+	pauseVideo(): void;
+}
+
+export interface IsNowPlayType {
+	isPlay: boolean;
+	playtime: number;
+	duration: number;
+}

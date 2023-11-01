@@ -11,5 +11,5 @@ type Story = StoryObj<typeof IconButton>;
 
 export const Primary: Story = {
 	name: 'IconButton',
-	render: () => <IconButton size="s" Icon={<div />} />,
+	render: () => <IconButton size="s" Icon={<div />} color="black300" onClick={() => {}} />,
 };

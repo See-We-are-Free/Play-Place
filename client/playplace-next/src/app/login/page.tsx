@@ -1,12 +1,7 @@
-import Link from 'next/link';
+import LoginTemplate from '@/components/templates/LoginTemplate/LoginTemplate';
 
 function Login() {
-	return (
-		<>
-			<h1>로그인</h1>
-			<Link href="/">홈으로</Link>
-		</>
-	);
+	return <LoginTemplate />;
 }
 
 export default Login;

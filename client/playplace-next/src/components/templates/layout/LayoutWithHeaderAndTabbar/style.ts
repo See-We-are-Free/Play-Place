@@ -10,5 +10,5 @@ export const LayoutWithHeaderAndTabbarContainer = styled.main<LayoutWithHeaderAn
 	margin: ${(props) => props.$margin || '0'}px;
 	padding-top: 60px; // 헤더 높이 + 여백 10px
 	padding-bottom: 20px; // 탭바 위 여백w
-	margin-bottom: 80px; // 탭바 높이
+	margin-bottom: 140px; // 탭바 + 플레이바 높이
 `;

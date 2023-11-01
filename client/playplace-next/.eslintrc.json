@@ -11,7 +11,7 @@
       "node": true,
       "es6": true
     },
-    "ignorePatterns": ["node_modules/"],
+    "ignorePatterns": ["node_modules/", ".eslintrc.json"],
     "extends": [
       "airbnb",
       "airbnb-typescript",
@@ -30,6 +30,7 @@
       "react/jsx-no-useless-fragment" : "off",
       "react/require-default-props" : "off",
       "import/no-extraneous-dependencies" : "off",
+      "@typescript-eslint/parserOptions.project": "off",
       "prettier/prettier": [
         "error",
         {

@@ -53,6 +53,17 @@ const GlobalStyles = createGlobalStyle`
         --content-width-l : 1024px;
         --content-width-xl : 1280px;
         --content-width-full : 100%;
+        
+        /* z-index */
+        --zindex-dropdown: 1000;
+        --zindex-sticky: 1020;
+        --zindex-fixed: 1030;
+        --zindex-modal-backdrop: 1050;
+        --zindex-modal: 1055;
+        --zindex-popover: 1070;
+        --zindex-tooltip: 1080;
+        --zindex-toast: 1090;
+        --zindex-header: 999;
     }
 
     body{

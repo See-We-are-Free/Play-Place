@@ -1,7 +1,7 @@
 import React from 'react';
 import { AlbumSequenceStyles } from '@/types/styles.d';
-import HypeBoy from '@root/public/assets/images/hypeBoy.jpg';
 import RoundPlay from '@root/public/assets/icons/RoundPlay.svg';
+import HypeBoy from '@root/public/assets/images/hypeBoy.jpg';
 import HomeAlbumItemsContainer, { AlbumButton, AlbumImage, AlbumInnerRound } from './style';
 
 interface HomeAlbumItemsProps {
@@ -11,10 +11,10 @@ interface HomeAlbumItemsProps {
 function HomeAlbumItems(props: HomeAlbumItemsProps) {
 	const { imgSrc } = props;
 
-	console.log(imgSrc);
 	const test = () => {
 		alert('버튼');
 	};
+	console.log(imgSrc);
 
 	return (
 		<HomeAlbumItemsContainer>

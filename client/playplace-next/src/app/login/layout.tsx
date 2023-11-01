@@ -15,5 +15,5 @@ export const metadata: Metadata = {
 };
 
 export default function LoginLayout({ children }: LayoutProps) {
-	return <Layout>{children}</Layout>;
+	return <Layout $margin="0 auto">{children}</Layout>;
 }

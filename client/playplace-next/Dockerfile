@@ -20,6 +20,12 @@ FROM base AS builder
 
 WORKDIR /app
 
+ARG NEXT_PUBLIC_SERVER_URL
+ARG NEXT_PUBLIC_DEVELOP_URL
+ARG NEXT_PUBLIC_GOOGLE_LOGIN_PATH
+ARG NEXT_PUBLIC_DEVELOP_GOOGLE_LOGIN_PATH
+ARG NEXT_PUBLIC_GOOGLE_MAPS
+
 COPY . .
 
 # deps 단계에서 설치한 의존성 패키지 복사
@@ -30,7 +36,9 @@ RUN npm run build
 
 FROM base AS runner
 
+
 WORKDIR /app
+
 
 # 보안 문제가 발생할 수 있으므로 도커 컨테이너 내에서 루트 권한으로 서버 프로세스를 실행하지 않는 것이 좋다.
 RUN addgroup --system --gid 1001 nodejs

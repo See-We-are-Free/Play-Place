@@ -8,8 +8,10 @@ export enum ContentLayoutSizes {
 export enum ButtonStyles {
 	primary = 'primary',
 	outlinePrimary = 'outlinePrimary',
+	outlinePrimaryLogin = 'outlinePrimaryLogin',
 	success = 'success',
 	cancel = 'cancel',
+	outlinePrimaryBottom = 'outlinePrimaryBottom',
 }
 
 export enum AlbumSequenceStyles {
@@ -19,7 +21,13 @@ export enum AlbumSequenceStyles {
 	four = 'four',
 }
 
-export enum HomeSubtitleStyles {
-	color = 'color',
-	normal = 'normal',
+export enum HeaderStyles {
+	home = 'home',
+	map = 'map',
+	radar = 'radar',
+	my = 'my',
+	back = 'back',
+	playlist = 'playlist',
+	search = 'search',
+	signup = 'signup',
 }
