@@ -2,15 +2,12 @@ package kr.co.playplace.service.user;
 
 import kr.co.playplace.common.security.dto.GeneratedToken;
 import kr.co.playplace.common.security.util.JwtUtil;
-import kr.co.playplace.entity.user.Users;
-import kr.co.playplace.repository.UserRepository;
+import kr.co.playplace.repository.user.UserRepository;
 import kr.co.playplace.service.user.dto.JoinUserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Transactional

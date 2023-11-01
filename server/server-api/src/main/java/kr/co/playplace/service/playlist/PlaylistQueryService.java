@@ -4,7 +4,7 @@ import kr.co.playplace.common.util.SecurityUtils;
 import kr.co.playplace.controller.playlist.response.GetMyPlaylistResponse;
 import kr.co.playplace.entity.user.UserSong;
 import kr.co.playplace.entity.user.Users;
-import kr.co.playplace.repository.UserRepository;
+import kr.co.playplace.repository.user.UserRepository;
 import kr.co.playplace.repository.user.UserSongRepository;
 import kr.co.playplace.service.playlist.dto.GetUserSongDto;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package kr.co.playplace.entity.user;
 
-import kr.co.playplace.entity.song.Song;
 import kr.co.playplace.entity.TimeBaseEntity;
+import kr.co.playplace.entity.song.Song;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,5 +23,5 @@ public class UserLandmarkSong extends TimeBaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_landmark_group_id")
-    private UserLandmarkGroup userLandmarkGroup;
+    private UserLandmarkGroup userlandmarkGroup;
 }
