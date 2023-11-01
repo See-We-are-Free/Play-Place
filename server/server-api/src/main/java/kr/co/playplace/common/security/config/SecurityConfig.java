@@ -29,6 +29,8 @@ public class SecurityConfig {
                 .httpBasic().disable() // HTTP 기본 인증을 비활성화
                 .cors().and() // CORS 활성화
                 .csrf().disable() // CSRF 보호 기능 비활성화
+                .headers().frameOptions().sameOrigin()
+                .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션관리 정책을 STATELESS(세션이 있으면 쓰지도 않고, 없으면 만들지도 않는다)
                 .and()
