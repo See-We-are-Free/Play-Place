@@ -1,6 +1,7 @@
 import HomeAlbumItems from '@/components/atoms/HomeAlbumItems/HomeAlbumItems';
 import { StaticImageData } from 'next/image';
-import HomeAlbumContainer, { HomeAlbumArtist, HomeAlbumTitle } from './style';
+import Text from '@/components/atoms/Text/Text';
+import HomeAlbumContainer, { HomeAlbumInfo } from './style';
 
 interface HomeAlbumProps {
 	imgSrc: StaticImageData;
@@ -13,8 +14,10 @@ function HomeAlbum(props: HomeAlbumProps) {
 	return (
 		<HomeAlbumContainer>
 			<HomeAlbumItems imgSrc={imgSrc} />
-			<HomeAlbumTitle>{title}</HomeAlbumTitle>
-			<HomeAlbumArtist>{artist}</HomeAlbumArtist>
+			<HomeAlbumInfo>
+				<Text text={title} color="default" fontSize={16} />
+				<Text text={artist} color="gray" fontSize={12} />
+			</HomeAlbumInfo>
 		</HomeAlbumContainer>
 	);
 }
