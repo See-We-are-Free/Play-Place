@@ -73,6 +73,9 @@ public class RadarService {
 
            log.debug("userNearby:{}", userNearbyId);
 
+           // TODO: 중심 좌표로부터의 거리를 기준으로 level 지정
+           log.debug("distance: {}", result.getDistance());
+
            Users user = userRepository.findById(userNearbyId).get();
 
            // TODO: 사용자 최신 재생 곡 정보 가져오기
@@ -107,6 +110,7 @@ public class RadarService {
         String key = "geoPoints";
         Point point = new Point(userLocationRequest.getLongitude(), userLocationRequest.getLatitude());
 
+        // TODO: 만료 시간 지정
         // redis에 geohash 별로 저장
         geoOperations.add(key, point, "" + userId);
 
