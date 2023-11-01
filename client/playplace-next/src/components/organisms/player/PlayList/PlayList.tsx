@@ -30,6 +30,7 @@ function PlayList() {
 				<SongGroupAreaHeader groupAreaName="랜드마크 그룹" />
 				{/* TODO : 랜드마크 만큼 map 돌리기 */}
 				<SongGroup groupName="해운대" />
+				<SongGroup groupName="광안리" />
 			</div>
 		</PlayListContainer>
 	);
