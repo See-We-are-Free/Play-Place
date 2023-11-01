@@ -20,6 +20,6 @@ public class Song extends TimeBaseEntity {
     private String title;
     private String artist;
     private String albumImg;
-    private String playTime;
+    private long playTime;
 
 }

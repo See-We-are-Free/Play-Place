@@ -15,16 +15,17 @@ public class SaveSongRequest {
     private String youtubeId;
     private String title;
     private String artist;
-    private MultipartFile albumImg;
-    private String playTime;
+//    private MultipartFile albumImg;
+    private String albumImg;
+    private long playTime;
 
-    public Song toEntity(String albumImgUrl){
+    public Song toEntity(){
         return Song.builder()
                 .youtubeId(youtubeId)
                 .title(title)
                 .artist(artist)
                 .playTime(playTime)
-                .albumImg(albumImgUrl)
+                .albumImg(albumImg)
                 .build();
     }
 }
