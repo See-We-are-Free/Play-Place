@@ -12,8 +12,12 @@ import kr.co.playplace.entity.Weather;
 import kr.co.playplace.entity.location.Village;
 import kr.co.playplace.entity.song.Song;
 import kr.co.playplace.entity.song.SongHistory;
+import kr.co.playplace.entity.user.NowPlay;
+import kr.co.playplace.entity.user.UserLandmarkSong;
 import kr.co.playplace.entity.user.UserSong;
 import kr.co.playplace.entity.user.Users;
+import kr.co.playplace.repository.landmark.UserLandmarkSongRepository;
+import kr.co.playplace.repository.user.NowPlayRepository;
 import kr.co.playplace.repository.user.UserRepository;
 import kr.co.playplace.repository.location.VillageRepository;
 import kr.co.playplace.repository.song.SongHistoryRepository;
@@ -45,6 +49,8 @@ public class SongService {
     private final UserRepository userRepository;
     private final VillageRepository villageRepository;
     private final SongHistoryRepository songHistoryRepository;
+    private final NowPlayRepository nowPlayRepository;
+    private final UserLandmarkSongRepository userLandmarkSongRepository;
 
     private final SongQueryRepository songQueryRepository;
 
@@ -121,8 +127,7 @@ public class SongService {
         songHistoryRepository.save(songHistory);
     }
 
-    public void playSong(SavePlaySongRequest savePlaySongRequest){
-        // redis에 저장
+    public void playSong(SavePlaySongRequest savePlaySongRequest){ // redis에 저장
         long userId = SecurityUtils.getUser().getUserId();
         String key = "play:"+userId;
         if(redisTemplate.hasKey(key)){
@@ -153,17 +158,24 @@ public class SongService {
         Set<Long> playlistSongIds = companyIdsObjects.stream()
                 .map(objectId -> (Long) objectId)
                 .collect(Collectors.toSet());
-
-        log.info(playlistSongIds.iterator().next().toString()); // playlistSongId
-        log.info(redisTemplate.opsForHash().get("play:" + user.getId(), playlistSongIds.iterator().next()).toString()); // isLandmark
+        Long playlistSongId = playlistSongIds.iterator().next();
 
         Object check = redisTemplate.opsForHash().get("play:" + user.getId(), playlistSongIds.iterator().next());
         if (check == null) return;
-        if (check.equals("true")) {
-//            if(!interestRepository.existsByMember_IdAndCompany_Id(member.getId(), com.getId())) saveCompany.add(com);
-        } else {
-//            Interest interest = interestRepository.findByMember_IdAndCompany_Id(member.getId(), com.getId());
-//            if (interest != null) interestRepository.delete(interest);
+        if (check.equals("true")) { // 랜드마크 송 저장
+            UserLandmarkSong userLandmarkSong = userLandmarkSongRepository.findById(playlistSongId).get();
+            NowPlay nowPlay = NowPlay.builder()
+                    .user(user)
+                    .userLandmarkSong(userLandmarkSong)
+                    .build();
+            nowPlayRepository.save(nowPlay);
+        } else { // 유저 송 저장
+            UserSong userSong = userSongRepository.findById(playlistSongId).get();
+            NowPlay nowPlay = NowPlay.builder()
+                    .user(user)
+                    .userSong(userSong)
+                    .build();
+            nowPlayRepository.save(nowPlay);
         }
     }
 }

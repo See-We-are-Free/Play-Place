@@ -39,7 +39,7 @@ public class SongController {
         return ResponseEntity.ok().body(getRecentSongResponse);
     }
 
-    @PostMapping("/play")
+    @PostMapping("/play") // 곡 재생(redis에 저장)
     public ResponseEntity<?> playSong(@RequestBody SavePlaySongRequest savePlaySongRequest){
         songService.playSong(savePlaySongRequest);
         return ResponseEntity.ok().build();
