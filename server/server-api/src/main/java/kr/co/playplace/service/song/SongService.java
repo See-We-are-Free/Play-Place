@@ -25,6 +25,7 @@ import kr.co.playplace.repository.song.SongHistoryRepository;
 import kr.co.playplace.repository.song.SongQueryRepository;
 import kr.co.playplace.repository.song.SongRepository;
 import kr.co.playplace.repository.user.UserSongRepository;
+import kr.co.playplace.service.song.dto.GetAreaSongDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -191,5 +192,12 @@ public class SongService {
                     .build();
             nowPlayRepository.save(nowPlay);
         }
+    }
+
+    @Scheduled(cron = "0 0 10 ? * MON") // 매주 월요일 오전 10시에 실행
+    public void getAreaStatistics(){
+        List<GetAreaSongDto> getAreaSongDtoList = songQueryRepository.findSongsWithArea();
+
+        // TODO: mysql에 저장
     }
 }
