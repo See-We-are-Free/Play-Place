@@ -20,7 +20,7 @@ const nextConfig = {
 	},
 	images: {
 		domains: ['i.ytimg.com'],
-		domains: ['image.bugsm.co.kr'],
+		domains: ['image.bugsm.co.kr', 'i.ytimg.com'],
 	},
 	// async redirects() {
 	// 	return [
