@@ -1,0 +1,9 @@
+[[landmark-search]]
+=== 랜드마크 조회
+
+==== HTTP Request
+include::{snippets}/landmark-search/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/landmark-search/http-response.adoc[]
+include::{snippets}/landmark-search/response-fields.adoc[]

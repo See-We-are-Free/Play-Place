@@ -16,10 +16,10 @@ public abstract class ControllerTestSupport {
     @Autowired
     protected ObjectMapper objectMapper;
 
-    @Autowired
-    protected JwtUtil jwtUtil;
-
-    @Autowired
-    protected JwtAuthFilter jwtAuthFilter;
+//    @Autowired
+//    protected JwtUtil jwtUtil;
+//
+//    @Autowired
+//    protected JwtAuthFilter jwtAuthFilter;
 
 }

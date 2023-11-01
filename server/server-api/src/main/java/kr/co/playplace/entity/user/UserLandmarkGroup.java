@@ -1,7 +1,7 @@
 package kr.co.playplace.entity.user;
 
-import kr.co.playplace.entity.landmark.Landmark;
 import kr.co.playplace.entity.TimeBaseEntity;
+import kr.co.playplace.entity.landmark.Landmark;
 import lombok.*;
 
 import javax.persistence.*;

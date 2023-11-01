@@ -3,7 +3,7 @@ package kr.co.playplace.service.user;
 import kr.co.playplace.common.util.SecurityUtils;
 import kr.co.playplace.controller.user.response.FindUserInfoResponse;
 import kr.co.playplace.entity.user.Users;
-import kr.co.playplace.repository.UserRepository;
+import kr.co.playplace.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

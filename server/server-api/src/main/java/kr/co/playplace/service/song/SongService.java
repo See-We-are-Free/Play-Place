@@ -14,7 +14,7 @@ import kr.co.playplace.entity.song.Song;
 import kr.co.playplace.entity.song.SongHistory;
 import kr.co.playplace.entity.user.UserSong;
 import kr.co.playplace.entity.user.Users;
-import kr.co.playplace.repository.UserRepository;
+import kr.co.playplace.repository.user.UserRepository;
 import kr.co.playplace.repository.location.VillageRepository;
 import kr.co.playplace.repository.song.SongHistoryRepository;
 import kr.co.playplace.repository.song.SongQueryRepository;
