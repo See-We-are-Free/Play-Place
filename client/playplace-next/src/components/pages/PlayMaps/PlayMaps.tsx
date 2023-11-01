@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { GoogleMap, useJsApiLoader, Circle, MarkerF } from '@react-google-maps/api';
 import { LandMarkInfo, MapsCenter } from '@/types/maps';
 import LocateButton from '@/components/atoms/LocateButton/LocateButton';
-import getLandmarksApi from '@/utils/api/playmaps';
+import { getDevelopLandmarksApi } from '@/utils/api/playmaps';
 import LandMarkDefault from '@root/public/assets/images/LandMarkDefault.png';
 import { containerStyle, nightModeStyles } from './style';
 
@@ -78,7 +78,8 @@ function PlayMaps() {
 	}, [map]);
 
 	const test = async () => {
-		const response = await getLandmarksApi();
+		// const response = await getLandmarksApi();
+		const response = await getDevelopLandmarksApi(); // 개발용
 		if (response && response.status === 200) {
 			setLandMarks(response.data.data);
 		}
