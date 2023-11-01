@@ -14,10 +14,10 @@ public class SaveLandmarkSongRequest {
     private String title;
     private String artist;
     private String albumImg;
-    private String playTime;
+    private Long playTime;
 
     @Builder
-    public SaveLandmarkSongRequest(Long landmarkId, String youtubeId, String title, String artist, String albumImg, String playTime) {
+    public SaveLandmarkSongRequest(Long landmarkId, String youtubeId, String title, String artist, String albumImg, Long playTime) {
         this.landmarkId = landmarkId;
         this.youtubeId = youtubeId;
         this.title = title;

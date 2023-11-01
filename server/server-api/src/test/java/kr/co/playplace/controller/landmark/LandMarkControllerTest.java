@@ -107,14 +107,14 @@ class LandmarkControllerTest extends RestDocsSupport {
                 .title("부산 바캉스")
                 .artist("하하")
                 .albumImg("이미지url")
-                .playTime("04:00")
+                .playTime(240L)
                 .build();
 
         FindLandmarkSongResponse response2 = FindLandmarkSongResponse.builder()
                 .title("후라이의 꿈")
                 .artist("AKMU")
                 .albumImg("이미지url")
-                .playTime("03:34")
+                .playTime(223L)
                 .build();
 
         List<FindLandmarkSongResponse> responses = List.of(response1, response2);
@@ -144,7 +144,7 @@ class LandmarkControllerTest extends RestDocsSupport {
                                         .description("아티스트"),
                                 fieldWithPath("data[].albumImg").type(JsonFieldType.STRING)
                                         .description("앨범 이미지"),
-                                fieldWithPath("data[].playTime").type(JsonFieldType.STRING)
+                                fieldWithPath("data[].playTime").type(JsonFieldType.NUMBER)
                                         .description("재생 시간")
                         )));
     }
@@ -159,7 +159,7 @@ class LandmarkControllerTest extends RestDocsSupport {
                 .youtubeId("youtudeId")
                 .albumImg("img")
                 .artist("hong")
-                .playTime("04:00")
+                .playTime(240L)
                 .title("test")
                 .build();
 
@@ -182,7 +182,7 @@ class LandmarkControllerTest extends RestDocsSupport {
                                         .description("앨범 이미지"),
                                 fieldWithPath("artist").type(JsonFieldType.STRING)
                                         .description("아티스트"),
-                                fieldWithPath("playTime").type(JsonFieldType.STRING)
+                                fieldWithPath("playTime").type(JsonFieldType.NUMBER)
                                         .description("재생시간"),
                                 fieldWithPath("title").type(JsonFieldType.STRING)
                                         .description("곡")

@@ -12,10 +12,10 @@ public class FindLandmarkSongResponse {
     private String title;
     private String artist;
     private String albumImg;
-    private String playTime;
+    private Long playTime;
 
     @Builder
-    public FindLandmarkSongResponse(String title, String artist, String albumImg, String playTime) {
+    public FindLandmarkSongResponse(String title, String artist, String albumImg, Long playTime) {
         this.title = title;
         this.artist = artist;
         this.albumImg = albumImg;

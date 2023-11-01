@@ -57,7 +57,7 @@ class LandmarkServiceTest extends IntegrationTestSupport {
                 .artist("Artist1")
                 .albumImg("AlbumIng1")
                 .youtubeId("yId1")
-                .playTime("03:30")
+                .playTime(210L)
                 .build();
 
         //when, then
@@ -80,7 +80,7 @@ class LandmarkServiceTest extends IntegrationTestSupport {
                 .artist("Artist1")
                 .albumImg("AlbumIng1")
                 .youtubeId("yId1")
-                .playTime("03:30")
+                .playTime(210L)
                 .build();
         //when, then
         assertThatThrownBy(() -> landmarkService.saveLandmarkSong(request))
