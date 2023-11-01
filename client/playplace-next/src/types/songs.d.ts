@@ -26,13 +26,6 @@ export interface SearchSong {
 	};
 }
 
-export interface SearchSongItems {
-	thumbnail: string;
-	title: string;
-	artist: string;
-	videoId: string;
-}
-
 interface SongId {
 	kind: string;
 	videoId: string;
