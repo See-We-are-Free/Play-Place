@@ -15,5 +15,6 @@ endif::[]
 include::api/landmark/landmark_search.adoc[]
 include::api/landmark/landmark_song_search.adoc[]
 include::api/landmark/landmark_song_save.adoc[]
+include::api/landmark/landmark_playlist_save.adoc[]
 
 
