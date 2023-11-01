@@ -18,6 +18,9 @@ const nextConfig = {
 		});
 		return config;
 	},
+	images: {
+		domains: ['i.ytimg.com'],
+	},
 	// async redirects() {
 	// 	return [
 	// 		{

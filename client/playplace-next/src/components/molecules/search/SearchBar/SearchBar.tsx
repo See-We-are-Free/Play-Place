@@ -1,22 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Search from '@root/public/assets/icons/Search.svg';
-import { SearchSong } from '@/types/songs.d';
-import getSearchSongApi from '@/utils/api/search';
 import SearchBarContainer, { SearchBarButton, SearchBarInput } from './style';
 
-function SearchBar() {
-	const [text, setText] = useState<string>('');
-	const [songList, setSongList] = useState<SearchSong[]>([]);
+interface ISearchBarProps {
+	text: string;
+	setText: React.Dispatch<React.SetStateAction<string>>;
+	handleSearch: (searchText: string) => void;
+}
+
+function SearchBar(props: ISearchBarProps) {
+	const { text, setText, handleSearch } = props;
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setText(event.target.value);
-	};
-
-	const handleSearch = async (searchText: string) => {
-		const response = await getSearchSongApi(searchText);
-		console.log(response.data.items);
-		setSongList(response.data.items);
-		console.log(songList);
 	};
 
 	return (

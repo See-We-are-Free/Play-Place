@@ -20,11 +20,6 @@ export enum AlbumSequenceStyles {
 	four = 'four',
 }
 
-export enum HomeSubtitleStyles {
-	color = 'color',
-	normal = 'normal',
-}
-
 export enum HeaderStyles {
 	home = 'home',
 	map = 'map',

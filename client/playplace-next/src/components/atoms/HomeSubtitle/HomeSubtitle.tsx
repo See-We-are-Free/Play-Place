@@ -1,6 +1,6 @@
 import React from 'react';
-import { HomeSubtitleStyles } from '@/types/styles.d';
-import HomeSubtitleContainer, { HomeSubtitleContent } from './style';
+import HomeSubtitleContainer from './style';
+import Text from '../Text/Text';
 
 interface HomeSubtitleProps {
 	colorSubtitle: string;
@@ -10,8 +10,8 @@ function HomeSubtitle(props: HomeSubtitleProps) {
 	const { colorSubtitle, normalSubtitle } = props;
 	return (
 		<HomeSubtitleContainer>
-			<HomeSubtitleContent $subtitleType={HomeSubtitleStyles.color}>{colorSubtitle}</HomeSubtitleContent>
-			<HomeSubtitleContent $subtitleType={HomeSubtitleStyles.normal}>{normalSubtitle}</HomeSubtitleContent>
+			<Text text={colorSubtitle} color="gradientOrange" fontSize={18} />
+			<Text text={normalSubtitle} color="default" fontSize={18} />
 		</HomeSubtitleContainer>
 	);
 }

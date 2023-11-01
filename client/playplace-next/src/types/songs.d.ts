@@ -15,6 +15,7 @@ export interface SearchSong {
 	snippet: {
 		publishedAt: string;
 		channelId: string;
+		channelTitle: string;
 		title: string;
 		description: string;
 		thumbnails: {
@@ -23,6 +24,13 @@ export interface SearchSong {
 			high: SongThumbnails;
 		};
 	};
+}
+
+export interface SearchSongItems {
+	thumbnail: string;
+	title: string;
+	artist: string;
+	videoId: string;
 }
 
 interface SongId {
