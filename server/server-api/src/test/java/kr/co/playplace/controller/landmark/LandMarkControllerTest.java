@@ -7,6 +7,7 @@ import kr.co.playplace.controller.landmark.response.FindLandmarkResponse;
 import kr.co.playplace.controller.landmark.response.FindLandmarkSongResponse;
 import kr.co.playplace.service.landmark.LandmarkQueryService;
 import kr.co.playplace.service.landmark.LandmarkService;
+import kr.co.playplace.service.landmark.LandmarkUserService;
 import kr.co.playplace.testUser.WithMockCustomAccount;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,9 +42,12 @@ class LandmarkControllerTest extends RestDocsSupport {
     @MockBean
     private LandmarkService landmarkService;
 
+    @MockBean
+    private LandmarkUserService landmarkUserService;
+
     @Override
     protected Object initController() {
-        return new LandmarkController(landmarkQueryService, landmarkService);
+        return new LandmarkController(landmarkQueryService, landmarkService, landmarkUserService);
     }
 
     @DisplayName("사용자는 전체 랜드마크를 조회 할 수 있다")
@@ -171,7 +175,7 @@ class LandmarkControllerTest extends RestDocsSupport {
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
-                .andDo(document("landmark-song-save",
+                .andDo(document("landmark-playlist-save",
                         preprocessResponse(prettyPrint()),
                         requestFields(
                                 fieldWithPath("landmarkId").type(JsonFieldType.NUMBER)
@@ -200,6 +204,35 @@ class LandmarkControllerTest extends RestDocsSupport {
                         )));
 
     }
+
+    @DisplayName("사용자는 공유 재생목록을 내 재생목록에 추가 할 수 있다.")
+    @Test
+    void savaLandmarkListToMyList() throws Exception {
+        //given
+
+        //when
+        mockMvc.perform(
+                        post("/api/v1/landmarks/{landmarkId}",1L)
+                                .headers(GenerateMockToken.getToken())
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andDo(document("landmark-playlist-save",
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER)
+                                        .description("코드"),
+                                fieldWithPath("status").type(JsonFieldType.STRING)
+                                        .description("상태"),
+                                fieldWithPath("message").type(JsonFieldType.STRING)
+                                        .description("메시지"),
+                                fieldWithPath("data").type(JsonFieldType.NULL)
+                                        .description("응답 데이터")
+
+                        )));
+        //then
+    }
+
 
 }
 
