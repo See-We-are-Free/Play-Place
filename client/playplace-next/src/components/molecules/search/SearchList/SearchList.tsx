@@ -13,7 +13,7 @@ function SearchList(props: ISearchListProps) {
 		<SearchListContainer>
 			{searchList.map((item) => (
 				<ContentLayout key={item.id.videoId} $margin="10px 0px">
-					<SearchItems searchItems={item} />
+					<SearchItems searchItem={item} />
 				</ContentLayout>
 			))}
 		</SearchListContainer>
