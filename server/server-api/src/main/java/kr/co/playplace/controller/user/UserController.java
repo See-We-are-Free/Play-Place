@@ -39,5 +39,20 @@ public class UserController {
         return ApiResponse.ok(userQueryService.findUserInfoByEmail());
     }
 
+    @PatchMapping("/push")
+    public ApiResponse<Integer> changePushState() {
+        return ApiResponse.ok(userService.changePushState());
+    }
+
+    @PatchMapping("/shake")
+    public ApiResponse<Integer> changeShakeState() {
+        return ApiResponse.ok(userService.changeShakeState());
+    }
+
+    @PatchMapping("/{numImg}")
+    public ApiResponse<Integer> changeProfileImg(@PathVariable int numImg) {
+        return ApiResponse.ok(userService.changeProfileImg(numImg));
+    }
+
 
 }
