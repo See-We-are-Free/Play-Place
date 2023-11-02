@@ -1,13 +1,14 @@
 package kr.co.playplace.controller.home.response;
 
 import kr.co.playplace.entity.Weather;
-import kr.co.playplace.service.song.dto.SongDto;
+import kr.co.playplace.service.song.dto.SongWeatherDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
 import java.util.List;
+
 
 @Getter
 @Builder
@@ -16,7 +17,7 @@ import java.util.List;
 public class WeatherSongResponse {
 
     private Weather weather;
-    private List<SongDto> songs;
+    private List<SongWeatherDto> songs;
 
 //    public static AreaSongResponse of(Song song){
 //        return AreaSongResponse.builder()

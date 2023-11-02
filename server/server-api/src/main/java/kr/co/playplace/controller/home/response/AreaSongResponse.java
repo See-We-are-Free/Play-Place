@@ -1,6 +1,6 @@
 package kr.co.playplace.controller.home.response;
 
-import kr.co.playplace.service.song.dto.SongDto;
+import kr.co.playplace.service.song.dto.SongAreaDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,9 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class AreaSongResponse {
 
-    private String villageName;
-    private int villageCode;
-    private List<SongDto> songs;
+    private List<SongAreaDto> songs;
 
 //    public static AreaSongResponse of(Song song){
 //        return AreaSongResponse.builder()
