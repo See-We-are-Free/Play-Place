@@ -1,24 +1,27 @@
 import React from 'react';
-import { SONGS } from '@/constants/dummy';
 import PlayGroup from '@root/public/assets/icons/PlayGroup.svg';
 import Down from '@root/public/assets/icons/Down.svg';
 import Text from '@/components/atoms/Text/Text';
 import IconButton from '@/components/atoms/IconButton/IconButton';
+import GroupSongList from '@/components/organisms/GroupSongList/GroupSongList';
+import { Song } from '@/types/songs';
 import SongGroupContainer from './style';
-import GroupSongList from '../../GroupSongList/GroupSongList';
 
 interface ISongGroupProps {
 	groupName: string;
+	songs: Song[];
+	isBasicGroup?: boolean;
 }
+
 function SongGroup(props: ISongGroupProps) {
-	const { groupName } = props;
+	const { groupName, songs, isBasicGroup = false } = props;
 
 	return (
 		<SongGroupContainer>
 			<div id="group-header">
 				<div id="group-info">
 					<Text text={groupName} fontSize={16} />
-					<Text text="10 / 999" color="gray" />
+					<Text text={`${songs.length} / ${isBasicGroup ? 999 : 99}`} color="gray" />
 				</div>
 				<div id="group-control">
 					<IconButton Icon={<PlayGroup />} color="black300" onClick={() => alert('play group')} size="s" />
@@ -26,7 +29,7 @@ function SongGroup(props: ISongGroupProps) {
 				</div>
 			</div>
 			<div id="group-songs">
-				<GroupSongList songs={SONGS} />
+				<GroupSongList songs={songs || []} />
 			</div>
 		</SongGroupContainer>
 	);
