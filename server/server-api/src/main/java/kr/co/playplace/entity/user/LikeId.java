@@ -14,8 +14,8 @@ import java.io.Serializable;
 @Embeddable
 public class LikeId implements Serializable {
     @Column(name = "user_id")
-    private String userId;
+    private Long userId;
 
     @Column(name = "song_id")
-    private String songId;
+    private Long songId;
 }

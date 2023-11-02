@@ -12,14 +12,13 @@ import kr.co.playplace.controller.home.response.WeatherSongResponse;
 import kr.co.playplace.controller.song.response.GetRecentSongResponse;
 import kr.co.playplace.entity.Timezone;
 import kr.co.playplace.entity.Weather;
+import kr.co.playplace.entity.song.Song;
 import kr.co.playplace.entity.stats.SongAreaStats;
-import kr.co.playplace.entity.user.Users;
+import kr.co.playplace.entity.user.*;
 import kr.co.playplace.repository.song.SongHistoryRepository;
 import kr.co.playplace.repository.stats.*;
-import kr.co.playplace.entity.user.NowPlay;
-import kr.co.playplace.entity.user.UserLandmarkSong;
-import kr.co.playplace.entity.user.UserSong;
 import kr.co.playplace.repository.landmark.UserLandmarkSongRepository;
+import kr.co.playplace.repository.user.LikeRepository;
 import kr.co.playplace.repository.user.NowPlayRepository;
 import kr.co.playplace.repository.user.UserSongRepository;
 import kr.co.playplace.repository.user.UserRepository;
@@ -46,6 +45,7 @@ public class SongQueryService {
     private final UserSongRepository userSongRepository;
     private final NowPlayRepository nowPlayRepository;
     private final UserLandmarkSongRepository userLandmarkSongRepository;
+    private final LikeRepository likeRepository;
 
     private final SongAreaDtoRedisRepository songAreaDtoRedisRepository;
     private final SongWeatherDtoRedisRepository songWeatherDtoRedisRepository;
@@ -80,12 +80,25 @@ public class SongQueryService {
         if(playListSongIds.get(1) == 0L){
             // landmark
             Optional<UserLandmarkSong> userLandmarkSong = userLandmarkSongRepository.findById(playListSongIds.get(0));
-            return GetRecentSongResponse.of(userLandmarkSong.get().getSong(), playListSongIds.get(0), true);
+            boolean like = checkLike(userLandmarkSong.get().getSong(), user.get());
+            return GetRecentSongResponse.of(userLandmarkSong.get().getSong(), playListSongIds.get(0), true, like);
         }else{
             // song
             Optional<UserSong> userSong = userSongRepository.findById(playListSongIds.get(0));
-            return GetRecentSongResponse.of(userSong.get().getSong(), playListSongIds.get(0), false);
+            boolean like = checkLike(userSong.get().getSong(), user.get());
+            return GetRecentSongResponse.of(userSong.get().getSong(), playListSongIds.get(0), false, like);
         }
+    }
+
+    private boolean checkLike(Song song, Users user){
+        // redis 확인
+        Object check = redisTemplate.opsForHash().get("like:" + user.getId(), song.getId());
+        if (check != null){
+            return check.equals("true");
+        }
+
+        // mysql 확인
+        return likeRepository.existsByLikeId_UserIdAndLikeId_SongId(user.getId(), song.getId());
     }
 
     private List<Long> checkRedis(Users user){
