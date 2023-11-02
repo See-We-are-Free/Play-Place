@@ -9,7 +9,7 @@ import HeartOff from '@root/public/assets/icons/HeartOff.svg';
 import IconButton from '@/components/atoms/IconButton/IconButton';
 import PlayList from '@root/public/assets/icons/PlayList.svg';
 import SongThumbnail from '@/components/atoms/SongThumbnail/SongThumbnail';
-import usePlayer from '@/hooks/usePlayer';
+import usePlayer from '@/hooks/player/usePlayer';
 import ModalPlayControlContainer from './style';
 
 function ModalPlayControl() {
