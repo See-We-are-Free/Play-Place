@@ -5,7 +5,12 @@ import { useRecoilState } from 'recoil';
 import { nowPlaySongState, playModalState } from '@/recoil/play';
 import PlayBarSongInfoContainer from './style';
 
-function PlayBarSongInfo() {
+interface IPlayBarSongInfoProps {
+	id?: string;
+}
+
+function PlayBarSongInfo(props: IPlayBarSongInfoProps) {
+	const { id = '' } = props;
 	const [nowPlaySong] = useRecoilState(nowPlaySongState);
 	const [, setPlayModal] = useRecoilState(playModalState);
 
@@ -14,7 +19,7 @@ function PlayBarSongInfo() {
 	};
 
 	return (
-		<PlayBarSongInfoContainer onClick={handleClick}>
+		<PlayBarSongInfoContainer id={id} onClick={handleClick}>
 			<SongThumbnail src={nowPlaySong?.albumImg || ''} alt="" />
 			<div id="song">
 				{/* TODO : overflow ellipse 해결하기 */}
