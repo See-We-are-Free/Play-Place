@@ -4,12 +4,12 @@ import Down from '@root/public/assets/icons/Down.svg';
 import Text from '@/components/atoms/Text/Text';
 import IconButton from '@/components/atoms/IconButton/IconButton';
 import GroupSongList from '@/components/organisms/GroupSongList/GroupSongList';
-import { Song } from '@/types/songs';
+import { BasicSong, LandmarkSong } from '@/types/songs';
 import SongGroupContainer from './style';
 
 interface ISongGroupProps {
 	groupName: string;
-	songs: Song[];
+	songs: BasicSong[] | LandmarkSong[];
 	isBasicGroup?: boolean;
 }
 
@@ -29,7 +29,7 @@ function SongGroup(props: ISongGroupProps) {
 				</div>
 			</div>
 			<div id="group-songs">
-				<GroupSongList songs={songs || []} />
+				<GroupSongList songs={songs || []} isBasicGroup />
 			</div>
 		</SongGroupContainer>
 	);

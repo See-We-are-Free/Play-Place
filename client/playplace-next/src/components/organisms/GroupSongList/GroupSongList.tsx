@@ -1,17 +1,21 @@
 import React from 'react';
-import { Song } from '@/types/songs';
+import { BasicSong, LandmarkSong } from '@/types/songs';
 import GroupSongListItem from '@/components/molecules/player/GroupSongListItem/GroupSongListItem';
 import GroupSongListContainer from './style';
 
 interface IGroupSongListProps {
-	songs: Song[];
+	songs: BasicSong[] | LandmarkSong[];
+	isBasicGroup?: boolean;
 }
 function GroupSongList(props: IGroupSongListProps) {
-	const { songs } = props;
+	const { songs, isBasicGroup = false } = props;
 	return (
 		<GroupSongListContainer>
 			{songs.map((s) => (
-				<GroupSongListItem key={s.youtubeId} song={s} />
+				<GroupSongListItem
+					key={isBasicGroup ? `${(s as BasicSong).basicSongId}b` : `${(s as LandmarkSong).landmarkSongId}l`}
+					song={s}
+				/>
 			))}
 		</GroupSongListContainer>
 	);
