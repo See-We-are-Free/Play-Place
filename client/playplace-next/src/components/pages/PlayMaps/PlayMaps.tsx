@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { GoogleMap, useJsApiLoader, Circle, MarkerF } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader, Circle, MarkerF, MarkerClusterer } from '@react-google-maps/api';
 import { LandMarkInfo, MapsCenter } from '@/types/maps';
 import LocateButton from '@/components/atoms/LocateButton/LocateButton';
 import { getDevelopLandmarksApi } from '@/utils/api/playmaps';
-import LandMarkDefault from '@root/public/assets/images/LandMarkDefault.png';
+// import LandMarkDefault from '@root/public/assets/images/LandMarkDefault.png';
 import { containerStyle, nightModeStyles } from './style';
 
 function deg2rad(deg: number) {
@@ -22,13 +22,10 @@ function CalDistance(lat1: number, lat2: number, lng1: number, lng2: number) {
 	return distance;
 }
 
-function landMarkIcon(landMarkImg: string | null): string {
-	const imgsrc = landMarkImg || LandMarkDefault;
-
+function landMarkIcon() {
 	return `
 	<svg width="57" height="69" viewBox="0 0 57 69" fill="none" xmlns="http://www.w3.org/2000/svg">
 		<path fill-rule="evenodd" clip-rule="evenodd" d="M0.13283 28C0.13283 12.536 12.6689 0 28.1328 0C43.5968 0 56.1328 12.536 56.1328 28C57.1328 33.8333 52.9328 50.2 28.1329 69C3.33304 50.2001 -0.867085 33.8336 0.13283 28.0001V28Z" fill="url(#paint0_linear_1209_1100)"/>
-		<image href="${imgsrc}" x="0" y="0" height="69" width="57"/>
 		<defs>
 			<linearGradient id="paint0_linear_1209_1100" x1="4.19213e-07" y1="34.4998" x2="56.2657" y2="34.4998" gradientUnits="userSpaceOnUse">
 			<stop stop-color="#FEAC5E" />
@@ -127,6 +124,13 @@ function PlayMaps() {
 		center,
 	};
 
+	const options = {
+		imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
+		gridSize: 60, // 클러스터 그리드 크기 설정 (픽셀)
+		maxZoom: 15, // 최대 확대 레벨
+		// 여기에 다른 클러스터링 옵션을 추가할 수 있습니다.
+	};
+
 	return (
 		<>
 			{landMarks && isLoaded && (
@@ -146,19 +150,27 @@ function PlayMaps() {
 							streetViewControl: false,
 						}}
 					>
-						{Array.isArray(landMarks) &&
-							landMarks.map((landMark) => (
-								<MarkerF
-									key={landMark.landMarkId}
-									position={{ lat: landMark.latitude, lng: landMark.langitude }}
-									onClick={() => test2(landMark.latitude, landMark.langitude)}
-									icon={{
-										url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(
-											landMarkIcon(landMark.representativeImg),
-										)}`,
-									}}
-								/>
-							))}
+						<MarkerClusterer options={options}>
+							{(clusterer) => (
+								<>
+									{landMarks.map((landMark) => (
+										<MarkerF
+											key={landMark.landMarkId}
+											position={{ lat: landMark.latitude, lng: landMark.longitude }}
+											clusterer={clusterer}
+											onClick={() => test2(landMark.latitude, landMark.longitude)}
+											icon={{
+												url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(landMarkIcon())}`,
+												scaledSize: new google.maps.Size(50, 50),
+												origin: new google.maps.Point(0, 0),
+												anchor: new google.maps.Point(25, 50),
+											}}
+										/>
+									))}
+								</>
+							)}
+						</MarkerClusterer>
+
 						<Circle center={center} options={circleRangeOptions} />
 						<Circle center={center} options={markerCircleOptions} />
 					</GoogleMap>
