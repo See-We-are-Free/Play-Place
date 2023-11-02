@@ -22,19 +22,19 @@ public class HomeController {
 
     @PostMapping("/area")
     public ResponseEntity<?> getSongInArea(@RequestBody PositionRequest positionRequest){
-        List<AreaSongResponse> songResponseList = songQueryService.getSongInArea(positionRequest);
+        AreaSongResponse songResponseList = songQueryService.getSongInArea(positionRequest);
         return ResponseEntity.ok().body(songResponseList);
     }
 
     @PostMapping("/weather")
     public ResponseEntity<?> getSongInWeather(@RequestBody PositionRequest positionRequest){
-        List<WeatherSongResponse> songResponseList = songQueryService.getSongInWeather(positionRequest);
+        WeatherSongResponse songResponseList = songQueryService.getSongInWeather(positionRequest);
         return ResponseEntity.ok().body(songResponseList);
     }
 
     @PostMapping("/timezone")
     public ResponseEntity<?> getSongInTimezone(){
-        List<TimezoneSongResponse> songResponseList = songQueryService.getSongInTimezone();
+        TimezoneSongResponse songResponseList = songQueryService.getSongInTimezone();
         return ResponseEntity.ok().body(songResponseList);
     }
 }

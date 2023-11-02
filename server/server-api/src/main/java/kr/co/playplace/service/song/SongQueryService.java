@@ -14,6 +14,7 @@ import kr.co.playplace.entity.Weather;
 import kr.co.playplace.entity.stats.SongAreaStats;
 import kr.co.playplace.entity.user.Users;
 import kr.co.playplace.repository.song.SongHistoryRepository;
+import kr.co.playplace.repository.stats.SongAreaDtoRedisRepository;
 import kr.co.playplace.repository.stats.SongAreaStatsRepository;
 import kr.co.playplace.repository.stats.SongTimeStatsRepository;
 import kr.co.playplace.repository.stats.SongWeatherStatsRepository;
@@ -24,6 +25,7 @@ import kr.co.playplace.repository.landmark.UserLandmarkSongRepository;
 import kr.co.playplace.repository.user.NowPlayRepository;
 import kr.co.playplace.repository.user.UserSongRepository;
 import kr.co.playplace.repository.user.UserRepository;
+import kr.co.playplace.service.song.dto.SongAreaDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -45,13 +47,14 @@ import static kr.co.playplace.common.exception.ErrorCode.NOT_FOUND_AREA_SONG;
 public class SongQueryService {
 
     private final UserRepository userRepository;
-    private final SongHistoryRepository songHistoryRepository;
     private final SongAreaStatsRepository songAreaStatsRepository;
     private final SongTimeStatsRepository songTimeStatsRepository;
     private final SongWeatherStatsRepository songWeatherStatsRepository;
     private final UserSongRepository userSongRepository;
     private final NowPlayRepository nowPlayRepository;
     private final UserLandmarkSongRepository userLandmarkSongRepository;
+
+    private final SongAreaDtoRedisRepository songAreaDtoRedisRepository;
 
     private final Geocoder geocoder;
     private final GetWeather getWeather;
@@ -125,20 +128,16 @@ public class SongQueryService {
         return result;
     }
 
-    public List<AreaSongResponse> getSongInArea(PositionRequest positionRequest){
+    public AreaSongResponse getSongInArea(PositionRequest positionRequest){
         int code = geocoder.getGeoCode(positionRequest.getLat(), positionRequest.getLon()); // 위경도로 읍면동 가져오기
 
-        List<SongAreaStats> stats = songAreaStatsRepository.findAllByVillage_Code(code);
-        if (stats.isEmpty()){
-            throw new BaseException(NOT_FOUND_AREA_SONG);
-        }
+        // redis 조회
+        List<SongAreaDto> songAreaDtos = songAreaDtoRedisRepository.findAllByVillageCode(code);
 
-        // TODO: 저장된 시간을 기준으로 가져올건지 애초에 저장할 때 삭제하고 저장할건지 생각해보기
-
-        return null;
+        return new AreaSongResponse(songAreaDtos);
     }
 
-    public List<WeatherSongResponse> getSongInWeather(PositionRequest positionRequest){
+    public WeatherSongResponse getSongInWeather(PositionRequest positionRequest){
         Weather weather = getWeather.getWeatherCode(positionRequest.getLat(), positionRequest.getLon());
 
         // TODO: 저장된 시간을 기준으로 가져올건지 애초에 저장할 때 삭제하고 저장할건지 생각해보기
@@ -146,7 +145,7 @@ public class SongQueryService {
         return null;
     }
 
-    public List<TimezoneSongResponse> getSongInTimezone(){
+    public TimezoneSongResponse getSongInTimezone(){
         // TODO: 저장된 시간을 기준으로 가져올건지 애초에 저장할 때 삭제하고 저장할건지 생각해보기
         
         return null;
