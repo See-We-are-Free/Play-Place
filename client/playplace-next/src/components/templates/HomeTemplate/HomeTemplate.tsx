@@ -5,7 +5,7 @@ import HomeTemplateContainer from './style';
 
 function HomeTemplate({ children }: { children: ReactNode[] }) {
 	return (
-		<ContentLayout size={ContentLayoutSizes.lg}>
+		<ContentLayout size={ContentLayoutSizes.lg} $margin="0 0 140px">
 			<HomeTemplateContainer>
 				<ContentLayout $margin="20px 0">{children[0]}</ContentLayout>
 				<ContentLayout $margin="20px 0">{children[1]}</ContentLayout>
