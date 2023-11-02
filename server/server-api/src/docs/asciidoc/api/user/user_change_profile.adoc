@@ -1,0 +1,9 @@
+[[user-change-profile]]
+=== 유저 프로필 변경
+
+==== HTTP Request
+include::{snippets}/user-change-profile/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/user-change-profile/http-response.adoc[]
+include::{snippets}/user-change-profile/response-fields.adoc[]

@@ -18,3 +18,14 @@ include::api/landmark/landmark_song_save.adoc[]
 include::api/landmark/landmark_playlist_save.adoc[]
 
 
+[[user-API]]
+== user API
+
+include::api/user/user_search.adoc[]
+include::api/user/user_change_push.adoc[]
+include::api/user/user_change_shake.adoc[]
+include::api/user/user_change_profile.adoc[]
+
+
+
+

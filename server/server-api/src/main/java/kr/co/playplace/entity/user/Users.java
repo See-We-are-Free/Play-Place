@@ -27,10 +27,10 @@ public class Users extends TimeBaseEntity {
     @ColumnDefault("0")
     private int isRemoved;
 
-    @ColumnDefault("0")
+    @ColumnDefault("1")
     private int isPush;
 
-    @ColumnDefault("0")
+    @ColumnDefault("1")
     private int isShake;
 
     private String role;
@@ -44,5 +44,17 @@ public class Users extends TimeBaseEntity {
         this.isPush = isPush;
         this.isShake = isShake;
         this.role = role;
+    }
+
+    public void changePushState() {
+        this.isPush = this.isPush == 0 ? 1 : 0;
+    }
+
+    public void changeShakeState() {
+        this.isShake = this.isShake == 0 ? 1 : 0;
+    }
+
+    public void changeProfileImg(int numImg) {
+        this.profileImg = numImg;
     }
 }

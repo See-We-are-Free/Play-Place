@@ -1,0 +1,9 @@
+[[user-change-shake]]
+=== 흔들기 동의 여부 변경
+
+==== HTTP Request
+include::{snippets}/user-change-shake/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/user-change-shake/http-response.adoc[]
+include::{snippets}/user-change-shake/response-fields.adoc[]
