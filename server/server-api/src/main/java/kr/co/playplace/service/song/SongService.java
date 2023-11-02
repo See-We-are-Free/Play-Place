@@ -14,6 +14,7 @@ import kr.co.playplace.entity.location.Village;
 import kr.co.playplace.entity.song.Song;
 import kr.co.playplace.entity.song.SongHistory;
 import kr.co.playplace.entity.stats.SongAreaStats;
+import kr.co.playplace.entity.stats.SongTimeStats;
 import kr.co.playplace.entity.stats.SongWeatherStats;
 import kr.co.playplace.entity.user.NowPlay;
 import kr.co.playplace.entity.user.UserLandmarkSong;
@@ -28,10 +29,7 @@ import kr.co.playplace.repository.song.SongHistoryRepository;
 import kr.co.playplace.repository.song.SongQueryRepository;
 import kr.co.playplace.repository.song.SongRepository;
 import kr.co.playplace.repository.user.UserSongRepository;
-import kr.co.playplace.service.song.dto.GetAreaSongDto;
-import kr.co.playplace.service.song.dto.GetWeatherSongDto;
-import kr.co.playplace.service.song.dto.SongAreaDto;
-import kr.co.playplace.service.song.dto.SongWeatherDto;
+import kr.co.playplace.service.song.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -64,6 +62,7 @@ public class SongService {
 
     private final SongAreaDtoRedisRepository songAreaDtoRedisRepository;
     private final SongWeatherDtoRedisRepository songWeatherDtoRedisRepository;
+    private final SongTimeDtoRedisRepository songTimeDtoRedisRepository;
 
     private final S3Uploader s3Uploader;
     private final Geocoder geocoder;
@@ -227,6 +226,19 @@ public class SongService {
             // redis에 저장
             SongWeatherDto songWeatherDto = SongWeatherDto.of(getWeatherSongDto.getSong(), getWeatherSongDto.getWeather(), getWeatherSongDto.getCount());
             songWeatherDtoRedisRepository.save(songWeatherDto);
+        }
+    }
+
+    @Scheduled(cron = "0 0 10 ? * MON") // 매주 월요일 오전 10시에 실행
+    public void getTimezoneStatistics(){
+        List<GetTimezoneSongDto> getTimezoneSongDtoList = songQueryRepository.findSongsWithTimezone();
+        for(GetTimezoneSongDto getTimezoneSongDto : getTimezoneSongDtoList){
+            // mysql에 저장
+            SongTimeStats songTimeStats = getTimezoneSongDto.toEntity();
+            songTimeStatsRepository.save(songTimeStats);
+            // redis에 저장
+            SongTimezoneDto songTimezoneDto = SongTimezoneDto.of(getTimezoneSongDto.getSong(), getTimezoneSongDto.getTimezone(), getTimezoneSongDto.getCount());
+            songTimeDtoRedisRepository.save(songTimezoneDto);
         }
     }
 }

@@ -1,6 +1,7 @@
 package kr.co.playplace.controller.home.response;
 
-import kr.co.playplace.service.song.dto.SongTimezoneDto;
+import kr.co.playplace.entity.Timezone;
+import kr.co.playplace.service.song.dto.SongDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,8 @@ import java.util.List;
 @AllArgsConstructor
 public class TimezoneSongResponse {
 
-    private List<SongTimezoneDto> songs;
+    private Timezone timezone;
+    private List<SongDto> songs;
 
 //    public static AreaSongResponse of(Song song){
 //        return AreaSongResponse.builder()

@@ -10,6 +10,7 @@ import kr.co.playplace.controller.home.response.AreaSongResponse;
 import kr.co.playplace.controller.home.response.TimezoneSongResponse;
 import kr.co.playplace.controller.home.response.WeatherSongResponse;
 import kr.co.playplace.controller.song.response.GetRecentSongResponse;
+import kr.co.playplace.entity.Timezone;
 import kr.co.playplace.entity.Weather;
 import kr.co.playplace.entity.stats.SongAreaStats;
 import kr.co.playplace.entity.user.Users;
@@ -22,16 +23,14 @@ import kr.co.playplace.repository.landmark.UserLandmarkSongRepository;
 import kr.co.playplace.repository.user.NowPlayRepository;
 import kr.co.playplace.repository.user.UserSongRepository;
 import kr.co.playplace.repository.user.UserRepository;
-import kr.co.playplace.service.song.dto.GetAreaSongDto;
-import kr.co.playplace.service.song.dto.SongAreaDto;
-import kr.co.playplace.service.song.dto.SongDto;
-import kr.co.playplace.service.song.dto.SongWeatherDto;
+import kr.co.playplace.service.song.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -50,6 +49,7 @@ public class SongQueryService {
 
     private final SongAreaDtoRedisRepository songAreaDtoRedisRepository;
     private final SongWeatherDtoRedisRepository songWeatherDtoRedisRepository;
+    private final SongTimeDtoRedisRepository songTimeDtoRedisRepository;
 
     private final Geocoder geocoder;
     private final GetWeather getWeather;
@@ -149,8 +149,27 @@ public class SongQueryService {
     }
 
     public TimezoneSongResponse getSongInTimezone(){
-        // TODO: 저장된 시간을 기준으로 가져올건지 애초에 저장할 때 삭제하고 저장할건지 생각해보기
-        
-        return null;
+        // 시간
+        Timezone timezone = Timezone.DAWN;
+        int hour = LocalDateTime.now().getHour();
+        if(hour >= 6 && hour < 12){
+            timezone = Timezone.MORNING;
+        }else if(hour >= 12 && hour < 18){
+            timezone = Timezone.LUNCH;
+        }else if(hour >= 18){
+            timezone = Timezone.EVENING;
+        }
+
+        // redis 조회
+        List<SongTimezoneDto> songTimezoneDtos = songTimeDtoRedisRepository.findAllByTimezoneOrderByCountDesc(timezone);
+
+        // 상위 10개 뽑아서 반환
+        List<SongDto> songDtos = new ArrayList<>();
+        for(int i=0; i<10; i++){
+            if(songTimezoneDtos.size() <= i) break;
+            songDtos.add(songTimezoneDtos.get(i).toEntity());
+        }
+
+        return TimezoneSongResponse.builder().timezone(timezone).songs(songDtos).build();
     }
 }

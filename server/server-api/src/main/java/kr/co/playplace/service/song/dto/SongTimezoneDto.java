@@ -25,8 +25,9 @@ public class SongTimezoneDto {
     private String albumImg;
     private long playTime;
     private Timezone timezone;
+    private int count;
 
-    public static SongTimezoneDto of(Song song, Timezone timezone){
+    public static SongTimezoneDto of(Song song, Timezone timezone, int count){
         return SongTimezoneDto.builder()
                 .songId(song.getId())
                 .youtubeId(song.getYoutubeId())
@@ -35,6 +36,18 @@ public class SongTimezoneDto {
                 .albumImg(song.getAlbumImg())
                 .playTime(song.getPlayTime())
                 .timezone(timezone)
+                .count(count)
+                .build();
+    }
+
+    public SongDto toEntity(){ // ㅋㅋ?
+        return SongDto.builder()
+                .songId(songId)
+                .youtubeId(youtubeId)
+                .title(title)
+                .artist(artist)
+                .albumImg(albumImg)
+                .playTime(playTime)
                 .build();
     }
 }

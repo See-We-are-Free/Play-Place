@@ -1,5 +1,6 @@
 package kr.co.playplace.entity.stats;
 
+import kr.co.playplace.entity.Timezone;
 import kr.co.playplace.entity.song.Song;
 import kr.co.playplace.entity.TimeBaseEntity;
 import lombok.*;
@@ -21,8 +22,10 @@ public class SongTimeStats extends TimeBaseEntity {
     @JoinColumn(name = "song_id")
     private Song song;
 
-    private int dawnCount;
-    private int morningCount;
-    private int dayCount;
-    private int nightCount;
+    private Timezone timezone;
+    private int count;
+//    private int dawnCount;
+//    private int morningCount;
+//    private int dayCount;
+//    private int nightCount;
 }
