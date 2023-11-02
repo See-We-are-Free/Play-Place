@@ -1,30 +1,14 @@
 import PlayListHeader from '@/components/molecules/player/PlayListHeader/PlayListHeader';
 import { useEffect } from 'react';
-import { getPlaylistApi } from '@/utils/api/playlist';
-import { useRecoilState } from 'recoil';
-import { basicSongsState, landmarkGroupsState } from '@/recoil/playlist';
 import { LandmarkGroup } from '@/types/play';
 import Text from '@/components/atoms/Text/Text';
+import useFetchPlaylist from '@/hooks/player/useFetchPlaylist';
 import PlayListContainer from './style';
 import SongGroup from '../SongGroup/SongGroup';
 import SongGroupAreaHeader from '../SongGroupAreaHeader/SongGroupAreaHeader';
 
 function PlayList() {
-	const [basicSongs, setBasicSongs] = useRecoilState(basicSongsState);
-	const [landmarkGroups, setLandmarkGroups] = useRecoilState(landmarkGroupsState);
-
-	const fetchData = async () => {
-		try {
-			const response = await getPlaylistApi();
-			if (response.status === 200) {
-				setBasicSongs(response.data.basicSongs);
-				setLandmarkGroups(response.data.landmarks);
-			}
-			console.log(response);
-		} catch (error) {
-			console.error(error);
-		}
-	};
+	const { basicSongs, landmarkGroups, fetchData } = useFetchPlaylist();
 
 	useEffect(() => {
 		fetchData();
@@ -32,7 +16,9 @@ function PlayList() {
 
 	return (
 		<PlayListContainer>
-			<PlayListHeader />
+			<div id="playlist-header">
+				<PlayListHeader />
+			</div>
 			<div id="basic-song-group">
 				<SongGroupAreaHeader groupAreaName="기본 그룹" />
 				<SongGroup groupName="기본" songs={basicSongs} isBasicGroup />
