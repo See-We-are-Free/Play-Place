@@ -13,11 +13,15 @@ import kr.co.playplace.entity.Weather;
 import kr.co.playplace.entity.location.Village;
 import kr.co.playplace.entity.song.Song;
 import kr.co.playplace.entity.song.SongHistory;
+import kr.co.playplace.entity.stats.SongAreaStats;
 import kr.co.playplace.entity.user.NowPlay;
 import kr.co.playplace.entity.user.UserLandmarkSong;
 import kr.co.playplace.entity.user.UserSong;
 import kr.co.playplace.entity.user.Users;
 import kr.co.playplace.repository.landmark.UserLandmarkSongRepository;
+import kr.co.playplace.repository.stats.SongAreaStatsRepository;
+import kr.co.playplace.repository.stats.SongTimeStatsRepository;
+import kr.co.playplace.repository.stats.SongWeatherStatsRepository;
 import kr.co.playplace.repository.user.NowPlayRepository;
 import kr.co.playplace.repository.user.UserRepository;
 import kr.co.playplace.repository.location.VillageRepository;
@@ -54,6 +58,9 @@ public class SongService {
     private final SongHistoryRepository songHistoryRepository;
     private final NowPlayRepository nowPlayRepository;
     private final UserLandmarkSongRepository userLandmarkSongRepository;
+    private final SongAreaStatsRepository songAreaStatsRepository;
+    private final SongWeatherStatsRepository songWeatherStatsRepository;
+    private final SongTimeStatsRepository songTimeStatsRepository;
 
     private final SongQueryRepository songQueryRepository;
 
@@ -197,7 +204,9 @@ public class SongService {
     @Scheduled(cron = "0 0 10 ? * MON") // 매주 월요일 오전 10시에 실행
     public void getAreaStatistics(){
         List<GetAreaSongDto> getAreaSongDtoList = songQueryRepository.findSongsWithArea();
-
-        // TODO: mysql에 저장
+        for(GetAreaSongDto getAreaSongDto : getAreaSongDtoList){ // mysql에 저장
+            SongAreaStats songAreaStats = getAreaSongDto.toEntity();
+            songAreaStatsRepository.save(songAreaStats);
+        }
     }
 }
