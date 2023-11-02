@@ -1,5 +1,6 @@
 package kr.co.playplace.entity.stats;
 
+import kr.co.playplace.entity.Weather;
 import kr.co.playplace.entity.song.Song;
 import kr.co.playplace.entity.TimeBaseEntity;
 import lombok.*;
@@ -21,8 +22,10 @@ public class SongWeatherStats extends TimeBaseEntity {
     @JoinColumn(name = "song_id")
     private Song song;
 
-    private int sunnyCount;
-    private int snowCount;
-    private int rainCount;
-    private int cloudCount;
+    private Weather weather;
+    private int count;
+//    private int sunnyCount;
+//    private int snowCount;
+//    private int rainCount;
+//    private int cloudCount;
 }
