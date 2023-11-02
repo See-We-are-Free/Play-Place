@@ -30,9 +30,9 @@ repositories {
 	mavenCentral()
 }
 
-ext {
-	set('snippetsDir', file("build/generated-snippets"))
-}
+//ext {
+//	set('snippetsDir', file("build/generated-snippets"))
+//}
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -45,7 +45,6 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	testImplementation 'org.springframework.security:spring-security-test'
 
 
@@ -77,21 +76,21 @@ dependencies {
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.0'
 }
 
-tasks.named('test') {
-	outputs.dir snippetsDir
-	useJUnitPlatform()
-}
-
-tasks.named('asciidoctor') {
-	inputs.dir snippetsDir
-	dependsOn test
-}
-
-asciidoctor {
-	dependsOn test
-	inputs.dir snippetsDir
-	outputDir file('src/docs/asciidoc')
-}
+//tasks.named('test') {
+//	outputs.dir snippetsDir
+//	useJUnitPlatform()
+//}
+//
+//tasks.named('asciidoctor') {
+//	inputs.dir snippetsDir
+//	dependsOn test
+//}
+//
+//asciidoctor {
+//	dependsOn test
+//	inputs.dir snippetsDir
+//	outputDir file('src/docs/asciidoc')
+//}
 
 
 def querydslDir = "$buildDir/generated/querydsl"

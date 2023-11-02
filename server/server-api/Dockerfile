@@ -13,6 +13,9 @@ COPY src src
 # gradlew에 실행 권한 부여하기
 RUN chmod +x gradlew
 
+# 폴더만드는 명령어 /workspace/build/generated-snippets
+RUN mkdir -p /workspace/build/generated-snippets
+
 # 빌드 수행
 RUN ./gradlew bootJar -x test
 
