@@ -14,7 +14,7 @@ export enum ButtonStyles {
 	outlinePrimaryBottom = 'outlinePrimaryBottom',
 }
 
-export enum AlbumSequenceStyles {
+export enum CircleSequenceStyles {
 	one = 'one',
 	two = 'two',
 	three = 'three',
