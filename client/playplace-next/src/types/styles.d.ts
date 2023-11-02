@@ -31,3 +31,8 @@ export enum HeaderStyles {
 	search = 'search',
 	signup = 'signup',
 }
+
+export enum ToastStyles {
+	success = 'success',
+	error = 'error',
+}
