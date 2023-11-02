@@ -1,4 +1,5 @@
 import Youtube from 'react-youtube';
+import { LandmarkSong } from './songs';
 
 /**
  * 현재 재생 정보
@@ -21,4 +22,12 @@ export interface IsNowPlayType {
 	isPlay: boolean;
 	playtime: number;
 	duration: number;
+}
+
+export interface LandmarkGroup {
+	landmarkId: number;
+	userLandmarkGroupId: number;
+	title: string;
+	landmarkSongsCnt: number;
+	landmarkSongs: LandmarkSong[];
 }
