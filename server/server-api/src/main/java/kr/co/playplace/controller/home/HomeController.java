@@ -1,7 +1,9 @@
 package kr.co.playplace.controller.home;
 
 import kr.co.playplace.controller.home.request.PositionRequest;
-import kr.co.playplace.controller.home.response.SongResponse;
+import kr.co.playplace.controller.home.response.AreaSongResponse;
+import kr.co.playplace.controller.home.response.TimezoneSongResponse;
+import kr.co.playplace.controller.home.response.WeatherSongResponse;
 import kr.co.playplace.service.song.SongQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,19 +22,19 @@ public class HomeController {
 
     @PostMapping("/area")
     public ResponseEntity<?> getSongInArea(@RequestBody PositionRequest positionRequest){
-        List<SongResponse> songResponseList = songQueryService.getSongInArea(positionRequest);
+        List<AreaSongResponse> songResponseList = songQueryService.getSongInArea(positionRequest);
         return ResponseEntity.ok().body(songResponseList);
     }
 
     @PostMapping("/weather")
     public ResponseEntity<?> getSongInWeather(@RequestBody PositionRequest positionRequest){
-        List<SongResponse> songResponseList = songQueryService.getSongInWeather(positionRequest);
+        List<WeatherSongResponse> songResponseList = songQueryService.getSongInWeather(positionRequest);
         return ResponseEntity.ok().body(songResponseList);
     }
 
     @PostMapping("/timezone")
     public ResponseEntity<?> getSongInTimezone(){
-        List<SongResponse> songResponseList = songQueryService.getSongInTimezone();
+        List<TimezoneSongResponse> songResponseList = songQueryService.getSongInTimezone();
         return ResponseEntity.ok().body(songResponseList);
     }
 }

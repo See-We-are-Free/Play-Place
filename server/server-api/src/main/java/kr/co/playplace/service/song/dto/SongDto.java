@@ -1,4 +1,4 @@
-package kr.co.playplace.controller.home.response;
+package kr.co.playplace.service.song.dto;
 
 import kr.co.playplace.entity.song.Song;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.ToString;
 @Builder
 @ToString
 @AllArgsConstructor
-public class SongResponse {
+public class SongDto {
 
     private long songId;
     private String youtubeId;
@@ -19,8 +19,8 @@ public class SongResponse {
     private String albumImg;
     private long playTime;
 
-    public static SongResponse of(Song song){
-        return SongResponse.builder()
+    public static SongDto of(Song song){
+        return SongDto.builder()
                 .songId(song.getId())
                 .youtubeId(song.getYoutubeId())
                 .title(song.getTitle())
