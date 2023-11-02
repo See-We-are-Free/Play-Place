@@ -39,6 +39,12 @@ public class UserService {
         return user.getIsShake();
     }
 
+    public int changeRadarState() {
+        Users user = userRepository.findByOuthId(SecurityUtils.getUserId()).orElseThrow(() -> new BaseException(ErrorCode.NOT_FOUND_USER));
+        user.changeRadarState();
+        return user.getIsRadar();
+    }
+
     public int changeProfileImg(int numImg) {
         Users user = userRepository.findByOuthId(SecurityUtils.getUserId()).orElseThrow(() -> new BaseException(ErrorCode.NOT_FOUND_USER));
         user.changeProfileImg(numImg);
