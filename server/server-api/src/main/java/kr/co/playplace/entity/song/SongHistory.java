@@ -1,5 +1,6 @@
 package kr.co.playplace.entity.song;
 
+import kr.co.playplace.entity.Timezone;
 import kr.co.playplace.entity.Weather;
 import kr.co.playplace.entity.location.Village;
 import kr.co.playplace.entity.user.Users;
@@ -32,4 +33,5 @@ public class SongHistory extends TimeBaseEntity {
     private Village village;
 
     private Weather weather;
+    private Timezone timezone;
 }

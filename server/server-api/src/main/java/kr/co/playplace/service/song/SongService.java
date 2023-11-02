@@ -4,19 +4,24 @@ import kr.co.playplace.common.util.Geocoder;
 import kr.co.playplace.common.util.GetWeather;
 import kr.co.playplace.common.util.S3Uploader;
 import kr.co.playplace.common.util.SecurityUtils;
+import kr.co.playplace.controller.song.request.LikeSongRequest;
 import kr.co.playplace.controller.song.request.SavePlaySongRequest;
 import kr.co.playplace.controller.song.request.SaveSongHistoryRequest;
 import kr.co.playplace.controller.song.request.SaveSongRequest;
+import kr.co.playplace.controller.song.response.GetLikeSongResponse;
 import kr.co.playplace.controller.song.response.SaveSongResponse;
+import kr.co.playplace.entity.Timezone;
 import kr.co.playplace.entity.Weather;
 import kr.co.playplace.entity.location.Village;
 import kr.co.playplace.entity.song.Song;
 import kr.co.playplace.entity.song.SongHistory;
-import kr.co.playplace.entity.user.NowPlay;
-import kr.co.playplace.entity.user.UserLandmarkSong;
-import kr.co.playplace.entity.user.UserSong;
-import kr.co.playplace.entity.user.Users;
+import kr.co.playplace.entity.stats.SongAreaStats;
+import kr.co.playplace.entity.stats.SongTimeStats;
+import kr.co.playplace.entity.stats.SongWeatherStats;
+import kr.co.playplace.entity.user.*;
 import kr.co.playplace.repository.landmark.UserLandmarkSongRepository;
+import kr.co.playplace.repository.stats.*;
+import kr.co.playplace.repository.user.LikeRepository;
 import kr.co.playplace.repository.user.NowPlayRepository;
 import kr.co.playplace.repository.user.UserRepository;
 import kr.co.playplace.repository.location.VillageRepository;
@@ -24,6 +29,7 @@ import kr.co.playplace.repository.song.SongHistoryRepository;
 import kr.co.playplace.repository.song.SongQueryRepository;
 import kr.co.playplace.repository.song.SongRepository;
 import kr.co.playplace.repository.user.UserSongRepository;
+import kr.co.playplace.service.song.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -31,11 +37,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -51,8 +54,16 @@ public class SongService {
     private final SongHistoryRepository songHistoryRepository;
     private final NowPlayRepository nowPlayRepository;
     private final UserLandmarkSongRepository userLandmarkSongRepository;
+    private final SongAreaStatsRepository songAreaStatsRepository;
+    private final SongWeatherStatsRepository songWeatherStatsRepository;
+    private final SongTimeStatsRepository songTimeStatsRepository;
+    private final LikeRepository likeRepository;
 
     private final SongQueryRepository songQueryRepository;
+
+    private final SongAreaDtoRedisRepository songAreaDtoRedisRepository;
+    private final SongWeatherDtoRedisRepository songWeatherDtoRedisRepository;
+    private final SongTimeDtoRedisRepository songTimeDtoRedisRepository;
 
     private final S3Uploader s3Uploader;
     private final Geocoder geocoder;
@@ -117,12 +128,24 @@ public class SongService {
         // 2. 위도 경도로 날씨 받아오기
         Weather weather = getWeather.getWeatherCode(saveSongHistoryRequest.getLat(), saveSongHistoryRequest.getLon());
 
+        // + 시간대 enum으로 저장
+        Timezone timezone = Timezone.DAWN;
+        int hour = LocalDateTime.now().getHour();
+        if(hour >= 6 && hour < 12){
+            timezone = Timezone.MORNING;
+        }else if(hour >= 12 && hour < 18){
+            timezone = Timezone.LUNCH;
+        }else if(hour >= 18){
+            timezone = Timezone.EVENING;
+        }
+
         // 3. 곡 기록에 저장
         SongHistory songHistory = SongHistory.builder()
                 .user(user.get())
                 .song(song.get())
                 .village(village.get())
                 .weather(weather)
+                .timezone(timezone)
                 .build();
         songHistoryRepository.save(songHistory);
     }
@@ -177,5 +200,106 @@ public class SongService {
                     .build();
             nowPlayRepository.save(nowPlay);
         }
+    }
+
+    @Scheduled(cron = "0 0 10 ? * MON") // 매주 월요일 오전 10시에 실행
+    public void getAreaStatistics(){
+        List<GetAreaSongDto> getAreaSongDtoList = songQueryRepository.findSongsWithArea();
+        getAreaSongDtoList = getAreaSongDtoList.stream().sorted(Comparator.comparing(GetAreaSongDto::getCount).reversed()).collect(Collectors.toList()); // count로 정렬
+        for(int i=0; i<10; i++){
+            if(getAreaSongDtoList.size() <= i) return; // list의 개수가 10개보다 적으면 종료
+            // mysql에 저장
+            SongAreaStats songAreaStats = getAreaSongDtoList.get(i).toEntity();
+            songAreaStatsRepository.save(songAreaStats);
+            // redis에 저장
+            SongAreaDto songAreaDto = SongAreaDto.of(getAreaSongDtoList.get(i).getSong(), getAreaSongDtoList.get(i).getVillage());
+            songAreaDtoRedisRepository.save(songAreaDto);
+        }
+    }
+
+    @Scheduled(cron = "0 0 10 ? * MON") // 매주 월요일 오전 10시에 실행
+    public void getWeatherStatistics(){
+        List<GetWeatherSongDto> getWeatherSongDtoList = songQueryRepository.findSongsWithWeather();
+        for(GetWeatherSongDto getWeatherSongDto : getWeatherSongDtoList){
+            // mysql에 저장
+            SongWeatherStats songWeatherStats = getWeatherSongDto.toEntity();
+            songWeatherStatsRepository.save(songWeatherStats);
+            // redis에 저장
+            SongWeatherDto songWeatherDto = SongWeatherDto.of(getWeatherSongDto.getSong(), getWeatherSongDto.getWeather(), getWeatherSongDto.getCount());
+            songWeatherDtoRedisRepository.save(songWeatherDto);
+        }
+    }
+
+    @Scheduled(cron = "0 0 10 ? * MON") // 매주 월요일 오전 10시에 실행
+    public void getTimezoneStatistics(){
+        List<GetTimezoneSongDto> getTimezoneSongDtoList = songQueryRepository.findSongsWithTimezone();
+        for(GetTimezoneSongDto getTimezoneSongDto : getTimezoneSongDtoList){
+            // mysql에 저장
+            SongTimeStats songTimeStats = getTimezoneSongDto.toEntity();
+            songTimeStatsRepository.save(songTimeStats);
+            // redis에 저장
+            SongTimezoneDto songTimezoneDto = SongTimezoneDto.of(getTimezoneSongDto.getSong(), getTimezoneSongDto.getTimezone(), getTimezoneSongDto.getCount());
+            songTimeDtoRedisRepository.save(songTimezoneDto);
+        }
+    }
+
+    public void likeSong(LikeSongRequest likeSongRequest){
+        Optional<Users> user = userRepository.findById(SecurityUtils.getUser().getUserId());
+        redisTemplate.opsForHash().put("like:" + user.get().getId(), likeSongRequest.getSongId(), likeSongRequest.isLike());
+    }
+
+    public GetLikeSongResponse getLikeSong(long songId){
+        Optional<Users> user = userRepository.findById(SecurityUtils.getUser().getUserId());
+        // redis -> mysql
+        Set<Object> songs = redisTemplate.opsForHash().keys("like:" + user.get().getId());
+        if (!songs.isEmpty()) {
+            syncLike();
+        }
+        // mysql check
+        boolean result = likeRepository.existsByLikeId_UserIdAndLikeId_SongId(user.get().getId(), songId);
+        return new GetLikeSongResponse(result);
+    }
+
+    @Scheduled(cron = "0 0/30 * * * ?") // Redis -> MySQL 30분 마다 동기화
+    public void syncLike() {
+        Set<String> changeSongKeys = redisTemplate.keys("like:*");
+        if (changeSongKeys.isEmpty()) return;
+
+        for (String key : changeSongKeys) {
+            Long userId = Long.parseLong(key.split(":")[1]);
+            Users user = userRepository.findById(userId).orElse(null);
+            if (user != null) syncLikeForUser(user); // mysql update
+            redisTemplate.delete(key); // Redis 데이터 삭제
+        }
+    }
+
+    private void syncLikeForUser(Users user) {
+        Set<Object> songIdsObjects = redisTemplate.opsForHash().keys("like:" + user.getId());
+        Set<Long> songIds = songIdsObjects.stream()
+                .map(objectId -> (Long) objectId)
+                .collect(Collectors.toSet());
+
+        List<Song> songs = songRepository.findAllById(songIds);
+        if (songIds.isEmpty()) return;
+
+        Set<Song> saveSong = new HashSet<>();
+
+        for (Song song : songs) {
+            Object check = redisTemplate.opsForHash().get("like:" + user.getId(), song.getId());
+            if (check == null) continue;
+            if (check.equals("true")) {
+                if(!likeRepository.existsByLikeId_UserIdAndLikeId_SongId(user.getId(), song.getId())) {
+                    saveSong.add(song);
+                }
+            } else {
+                Optional<Like> like = likeRepository.findByLikeId_UserIdAndLikeId_SongId(user.getId(), song.getId());
+                like.ifPresent(likeRepository::delete);
+            }
+        }
+        List<Like> likes = saveSong.stream().map(song -> Like.builder()
+                .likeId(new LikeId(user.getId(), song.getId()))
+                .build()).collect(Collectors.toList());
+
+        likeRepository.saveAll(likes);
     }
 }
