@@ -4,7 +4,6 @@ const PlayBarSongInfoContainer = styled.div`
 	display: flex;
 	flex-direction: row;
 	gap: 10px;
-	width: 60%;
 
 	#song {
 		display: flex;
@@ -18,14 +17,6 @@ const PlayBarSongInfoContainer = styled.div`
 			text-overflow: ellipsis;
 			overflow: hidden;
 		}
-	}
-
-	img {
-		border-radius: var(--radius-s);
-		width: 50px;
-		height: 50px;
-		min-width: 50px;
-		max-width: 50px;
 	}
 `;
 

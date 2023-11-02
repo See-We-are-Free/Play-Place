@@ -15,8 +15,8 @@ function NowPlayHeader() {
 
 	return (
 		<NowPlayHeaderContainer>
-			<IconButton Icon={<Down />} onClick={closeModal} size="s" color="black300" />
 			<IconButton Icon={<More />} onClick={closeModal} size="s" color="black300" />
+			<IconButton Icon={<Down />} onClick={closeModal} size="s" color="black300" />
 		</NowPlayHeaderContainer>
 	);
 }

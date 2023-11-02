@@ -7,12 +7,13 @@ interface ISongThumbnailProps {
 	alt?: string;
 	$width?: number;
 	$height?: number;
+	$isFullSize?: boolean;
 }
 function SongThumbnail(props: ISongThumbnailProps) {
-	const { src, alt = '', $width = 45, $height = 45 } = props;
+	const { src, alt = '', $width = 45, $height = 45, $isFullSize = false } = props;
 
 	return (
-		<SongThumbnailWrapper $width={$width} $height={$height}>
+		<SongThumbnailWrapper $width={$width} $height={$height} $isFullSize={$isFullSize}>
 			<SongThumbnailImage src={src || thumbnail} alt={alt} width={$width} height={$height} />
 		</SongThumbnailWrapper>
 	);

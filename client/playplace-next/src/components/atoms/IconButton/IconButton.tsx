@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import IconButtonWrapper from './style';
 
 interface IIconButtonProps {
+	id?: string;
 	size: 's' | 'm' | 'l';
 	color: 'white100' | 'black300';
 	Icon: ReactNode;
@@ -9,10 +10,10 @@ interface IIconButtonProps {
 }
 
 function IconButton(props: IIconButtonProps) {
-	const { size, Icon, onClick, color } = props;
+	const { id = '', size, Icon, onClick, color } = props;
 
 	return (
-		<IconButtonWrapper $color={color} $size={size} onClick={onClick}>
+		<IconButtonWrapper id={id} $color={color} $size={size} onClick={onClick}>
 			{Icon}
 		</IconButtonWrapper>
 	);

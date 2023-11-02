@@ -7,6 +7,14 @@ export interface Song {
 	playTime: number;
 }
 
+export interface BasicSong extends Song {
+	basicSongId: number;
+}
+
+export interface LandmarkSong extends Song {
+	landmarkSongId: number;
+}
+
 export interface AreaSong {
 	villageName: string;
 	villageCode: number;
