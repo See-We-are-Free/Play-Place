@@ -14,7 +14,6 @@ const usePlayer = () => {
 			title: '사랑이라 믿었던 것들은',
 			songId: 1,
 			playTime: 400,
-			basicSongId: 1,
 			albumImg: 'https://image.bugsm.co.kr/album/images/500/40841/4084173.jpg',
 			artist: '서동현',
 		});
@@ -29,7 +28,6 @@ const usePlayer = () => {
 			title: 'LoveLee',
 			songId: 2,
 			playTime: 360,
-			basicSongId: 2,
 			albumImg: 'https://image.bugsm.co.kr/album/images/500/40903/4090354.jpg',
 			artist: 'AKMU',
 		});

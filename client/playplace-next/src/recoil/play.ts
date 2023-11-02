@@ -28,7 +28,6 @@ export const isNowPlayState = atom<boolean>({
 export const nowPlaySongState = atom<Song | null>({
 	key: 'nowPlaySongState',
 	default: {
-		basicSongId: 3,
 		songId: 3,
 		youtubeId: 'wtnC7HivieA',
 		title: '작업 치과를 아세여?',

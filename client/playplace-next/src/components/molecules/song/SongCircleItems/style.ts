@@ -1,12 +1,12 @@
-import { AlbumSequenceStyles } from '@/types/styles.d';
+import { CircleSequenceStyles } from '@/types/styles.d';
 import Image from 'next/image';
 import styled, { css } from 'styled-components';
 
-interface IHomeAlbumStyleProps {
-	$roundSequence: AlbumSequenceStyles;
+interface ISongCircleStyleProps {
+	$roundSequence: CircleSequenceStyles;
 }
 
-const HomeAlbumItemsContainer = styled.div`
+const SongCircleItemsContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -18,9 +18,10 @@ const HomeAlbumItemsContainer = styled.div`
 	background-clip: content-box, border-box;
 	border-radius: 70%;
 	position: relative;
+	margin: 10px 0;
 `;
 
-export const AlbumImage = styled(Image)`
+export const CircleImage = styled(Image)`
 	width: 90%;
 	height: 90%;
 	border-radius: 70%;
@@ -52,17 +53,20 @@ const RoundTypes = {
 	`,
 };
 
-export const AlbumInnerRound = styled.div<IHomeAlbumStyleProps>`
+export const SongInnerCircle = styled.div<ISongCircleStyleProps>`
 	position: absolute;
 	border: 0.3px solid var(--black-500);
 	border-radius: 70%;
 	${({ $roundSequence }) => RoundTypes[$roundSequence]};
 `;
 
-export const AlbumButton = styled.button`
+export const SongCircleButton = styled.button`
 	position: absolute;
 	border: none;
 	border-radius: 70%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 
 	svg {
 		width: 16%;
@@ -70,4 +74,4 @@ export const AlbumButton = styled.button`
 	}
 `;
 
-export default HomeAlbumItemsContainer;
+export default SongCircleItemsContainer;
