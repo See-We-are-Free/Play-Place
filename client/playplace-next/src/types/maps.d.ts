@@ -7,6 +7,6 @@ export interface LandMarkInfo {
 	landMarkId: number;
 	title: string;
 	latitude: number;
-	langitude: number;
+	longitude: number;
 	representativeImg: string | null;
 }

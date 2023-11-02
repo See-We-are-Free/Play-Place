@@ -1,19 +1,19 @@
 import React from 'react';
-import HomeSubtitleContainer from './style';
-import Text from '../Text/Text';
+import SongSubtitleContainer from './style';
+import Text from '../../../atoms/Text/Text';
 
-interface HomeSubtitleProps {
+interface SongSubtitleProps {
 	colorSubtitle: string;
 	normalSubtitle: string;
 }
-function HomeSubtitle(props: HomeSubtitleProps) {
+function SongSubtitle(props: SongSubtitleProps) {
 	const { colorSubtitle, normalSubtitle } = props;
 	return (
-		<HomeSubtitleContainer>
+		<SongSubtitleContainer>
 			<Text text={colorSubtitle} color="gradientOrange" fontSize={18} />
 			<Text text={normalSubtitle} color="default" fontSize={18} />
-		</HomeSubtitleContainer>
+		</SongSubtitleContainer>
 	);
 }
 
-export default HomeSubtitle;
+export default SongSubtitle;

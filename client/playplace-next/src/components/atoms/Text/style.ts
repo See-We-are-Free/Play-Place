@@ -26,7 +26,7 @@ const TextStyle = {
 
 const TextWrapper = styled.p<ITextWrapperProps>`
 	width: fit-content;
-
+	white-space: nowrap;
 	font-size: ${({ $fontSize }) => $fontSize}px;
 	${({ $color }) => TextStyle[$color]};
 `;

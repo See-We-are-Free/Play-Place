@@ -14,7 +14,7 @@ export enum ButtonStyles {
 	outlinePrimaryBottom = 'outlinePrimaryBottom',
 }
 
-export enum AlbumSequenceStyles {
+export enum CircleSequenceStyles {
 	one = 'one',
 	two = 'two',
 	three = 'three',
@@ -30,4 +30,9 @@ export enum HeaderStyles {
 	playlist = 'playlist',
 	search = 'search',
 	signup = 'signup',
+}
+
+export enum ToastStyles {
+	success = 'success',
+	error = 'error',
 }

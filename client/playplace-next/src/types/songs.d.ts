@@ -15,10 +15,26 @@ export interface LandmarkSong extends Song {
 	landmarkSongId: number;
 }
 
+export interface AreaSong {
+	villageName: string;
+	villageCode: number;
+	songs: Song[];
+}
+
+export interface WeatherSong {
+	weather: string;
+	songs: Song[];
+}
+
+export interface TimezoneSong {
+	timezone: string;
+	songs: Song[];
+}
+
 export interface SearchSong {
 	kind: string;
 	etag: string;
-	id: SongId;
+	id: SearchSongId;
 	snippet: {
 		publishedAt: string;
 		channelId: string;
@@ -26,19 +42,19 @@ export interface SearchSong {
 		title: string;
 		description: string;
 		thumbnails: {
-			default: SongThumbnails;
-			medium: SongThumbnails;
-			high: SongThumbnails;
+			default: SearchSongThumbnails;
+			medium: SearchSongThumbnails;
+			high: SearchSongThumbnails;
 		};
 	};
 }
 
-interface SongId {
+interface SearchSongId {
 	kind: string;
 	videoId: string;
 }
 
-interface SongThumbnails {
+interface SearchSongThumbnails {
 	url: string;
 	width: number;
 	height: number;
