@@ -1,0 +1,9 @@
+[[user-change-push]]
+=== 푸쉬 알람 동의 여부 변경
+
+==== HTTP Request
+include::{snippets}/user-change-push/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/user-change-push/http-response.adoc[]
+include::{snippets}/user-change-push/response-fields.adoc[]

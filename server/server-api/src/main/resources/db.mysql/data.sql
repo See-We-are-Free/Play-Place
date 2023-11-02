@@ -1,7 +1,7 @@
 INSERT INTO users (user_id, nickname, profile_img, outh_id, is_removed, is_push, is_shake, created_date, modified_date)
-VALUES (1, 'nickname1', 1, 'outh_id1', 0, 0, 0, NOW(), NOW()),
-       (2, 'nickname2', 2, 'outh_id2', 0, 0, 0, NOW(), NOW()),
-       (3, 'nickname3', 3, 'outh_id3', 1, 0, 0, NOW(), NOW());
+VALUES (1, 'nickname1', 1, 'outh_id1', 0, 0, 1, NOW(), NOW()),
+       (2, 'nickname2', 2, 'outh_id2', 0, 0, 1, NOW(), NOW()),
+       (3, 'nickname3', 3, 'outh_id3', 1, 0, 1, NOW(), NOW());
 
 INSERT INTO song (song_id, youtube_id, title, artist, album_img, play_time, created_date, modified_date)
 VALUES (1, 'yId1', 'Title1', 'Artist1', 'AlbumImg1', 210, NOW(), NOW()),

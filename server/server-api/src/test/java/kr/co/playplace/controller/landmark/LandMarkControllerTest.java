@@ -175,7 +175,7 @@ class LandMarkControllerTest extends RestDocsSupport {
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
-                .andDo(document("landmark-playlist-save",
+                .andDo(document("landmark-song-save",
                         preprocessResponse(prettyPrint()),
                         requestFields(
                                 fieldWithPath("landmarkId").type(JsonFieldType.NUMBER)
