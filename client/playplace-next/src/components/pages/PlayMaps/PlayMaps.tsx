@@ -1,9 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { GoogleMap, useJsApiLoader, Circle, MarkerF, MarkerClusterer } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader, Circle, MarkerF, MarkerClustererF } from '@react-google-maps/api';
 import { LandMarkInfo, MapsCenter } from '@/types/maps';
 import LocateButton from '@/components/atoms/LocateButton/LocateButton';
 import { getDevelopLandmarksApi } from '@/utils/api/playmaps';
 // import LandMarkDefault from '@root/public/assets/images/LandMarkDefault.png';
+import clusterStyles from '@/constants/map';
 import { containerStyle, nightModeStyles } from './style';
 
 function deg2rad(deg: number) {
@@ -129,6 +130,7 @@ function PlayMaps() {
 		gridSize: 60, // 클러스터 그리드 크기 설정 (픽셀)
 		maxZoom: 15, // 최대 확대 레벨
 		// 여기에 다른 클러스터링 옵션을 추가할 수 있습니다.
+		styles: clusterStyles,
 	};
 
 	return (
@@ -150,7 +152,7 @@ function PlayMaps() {
 							streetViewControl: false,
 						}}
 					>
-						<MarkerClusterer options={options}>
+						<MarkerClustererF options={options}>
 							{(clusterer) => (
 								<>
 									{landMarks.map((landMark) => (
@@ -169,7 +171,7 @@ function PlayMaps() {
 									))}
 								</>
 							)}
-						</MarkerClusterer>
+						</MarkerClustererF>
 
 						<Circle center={center} options={circleRangeOptions} />
 						<Circle center={center} options={markerCircleOptions} />
