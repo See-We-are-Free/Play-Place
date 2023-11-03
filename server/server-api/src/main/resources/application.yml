@@ -23,6 +23,8 @@ spring:
   cloud:
     gcp:
       project-id: playplace
+      credentials:
+        location: ${GOOGLE_APPLICATION_CREDENTIALS}
     servlet:
       multipart:
         max-file-size: 10MB
