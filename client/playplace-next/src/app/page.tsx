@@ -5,11 +5,14 @@ import LayoutWithHeader from '@/components/templates/layout/LayoutWithHeader/Lay
 import { HeaderStyles } from '@/types/styles.d';
 import MenuIcon from '@root/public/assets/icons/Menu.svg';
 import Home from '@/components/pages/Home/Home';
+import { useRouter } from 'next/navigation';
 
 export default function HomePage() {
+	const router = useRouter();
+
 	const header = (
 		<Header $headerType={HeaderStyles.home} location="장덕동">
-			<button type="button" onClick={() => console.log('클릭')}>
+			<button type="button" onClick={() => router.push('/login')}>
 				<MenuIcon />
 			</button>
 		</Header>
