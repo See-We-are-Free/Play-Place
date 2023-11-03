@@ -1,8 +1,6 @@
 package kr.co.playplace.service.radar;
 
-import kr.co.playplace.controller.radar.response.UsersNearbyResponse;
-import kr.co.playplace.entity.song.Song;
-import kr.co.playplace.entity.user.Users;
+
 import kr.co.playplace.repository.location.UserLocationRepository;
 import kr.co.playplace.controller.radar.request.UserLocationRequest;
 import kr.co.playplace.repository.user.UserRepository;
@@ -13,21 +11,13 @@ import org.springframework.data.redis.core.GeoOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PutMapping;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.springframework.data.redis.connection.RedisGeoCommands.*;
 
 @Slf4j
 @Transactional
 @Service
 @RequiredArgsConstructor
 public class RadarService {
-
-    private final UserRepository userRepository;
-    private final UserLocationRepository userLocationRepository;
 
     private final RedisTemplate redisTemplate;
 
@@ -57,11 +47,4 @@ public class RadarService {
 
         log.debug("geoHash: {}", geoOperations.hash(key,"" + userId));
     }
-
-    public void updateUserLocationState(long userId) {
-
-        String key = "geoPoints:" +  userId;
-        redisTemplate.delete(key);
-    }
-
 }

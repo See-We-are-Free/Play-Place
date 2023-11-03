@@ -33,7 +33,7 @@ public class RadarQueryService {
 
     private final RedisTemplate redisTemplate;
 
-    public List<UsersNearbyResponse> findUsersNearby(long userId, double longitude, double latitude) {
+    public List<UsersNearbyResponse> findNearbyUsers(long userId) {
 
 //        GeoHash geoHash = GeoHash.withCharacterPrecision(latitude, longitude, 7);
 //        GeoHash[] adjHash = geoHash.getAdjacent();
@@ -48,8 +48,10 @@ public class RadarQueryService {
             throw new BaseException(ErrorCode.INVALID_USE_RADAR);
         }
 
+        // 사용자 위치 redis에서 조회
+        Point userLocation = findUserLocation(userId);
+
         // 사용자의 위치를 중심으로 반경 100m 범위 설정
-        Point userLocation = new Point(longitude, latitude);
         Distance radius = new Distance(100, RedisGeoCommands.DistanceUnit.METERS);
         Circle circle = new Circle(userLocation, radius);
 
@@ -62,7 +64,7 @@ public class RadarQueryService {
                 .includeDistance()
                 .includeCoordinates()
                 .sortAscending()
-                .limit(16);
+                .limit(13);
 
         // 설정한 위치 범위 안에 있는 사용자들 검색
         GeoResults<RedisGeoCommands.GeoLocation<String>> results = geoOperations
@@ -90,11 +92,11 @@ public class RadarQueryService {
             int level = 0;
 
             if(distance <= 10) {
-                level = 1;
+                level = 0;
             } else if(distance <= 50) {
-                level = 2;
+                level = 1;
             } else {
-                level = 3;
+                level = 2;
             }
 
             Users userNearby = userRepository.findById(userNearbyId).get();
@@ -116,5 +118,9 @@ public class RadarQueryService {
 
         return list;
 
+    }
+
+    public Point findUserLocation(long userId) {
+        return new Point(1, 1);
     }
 }
