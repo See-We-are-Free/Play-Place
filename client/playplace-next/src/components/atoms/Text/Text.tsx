@@ -6,13 +6,14 @@ interface ITextProps {
 	fontSize?: number;
 	color?: 'default' | 'gradientMain' | 'gray' | 'gradientOrange';
 	onClick?: () => void;
+	$overflowHidden?: boolean;
 }
 
 function Text(props: ITextProps) {
-	const { text, onClick = () => {}, color = 'default', fontSize = 12 } = props;
+	const { text, onClick = () => {}, color = 'default', fontSize = 12, $overflowHidden = true } = props;
 
 	return (
-		<TextWrapper $fontSize={fontSize} $color={color} onClick={onClick}>
+		<TextWrapper $fontSize={fontSize} $color={color} onClick={onClick} $overflowHidden={$overflowHidden}>
 			{text}
 		</TextWrapper>
 	);
