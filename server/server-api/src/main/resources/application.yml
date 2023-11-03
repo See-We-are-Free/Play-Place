@@ -11,9 +11,9 @@ logging:
     root: info
     org:
       springframework:
-        boot : info
-        security : debug
-        web : info
+        boot: info
+        security: debug
+        web: info
     kr.co.playplace: debug
 
 spring:
@@ -23,8 +23,6 @@ spring:
   cloud:
     gcp:
       project-id: playplace
-      credentials:
-        location: classpath:playplace-c109-63af6b6b49fd.json
     servlet:
       multipart:
         max-file-size: 10MB
