@@ -5,7 +5,7 @@ export const HeaderRightItemContainer = styled.div`
 	flex-direction: row;
 	flex-wrap: nowrap;
 	align-items: center;
-	gap: 10px;
+	gap: 6px;
 
 	svg {
 		width: 25px;

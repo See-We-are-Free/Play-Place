@@ -1,18 +1,18 @@
 'use client';
 
-import useToggle from '@/hooks/useToggle';
+import { SetterOrUpdater } from 'recoil';
 import { Button, ToggleButtonWrapper } from './style';
 
 interface ToggleButtonProps {
-	init?: boolean;
+	isActive: boolean;
+	setIsActive: SetterOrUpdater<boolean>;
 }
 
 function ToggleButton(props: ToggleButtonProps) {
-	const { init = false } = props;
-	const [isActive, toggle] = useToggle(init);
+	const { isActive, setIsActive } = props;
 
 	const handleToggle = () => {
-		toggle();
+		setIsActive((prev) => !prev);
 	};
 
 	return (
