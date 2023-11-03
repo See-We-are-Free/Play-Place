@@ -74,6 +74,18 @@ dependencies {
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.0'
+
+	//google vision
+	implementation 'com.google.cloud:spring-cloud-gcp-starter'
+	implementation 'com.google.cloud:spring-cloud-gcp-starter-vision'
+
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:2021.0.1"
+		mavenBom "com.google.cloud:spring-cloud-gcp-dependencies:3.1.0"
+	}
 }
 
 //tasks.named('test') {

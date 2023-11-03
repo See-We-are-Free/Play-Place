@@ -20,6 +20,15 @@ spring:
   batch:
     job:
       enabled: false
+  cloud:
+    gcp:
+      project-id: playplace
+      credentials:
+        location: classpath:playplace-c109-63af6b6b49fd.json
+    servlet:
+      multipart:
+        max-file-size: 10MB
+        max-request-size: 10MB
 
 cloud:
   aws:
