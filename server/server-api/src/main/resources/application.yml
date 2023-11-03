@@ -37,3 +37,5 @@ geocoder:
   api-key: ${GEOCODER_API_KEY}
 weather:
   service-key: ${WEATHER_SERVICE_KEY}
+youtube:
+  api-key: ${YOUTUBE_API_KEY}
