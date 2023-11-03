@@ -10,8 +10,8 @@ function PlayBar() {
 	if (useTabbarRender())
 		return (
 			<PlayBarContainer>
-				<SongInfo />
-				<PlayBarPlayControl />
+				<SongInfo id="song-info" />
+				<PlayBarPlayControl id="playbar-play-control" />
 			</PlayBarContainer>
 		);
 	return <></>;

@@ -8,10 +8,14 @@ import PlayList from '@root/public/assets/icons/PlayList.svg';
 import IconButton from '@/components/atoms/IconButton/IconButton';
 import { useRecoilState } from 'recoil';
 import { isNowPlayState, playModalState } from '@/recoil/play';
-import usePlayer from '@/hooks/usePlayer';
+import usePlayer from '@/hooks/player/usePlayer';
 import PlayBarPlayControlContainer from './style';
 
-function PlayBarPlayControl() {
+interface IPlayBarPlayControlProps {
+	id?: string;
+}
+function PlayBarPlayControl(props: IPlayBarPlayControlProps) {
+	const { id = '' } = props;
 	const [isNowPlay] = useRecoilState(isNowPlayState);
 	const [, setPlayModal] = useRecoilState(playModalState);
 	const { playPreviousSong, playNextSong, playSong, pauseSong } = usePlayer();
@@ -21,7 +25,7 @@ function PlayBarPlayControl() {
 	};
 
 	return (
-		<PlayBarPlayControlContainer>
+		<PlayBarPlayControlContainer id={id}>
 			<IconButton size="s" Icon={<SkipPrevious />} onClick={playPreviousSong} color="white100" />
 			{isNowPlay ? (
 				<IconButton size="s" Icon={<Pause />} onClick={pauseSong} color="white100" />
