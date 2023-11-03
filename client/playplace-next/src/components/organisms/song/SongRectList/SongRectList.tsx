@@ -29,10 +29,6 @@ function SongRectList(props: SongRectListProps) {
 		}
 	};
 
-	const test = () => {
-		console.log(1);
-	};
-
 	return (
 		<SongRectListContainer>
 			<SongSubtitle colorSubtitle={TIME_TITLE[TimeZoneSongList.timezone]} normalSubtitle="듣기 좋은 음악" />
@@ -45,7 +41,7 @@ function SongRectList(props: SongRectListProps) {
 								<Text text={v.title} color="default" fontSize={14} />
 								<Text text={v.artist} color="gray" fontSize={10} />
 							</SongRectListInfo>
-							<SongRectListPlay type="button" onClick={test}>
+							<SongRectListPlay type="button" onClick={() => {}}>
 								<RoundPlay />
 							</SongRectListPlay>
 						</SongRectListInfoPlay>

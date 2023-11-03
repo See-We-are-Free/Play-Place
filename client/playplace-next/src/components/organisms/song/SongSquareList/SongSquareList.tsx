@@ -25,13 +25,14 @@ function SongSquareList(props: SongSquareListProps) {
 	const test = () => {
 		console.log(1);
 	};
+
 	return (
 		<SongSquareListContainer>
 			<SongSubtitle colorSubtitle={WEATHER_TITLE[WeatherSongList.weather]} normalSubtitle="듣기 좋은 음악" />
 			<SongSquareListScroll onWheel={handleScroll} ref={containerRef}>
 				{WeatherSongList.songs.map((v) => (
 					<SongSquareListContent key={v.youtubeId}>
-						<SongSquareItems imgSrc={v.albumImg} onClick={test} />
+						<SongSquareItems imgSrc={v.albumImg || ''} onClick={test} />
 						<Text text={v.title} color="default" fontSize={14} />
 						<Text text={v.artist} color="gray" fontSize={10} />
 					</SongSquareListContent>

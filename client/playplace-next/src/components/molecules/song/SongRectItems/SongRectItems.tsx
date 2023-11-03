@@ -8,12 +8,11 @@ interface ISongRectItemsProps {
 
 function SongRectItems(props: ISongRectItemsProps) {
 	const { imgSrc } = props;
-	console.log(imgSrc);
 
 	return (
 		<SongRectItemsContainer>
 			{/* <SongThumbnail src={HypeBoy} $height={180} $width={130} /> */}
-			<SongThumbnail src="" $height={180} $width={130} />
+			<SongThumbnail src={imgSrc || ''} $height={180} $width={130} />
 		</SongRectItemsContainer>
 	);
 }
