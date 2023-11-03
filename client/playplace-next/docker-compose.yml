@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  playplace-next:
+    container_name: playplace-next
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_SERVER_URL=${NEXT_PUBLIC_SERVER_URL}
+        - NEXT_PUBLIC_DEVELOP_URL=${NEXT_PUBLIC_DEVELOP_URL}
+        - NEXT_PUBLIC_GOOGLE_LOGIN_PATH=${NEXT_PUBLIC_GOOGLE_LOGIN_PATH}
+        - NEXT_PUBLIC_DEVELOP_GOOGLE_LOGIN_PATH=${NEXT_PUBLIC_DEVELOP_GOOGLE_LOGIN_PATH}
+        - NEXT_PUBLIC_GOOGLE_MAPS=${NEXT_PUBLIC_GOOGLE_MAPS}
+    ports:
+      - "3000:3000"
+    environment:
+      - TZ=Asia/Seoul
