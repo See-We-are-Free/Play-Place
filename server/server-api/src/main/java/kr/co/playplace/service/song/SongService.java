@@ -1,13 +1,11 @@
 package kr.co.playplace.service.song;
 
+import kr.co.playplace.common.exception.BaseException;
 import kr.co.playplace.common.util.Geocoder;
 import kr.co.playplace.common.util.GetWeather;
 import kr.co.playplace.common.util.S3Uploader;
 import kr.co.playplace.common.util.SecurityUtils;
-import kr.co.playplace.controller.song.request.LikeSongRequest;
-import kr.co.playplace.controller.song.request.SavePlaySongRequest;
-import kr.co.playplace.controller.song.request.SaveSongHistoryRequest;
-import kr.co.playplace.controller.song.request.SaveSongRequest;
+import kr.co.playplace.controller.song.request.*;
 import kr.co.playplace.controller.song.response.GetLikeSongResponse;
 import kr.co.playplace.controller.song.response.SaveSongResponse;
 import kr.co.playplace.entity.Timezone;
@@ -40,6 +38,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static kr.co.playplace.common.exception.ErrorCode.NOT_FOUND_SONG;
 
 @Slf4j
 @Service
@@ -301,5 +301,24 @@ public class SongService {
                 .build()).collect(Collectors.toList());
 
         likeRepository.saveAll(likes);
+    }
+
+    public void updatePlaytime(UpdatePlaytimeRequest updatePlaytimeRequest){
+        // youtubeid로 찾기
+        Optional<Song> find = songRepository.findByYoutubeId(updatePlaytimeRequest.getYoutubeId());
+        if(find.isEmpty()){
+            throw new BaseException(NOT_FOUND_SONG);
+        }
+
+        // playtime update
+        Song song = Song.builder()
+                .id(find.get().getId())
+                .title(find.get().getTitle())
+                .youtubeId(find.get().getYoutubeId())
+                .albumImg(find.get().getAlbumImg())
+                .artist(find.get().getArtist())
+                .playTime(updatePlaytimeRequest.getPlayTime())
+                .build();
+        songRepository.save(song);
     }
 }

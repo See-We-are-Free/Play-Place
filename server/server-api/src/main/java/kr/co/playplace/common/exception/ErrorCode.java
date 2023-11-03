@@ -23,6 +23,7 @@ public enum ErrorCode {
     NOT_FOUND_TIME_SONG("HOME03", HttpStatus.NOT_FOUND, "해당하는 시간대에 재생된 곡이 없습니다."),
     NOT_FOUND_USER("MY01", HttpStatus.NOT_FOUND, "해당하는 사용자가 없습니다."),
     NOT_FOUND_LANDMARK("LAND", HttpStatus.NOT_FOUND, "해당하는 랜드마크가 없습니다."),
+    NOT_FOUND_SONG("SONG", HttpStatus.NOT_FOUND, "YoutubeID 제대로 보내준 거 맞니?"),
 
     /* 409 CONFLICT */
     ALREADY_EXIST_USER("MEMBER01", HttpStatus.CONFLICT, "이미 회원가입 되었습니다."),

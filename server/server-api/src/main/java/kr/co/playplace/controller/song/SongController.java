@@ -1,9 +1,6 @@
 package kr.co.playplace.controller.song;
 
-import kr.co.playplace.controller.song.request.LikeSongRequest;
-import kr.co.playplace.controller.song.request.SavePlaySongRequest;
-import kr.co.playplace.controller.song.request.SaveSongHistoryRequest;
-import kr.co.playplace.controller.song.request.SaveSongRequest;
+import kr.co.playplace.controller.song.request.*;
 import kr.co.playplace.controller.song.response.GetLikeSongResponse;
 import kr.co.playplace.controller.song.response.GetRecentSongResponse;
 import kr.co.playplace.controller.song.response.SaveSongResponse;
@@ -44,6 +41,12 @@ public class SongController {
     @PostMapping("/play") // 곡 재생(redis에 저장)
     public ResponseEntity<?> playSong(@RequestBody SavePlaySongRequest savePlaySongRequest){
         songService.playSong(savePlaySongRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/play") // 재생시간 갱신
+    public ResponseEntity<?> updatePlaytime(@RequestBody UpdatePlaytimeRequest updatePlaytimeRequest){
+        songService.updatePlaytime(updatePlaytimeRequest);
         return ResponseEntity.ok().build();
     }
 
