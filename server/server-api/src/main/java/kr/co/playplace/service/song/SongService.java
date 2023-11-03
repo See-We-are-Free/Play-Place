@@ -8,6 +8,7 @@ import kr.co.playplace.common.util.SecurityUtils;
 import kr.co.playplace.controller.song.request.*;
 import kr.co.playplace.controller.song.response.GetLikeSongResponse;
 import kr.co.playplace.controller.song.response.SaveSongResponse;
+import kr.co.playplace.controller.user.response.FindLikeListResponse;
 import kr.co.playplace.entity.Timezone;
 import kr.co.playplace.entity.Weather;
 import kr.co.playplace.entity.location.Village;
@@ -258,6 +259,23 @@ public class SongService {
         // mysql check
         boolean result = jjimRepository.existsByJjimId_UserIdAndJjimId_SongId(user.get().getId(), songId);
         return new GetLikeSongResponse(result);
+    }
+
+    public List<FindLikeListResponse> getLikeList(){
+        Optional<Users> user = userRepository.findById(SecurityUtils.getUser().getUserId());
+        // redis -> mysql
+        Set<Object> songs = redisTemplate.opsForHash().keys("like:" + user.get().getId());
+        if (!songs.isEmpty()) {
+            syncLike();
+        }
+        // mysql check
+        List<Jjim> result = jjimRepository.findAllByJjimId_UserId(user.get().getId());
+        List<FindLikeListResponse> findLikeListResponseList = new ArrayList<>();
+        for(Jjim jjim : result){
+            Optional<Song> song = songRepository.findById(jjim.getJjimId().getSongId());
+            findLikeListResponseList.add(FindLikeListResponse.of(song.get()));
+        }
+        return findLikeListResponseList;
     }
 
     @Scheduled(cron = "0 0/30 * * * ?") // Redis -> MySQL 30분 마다 동기화

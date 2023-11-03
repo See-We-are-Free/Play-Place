@@ -4,7 +4,9 @@ import kr.co.playplace.common.ApiResponse;
 import kr.co.playplace.common.exception.BaseException;
 import kr.co.playplace.common.exception.ErrorCode;
 import kr.co.playplace.controller.user.requeset.JoinUserRequest;
+import kr.co.playplace.controller.user.response.FindLikeListResponse;
 import kr.co.playplace.controller.user.response.FindUserInfoResponse;
+import kr.co.playplace.service.song.SongService;
 import kr.co.playplace.service.user.UserQueryService;
 import kr.co.playplace.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -20,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 public class UserController {
     private final UserService userService;
     private final UserQueryService userQueryService;
+    private final SongService songService;
 
     @PostMapping
     public ApiResponse<Object> register(@RequestBody JoinUserRequest joinUserRequest, HttpServletResponse response) {
@@ -52,6 +56,11 @@ public class UserController {
     @PatchMapping("/{numImg}")
     public ApiResponse<Integer> changeProfileImg(@PathVariable int numImg) {
         return ApiResponse.ok(userService.changeProfileImg(numImg));
+    }
+
+    @GetMapping("/like")
+    public ApiResponse<List<FindLikeListResponse>> getLikeList() {
+        return ApiResponse.ok(songService.getLikeList());
     }
 
 
