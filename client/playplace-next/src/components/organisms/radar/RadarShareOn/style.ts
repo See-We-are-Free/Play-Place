@@ -46,9 +46,11 @@ export const UserContainer = styled.div`
 
 export const EmojiWrapper = styled.div``;
 
-export const BackgorundRound = styled.div`
-	width: 150px;
-	height: 150px;
+export const BackgroundRound = styled.div`
+	width: calc(100vh - 550px);
+	height: calc(100vh - 550px);
+	min-width: 150px;
+	min-height: 150px;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -71,12 +73,16 @@ export const BackgorundRound = styled.div`
 	}
 
 	&::before {
-		width: 300px;
-		height: 300px;
+		width: calc(100vh - 360px);
+		height: calc(100vh - 360px);
+		min-width: 200px;
+		min-height: 200px;
 	}
 
 	&::after {
-		width: 450px;
-		height: 450px;
+		width: calc(100vh - 180px);
+		height: calc(100vh - 180px);
+		min-width: 250px;
+		min-height: 250px;
 	}
 `;
