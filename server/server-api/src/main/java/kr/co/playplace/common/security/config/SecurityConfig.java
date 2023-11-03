@@ -1,6 +1,7 @@
 package kr.co.playplace.common.security.config;
 
 import kr.co.playplace.common.security.filter.JwtAuthFilter;
+import kr.co.playplace.common.security.filter.JwtExceptionFilter;
 import kr.co.playplace.common.security.handler.MyAuthenticationFailureHandler;
 import kr.co.playplace.common.security.handler.MyAuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +16,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@Profile({"local","prod"})
+@Profile({"local", "prod"})
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final MyAuthenticationSuccessHandler oAuth2LoginSuccessHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final JwtAuthFilter jwtAuthFilter;
+    private final JwtExceptionFilter jwtExceptionFilter;
     private final MyAuthenticationFailureHandler oAuth2LoginFailureHandler;
 
     @Bean
@@ -48,6 +50,7 @@ public class SecurityConfig {
 
         // JWT 인증 필터를 UsernamePasswordAuthenticationFilter 앞에 추가한다.
         return http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtExceptionFilter, JwtAuthFilter.class)
                 .build();
     }
 }
