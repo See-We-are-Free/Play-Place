@@ -2,6 +2,7 @@
 
 import { isNowPlayState, nowPlaySongState, playbackState } from '@/recoil/play';
 import { PlaybackType } from '@/types/play';
+import { BasicSong, LandmarkSong, Song } from '@/types/songs';
 import { getLatestSongApi, saveNowPlaySongApi } from '@/utils/api/songs';
 import { useEffect, useRef } from 'react';
 import YouTube, { YouTubeProps } from 'react-youtube';
@@ -41,9 +42,6 @@ function PlayBack() {
 			} else if ('basicSongId' in nowPlaySong) {
 				isLandmark = false;
 				playlistSongId = nowPlaySong.basicSongId as number;
-			} else if ('playlistSongId' in nowPlaySong) {
-				isLandmark = false;
-				playlistSongId = nowPlaySong.playlistSongId as number;
 			}
 		}
 
@@ -64,9 +62,31 @@ function PlayBack() {
 	const fetchLatestSongData = async () => {
 		try {
 			const response = await getLatestSongApi();
-			console.log(response);
+
 			if (response.status === 200) {
-				setNowPlaySong(response.data);
+				if (response.data.landmark) {
+					const song: LandmarkSong = {
+						...response.data,
+						landmarkSongId: response.data.playListSongId,
+					};
+					setNowPlaySong(song);
+				} else {
+					const song: BasicSong = {
+						...response.data,
+						basicSongId: response.data.playListSongId,
+					};
+					setNowPlaySong(song);
+				}
+			} else if (response.status === 204) {
+				const emptySong: Song = {
+					title: '현재 재생중인 곡이 없습니다.',
+					artist: '',
+					albumImg: '',
+					playTime: 0,
+					songId: -1,
+					youtubeId: '',
+				};
+				setNowPlaySong(emptySong);
 			}
 		} catch (error) {
 			console.error(error);

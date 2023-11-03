@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
-const GroupSongListItemContainer = styled.div`
+interface GroupSongListItemContainerProps {
+	$isNowPlay: boolean;
+}
+const GroupSongListItemContainer = styled.div<GroupSongListItemContainerProps>`
 	position: relative;
 	display: flex;
 	flex-direction: row;
@@ -10,6 +13,10 @@ const GroupSongListItemContainer = styled.div`
 		display: flex;
 		flex-direction: column;
 		justify-content: space-evenly;
+
+		p {
+			color: ${({ $isNowPlay }) => ($isNowPlay ? `var(--primary-orange)` : `var(--white-100)`)};
+		}
 	}
 
 	#more {
