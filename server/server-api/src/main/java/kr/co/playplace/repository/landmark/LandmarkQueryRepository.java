@@ -38,6 +38,8 @@ public class LandmarkQueryRepository {
     public List<FindLandmarkSongResponse> findLandmarkSongs(Long landmarkId) {
         return queryFactory
                 .select(Projections.constructor(FindLandmarkSongResponse.class,
+                        landmarkSong.song.id,
+                        landmarkSong.song.youtubeId,
                         landmarkSong.song.title,
                         landmarkSong.song.artist,
                         landmarkSong.song.albumImg,
