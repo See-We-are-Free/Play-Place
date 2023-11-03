@@ -9,6 +9,7 @@ interface SongThumbnailWrapperProps {
 const SongThumbnailWrapper = styled.div<SongThumbnailWrapperProps>`
 	width: ${({ $width }) => $width || 45}px;
 	height: ${({ $height }) => $height || 45}px;
+	min-width: ${({ $width }) => $width || 45}px;
 `;
 
 export const SongThumbnailImage = styled(Image)`

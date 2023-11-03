@@ -25,8 +25,10 @@ const TextStyle = {
 };
 
 const TextWrapper = styled.p<ITextWrapperProps>`
-	width: fit-content;
+	width: 100%;
 	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 	font-size: ${({ $fontSize }) => $fontSize}px;
 	${({ $color }) => TextStyle[$color]};
 `;
