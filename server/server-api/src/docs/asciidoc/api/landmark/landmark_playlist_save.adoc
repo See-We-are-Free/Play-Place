@@ -1,0 +1,9 @@
+[[landmark-playlist-save]]
+=== 랜드마크 공유재생 목록 내 재생목록에 추가
+
+==== HTTP Request
+include::{snippets}/landmark-playlist-save/http-request.adoc[]
+include::{snippets}/landmark-playlist-save/request-fields.adoc[]
+==== HTTP Response
+include::{snippets}/landmark-playlist-save/http-response.adoc[]
+include::{snippets}/landmark-playlist-save/response-fields.adoc[]
