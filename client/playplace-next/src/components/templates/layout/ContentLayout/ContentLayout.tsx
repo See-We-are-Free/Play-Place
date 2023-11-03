@@ -12,10 +12,22 @@ interface ContentLayoutProps {
 	$background?: string;
 	$border?: string;
 	$borderRadius?: number;
+	$width?: string;
+	$height?: string;
 }
 
 export default function ContentLayout(props: ContentLayoutProps) {
-	const { children, size, $padding, $margin = '0', $background = 'transparent', $border, $borderRadius = 0 } = props;
+	const {
+		children,
+		size,
+		$padding,
+		$margin = '0',
+		$background = 'transparent',
+		$border,
+		$borderRadius = 0,
+		$width = '100%',
+		$height = '100%',
+	} = props;
 
 	return (
 		<ContentLayoutWrapper
@@ -25,6 +37,8 @@ export default function ContentLayout(props: ContentLayoutProps) {
 			$background={$background}
 			$border={$border}
 			$borderRadius={$borderRadius}
+			$width={$width}
+			$height={$height}
 		>
 			{children}
 		</ContentLayoutWrapper>

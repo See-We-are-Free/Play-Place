@@ -8,6 +8,8 @@ interface ContentLayoutWrapperProps {
 	$background?: string;
 	$border?: string;
 	$borderRadius: number;
+	$width?: string;
+	$height?: string;
 }
 
 export const Sizes = {
@@ -32,4 +34,6 @@ export const ContentLayoutWrapper = styled.div<ContentLayoutWrapperProps>`
 	background: ${({ $background }) => $background !== 'transparent' && `var(${$background})`};
 	border: ${({ $border }) => $border};
 	border-radius: ${({ $borderRadius }) => $borderRadius}px;
+	width: ${({ $width }) => $width};
+	height: ${({ $height }) => $height};
 `;

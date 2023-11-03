@@ -1,3 +1,8 @@
+export interface UserInfo {
+	nickname: string;
+	emojiIdx: number;
+}
+
 export interface JoinApiParams {
 	body: JoinInfoType;
 }

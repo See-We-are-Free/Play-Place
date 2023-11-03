@@ -8,7 +8,7 @@ const ButtonStyles = {
 	true: css`
 		background: var(--primary-grandiant-main);
 		&::before {
-			right: 2px;
+			left: calc(100% - 18px);
 		}
 	`,
 	false: css`
@@ -38,6 +38,7 @@ export const Button = styled.button<ButtonProps>`
 		position: absolute;
 		top: 50%;
 		transform: translateY(-50%);
+		transition: all 0.2s;
 	}
 
 	${({ $isActive }) => ButtonStyles[`${$isActive}`]}
