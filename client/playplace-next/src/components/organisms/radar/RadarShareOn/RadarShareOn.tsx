@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { PROFILE_IMAGES } from '@/constants/member';
 // import { developGetAroundPeople } from '@/utils/api/radar';
 // import { IAroundPeople } from '@/types/radar';
-import { BackgorundRound, BackgroundContainer, EmojiWrapper, RadarShareOnContainer, UserContainer } from './style';
+import { BackgroundRound, BackgroundContainer, EmojiWrapper, RadarShareOnContainer, UserContainer } from './style';
 
 function RadarShareOn() {
 	// const [people, setPeople] = useState<IAroundPeople | null>(null);
@@ -43,7 +43,7 @@ function RadarShareOn() {
 					</EmojiWrapper>
 					<Text text={user.nickname} />
 				</UserContainer>
-				<BackgorundRound />
+				<BackgroundRound />
 			</BackgroundContainer>
 		</RadarShareOnContainer>
 	);

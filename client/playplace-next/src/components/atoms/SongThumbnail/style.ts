@@ -10,10 +10,8 @@ interface SongThumbnailWrapperProps {
 const SongThumbnailWrapper = styled.div<SongThumbnailWrapperProps>`
 	width: ${({ $width }) => $width || 45}px;
 	height: ${({ $height }) => $height || 45}px;
-
 	width: ${({ $isFullSize }) => ($isFullSize ? `100%` : `45px`)};
 	height: ${({ $isFullSize }) => ($isFullSize ? `auto` : `45px`)};
-	aspect-ratio: 1/1;
 `;
 
 export const SongThumbnailImage = styled(Image)`

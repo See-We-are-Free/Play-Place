@@ -9,7 +9,7 @@ const nextConfig = {
 		styledComponents: true,
 	},
 	images: {
-		domains: ['image.bugsm.co.kr'],
+		domains: ['i.ytimg.com', 'image.bugsm.co.kr'],
 	},
 	webpack: (config) => {
 		config.module.rules.push({
@@ -17,10 +17,6 @@ const nextConfig = {
 			use: ['@svgr/webpack'],
 		});
 		return config;
-	},
-	images: {
-		domains: ['i.ytimg.com'],
-		domains: ['image.bugsm.co.kr', 'i.ytimg.com'],
 	},
 	// async redirects() {
 	// 	return [
