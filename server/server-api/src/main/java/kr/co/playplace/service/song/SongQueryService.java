@@ -13,12 +13,10 @@ import kr.co.playplace.controller.song.response.GetRecentSongResponse;
 import kr.co.playplace.entity.Timezone;
 import kr.co.playplace.entity.Weather;
 import kr.co.playplace.entity.song.Song;
-import kr.co.playplace.entity.stats.SongAreaStats;
 import kr.co.playplace.entity.user.*;
-import kr.co.playplace.repository.song.SongHistoryRepository;
 import kr.co.playplace.repository.stats.*;
 import kr.co.playplace.repository.landmark.UserLandmarkSongRepository;
-import kr.co.playplace.repository.user.LikeRepository;
+import kr.co.playplace.repository.user.JjimRepository;
 import kr.co.playplace.repository.user.NowPlayRepository;
 import kr.co.playplace.repository.user.UserSongRepository;
 import kr.co.playplace.repository.user.UserRepository;
@@ -33,8 +31,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static kr.co.playplace.common.exception.ErrorCode.NOT_FOUND_AREA_SONG;
-
 @Slf4j
 @Service
 @Transactional(readOnly = true)
@@ -45,7 +41,7 @@ public class SongQueryService {
     private final UserSongRepository userSongRepository;
     private final NowPlayRepository nowPlayRepository;
     private final UserLandmarkSongRepository userLandmarkSongRepository;
-    private final LikeRepository likeRepository;
+    private final JjimRepository jjimRepository;
 
     private final SongAreaDtoRedisRepository songAreaDtoRedisRepository;
     private final SongWeatherDtoRedisRepository songWeatherDtoRedisRepository;
@@ -98,7 +94,7 @@ public class SongQueryService {
         }
 
         // mysql 확인
-        return likeRepository.existsByLikeId_UserIdAndLikeId_SongId(user.getId(), song.getId());
+        return jjimRepository.existsByJjimId_UserIdAndJjimId_SongId(user.getId(), song.getId());
     }
 
     private List<Long> checkRedis(Users user){

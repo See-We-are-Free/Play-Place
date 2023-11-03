@@ -19,7 +19,7 @@ import kr.co.playplace.entity.stats.SongWeatherStats;
 import kr.co.playplace.entity.user.*;
 import kr.co.playplace.repository.landmark.UserLandmarkSongRepository;
 import kr.co.playplace.repository.stats.*;
-import kr.co.playplace.repository.user.LikeRepository;
+import kr.co.playplace.repository.user.JjimRepository;
 import kr.co.playplace.repository.user.NowPlayRepository;
 import kr.co.playplace.repository.user.UserRepository;
 import kr.co.playplace.repository.location.VillageRepository;
@@ -57,7 +57,7 @@ public class SongService {
     private final SongAreaStatsRepository songAreaStatsRepository;
     private final SongWeatherStatsRepository songWeatherStatsRepository;
     private final SongTimeStatsRepository songTimeStatsRepository;
-    private final LikeRepository likeRepository;
+    private final JjimRepository jjimRepository;
 
     private final SongQueryRepository songQueryRepository;
 
@@ -256,7 +256,7 @@ public class SongService {
             syncLike();
         }
         // mysql check
-        boolean result = likeRepository.existsByLikeId_UserIdAndLikeId_SongId(user.get().getId(), songId);
+        boolean result = jjimRepository.existsByJjimId_UserIdAndJjimId_SongId(user.get().getId(), songId);
         return new GetLikeSongResponse(result);
     }
 
@@ -288,19 +288,19 @@ public class SongService {
             Object check = redisTemplate.opsForHash().get("like:" + user.getId(), song.getId());
             if (check == null) continue;
             if (check.equals("true")) {
-                if(!likeRepository.existsByLikeId_UserIdAndLikeId_SongId(user.getId(), song.getId())) {
+                if(!jjimRepository.existsByJjimId_UserIdAndJjimId_SongId(user.getId(), song.getId())) {
                     saveSong.add(song);
                 }
             } else {
-                Optional<Like> like = likeRepository.findByLikeId_UserIdAndLikeId_SongId(user.getId(), song.getId());
-                like.ifPresent(likeRepository::delete);
+                Optional<Jjim> like = jjimRepository.findByJjimId_UserIdAndJjimId_SongId(user.getId(), song.getId());
+                like.ifPresent(jjimRepository::delete);
             }
         }
-        List<Like> likes = saveSong.stream().map(song -> Like.builder()
-                .likeId(new LikeId(user.getId(), song.getId()))
+        List<Jjim> likes = saveSong.stream().map(song -> Jjim.builder()
+                .jjimId(new JjimId(user.getId(), song.getId()))
                 .build()).collect(Collectors.toList());
 
-        likeRepository.saveAll(likes);
+        jjimRepository.saveAll(likes);
     }
 
     public void updatePlaytime(UpdatePlaytimeRequest updatePlaytimeRequest){

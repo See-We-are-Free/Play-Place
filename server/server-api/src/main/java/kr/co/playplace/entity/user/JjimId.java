@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
-public class LikeId implements Serializable {
+public class JjimId implements Serializable {
     @Column(name = "user_id")
     private Long userId;
 

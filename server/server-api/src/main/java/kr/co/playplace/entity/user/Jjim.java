@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Like extends TimeBaseEntity {
+public class Jjim extends TimeBaseEntity {
     @EmbeddedId
-    private LikeId likeId;
+    private JjimId jjimId;
 }
