@@ -1,7 +1,7 @@
 'use client';
 
 import { JoinInfoType } from '@/types/auth';
-import { joinApi } from '@/utils/api/auth';
+import { developJoinApi } from '@/utils/api/auth';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Button from '@/components/atoms/Button/Button';
@@ -28,8 +28,8 @@ function JoinInfo() {
 					nickname,
 					profileImg,
 				};
-				const response = await joinApi({ body });
-				// const response = await developJoinApi({ body }); // 개발용
+				// const response = await joinApi({ body });
+				const response = await developJoinApi({ body }); // 개발용
 				if (response && response.status === 200) {
 					console.log(response);
 					const { headers } = response;
