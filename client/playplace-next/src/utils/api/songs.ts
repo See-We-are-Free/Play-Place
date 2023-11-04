@@ -3,6 +3,7 @@ import {
 	SaveSongLikeToggleApiBody,
 	SaveSongRecordApiBody,
 	SaveSongToPlaylistApiBody,
+	UpdatePlayTimeApiBody,
 } from '@/types/api';
 import http, { localHttp } from './http';
 
@@ -35,6 +36,14 @@ export const saveSongRecordApi = (body: SaveSongRecordApiBody) => {
  */
 export const saveNowPlaySongApi = (body: SaveNowPlaySongApiBody) => {
 	const response = http.post('/songs/play', body);
+	return response;
+};
+
+/**
+ * 노래 재생 시 호출하기
+ */
+export const updatePlayTimeApi = (body: UpdatePlayTimeApiBody) => {
+	const response = http.put('/songs/play', body);
 	return response;
 };
 

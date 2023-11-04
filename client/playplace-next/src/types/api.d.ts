@@ -18,6 +18,11 @@ export interface SaveNowPlaySongApiBody {
 	playlistSongId: number;
 }
 
+export interface UpdatePlayTimeApiBody {
+	youtubeId: string;
+	playTime: number;
+}
+
 export interface SaveSongLikeToggleApiBody {
 	like: boolean;
 	songId: number;
