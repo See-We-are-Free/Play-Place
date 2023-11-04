@@ -1,6 +1,7 @@
 package kr.co.playplace.service.radar;
 
 
+import kr.co.playplace.entity.location.UserLocation;
 import kr.co.playplace.repository.location.UserLocationRepository;
 import kr.co.playplace.controller.radar.request.UserLocationRequest;
 import kr.co.playplace.repository.user.UserRepository;
@@ -21,15 +22,17 @@ public class RadarService {
 
     private final RedisTemplate redisTemplate;
 
-    public void saveUserLocation(long userId, UserLocationRequest userLocationRequest) {
-//        UserLocation userLocation = UserLocation.builder()
-//                .id(userId)
-//                .longitude(userLocationRequest.getLongitude())
-//                .latitude(userLocationRequest.getLatitude())
-//                .songId(1L)
-//                .build();
+    private final UserLocationRepository userLocationRepository;
 
-//        userLocationRepository.save(userLocation);
+    public void saveUserLocation(long userId, UserLocationRequest userLocationRequest) {
+        UserLocation userLocation = UserLocation.builder()
+                .id(userId)
+                .longitude(userLocationRequest.getLongitude())
+                .latitude(userLocationRequest.getLatitude())
+                .songId(1L)
+                .build();
+
+        userLocationRepository.save(userLocation);
 
 //        log.debug("latitude: {}",userLocationRepository.findById(userId).map(UserLocation::getLatitude).orElse(0.0));
 
