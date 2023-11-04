@@ -5,7 +5,7 @@ export const RadarShareOnContainer = styled.div`
 	height: 100%;
 	overflow: hidden;
 
-	button {
+	& > button {
 		position: absolute;
 		top: 10px;
 		left: 50%;
@@ -30,9 +30,9 @@ export const RadarShareOnContainer = styled.div`
 
 export const BackgroundContainer = styled.div`
 	position: absolute;
-	top: 55%;
+	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -55%);
+	transform: translate(-50%, -50%);
 `;
 
 export const UserContainer = styled.div`

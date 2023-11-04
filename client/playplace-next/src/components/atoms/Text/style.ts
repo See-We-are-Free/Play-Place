@@ -3,7 +3,15 @@ import styled, { css } from 'styled-components';
 interface ITextWrapperProps {
 	$fontSize: number;
 	$color: 'default' | 'gradientMain' | 'gray' | 'gradientOrange';
+	$overflowHidden?: boolean;
 }
+
+const overflowHidden = css`
+	width: 100%;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+`;
 
 const TextStyle = {
 	default: css`
@@ -25,12 +33,10 @@ const TextStyle = {
 };
 
 const TextWrapper = styled.p<ITextWrapperProps>`
-	width: 100%;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
+	width: fit-content;
 	font-size: ${({ $fontSize }) => $fontSize}px;
 	${({ $color }) => TextStyle[$color]};
+	${({ $overflowHidden }) => $overflowHidden && overflowHidden}
 `;
 
 export default TextWrapper;

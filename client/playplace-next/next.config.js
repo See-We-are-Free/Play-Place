@@ -8,6 +8,7 @@ const nextConfig = {
 	compiler: {
 		styledComponents: true,
 	},
+	reactStrictMode: false,
 	images: {
 		domains: ['i.ytimg.com', 'image.bugsm.co.kr'],
 	},

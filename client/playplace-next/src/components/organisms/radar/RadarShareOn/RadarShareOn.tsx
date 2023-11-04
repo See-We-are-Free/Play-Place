@@ -1,4 +1,4 @@
-import RefreshIcon from '@root/public/assets/icons/Refresh.svg';
+// import RefreshIcon from '@root/public/assets/icons/Refresh.svg';
 import Text from '@/components/atoms/Text/Text';
 import { useState } from 'react';
 import { UserInfo } from '@/types/auth';
@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { PROFILE_IMAGES } from '@/constants/member';
 // import { developGetAroundPeople } from '@/utils/api/radar';
 // import { IAroundPeople } from '@/types/radar';
+import SongMarkerList from '@/components/molecules/SongMarkerList/SongMarkerList';
 import { BackgroundRound, BackgroundContainer, EmojiWrapper, RadarShareOnContainer, UserContainer } from './style';
 
 function RadarShareOn() {
@@ -15,12 +16,12 @@ function RadarShareOn() {
 		nickname: '임하스',
 	});
 
-	const handleRefresh = async () => {
-		// const response = await developGetAroundPeople();
-		// if (response.status === 200) {
-		// 	setPeople(response.data);
-		// }
-	};
+	// const handleRefresh = async () => {
+	// const response = await developGetAroundPeople();
+	// if (response.status === 200) {
+	// 	setPeople(response.data);
+	// }
+	// };
 
 	// useEffect(() => {
 	// 	console.log('people', people);
@@ -31,11 +32,12 @@ function RadarShareOn() {
 
 	return (
 		<RadarShareOnContainer>
-			<button type="button" onClick={handleRefresh}>
+			{/* <button type="button" onClick={handleRefresh}>
 				<RefreshIcon />
 				<Text text="재탐색" />
-			</button>
+			</button> */}
 
+			<SongMarkerList />
 			<BackgroundContainer>
 				<UserContainer>
 					<EmojiWrapper>
