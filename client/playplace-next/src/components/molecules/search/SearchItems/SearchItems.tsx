@@ -1,7 +1,7 @@
 import React from 'react';
 import SongThumbnail from '@/components/atoms/SongThumbnail/SongThumbnail';
 import Text from '@/components/atoms/Text/Text';
-import { SearchSong, Song } from '@/types/songs';
+import { Song } from '@/types/songs';
 import Play from '@root/public/assets/icons/Play.svg';
 import { useRecoilState } from 'recoil';
 import { isNowPlayState, nowPlaySongState } from '@/recoil/play';
@@ -10,22 +10,22 @@ import useFetchPlaylist from '@/hooks/player/useFetchPlaylist';
 import SearchItemsContainer, { SearchItemsButton, SearchItemsContent, SearchItemsSongInfo } from './style';
 
 interface ISearchItemsProps {
-	searchItem: SearchSong;
+	searchItem: Song;
 }
 
 function SearchItems(props: ISearchItemsProps) {
 	const { fetchData } = useFetchPlaylist();
 	const { searchItem } = props;
-	const artist = searchItem.snippet.channelTitle.replace(' - Topic', '');
+	const { artist, title, albumImg, youtubeId } = searchItem;
 	const [, setIsNowPlay] = useRecoilState(isNowPlayState);
 	const [, setNowPlaySong] = useRecoilState(nowPlaySongState);
 
 	// 검색 결과 노래 재생시
 	const handlePlay = async () => {
 		const song: Song = {
-			title: searchItem.snippet.title,
-			youtubeId: searchItem.id.videoId,
-			albumImg: searchItem.snippet.thumbnails.default.url,
+			title,
+			youtubeId,
+			albumImg,
 			artist,
 			playTime: -1, // 이 값을 바꾸고싶어.
 			songId: -1,
@@ -51,9 +51,9 @@ function SearchItems(props: ISearchItemsProps) {
 	return (
 		<SearchItemsContainer>
 			<SearchItemsContent>
-				<SongThumbnail $width={50} $height={50} src={searchItem.snippet.thumbnails.high.url} />
+				<SongThumbnail $width={50} $height={50} src={albumImg} />
 				<SearchItemsSongInfo>
-					<Text text={searchItem.snippet.title} color="default" fontSize={16} />
+					<Text text={title} color="default" fontSize={16} />
 					<Text text={artist} color="gray" fontSize={12} />
 				</SearchItemsSongInfo>
 			</SearchItemsContent>
