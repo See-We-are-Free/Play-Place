@@ -34,7 +34,6 @@ function PlayBack() {
 		let isLandmark = false;
 		let playlistSongId = -1;
 
-		console.log(nowPlaySong);
 		if (nowPlaySong) {
 			if ('landmarkSongId' in nowPlaySong) {
 				isLandmark = true;
