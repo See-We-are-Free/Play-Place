@@ -40,3 +40,8 @@ export const ImageWrapper = styled.div`
 		border-radius: 50%;
 	}
 `;
+
+export const BottomContent = styled.div`
+	margin-bottom: 20px;
+	position: relative;
+`;

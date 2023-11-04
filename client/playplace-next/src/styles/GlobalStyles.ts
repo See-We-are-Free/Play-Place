@@ -55,6 +55,7 @@ const GlobalStyles = createGlobalStyle`
         --content-width-full : 100%;
         
         /* z-index */
+        --zindex-header: 999;
         --zindex-dropdown: 1000;
         --zindex-sticky: 1020;
         --zindex-fixed: 1030;
@@ -63,7 +64,8 @@ const GlobalStyles = createGlobalStyle`
         --zindex-popover: 1070;
         --zindex-tooltip: 1080;
         --zindex-toast: 1090;
-        --zindex-header: 999;
+        --zindex-bottomsheet-backdrop: 1099;
+        --zindex-bottomsheet: 1100;
     }
 
     body{
@@ -106,6 +108,24 @@ const GlobalStyles = createGlobalStyle`
         background: transparent;
         cursor: pointer;
     }
+
+    /* BottomSheet */
+    [data-rsbs-backdrop] {
+        cursor: default !important;
+        z-index: var(--zindex-bottomsheet-backdrop);
+    }
+    [data-rsbs-overlay] {
+        z-index: var(--zindex-bottomsheet);
+        background-color: var(--black-600);
+    }
+    [data-rsbs-has-header='false'] [data-rsbs-header] {
+        &:before {
+            background-color: var(--black-400);
+            width: 80px;
+            margin: 10px;
+        }
+    }
+    
 `;
 
 export default GlobalStyles;
