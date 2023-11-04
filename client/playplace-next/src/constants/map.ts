@@ -42,4 +42,12 @@ const clusterStyles = [
 	},
 ];
 
-export default clusterStyles;
+const clusterOptions = {
+	imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
+	gridSize: 60, // 클러스터 그리드 크기 설정 (픽셀)
+	maxZoom: 15, // 최대 확대 레벨
+	// 여기에 다른 클러스터링 옵션을 추가할 수 있습니다.
+	styles: clusterStyles,
+};
+
+export default clusterOptions;

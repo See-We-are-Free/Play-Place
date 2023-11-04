@@ -4,19 +4,20 @@ import React, { useState } from 'react';
 import Text from '@/components/atoms/Text/Text';
 import SearchList from '@/components/molecules/search/SearchList/SearchList';
 import SearchBar from '@/components/molecules/search/SearchBar/SearchBar';
-import { SearchSong } from '@/types/songs';
-import getSearchSongApi from '@/utils/api/search';
 import SearchTemplate from '@/components/templates/SearchTemplate/SearchTemplate';
+import { searchSongApi } from '@/utils/api/songs';
+import { Song } from '@/types/songs';
 import { SearSongTitle, SearchSongsList } from './style';
 
 function SearchSongs() {
 	const [text, setText] = useState<string>('');
-	const [getSong, setGetSong] = useState<SearchSong[]>([]);
+	const [getSong, setGetSong] = useState<Song[]>([]);
 
 	const handleSearch = async (searchText: string) => {
-		const response = await getSearchSongApi(searchText);
-		console.log(response.data.items);
-		setGetSong(response.data.items);
+		const response = await searchSongApi(searchText);
+		console.log(response);
+		console.log(response.data);
+		setGetSong(response.data);
 	};
 
 	return (
