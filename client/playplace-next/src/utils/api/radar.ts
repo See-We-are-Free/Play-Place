@@ -1,3 +1,4 @@
+import { CurrentLocation } from '@/types/radar';
 import http, { localHttp } from './http';
 
 export const getSongShareInfo = async (): Promise<boolean> => {
@@ -13,13 +14,14 @@ export const setSongShareState = (share: boolean) => {
 	return response;
 };
 
-export const getAroundPeople = (longitude: string, latitude: string) => {
-	const response = http.get(`/radar?longitude=${longitude}&latitude=${latitude}`);
+export const getAroundPeople = (params: CurrentLocation) => {
+	const response = http.get(`/radar?longitude=${params.longitude}&latitude=${params.latitude}`);
 	return response;
 };
 
-export const developGetAroundPeople = () => {
-	const response = localHttp.get(`/radar?longitude=126.823162&latitude=35.191378`);
-	// const response = localHttp.get(`/radar?longitude=${longitude}&latitude=${latitude}`);
+export const developGetAroundPeople = (params: CurrentLocation) => {
+	const response = localHttp.get(`/radar?longitude=${params.longitude}&latitude=${params.latitude}`);
+	// const response = localHttp.get(`/radar?longitude=126.823577&latitude=35.191318`); // 개발용
+	// console.log('params', params);
 	return response;
 };

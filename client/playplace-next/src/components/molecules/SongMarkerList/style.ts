@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const SongMarkerListContainer = styled.div`
 	position: absolute;
-	padding-top: 40px;
+	padding: 40px 10px 0;
 	width: 100%;
 	height: 100%;
 	display: grid;
