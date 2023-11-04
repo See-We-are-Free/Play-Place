@@ -1,30 +1,42 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 interface SongMarkerContainerProps {
 	$bottom: number;
 	$left: number;
 }
 
+const fadeInAndDrop = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) translateX(-28px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) translateX(-28px);
+  }
+`;
+
 export const SongMarkerListItemContainer = styled.div`
 	position: relative;
 	width: 100%;
 	height: 100%;
+`;
 
-	button {
-		position: relative;
-		width: 100%;
-		height: 100%;
+export const SongMarkerButton = styled.button<SongMarkerContainerProps>`
+	position: absolute;
+	bottom: ${({ $bottom }) => $bottom}%;
+	left: ${({ $left }) => $left}%;
+	transform: translateX(-28px);
+	z-index: 1;
+	text-align: center;
+	animation: ${fadeInAndDrop} 0.5s ease-out;
+
+	&:focus {
+		outline: none;
 	}
 `;
 
-export const SongMarkerContainer = styled.div<SongMarkerContainerProps>`
-	position: absolute;
-	bottom: ${({ $bottom }) => $bottom}%; // 랜덤으로 변경될 값 (0 ~ 100%)
-	left: ${({ $left }) => $left}%; // 랜덤으로 변경될 값 (0 ~ 100%)
-	transform: translateX(-28px);
-	z-index: 1; // 변수로 만들기
-	text-align: center;
-`;
+export const SongMarkerContainer = styled.div``;
 
 export const ImageWrapper = styled.div`
 	width: 50px;
@@ -44,4 +56,15 @@ export const ImageWrapper = styled.div`
 export const BottomContent = styled.div`
 	margin-bottom: 20px;
 	position: relative;
+`;
+
+export const BottomSheetImageWrapper = styled.div`
+	width: 10%;
+	height: 10%;
+	aspect-ratio: 1/1;
+
+	img {
+		width: 100%;
+		height: 100%;
+	}
 `;

@@ -7,3 +7,8 @@ export interface IAroundPeople {
 	albumImg: string;
 	level: number;
 }
+
+export interface CurrentLocation {
+	longitude: number;
+	latitude: number;
+}
