@@ -2,12 +2,17 @@ import PlayListHeader from '@/components/molecules/player/PlayListHeader/PlayLis
 import { LandmarkGroup } from '@/types/play';
 import Text from '@/components/atoms/Text/Text';
 import useFetchPlaylist from '@/hooks/player/useFetchPlaylist';
+import { useEffect } from 'react';
 import PlayListContainer from './style';
 import SongGroup from '../SongGroup/SongGroup';
 import SongGroupAreaHeader from '../SongGroupAreaHeader/SongGroupAreaHeader';
 
 function PlayList() {
-	const { basicSongs, landmarkGroups } = useFetchPlaylist();
+	const { basicSongs, landmarkGroups, fetchData } = useFetchPlaylist();
+
+	useEffect(() => {
+		fetchData();
+	}, []);
 
 	return (
 		<PlayListContainer>

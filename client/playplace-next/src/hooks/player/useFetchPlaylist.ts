@@ -12,6 +12,7 @@ function useFetchPlaylist() {
 	const fetchData = async () => {
 		try {
 			const response = await getPlaylistApi();
+			console.log('fetchPlayList', response);
 			if (response.status === 200) {
 				setBasicSongs(response.data.basicSongs);
 				setLandmarkGroups(response.data.landmarks);
@@ -23,11 +24,7 @@ function useFetchPlaylist() {
 	};
 
 	useEffect(() => {
-		fetchData();
-	}, []);
-
-	useEffect(() => {
-		console.log(playqueue);
+		console.log('플레이큐', playqueue);
 	}, [playqueue]);
 
 	return { basicSongs, landmarkGroups, fetchData };
