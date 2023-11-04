@@ -40,7 +40,7 @@ const usePlayer = () => {
 			return -1;
 		});
 
-		setNowPlaySong(playQueue[(playQueue.length - nowIdx - 1) % playQueue.length]);
+		setNowPlaySong(playQueue[nowIdx === 0 ? playQueue.length - 1 : nowIdx - 1]);
 		setIsNowPlay(true);
 		playback.seekTo(0);
 	};
