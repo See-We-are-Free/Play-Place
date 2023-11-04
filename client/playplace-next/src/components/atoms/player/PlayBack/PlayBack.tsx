@@ -1,5 +1,6 @@
 'use client';
 
+import usePlayer from '@/hooks/player/usePlayer';
 import { isNowPlayState, nowPlaySongState, playbackState } from '@/recoil/play';
 import { PlaybackType } from '@/types/play';
 import { BasicSong, LandmarkSong, Song } from '@/types/songs';
@@ -13,6 +14,7 @@ function PlayBack() {
 	const [, setPlayback] = useRecoilState(playbackState);
 	const [nowPlaySong, setNowPlaySong] = useRecoilState(nowPlaySongState);
 	const playbackRef = useRef<PlaybackType | null>(null); // YouTube 플레이어 참조
+	const { playNextSong } = usePlayer();
 
 	const opts = {
 		width: '0',
@@ -56,6 +58,10 @@ function PlayBack() {
 
 	const onPause: YouTubeProps['onPause'] = () => {
 		setIsNowPlay(false);
+	};
+
+	const onEnd: YouTubeProps['onEnd'] = () => {
+		playNextSong();
 	};
 
 	const fetchLatestSongData = async () => {
@@ -105,6 +111,7 @@ function PlayBack() {
 			onReady={onPlayerReady}
 			onPlay={onPlay}
 			onPause={onPause}
+			onEnd={onEnd}
 		/>
 	);
 }
