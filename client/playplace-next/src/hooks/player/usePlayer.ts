@@ -1,37 +1,48 @@
-import { isNowPlayState, nowPlaySongState, playbackState } from '@/recoil/play';
+import { isNowPlayState, nowPlaySongState, playQueueState, playbackState } from '@/recoil/play';
 import { useRecoilState } from 'recoil';
 
 const usePlayer = () => {
 	const [playback] = useRecoilState(playbackState);
-	const [, setNowPlaySong] = useRecoilState(nowPlaySongState);
+	const [nowPlaySong, setNowPlaySong] = useRecoilState(nowPlaySongState);
 	const [, setIsNowPlay] = useRecoilState(isNowPlayState);
+	const [playQueue] = useRecoilState(playQueueState);
 
 	// 다음곡
 	const playNextSong = () => {
-		// TODO : 재생 목록에서 현재 재생 중인 곡의 다음 곡을 찾아옴. Song
-		setNowPlaySong({
-			youtubeId: 'dmEU6-UQSgU',
-			title: '사랑이라 믿었던 것들은',
-			songId: 1,
-			playTime: 400,
-			albumImg: 'https://image.bugsm.co.kr/album/images/500/40841/4084173.jpg',
-			artist: '서동현',
+		if (!nowPlaySong) return;
+
+		const nowIdx = playQueue.findIndex((e) => {
+			if ('basicSongId' in e && 'basicSongId' in nowPlaySong) {
+				return e.basicSongId === nowPlaySong.basicSongId;
+			}
+			if ('landmarkSongId' in e && 'landmarkSongId' in nowPlaySong) {
+				return e.landmarkSongId === nowPlaySong.landmarkSongId;
+			}
+			return -1;
 		});
+
+		setNowPlaySong(playQueue[(nowIdx + 1) % playQueue.length]);
 		setIsNowPlay(true);
+		playback.seekTo(0);
 	};
 
 	// 이전 곡
 	const playPreviousSong = () => {
-		// TODO : 재생 목록에서 현재 재생 중인 곡의 이전 곡을 찾아옴. Song
-		setNowPlaySong({
-			youtubeId: 'XBVauz0iN8c',
-			title: 'LoveLee',
-			songId: 2,
-			playTime: 360,
-			albumImg: 'https://image.bugsm.co.kr/album/images/500/40903/4090354.jpg',
-			artist: 'AKMU',
+		if (!nowPlaySong) return;
+
+		const nowIdx = playQueue.findIndex((e) => {
+			if ('basicSongId' in e && 'basicSongId' in nowPlaySong) {
+				return e.basicSongId === nowPlaySong.basicSongId;
+			}
+			if ('landmarkSongId' in e && 'landmarkSongId' in nowPlaySong) {
+				return e.landmarkSongId === nowPlaySong.landmarkSongId;
+			}
+			return -1;
 		});
+
+		setNowPlaySong(playQueue[(playQueue.length - nowIdx - 1) % playQueue.length]);
 		setIsNowPlay(true);
+		playback.seekTo(0);
 	};
 
 	// 재생
