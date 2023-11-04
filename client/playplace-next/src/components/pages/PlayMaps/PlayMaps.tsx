@@ -3,8 +3,8 @@ import { GoogleMap, useJsApiLoader, Circle, MarkerF, MarkerClustererF } from '@r
 import { LandMarkInfo, MapsCenter } from '@/types/maps';
 import LocateButton from '@/components/atoms/LocateButton/LocateButton';
 import { getDevelopLandmarksApi } from '@/utils/api/playmaps';
-// import LandMarkDefault from '@root/public/assets/images/LandMarkDefault.png';
-import clusterStyles from '@/constants/map';
+import LandMarkDefault from '@root/public/assets/images/LandMarkDefault.png';
+import clusterOptions from '@/constants/map';
 import { containerStyle, nightModeStyles } from './style';
 
 function deg2rad(deg: number) {
@@ -33,20 +33,27 @@ function landMarkIcon() {
 			<stop offset="0.255208" stop-color="#C779D0" />
 			<stop offset="1" stop-color="#4BC0C8" />
 			</linearGradient>
+			<Image src='${LandMarkDefault}' alt="" />
 		</defs>
 	</svg>`;
 }
 
 function PlayMaps() {
+	// 구글 맵
 	const [map, setMap] = useState<google.maps.Map | null>(null);
+	// 현재 위치
 	const [center, setCenter] = useState<MapsCenter>({
 		lat: 0,
 		lng: 0,
 	});
+	// 랜드마크 정보 저장 배열
 	const [landMarks, setLandMarks] = useState<LandMarkInfo[]>([]);
+	// 랜드마크 100m 정보에 따른 boolean값
+	const [isDistance, setIsDistance] = useState<boolean>(false);
+
 	// google api 키
 	const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS || '';
-
+	// map 로딩
 	const { isLoaded } = useJsApiLoader({
 		id: 'google-map-script',
 		googleMapsApiKey,
@@ -62,6 +69,7 @@ function PlayMaps() {
 		setMap(loadMap);
 	}, []);
 
+	// 현재 위치로 이동
 	const locateUser = useCallback(() => {
 		navigator.geolocation.getCurrentPosition((position) => {
 			const newLocation = {
@@ -87,10 +95,12 @@ function PlayMaps() {
 		const distance = CalDistance(center.lat, LandLat, center.lng, LandLng);
 
 		if (distance <= 0.1) {
-			alert('100m이내');
+			setIsDistance(false);
 		} else {
-			alert('100m초과');
+			setIsDistance(true);
 		}
+
+		console.log(isDistance);
 	};
 
 	useEffect(() => {
@@ -125,14 +135,6 @@ function PlayMaps() {
 		center,
 	};
 
-	const options = {
-		imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
-		gridSize: 60, // 클러스터 그리드 크기 설정 (픽셀)
-		maxZoom: 15, // 최대 확대 레벨
-		// 여기에 다른 클러스터링 옵션을 추가할 수 있습니다.
-		styles: clusterStyles,
-	};
-
 	return (
 		<>
 			{landMarks && isLoaded && (
@@ -152,7 +154,7 @@ function PlayMaps() {
 							streetViewControl: false,
 						}}
 					>
-						<MarkerClustererF options={options}>
+						<MarkerClustererF options={clusterOptions}>
 							{(clusterer) => (
 								<>
 									{landMarks.map((landMark) => (
