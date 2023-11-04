@@ -9,10 +9,10 @@ interface ISongSquareItemsProps {
 
 function SongSquareItems(props: ISongSquareItemsProps) {
 	const { imgSrc, onClick } = props;
-	console.log(imgSrc);
+
 	return (
 		<SongSquareItemsContainer onClick={onClick}>
-			<SongThumbnail src="" $height={130} $width={130} />
+			<SongThumbnail src={imgSrc || ''} $height={130} $width={130} />
 			{/* <SongThumbnail src={HypeBoy} $height={180} $width={130} /> */}
 		</SongSquareItemsContainer>
 	);

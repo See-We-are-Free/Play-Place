@@ -14,11 +14,10 @@ function SongCircleItems(props: ISongCircleItemsProps) {
 	const test = () => {
 		alert('버튼');
 	};
-	console.log(imgSrc);
 
 	return (
 		<SongCircleItemsContainer>
-			<CircleImage src={HypeBoy} alt="" />
+			<CircleImage src={HypeBoy || imgSrc} alt="" />
 			<SongInnerCircle $roundSequence={CircleSequenceStyles.one} />
 			<SongInnerCircle $roundSequence={CircleSequenceStyles.two} />
 			<SongInnerCircle $roundSequence={CircleSequenceStyles.three} />

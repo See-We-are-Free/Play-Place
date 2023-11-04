@@ -38,7 +38,7 @@ function SearchItems(props: ISearchItemsProps) {
 			const response = await saveSongToPlaylistApi(song);
 			if (response.status === 200) {
 				setNowPlaySong((state) => {
-					if (state) return { playlistSongId: response.data.playListSongId, ...state };
+					if (state) return { basicSongId: response.data.playListSongId, ...state };
 					return state;
 				});
 				fetchData();

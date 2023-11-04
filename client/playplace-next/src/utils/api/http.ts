@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
+const baseURL = process.env.NEXT_PUBLIC_DEVELOP_URL;
 const authLocalURL = process.env.NEXT_PUBLIC_DEVELOP_URL;
 const youtubeURL = process.env.NEXT_PUBLIC_YOUTUBE_URL;
 

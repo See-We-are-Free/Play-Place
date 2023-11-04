@@ -27,14 +27,7 @@ export const isNowPlayState = atom<boolean>({
  */
 export const nowPlaySongState = atom<Song | null>({
 	key: 'nowPlaySongState',
-	default: {
-		songId: 3,
-		youtubeId: 'wtnC7HivieA',
-		title: '작업 치과를 아세여?',
-		artist: '마산대 작업치료과',
-		albumImg: 'https://image.bugsm.co.kr/album/images/130/40883/4088350.jpg?version=20230706063943.0',
-		playTime: 200,
-	},
+	default: null,
 });
 
 /**
@@ -44,4 +37,12 @@ export const playbackState = atom<YouTubePlayer | null>({
 	key: 'playbackState',
 	default: null,
 	dangerouslyAllowMutability: true,
+});
+
+/**
+ * 재생 큐
+ */
+export const playQueueState = atom<Song[]>({
+	key: 'playQueueState',
+	default: [],
 });

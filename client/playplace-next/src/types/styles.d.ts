@@ -30,6 +30,7 @@ export enum HeaderStyles {
 	playlist = 'playlist',
 	search = 'search',
 	signup = 'signup',
+	chatbot = 'chatbot',
 }
 
 export enum ToastStyles {

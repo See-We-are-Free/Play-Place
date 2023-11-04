@@ -1,8 +1,8 @@
 import PlayListHeader from '@/components/molecules/player/PlayListHeader/PlayListHeader';
-import { useEffect } from 'react';
 import { LandmarkGroup } from '@/types/play';
 import Text from '@/components/atoms/Text/Text';
 import useFetchPlaylist from '@/hooks/player/useFetchPlaylist';
+import { useEffect } from 'react';
 import PlayListContainer from './style';
 import SongGroup from '../SongGroup/SongGroup';
 import SongGroupAreaHeader from '../SongGroupAreaHeader/SongGroupAreaHeader';

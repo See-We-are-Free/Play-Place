@@ -52,6 +52,17 @@ function HeaderLeftItem(props: HeaderLeftItemProps) {
 		);
 	}
 
+	if ($headerType === HeaderStyles.chatbot) {
+		return (
+			<HeaderLeftItemContainer>
+				<button type="button" onClick={handleMoveBack}>
+					<BackArrowIcon />
+				</button>
+				<Title>{HEADER_LIST[`${$headerType}`]}</Title>
+			</HeaderLeftItemContainer>
+		);
+	}
+
 	return (
 		<HeaderLeftItemContainer>
 			<Title>{HEADER_LIST[`${$headerType}`]}</Title>
