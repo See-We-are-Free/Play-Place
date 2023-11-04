@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { basicSongsState, landmarkGroupsState } from '@/recoil/playlist';
 import { getPlaylistApi } from '@/utils/api/playlist';
@@ -7,7 +6,7 @@ import { playQueueState } from '@/recoil/play';
 function useFetchPlaylist() {
 	const [basicSongs, setBasicSongs] = useRecoilState(basicSongsState);
 	const [landmarkGroups, setLandmarkGroups] = useRecoilState(landmarkGroupsState);
-	const [playqueue, setPlayQueue] = useRecoilState(playQueueState);
+	const [, setPlayQueue] = useRecoilState(playQueueState);
 
 	const fetchData = async () => {
 		try {
@@ -22,10 +21,6 @@ function useFetchPlaylist() {
 			console.error(error);
 		}
 	};
-
-	useEffect(() => {
-		console.log('플레이큐', playqueue);
-	}, [playqueue]);
 
 	return { basicSongs, landmarkGroups, fetchData };
 }
