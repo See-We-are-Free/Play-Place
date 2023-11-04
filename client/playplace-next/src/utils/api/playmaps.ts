@@ -10,4 +10,14 @@ export const getDevelopLandmarksApi = () => {
 	return response;
 };
 
+export const getLandmarksShareApi = (landMarkId: number) => {
+	const response = http.get(`/landmarks/${landMarkId}`);
+	return response;
+};
+
+export const getDevelopLandmarksShareApi = (landMarkId: number) => {
+	const response = localHttp.get(`/landmarks/${landMarkId}`);
+	return response;
+};
+
 export default getLandmarksApi;
