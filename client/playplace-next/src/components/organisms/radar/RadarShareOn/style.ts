@@ -5,7 +5,7 @@ export const RadarShareOnContainer = styled.div`
 	height: 100%;
 	overflow: hidden;
 
-	button {
+	& > button {
 		position: absolute;
 		top: 10px;
 		left: 50%;
