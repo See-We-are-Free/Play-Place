@@ -18,6 +18,10 @@ const SongGroupContainer = styled.div`
 			flex-direction: row;
 			align-items: center;
 			gap: 5px;
+
+			p {
+				width: fit-content;
+			}
 		}
 
 		#group-control {
