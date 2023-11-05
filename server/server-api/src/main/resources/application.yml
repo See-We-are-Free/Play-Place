@@ -20,11 +20,7 @@ spring:
   batch:
     job:
       enabled: false
-    # cloud:
-    #   gcp:
-    #     project-id: playplace
-    #     credentials:
-    #       location: ${GOOGLE_APPLICATION_CREDENTIALS}
+  cloud:
     servlet:
       multipart:
         max-file-size: 10MB

@@ -44,13 +44,13 @@ public class UserLocationController {
         radarService.saveUserLocation(securityUserDto, userLocationRequest);
     }
 
-    @Scheduled(fixedRate = 10 * 1000)
-    public void sendNearbyUsersToActiveUsers() {
-        // 세션 연결된 사용자들한테 보냄
-        log.debug("가라");
-        List<UsersNearbyResponse> list = radarQueryService.findNearbyUsers(1);
-
-        String destination = "/topic/location/" + 1;
-        messagingTemplate.convertAndSend(destination, list);
-    }
+//    @Scheduled(fixedRate = 10 * 1000)
+//    public void sendNearbyUsersToActiveUsers() {
+//        // 세션 연결된 사용자들한테 보냄
+//        log.debug("가라");
+//        List<UsersNearbyResponse> list = radarQueryService.findNearbyUsers(1);
+//
+//        String destination = "/topic/location/" + 1;
+//        messagingTemplate.convertAndSend(destination, list);
+//    }
 }
