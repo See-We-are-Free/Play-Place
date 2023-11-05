@@ -14,10 +14,14 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.security.Principal;
 import java.util.List;
 
 @Slf4j
@@ -30,13 +34,18 @@ public class UserLocationController {
     private final SimpMessagingTemplate messagingTemplate;
 
     @MessageMapping("/location")
-    public void updateUserLocationTest(UserLocationRequest userLocationRequest) {
-        log.debug("야!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        radarService.saveUserLocation(3L, userLocationRequest);
+    public void updateUserLocationTest(Principal principal, UserLocationRequest userLocationRequest) {
+        log.debug("ap: {}", principal);
+
+        SecurityUserDto securityUserDto = ((SecurityUserDto) ((Authentication) principal).getPrincipal());
+
+        log.debug("send_userId: {}", securityUserDto.getUserId());
+
+        radarService.saveUserLocation(securityUserDto.getUserId(), userLocationRequest);
     }
 
     @Scheduled(fixedRate = 10 * 1000)
-    public void sendNearbyUsers() {
+    public void sendNearbyUsersToActiveUsers() {
         // 세션 연결된 사용자들한테 보냄
         log.debug("가라");
         List<UsersNearbyResponse> list = radarQueryService.findNearbyUsers(1);
