@@ -4,7 +4,7 @@ export interface MapsCenter {
 }
 
 export interface LandMarkInfo {
-	landMarkId: number;
+	landmarkId: number;
 	title: string;
 	latitude: number;
 	longitude: number;
