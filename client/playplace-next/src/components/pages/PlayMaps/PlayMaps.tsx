@@ -2,41 +2,12 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { GoogleMap, useJsApiLoader, Circle, MarkerF, MarkerClustererF } from '@react-google-maps/api';
 import { LandMarkInfo, MapsCenter } from '@/types/maps';
 import LocateButton from '@/components/atoms/LocateButton/LocateButton';
-import { getDevelopLandmarksApi } from '@/utils/api/playmaps';
-import LandMarkDefault from '@root/public/assets/images/LandMarkDefault.png';
-import clusterOptions from '@/constants/map';
-import { containerStyle, nightModeStyles } from './style';
-
-function deg2rad(deg: number) {
-	return deg * (Math.PI / 180);
-}
-
-function CalDistance(lat1: number, lat2: number, lng1: number, lng2: number) {
-	const Earth = 6371;
-	const dLat = deg2rad(lat2 - lat1);
-	const dLon = deg2rad(lng2 - lng1);
-	const a =
-		Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-		Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-	const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-	const distance = Earth * c; // 두 지점 간의 거리 (단위: km)
-	return distance;
-}
-
-function landMarkIcon() {
-	return `
-	<svg width="57" height="69" viewBox="0 0 57 69" fill="none" xmlns="http://www.w3.org/2000/svg">
-		<path fill-rule="evenodd" clip-rule="evenodd" d="M0.13283 28C0.13283 12.536 12.6689 0 28.1328 0C43.5968 0 56.1328 12.536 56.1328 28C57.1328 33.8333 52.9328 50.2 28.1329 69C3.33304 50.2001 -0.867085 33.8336 0.13283 28.0001V28Z" fill="url(#paint0_linear_1209_1100)"/>
-		<defs>
-			<linearGradient id="paint0_linear_1209_1100" x1="4.19213e-07" y1="34.4998" x2="56.2657" y2="34.4998" gradientUnits="userSpaceOnUse">
-			<stop stop-color="#FEAC5E" />
-			<stop offset="0.255208" stop-color="#C779D0" />
-			<stop offset="1" stop-color="#4BC0C8" />
-			</linearGradient>
-			<Image src='${LandMarkDefault}' alt="" />
-		</defs>
-	</svg>`;
-}
+import { getDevelopLandmarkDetailApi, getDevelopLandmarksApi } from '@/utils/api/playmaps';
+import clusterOptions, { CalDistance, landMarkIcon } from '@/constants/map';
+import CustomBottomSheet from '@/components/molecules/CustomBottomSheet/CustomBottomSheet';
+import { Song } from '@/types/songs';
+import MapBottomSheet from '@/components/organisms/MapBottomSheet/MapBottomSheet';
+import { SearchHeader, containerStyle, nightModeStyles } from './style';
 
 function PlayMaps() {
 	// 구글 맵
@@ -46,11 +17,27 @@ function PlayMaps() {
 		lat: 0,
 		lng: 0,
 	});
+
+	// 바텀시트를 여는 state
+	const [open, setOpen] = useState<boolean>(false);
 	// 랜드마크 정보 저장 배열
 	const [landMarks, setLandMarks] = useState<LandMarkInfo[]>([]);
 	// 랜드마크 100m 정보에 따른 boolean값
 	const [isDistance, setIsDistance] = useState<boolean>(false);
+	// 랜드마크 상세정보
 
+	// 랜드마크를 눌렀을 때
+	const [choose, setChoose] = useState<boolean>(false);
+
+	const [detailLandmark, setDetailLandmark] = useState<LandMarkInfo>({
+		landmarkId: 0,
+		latitude: 0,
+		longitude: 0,
+		title: '',
+		representativeImg: '',
+	});
+	// 랜드만크안에 들어있는 곡 정보
+	const [landMarkList, setLandMarkList] = useState<Song[]>([]);
 	// google api 키
 	const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS || '';
 	// map 로딩
@@ -79,6 +66,7 @@ function PlayMaps() {
 			setCenter(newLocation);
 			if (map) {
 				map.panTo(newLocation);
+				map.setZoom(18);
 			}
 		});
 	}, [map]);
@@ -91,17 +79,37 @@ function PlayMaps() {
 		}
 	};
 
-	const test2 = (LandLat: number, LandLng: number) => {
-		const distance = CalDistance(center.lat, LandLat, center.lng, LandLng);
+	const detailLandMarkTest = async (landmarkId: number) => {
+		const response = await getDevelopLandmarkDetailApi(landmarkId);
+		console.log(response);
+		if (response && response.status === 200) {
+			setLandMarkList(response.data.data);
+		}
+		setOpen(true);
+	};
+
+	const test2 = (detail: LandMarkInfo) => {
+		const distance = CalDistance(center.lat, detail.latitude, center.lng, detail.longitude);
 
 		if (distance <= 0.1) {
-			setIsDistance(false);
-		} else {
 			setIsDistance(true);
+		} else {
+			setIsDistance(false);
 		}
 
-		console.log(isDistance);
+		setDetailLandmark(detail);
+		setChoose(true);
 	};
+
+	// 수정해야함.
+	useEffect(() => {
+		// console.log(detailLandmark);
+		if (choose) {
+			console.log(detailLandmark.landmarkId);
+			detailLandMarkTest(detailLandmark.landmarkId);
+			setChoose(false);
+		}
+	}, [choose]);
 
 	useEffect(() => {
 		test();
@@ -159,10 +167,12 @@ function PlayMaps() {
 								<>
 									{landMarks.map((landMark) => (
 										<MarkerF
-											key={landMark.landMarkId}
+											key={landMark.landmarkId}
 											position={{ lat: landMark.latitude, lng: landMark.longitude }}
 											clusterer={clusterer}
-											onClick={() => test2(landMark.latitude, landMark.longitude)}
+											onClick={() => {
+												test2(landMark);
+											}}
 											icon={{
 												url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(landMarkIcon())}`,
 												scaledSize: new google.maps.Size(50, 50),
@@ -178,6 +188,17 @@ function PlayMaps() {
 						<Circle center={center} options={circleRangeOptions} />
 						<Circle center={center} options={markerCircleOptions} />
 					</GoogleMap>
+					{open && (
+						<CustomBottomSheet open={open} setOpen={setOpen}>
+							<SearchHeader>
+								<MapBottomSheet
+									isDistance={isDistance}
+									landMarkTitle={detailLandmark.title}
+									landMarkList={landMarkList}
+								/>
+							</SearchHeader>
+						</CustomBottomSheet>
+					)}
 				</div>
 			)}
 		</>
