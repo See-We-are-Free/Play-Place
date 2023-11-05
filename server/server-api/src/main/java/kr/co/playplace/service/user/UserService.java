@@ -10,6 +10,7 @@ import kr.co.playplace.repository.user.UserRepository;
 import kr.co.playplace.service.user.dto.JoinUserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
+
+    private final RedisTemplate redisTemplate;
 
     public String save(JoinUserDto joinUserDto) {
         userRepository.save(joinUserDto.toEntity());
@@ -37,6 +40,16 @@ public class UserService {
         Users user = userRepository.findByOuthId(SecurityUtils.getUserId()).orElseThrow(() -> new BaseException(ErrorCode.NOT_FOUND_USER));
         user.changeShakeState();
         return user.getIsShake();
+    }
+
+    public int changeRadarState() {
+        Users user = userRepository.findByOuthId(SecurityUtils.getUserId()).orElseThrow(() -> new BaseException(ErrorCode.NOT_FOUND_USER));
+        user.changeRadarState();
+
+        String key = "geoPoints:" +  user.getId();
+        redisTemplate.delete(key);
+
+        return user.getIsRadar();
     }
 
     public int changeProfileImg(int numImg) {

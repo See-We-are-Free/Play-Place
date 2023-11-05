@@ -1,10 +1,11 @@
 package kr.co.playplace.config;
 
+import kr.co.playplace.common.security.handler.StompConnectInterceptor;
 import kr.co.playplace.common.security.handler.WebSocketHandler;
-import kr.co.playplace.common.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.*;
 
 @RequiredArgsConstructor
@@ -13,20 +14,23 @@ import org.springframework.web.socket.config.annotation.*;
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     private final WebSocketHandler webSocketHandler;
+    private final StompConnectInterceptor stompConnectInterceptor;
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws")
+        registry.addEndpoint("ws")
                 .setAllowedOriginPatterns("*");
+//         .withSockJs();
+    }
 
-        registry.addEndpoint("/ws")
-                .setAllowedOriginPatterns("*")
-                .withSockJS()
-                .setClientLibraryUrl("https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.2/sockjs.js");
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry registry) {
+        registry.setApplicationDestinationPrefixes("/pub");
+        registry.enableSimpleBroker("/topic");
     }
 
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors(webSocketHandler);
+        registration.interceptors(stompConnectInterceptor);
     }
 }

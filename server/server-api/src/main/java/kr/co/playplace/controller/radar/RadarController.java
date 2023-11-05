@@ -1,12 +1,14 @@
 package kr.co.playplace.controller.radar;
 
+import kr.co.playplace.common.ApiResponse;
 import kr.co.playplace.common.security.dto.SecurityUserDto;
 import kr.co.playplace.controller.radar.request.UserLocationRequest;
 import kr.co.playplace.controller.radar.response.UsersNearbyResponse;
+import kr.co.playplace.service.radar.RadarQueryService;
 import kr.co.playplace.service.radar.RadarService;
+import kr.co.playplace.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,20 +20,25 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RadarController {
 
+    private final RadarQueryService radarQueryService;
     private final RadarService radarService;
+    private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<UsersNearbyResponse>> findUsersNearby(@AuthenticationPrincipal SecurityUserDto securityUserDto, @RequestParam Double longitude, @RequestParam Double latitude) {
-        List<UsersNearbyResponse> usersNearbyResponses = radarService.findUsersNearby(securityUserDto.getUserId(), longitude, latitude);
-
-        return ResponseEntity.ok().body(usersNearbyResponses);
+    public ApiResponse<List<UsersNearbyResponse>> findNearbyUsers(@AuthenticationPrincipal SecurityUserDto securityUserDto, @RequestParam Double longitude, @RequestParam Double latitude) {
+        List<UsersNearbyResponse> responses = radarQueryService.findNearbyUsers(securityUserDto.getUserId());
+        return ApiResponse.ok(responses);
     }
 
     @PostMapping
-    public ResponseEntity<?> saveUserLocationTest(@AuthenticationPrincipal SecurityUserDto securityUserDto, @RequestBody UserLocationRequest userLocationRequest) {
-        radarService.saveUserLocationTest(securityUserDto.getUserId(), userLocationRequest);
+    public ApiResponse<?> saveUserLocation(@AuthenticationPrincipal SecurityUserDto securityUserDto, @RequestBody UserLocationRequest userLocationRequest) {
+        radarService.saveUserLocation(securityUserDto, userLocationRequest);
+        return ApiResponse.messageOk("Success");
+    }
 
-        return ResponseEntity.noContent().build();
+    @PatchMapping
+    public ApiResponse<Integer> changeRadarState() {
+        return ApiResponse.ok(userService.changeRadarState());
     }
 
 }

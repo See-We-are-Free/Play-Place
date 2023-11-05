@@ -33,6 +33,9 @@ public class Users extends TimeBaseEntity {
     @ColumnDefault("1")
     private int isShake;
 
+    @ColumnDefault("1")
+    private int isRadar;
+
     private String role;
 
     @Builder
@@ -52,6 +55,10 @@ public class Users extends TimeBaseEntity {
 
     public void changeShakeState() {
         this.isShake = this.isShake == 0 ? 1 : 0;
+    }
+
+    public void changeRadarState() {
+        this.isRadar = this.isRadar == 0 ? 1 : 0;
     }
 
     public void changeProfileImg(int numImg) {
