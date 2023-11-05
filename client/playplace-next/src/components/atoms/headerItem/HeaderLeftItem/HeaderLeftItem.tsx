@@ -11,10 +11,11 @@ interface HeaderLeftItemProps {
 	$headerType: HeaderStyles;
 	location?: string | null;
 	pageName?: string | null;
+	handler?: () => void;
 }
 
 function HeaderLeftItem(props: HeaderLeftItemProps) {
-	const { $headerType, location, pageName } = props;
+	const { $headerType, location, pageName, handler } = props;
 	const router = useRouter();
 
 	const handleMoveBack = () => {
@@ -26,6 +27,17 @@ function HeaderLeftItem(props: HeaderLeftItemProps) {
 			<HeaderLeftItemContainer>
 				<LogoIcon />
 				<Title>{location}</Title>
+			</HeaderLeftItemContainer>
+		);
+	}
+
+	if ($headerType === HeaderStyles.map && pageName && handler) {
+		return (
+			<HeaderLeftItemContainer>
+				<button type="button" onClick={handler}>
+					<BackArrowIcon />
+				</button>
+				<Title>{pageName}</Title>
 			</HeaderLeftItemContainer>
 		);
 	}
