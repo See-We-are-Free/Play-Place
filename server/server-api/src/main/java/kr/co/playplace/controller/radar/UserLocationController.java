@@ -41,7 +41,7 @@ public class UserLocationController {
 
         log.debug("send_userId: {}", securityUserDto.getUserId());
 
-        radarService.saveUserLocation(securityUserDto.getUserId(), userLocationRequest);
+        radarService.saveUserLocation(securityUserDto, userLocationRequest);
     }
 
     @Scheduled(fixedRate = 10 * 1000)

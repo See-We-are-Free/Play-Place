@@ -32,7 +32,7 @@ public class RadarController {
 
     @PostMapping
     public ApiResponse<?> saveUserLocation(@AuthenticationPrincipal SecurityUserDto securityUserDto, @RequestBody UserLocationRequest userLocationRequest) {
-        radarService.saveUserLocation(securityUserDto.getUserId(), userLocationRequest);
+        radarService.saveUserLocation(securityUserDto, userLocationRequest);
         return ApiResponse.messageOk("Success");
     }
 

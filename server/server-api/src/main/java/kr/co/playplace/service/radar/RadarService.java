@@ -1,6 +1,7 @@
 package kr.co.playplace.service.radar;
 
 
+import kr.co.playplace.common.security.dto.SecurityUserDto;
 import kr.co.playplace.entity.location.UserLocation;
 import kr.co.playplace.repository.location.UserLocationRepository;
 import kr.co.playplace.controller.radar.request.UserLocationRequest;
@@ -24,9 +25,10 @@ public class RadarService {
 
     private final UserLocationRepository userLocationRepository;
 
-    public void saveUserLocation(long userId, UserLocationRequest userLocationRequest) {
+    public void saveUserLocation(SecurityUserDto securityUserDto, UserLocationRequest userLocationRequest) {
         UserLocation userLocation = UserLocation.builder()
-                .id(userId)
+                .userId(securityUserDto.getUserId())
+                .nickname(securityUserDto.getNickname())
                 .longitude(userLocationRequest.getLongitude())
                 .latitude(userLocationRequest.getLatitude())
                 .songId(1L)
@@ -46,8 +48,8 @@ public class RadarService {
 
         // TODO: 만료 시간 지정
         // redis에 geohash 별로 저장
-        geoOperations.add(key, point, "" + userId);
+        geoOperations.add(key, point, "" + securityUserDto.getUserId());
 
-        log.debug("geoHash: {}", geoOperations.hash(key,"" + userId));
+        log.debug("geoHash: {}", geoOperations.hash(key,"" + securityUserDto.getUserId()));
     }
 }
