@@ -15,8 +15,6 @@ function SearchSongs() {
 
 	const handleSearch = async (searchText: string) => {
 		const response = await searchSongApi(searchText);
-		console.log(response);
-		console.log(response.data);
 		setGetSong(response.data);
 	};
 

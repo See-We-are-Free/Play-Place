@@ -1,3 +1,5 @@
+import styled from 'styled-components';
+
 export const containerStyle = {
 	width: '100%',
 	height: 'calc(100vh - 140px)',
@@ -83,3 +85,9 @@ export const nightModeStyles = [
 		stylers: [{ color: '#17263c' }],
 	},
 ];
+
+export const SearchHeader = styled.div`
+	& > header {
+		background-color: var(--black-600);
+	}
+`;

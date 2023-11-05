@@ -7,7 +7,7 @@ function SearchTemplate({ children }: { children: ReactNode[] }) {
 	return (
 		<SearchTemplateContainer>
 			{/* SearchBar */}
-			<ContentLayout size={ContentLayoutSizes.lg} $margin="10px 0px 20px 0px">
+			<ContentLayout size={ContentLayoutSizes.lg} $margin="10px 0px 20px 0px" $height="fit-content">
 				{children[0]}
 			</ContentLayout>
 			{/* 검색 결과 */}
