@@ -197,10 +197,10 @@ public class SongQueryService {
     }
 
     public RecentSongDto getOtherUsersRecentSong(long userId) {
-
         // 재생 기록 확인 -> redis 확인 후 mysql 확인
         Optional<RecentSongDto> recentSongDto = recentSongDtoRedisRepository.findByUserId(userId);
 
+        // TODO: mysql 접근 로직 수정
         if(recentSongDto.isEmpty()) {
             Optional<NowPlay> nowPlay = nowPlayRepository.findByUser_Id(userId);
             return null;

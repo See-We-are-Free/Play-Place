@@ -1,5 +1,7 @@
 package kr.co.playplace.controller.radar;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.playplace.common.security.dto.SecurityUserDto;
 import kr.co.playplace.common.util.SecurityUtils;
 import kr.co.playplace.controller.radar.request.UserLocationRequest;
@@ -32,7 +34,8 @@ public class UserLocationController {
     private final RadarService radarService;
     private final RadarQueryService radarQueryService;
 
-    private final SimpMessagingTemplate messagingTemplate;
+    private ObjectMapper objectMapper;
+
     private final RedisTemplate redisTemplate;
 
     @MessageMapping("/location")
@@ -47,14 +50,16 @@ public class UserLocationController {
     }
 
     @Scheduled(fixedRate = 10 * 1000)
-    public void sendNearbyUsersToActiveUsers() {
+    public void sendNearbyUsersToActiveUsers() throws JsonProcessingException {
 
         // 세션 연결된 사용자들한테 보냄
         log.debug("가라");
         List<UsersNearbyResponse> list = radarQueryService.findNearbyUsers(1);
 
+        String message = objectMapper.writeValueAsString(list);
+
         String destination = "/user/" + 1 + "/location/";
-        redisTemplate.convertAndSend(destination, list);
+        redisTemplate.convertAndSend(destination, message);
 //        messagingTemplate.convertAndSend(destination, list);
     }
 }

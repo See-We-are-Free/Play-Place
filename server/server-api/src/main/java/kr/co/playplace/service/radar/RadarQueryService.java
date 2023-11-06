@@ -3,11 +3,14 @@ package kr.co.playplace.service.radar;
 import kr.co.playplace.common.exception.BaseException;
 import kr.co.playplace.common.exception.ErrorCode;
 import kr.co.playplace.controller.radar.response.UsersNearbyResponse;
+import kr.co.playplace.entity.location.UserLocation;
 import kr.co.playplace.entity.song.Song;
 import kr.co.playplace.entity.user.Users;
+import kr.co.playplace.repository.location.UserLocationRepository;
 import kr.co.playplace.repository.song.SongRepository;
 import kr.co.playplace.repository.user.UserRepository;
 import kr.co.playplace.service.song.SongQueryService;
+import kr.co.playplace.service.song.dto.RecentSongDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.geo.*;
@@ -29,7 +32,7 @@ public class RadarQueryService {
     private final SongQueryService songQueryService;
 
     private final UserRepository userRepository;
-    private final SongRepository songRepository;
+    private final UserLocationRepository userLocationRepository;
 
     private final RedisTemplate redisTemplate;
 
@@ -88,19 +91,19 @@ public class RadarQueryService {
                 level = 2;
             }
 
-            Users userNearby = userRepository.findById(userNearbyId).get();
+            UserLocation userNearby = userLocationRepository.findById(userNearbyId).orElseThrow(
+                    () -> new BaseException(ErrorCode.NOT_FOUND_USER)
+            );
 
             // TODO: 사용자 최신 재생 곡 정보 가져오기
 //            Song song = new Song(1L, "youtubeId", "title", "artist", "img", 1);
-            long songId = songQueryService.getOtherUsersRecentSong(userNearbyId);
+            RecentSongDto recentSongDto = songQueryService.getOtherUsersRecentSong(userNearbyId);
 
-            if(songId == -1) {
+            if(recentSongDto == null) {
                 continue;
             }
 
-            Song song = songRepository.findById(songId).get();
-
-            UsersNearbyResponse usersNearbyResponse = UsersNearbyResponse.of(userNearby, song, level);
+            UsersNearbyResponse usersNearbyResponse = UsersNearbyResponse.of(userNearby, recentSongDto, level);
 
             list.add(usersNearbyResponse);
         }

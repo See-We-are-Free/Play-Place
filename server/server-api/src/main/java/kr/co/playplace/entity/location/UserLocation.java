@@ -14,10 +14,6 @@ import org.springframework.data.redis.core.RedisHash;
 @RedisHash(value = "user_location", timeToLive = 600)
 public class UserLocation {
     @Id
-    private Long userId;
+    private Long id;
     private String nickname;
-    private Double latitude;
-    private Double longitude;
-    private Long songId;
-
 }
