@@ -2,6 +2,9 @@ package kr.co.playplace.service.song.dto;
 
 import kr.co.playplace.controller.song.request.SavePlaySongRequest;
 import kr.co.playplace.entity.song.Song;
+import kr.co.playplace.entity.user.NowPlay;
+import kr.co.playplace.entity.user.UserLandmarkSong;
+import kr.co.playplace.entity.user.UserSong;
 import kr.co.playplace.entity.user.Users;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,16 +46,5 @@ public class RecentSongDto {
                 .isLandmark(savePlaySongRequest.isLandmark())
                 .build();
     }
-
-//    public SongDto toEntity(){ // ㅋㅋ?
-//        return SongDto.builder()
-//                .songId(songId)
-//                .youtubeId(youtubeId)
-//                .title(title)
-//                .artist(artist)
-//                .albumImg(albumImg)
-//                .playTime(playTime)
-//                .build();
-//    }
 
 }
