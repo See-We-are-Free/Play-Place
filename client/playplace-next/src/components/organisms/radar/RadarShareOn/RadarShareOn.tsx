@@ -7,10 +7,8 @@ import { CurrentLocation, IAroundPeople } from '@/types/radar';
 import SongMarkerList from '@/components/molecules/SongMarkerList/SongMarkerList';
 import getRandomMarkerList from '@/utils/common/randomMarkerList';
 import StompClientContext from '@/utils/common/StompClientContext';
-import CustomBottomSheet from '@/components/molecules/CustomBottomSheet/CustomBottomSheet';
-import { BottomContent, BottomSheetImageWrapper } from '@/components/atoms/SongMarkerListItem/style';
-import TempImage from '@root/public/assets/images/hypeBoy.jpg';
 import { BackgroundRound, BackgroundContainer, EmojiWrapper, RadarShareOnContainer, UserContainer } from './style';
+import MarkerDetailInfo from '../MarkerDetailInfo/MarkerDetailInfo';
 
 function RadarShareOn() {
 	const { publish, data } = useContext(StompClientContext);
@@ -61,8 +59,10 @@ function RadarShareOn() {
 	}, [currentLocation, getMarkerList]);
 
 	useEffect(() => {
-		setMarkerList(data);
-	}, [data]);
+		if (data && data !== markerList) {
+			setMarkerList(data);
+		}
+	}, [data, markerList]);
 
 	useEffect(() => {
 		if (markerList) {
@@ -87,22 +87,7 @@ function RadarShareOn() {
 			</RadarShareOnContainer>
 
 			{isDetailOpen && detailItem && (
-				<CustomBottomSheet open={isDetailOpen} setOpen={setIsDetailOpen}>
-					<BottomContent>
-						<div>
-							<div>{detailItem.nickname} 님이 현재 듣고 있는 노래</div>
-							<div>
-								<BottomSheetImageWrapper>
-									<Image alt="TempImage" src={TempImage} />
-								</BottomSheetImageWrapper>
-								<div>
-									<p>{detailItem.title}</p>
-									<p>{detailItem.artist}</p>
-								</div>
-							</div>
-						</div>
-					</BottomContent>
-				</CustomBottomSheet>
+				<MarkerDetailInfo item={detailItem} isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />
 			)}
 		</>
 	);
