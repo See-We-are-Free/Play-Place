@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Song } from '@/types/songs';
 import Logo from '@root/public/assets/icons/Logo.svg';
 import PPChatContainer from './style';
@@ -13,6 +13,10 @@ interface IPPChatProps {
 function PPChat(props: IPPChatProps) {
 	const { ref = null, message, recommendedSongs = [] } = props;
 
+	const handleButtonClick = () => {
+		// 노래 임시 재생 로직 추가
+	};
+
 	return (
 		<PPChatContainer ref={ref}>
 			<div id="logo">
@@ -23,7 +27,7 @@ function PPChat(props: IPPChatProps) {
 				{recommendedSongs.length ? (
 					<div id="recommended-songs">
 						{recommendedSongs.map((el) => (
-							<SearchItems searchItem={el} key={el.youtubeId} />
+							<SearchItems searchItem={el} key={el.youtubeId} handleButtonClick={handleButtonClick} />
 						))}
 					</div>
 				) : (
