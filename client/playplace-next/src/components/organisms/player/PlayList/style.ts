@@ -22,6 +22,11 @@ const PlayListContainer = styled.div`
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
+
+		button {
+			padding: 0;
+			text-align: start;
+		}
 	}
 
 	#landmark-song-groups {
