@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PlayGroup from '@root/public/assets/icons/PlayGroup.svg';
 import Down from '@root/public/assets/icons/Down.svg';
 import Text from '@/components/atoms/Text/Text';
@@ -27,7 +27,7 @@ function SongGroup(props: ISongGroupProps) {
 				</div>
 				<div id="group-control">
 					<IconButton Icon={<PlayGroup />} color="black300" onClick={() => alert('play group')} size="s" />
-					<IconButton Icon={<Down />} color="black300" onClick={setToggle} size="s" />
+					<IconButton id="fold-btn" Icon={<Down />} color="black300" onClick={setToggle} size="s" />
 				</div>
 			</div>
 			<div id="group-songs">

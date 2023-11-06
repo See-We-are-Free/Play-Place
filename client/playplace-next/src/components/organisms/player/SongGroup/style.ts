@@ -32,6 +32,13 @@ const SongGroupContainer = styled.div<SongGroupContainerProps>`
 				width: 22px;
 				height: auto;
 			}
+
+			#fold-btn {
+				svg {
+					transition: all 0.2s;
+					transform: ${({ $isFold }) => ($isFold ? 'none' : 'rotateZ(-180deg);')};
+				}
+			}
 		}
 	}
 
