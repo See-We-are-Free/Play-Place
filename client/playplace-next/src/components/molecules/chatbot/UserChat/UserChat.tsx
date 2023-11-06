@@ -1,6 +1,5 @@
 import React from 'react';
 import SongThumbnail from '@/components/atoms/SongThumbnail/SongThumbnail';
-import Text from '@/components/atoms/Text/Text';
 import UserChatWrapper from './style';
 
 interface IUserChatProps {
