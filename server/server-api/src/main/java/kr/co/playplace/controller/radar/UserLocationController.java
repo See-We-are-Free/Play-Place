@@ -10,6 +10,7 @@ import kr.co.playplace.service.radar.RadarService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.User;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -32,6 +33,7 @@ public class UserLocationController {
     private final RadarQueryService radarQueryService;
 
     private final SimpMessagingTemplate messagingTemplate;
+    private final RedisTemplate redisTemplate;
 
     @MessageMapping("/location")
     public void updateUserLocationTest(Principal principal, UserLocationRequest userLocationRequest) {
@@ -44,13 +46,15 @@ public class UserLocationController {
         radarService.saveUserLocation(securityUserDto, userLocationRequest);
     }
 
-//    @Scheduled(fixedRate = 10 * 1000)
-//    public void sendNearbyUsersToActiveUsers() {
-//        // 세션 연결된 사용자들한테 보냄
-//        log.debug("가라");
-//        List<UsersNearbyResponse> list = radarQueryService.findNearbyUsers(1);
-//
-//        String destination = "/topic/location/" + 1;
+    @Scheduled(fixedRate = 10 * 1000)
+    public void sendNearbyUsersToActiveUsers() {
+
+        // 세션 연결된 사용자들한테 보냄
+        log.debug("가라");
+        List<UsersNearbyResponse> list = radarQueryService.findNearbyUsers(1);
+
+        String destination = "/user/" + 1 + "/location/";
+        redisTemplate.convertAndSend(destination, list);
 //        messagingTemplate.convertAndSend(destination, list);
-//    }
+    }
 }
