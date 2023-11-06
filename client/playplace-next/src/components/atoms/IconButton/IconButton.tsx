@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { MouseEvent, ReactNode } from 'react';
 import IconButtonWrapper from './style';
 
 interface IIconButtonProps {
@@ -6,7 +6,7 @@ interface IIconButtonProps {
 	size: 's' | 'm' | 'l';
 	color: 'white100' | 'black300';
 	Icon: ReactNode;
-	onClick?: () => void;
+	onClick?: (() => void) | ((event: MouseEvent<HTMLButtonElement>) => void);
 }
 
 function IconButton(props: IIconButtonProps) {
