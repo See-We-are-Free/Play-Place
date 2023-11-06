@@ -5,6 +5,8 @@ import useFetchPlaylist from '@/hooks/player/useFetchPlaylist';
 import { saveSongToPlaylistApi } from '@/utils/api/songs';
 import { useRecoilState } from 'recoil';
 import { isNowPlayState, nowPlaySongState } from '@/recoil/play';
+import CustomToast from '@/components/atoms/CustomToast/CustomToast';
+import { ToastStyles } from '@/types/styles.d';
 import SearchItems from '../SearchItems/SearchItems';
 import SearchListContainer from './style';
 
@@ -39,6 +41,7 @@ function SearchList(props: ISearchListProps) {
 					return state;
 				});
 				fetchData();
+				CustomToast(ToastStyles.success, '1곡이 음악 재생목록에 담겼어요.');
 			}
 		} catch (error) {
 			console.error(error);
