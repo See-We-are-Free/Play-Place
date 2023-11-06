@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
-const SongGroupContainer = styled.div`
+interface SongGroupContainerProps {
+	$isFold: boolean;
+}
+const SongGroupContainer = styled.div<SongGroupContainerProps>`
 	background-color: var(--black-500);
 	border-radius: var(--radius-s);
 	display: flex;
@@ -30,6 +33,10 @@ const SongGroupContainer = styled.div`
 				height: auto;
 			}
 		}
+	}
+
+	#group-songs {
+		display: ${({ $isFold }) => ($isFold ? 'none' : 'block')};
 	}
 `;
 

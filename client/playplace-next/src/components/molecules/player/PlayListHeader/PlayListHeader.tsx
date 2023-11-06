@@ -12,7 +12,6 @@ function PlayListHeader() {
 	const [, setPlayModal] = useRecoilState(playModalState);
 
 	const closeModal = () => {
-		console.log('gd');
 		setPlayModal('none');
 	};
 
