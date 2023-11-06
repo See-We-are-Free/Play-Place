@@ -3,6 +3,7 @@
 import { PropsWithChildren, useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
 import { usePathname, useRouter } from 'next/navigation';
+import StompClientProvider from '@/components/atoms/StompClientProvider/StompClientProvider';
 import GlobalStyles from '../styles/GlobalStyles';
 
 function Providers({ children }: PropsWithChildren) {
@@ -20,7 +21,7 @@ function Providers({ children }: PropsWithChildren) {
 		<>
 			<RecoilRoot>
 				<GlobalStyles />
-				{children}
+				<StompClientProvider>{children}</StompClientProvider>
 			</RecoilRoot>
 		</>
 	);
