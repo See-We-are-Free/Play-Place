@@ -28,4 +28,12 @@ export interface SaveSongLikeToggleApiBody {
 	songId: number;
 }
 
+export interface AddSongLandmarkApiBody {
+	landmarkId: number;
+	youtubeId: string;
+	albumImg: string;
+	artist: string;
+	playTime: number;
+	title: string;
+}
 //
