@@ -3,12 +3,23 @@ import { LandmarkGroup } from '@/types/play';
 import Text from '@/components/atoms/Text/Text';
 import useFetchPlaylist from '@/hooks/player/useFetchPlaylist';
 import { useEffect } from 'react';
+import ArrowButton from '@/components/atoms/ArrowButton/ArrowButton';
+import { useRecoilState } from 'recoil';
+import { playModalState } from '@/recoil/play';
+import { useRouter } from 'next/navigation';
 import PlayListContainer from './style';
 import SongGroup from '../SongGroup/SongGroup';
 import SongGroupAreaHeader from '../SongGroupAreaHeader/SongGroupAreaHeader';
 
 function PlayList() {
 	const { basicSongs, landmarkGroups, fetchData } = useFetchPlaylist();
+	const [, setPlayModal] = useRecoilState(playModalState);
+	const router = useRouter();
+
+	const handleClick = () => {
+		router.push('/map');
+		setPlayModal('none');
+	};
 
 	useEffect(() => {
 		fetchData();
@@ -34,9 +45,7 @@ function PlayList() {
 					// TODO : 더 이쁘게 바꾸기
 					<>
 						<Text text="플레이맵에서 랜드마크 그룹을 추가하세요!" color="gray" fontSize={14} />
-						<button type="button">
-							<Text text="플레이맵 바로가기 >" />
-						</button>
+						<ArrowButton text="플레이맵 바로가기 > " onClick={handleClick} />
 					</>
 				)}
 			</div>
