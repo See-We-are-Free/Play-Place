@@ -1,6 +1,7 @@
 import React from 'react';
-import EditList from '@root/public/assets/icons/EditList.svg';
-import SmallIconButton from '@/components/atoms/player/SmallIconButton/SmallIconButton';
+// 편집버튼
+// import EditList from '@root/public/assets/icons/EditList.svg';
+// import SmallIconButton from '@/components/atoms/player/SmallIconButton/SmallIconButton';
 import Text from '@/components/atoms/Text/Text';
 import SongGroupAreaHeaderContainer from './style';
 
@@ -12,14 +13,15 @@ function SongGroupAreaHeader(props: ISongGroupAreaHeaderProps) {
 	return (
 		<SongGroupAreaHeaderContainer>
 			<Text text={groupAreaName} fontSize={16} color="gradientMain" />
-			<SmallIconButton
+			{/* 편집 버튼 */}
+			{/* <SmallIconButton
 				Icon={<EditList />}
 				color="black300"
 				onClick={() => {
 					alert('편집');
 				}}
 				text="편집"
-			/>
+			/> */}
 		</SongGroupAreaHeaderContainer>
 	);
 }

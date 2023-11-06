@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PlayGroup from '@root/public/assets/icons/PlayGroup.svg';
 import Down from '@root/public/assets/icons/Down.svg';
 import Text from '@/components/atoms/Text/Text';
 import IconButton from '@/components/atoms/IconButton/IconButton';
 import GroupSongList from '@/components/organisms/GroupSongList/GroupSongList';
 import { BasicSong, LandmarkSong } from '@/types/songs';
+import useToggle from '@/hooks/useToggle';
 import SongGroupContainer from './style';
 
 interface ISongGroupProps {
@@ -15,9 +16,19 @@ interface ISongGroupProps {
 
 function SongGroup(props: ISongGroupProps) {
 	const { groupName, songs, isBasicGroup = false } = props;
+	const [toggle, setToggle] = useToggle(false);
+
+	useEffect(() => {
+		const foldAll = () => {
+			if (!toggle) setToggle();
+		};
+		window.addEventListener('foldAll', foldAll);
+
+		return () => window.removeEventListener('foldAll', foldAll);
+	}, []);
 
 	return (
-		<SongGroupContainer>
+		<SongGroupContainer $isFold={toggle}>
 			<div id="group-header">
 				<div id="group-info">
 					<Text text={groupName} fontSize={16} />
@@ -25,7 +36,7 @@ function SongGroup(props: ISongGroupProps) {
 				</div>
 				<div id="group-control">
 					<IconButton Icon={<PlayGroup />} color="black300" onClick={() => alert('play group')} size="s" />
-					<IconButton Icon={<Down />} color="black300" onClick={() => alert('fold')} size="s" />
+					<IconButton id="fold-btn" Icon={<Down />} color="black300" onClick={setToggle} size="s" />
 				</div>
 			</div>
 			<div id="group-songs">

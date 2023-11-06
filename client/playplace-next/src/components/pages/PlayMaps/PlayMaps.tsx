@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { GoogleMap, useJsApiLoader, Circle, MarkerF, MarkerClustererF } from '@react-google-maps/api';
 import { LandMarkInfo, MapsCenter } from '@/types/maps';
 import LocateButton from '@/components/atoms/LocateButton/LocateButton';
-import { getDevelopLandmarkDetailApi, getDevelopLandmarksApi } from '@/utils/api/playmaps';
+import { getDevelopLandmarkDetailApi, getDevelopLandmarksApi } from '@/utils/api/landmarks';
 import clusterOptions, { CalDistance } from '@/constants/map';
 import CustomBottomSheet from '@/components/molecules/CustomBottomSheet/CustomBottomSheet';
 import { Song } from '@/types/songs';

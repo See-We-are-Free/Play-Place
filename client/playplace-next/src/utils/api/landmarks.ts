@@ -34,4 +34,9 @@ export const postDevelopLandmarkAddSong = (body: AddSongLandmarkApiBody) => {
 	return response;
 };
 
+// 랜드마크 공유재생 목록 내 재생목록에 추가
+export const addGroupToPlaylistApi = async (landmarkId: number) => {
+	const response = await http.post(`/landmarks/${landmarkId}`);
+	return response;
+};
 export default getLandmarksApi;

@@ -5,7 +5,7 @@ import { Song } from '@/types/songs';
 import Play from '@root/public/assets/icons/Play.svg';
 import Plus from '@root/public/assets/icons/Plus.svg';
 import { AddSongLandmarkApiBody } from '@/types/api';
-import { postDevelopLandmarkAddSong } from '@/utils/api/playmaps';
+import { postDevelopLandmarkAddSong } from '@/utils/api/landmarks';
 import CustomToast from '@/components/atoms/CustomToast/CustomToast';
 import { ToastStyles } from '@/types/styles.d';
 import { AxiosError } from 'axios';
@@ -47,8 +47,7 @@ function SearchItems(props: ISearchItemsProps) {
 				if (error instanceof AxiosError) {
 					const response = error?.response;
 					if (response?.status === 409) {
-						// 처리로직
-						CustomToast(ToastStyles.error, '이미 노래를 등록하셨습니다!');
+						CustomToast(ToastStyles.error, '해당 랜드마크에는 이미 음악을 등록하셨습니다.');
 					}
 				}
 			}

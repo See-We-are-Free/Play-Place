@@ -12,7 +12,7 @@ function SongRectItems(props: ISongRectItemsProps) {
 	return (
 		<SongRectItemsContainer>
 			{/* <SongThumbnail src={HypeBoy} $height={180} $width={130} /> */}
-			<SongThumbnail src={imgSrc || ''} $height={180} $width={130} />
+			<SongThumbnail src={imgSrc || ''} $isFullSize />
 		</SongRectItemsContainer>
 	);
 }
