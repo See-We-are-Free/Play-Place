@@ -72,7 +72,7 @@ function PlayMaps() {
 		});
 	}, [map]);
 
-	const test = async () => {
+	const getLandmarks = async () => {
 		// const response = await getLandmarksApi();
 		const response = await getDevelopLandmarksApi(); // 개발용
 		if (response && response.status === 200) {
@@ -89,7 +89,7 @@ function PlayMaps() {
 		setOpen(true);
 	};
 
-	const test2 = (detail: LandMarkInfo) => {
+	const checkLandmarkInfo = (detail: LandMarkInfo) => {
 		const distance = CalDistance(center.lat, detail.latitude, center.lng, detail.longitude);
 
 		if (distance <= 0.1) {
@@ -113,7 +113,7 @@ function PlayMaps() {
 	}, [choose, detailLandmark.landmarkId]);
 
 	useEffect(() => {
-		test();
+		getLandmarks();
 		// 사용자의 위치 권한을 체크하고, 현재 위치를 가져와 center 상태를 업데이트합니다.
 		navigator.geolocation.getCurrentPosition((position) => {
 			setCenter({
@@ -172,7 +172,7 @@ function PlayMaps() {
 											position={{ lat: landMark.latitude, lng: landMark.longitude }}
 											clusterer={clusterer}
 											onClick={() => {
-												test2(landMark);
+												checkLandmarkInfo(landMark);
 											}}
 											icon={{
 												// url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(landMarkIcon())}`,
