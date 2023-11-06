@@ -18,7 +18,7 @@ const PlayListContainer = styled.div`
 	}
 
 	#basic-song-group {
-		margin-top: 40px;
+		margin-top: 70px;
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
