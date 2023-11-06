@@ -10,13 +10,16 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 
 	const subscribe = useCallback(() => {
 		if (client.current?.active) {
-			client.current.subscribe(`/topic/location/1`, ({ body }) => {
-				console.log('구독 ==========');
-				console.log('body', JSON.parse(body));
-				setData(JSON.parse(body));
+			client.current.subscribe('/topic/location/1', ({ body }) => {
+				const parsedBody: IAroundPeople[] = JSON.parse(body);
+				if (!data || parsedBody.some((pb) => !data.some((d) => d.userId === pb.userId))) {
+					setData(parsedBody);
+				} else {
+					console.log('변경된 값이 없습니다.');
+				}
 			});
 		}
-	}, []);
+	}, [data]);
 
 	const publish = useCallback(async (longitude: number, latitude: number) => {
 		if (!client || !client.current || !client.current?.active) {
