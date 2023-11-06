@@ -12,8 +12,8 @@ function SmallIconButton(props: ISmallIconButtonProps) {
 	const { Icon, onClick, color, text } = props;
 
 	return (
-		<SmallIconButtonWrapper>
-			<IconButton Icon={Icon} onClick={onClick} size="s" color={color} />
+		<SmallIconButtonWrapper onClick={onClick}>
+			<IconButton Icon={Icon} size="s" color={color} />
 			<span>{text}</span>
 		</SmallIconButtonWrapper>
 	);

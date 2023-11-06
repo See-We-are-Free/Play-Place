@@ -15,16 +15,14 @@ function PlayListHeader() {
 		setPlayModal('none');
 	};
 
+	const foldAll = () => {
+		const foldAllEvent = new Event('foldAll');
+		window.dispatchEvent(foldAllEvent);
+	};
+
 	return (
 		<PlayListHeaderContainer>
-			<SmallIconButton
-				Icon={<FoldGroup />}
-				color="black300"
-				onClick={() => {
-					alert('전체접기');
-				}}
-				text="전체접기"
-			/>
+			<SmallIconButton Icon={<FoldGroup />} color="black300" onClick={foldAll} text="전체접기" />
 			<div id="title-text">
 				<Text text="재생목록" fontSize={18} />
 			</div>

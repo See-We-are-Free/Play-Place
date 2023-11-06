@@ -6,11 +6,11 @@ interface IIconButtonProps {
 	size: 's' | 'm' | 'l';
 	color: 'white100' | 'black300';
 	Icon: ReactNode;
-	onClick: () => void;
+	onClick?: () => void;
 }
 
 function IconButton(props: IIconButtonProps) {
-	const { id = '', size, Icon, onClick, color } = props;
+	const { id = '', size, Icon, onClick = () => {}, color } = props;
 
 	return (
 		<IconButtonWrapper id={id} $color={color} $size={size} onClick={onClick}>
