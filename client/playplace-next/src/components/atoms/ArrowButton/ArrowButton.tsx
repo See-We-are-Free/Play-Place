@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Text from '@/components/atoms/Text/Text';
+import ArrowButtonWrapper from './style';
 
 interface IArrowButtonProps {
 	text: string;
@@ -11,9 +12,9 @@ function ArrowButton(props: IArrowButtonProps) {
 	const { text, onClick } = props;
 
 	return (
-		<button type="button" onClick={onClick}>
+		<ArrowButtonWrapper type="button" onClick={onClick}>
 			<Text text={text} />
-		</button>
+		</ArrowButtonWrapper>
 	);
 }
 
