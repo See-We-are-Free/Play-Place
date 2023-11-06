@@ -8,7 +8,7 @@ import TrashBox from '@root/public/assets/icons/TrashBox.svg';
 import Share from '@root/public/assets/icons/Share.svg';
 
 import IconButton from '@/components/atoms/IconButton/IconButton';
-import { deleteSongFromPlayListApi } from '@/utils/api/playlist';
+import { deleteSongFromPlayListApi } from '@/utils/api/playlists';
 import useFetchPlaylist from '@/hooks/player/useFetchPlaylist';
 import CustomToast from '@/components/atoms/CustomToast/CustomToast';
 import { ToastStyles } from '@/types/styles.d';
