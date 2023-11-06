@@ -1,5 +1,7 @@
+import { AddSongLandmarkApiBody } from '@/types/api';
 import http, { localHttp } from './http';
 
+// 랜드마크 정보 가져오기
 const getLandmarksApi = () => {
 	const response = http.get('/landmarks');
 	return response;
@@ -10,6 +12,7 @@ export const getDevelopLandmarksApi = () => {
 	return response;
 };
 
+// 랜드마크 상세정보
 export const getLandmarkDetailApi = (landMarkId: number) => {
 	const response = http.get(`/landmarks/${landMarkId}`);
 	return response;
@@ -17,6 +20,17 @@ export const getLandmarkDetailApi = (landMarkId: number) => {
 
 export const getDevelopLandmarkDetailApi = (landMarkId: number) => {
 	const response = localHttp.get(`/landmarks/${landMarkId}`);
+	return response;
+};
+
+// 랜드마크에 노래 추가
+export const postLandmarkAddSong = (body: AddSongLandmarkApiBody) => {
+	const response = http.post('/landmarks', body);
+	return response;
+};
+
+export const postDevelopLandmarkAddSong = (body: AddSongLandmarkApiBody) => {
+	const response = http.post('/landmarks', body);
 	return response;
 };
 

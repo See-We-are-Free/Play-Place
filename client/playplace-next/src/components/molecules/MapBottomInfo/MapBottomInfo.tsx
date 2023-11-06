@@ -29,7 +29,7 @@ function MapBottomInfo(props: IMapBottomInfoProps) {
 		}
 	};
 
-	const test = () => {
+	const addLGroupToPlaylist = () => {
 		alert('button');
 	};
 	return (
@@ -39,7 +39,7 @@ function MapBottomInfo(props: IMapBottomInfoProps) {
 					<Text text={landMarkTitle} color="default" fontSize={20} />
 					<Text text={`${songVolume} / 99`} color="gray" fontSize={12} />
 				</MapBottomInfoLandmarkInfo>
-				<MapBottomInfoIcon type="button" onClick={test}>
+				<MapBottomInfoIcon type="button" onClick={addLGroupToPlaylist}>
 					<ListPlus />
 				</MapBottomInfoIcon>
 			</MapBottomInfoTitle>

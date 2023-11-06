@@ -7,9 +7,10 @@ import React from 'react';
 interface ILandMarkSearchProps {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	landMarkTitle: string;
+	landmarkId: number;
 }
 function LandMarkSearch(props: ILandMarkSearchProps) {
-	const { setOpen, landMarkTitle } = props;
+	const { setOpen, landMarkTitle, landmarkId } = props;
 	const closeSearch = () => {
 		setOpen(false);
 	};
@@ -18,7 +19,7 @@ function LandMarkSearch(props: ILandMarkSearchProps) {
 
 	return (
 		<LayoutWithHeader header={header}>
-			<SearchSongs />
+			<SearchSongs landmarkId={landmarkId} closeSearch={closeSearch} />
 		</LayoutWithHeader>
 	);
 }

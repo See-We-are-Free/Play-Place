@@ -28,4 +28,9 @@ export const SearchItemsButton = styled.button`
 		fill: var(--white);
 	}
 `;
+
+export const SearchItemsButtonContainer = styled.div`
+	display: flex;
+	gap: 10px;
+`;
 export default SearchItemsContainer;
