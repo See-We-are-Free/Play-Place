@@ -7,6 +7,7 @@ import ArrowButton from '@/components/atoms/ArrowButton/ArrowButton';
 import { useRecoilState } from 'recoil';
 import { playModalState } from '@/recoil/play';
 import { useRouter } from 'next/navigation';
+import useToggle from '@/hooks/useToggle';
 import PlayListContainer from './style';
 import SongGroup from '../SongGroup/SongGroup';
 import SongGroupAreaHeader from '../SongGroupAreaHeader/SongGroupAreaHeader';
@@ -14,6 +15,7 @@ import SongGroupAreaHeader from '../SongGroupAreaHeader/SongGroupAreaHeader';
 function PlayList() {
 	const { basicSongs, landmarkGroups, fetchData } = useFetchPlaylist();
 	const [, setPlayModal] = useRecoilState(playModalState);
+	const [editMode, toggleEditMode] = useToggle(false);
 	const router = useRouter();
 
 	const handleClick = (path: string) => {
@@ -31,7 +33,7 @@ function PlayList() {
 				<PlayListHeader />
 			</div>
 			<div id="basic-song-group">
-				<SongGroupAreaHeader groupAreaName="기본 그룹" />
+				<SongGroupAreaHeader groupAreaName="기본 그룹" isBasicGroup />
 				{basicSongs.length ? (
 					<SongGroup groupName="기본" songs={basicSongs} isBasicGroup />
 				) : (
@@ -42,11 +44,17 @@ function PlayList() {
 				)}
 			</div>
 			<div id="landmark-song-groups">
-				<SongGroupAreaHeader groupAreaName="랜드마크 그룹" />
+				<SongGroupAreaHeader groupAreaName="랜드마크 그룹" setEditMode={toggleEditMode} />
 				{/* TODO : 랜드마크 만큼 map 돌리기 */}
 				{landmarkGroups.length ? (
 					landmarkGroups.map((l: LandmarkGroup) => (
-						<SongGroup key={l.landmarkId} groupName={l.title} songs={l.landmarkSongs} />
+						<SongGroup
+							key={l.landmarkId}
+							landmarkId={l.landmarkId}
+							groupName={l.title}
+							songs={l.landmarkSongs}
+							editMode={editMode}
+						/>
 					))
 				) : (
 					// TODO : 더 이쁘게 바꾸기

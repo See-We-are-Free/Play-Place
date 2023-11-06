@@ -4,7 +4,7 @@ import IconButtonWrapper from './style';
 interface IIconButtonProps {
 	id?: string;
 	size: 's' | 'm' | 'l';
-	color: 'white100' | 'black300';
+	color: 'white100' | 'black300' | 'danger';
 	Icon: ReactNode;
 	onClick?: (() => void) | ((event: MouseEvent<HTMLButtonElement>) => void);
 }

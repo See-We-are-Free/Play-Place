@@ -50,7 +50,7 @@ function PlayBack() {
 	const fetchLatestSongData = async () => {
 		try {
 			const response = await getLatestSongApi();
-
+			console.log('getLatestSongApi', response);
 			if (response.status === 200) {
 				if (response.data.landmark) {
 					const song: LandmarkSong = {
@@ -124,6 +124,7 @@ function PlayBack() {
 
 	useEffect(() => {
 		fetchLatestSongData();
+		console.log('fetch해라');
 	}, []);
 
 	return (

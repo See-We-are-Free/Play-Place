@@ -19,6 +19,7 @@ const GlobalStyles = createGlobalStyle`
         --bg-black-alpa-50: rgba(0, 0, 0, 0.50);
         --bg-black-alpa-75: rgba(0, 0, 0, 0.75);
 
+        --danger : #FF4343;
         --white: #fff;
         --white-100: #F1F1F1;
         --white-200: #E2E2E2;
