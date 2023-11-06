@@ -1,19 +1,55 @@
 import { Song } from '@/types/songs';
 import React from 'react';
 import ContentLayout from '@/components/templates/layout/ContentLayout/ContentLayout';
-import SearchListContainer from './style';
+import useFetchPlaylist from '@/hooks/player/useFetchPlaylist';
+import { saveSongToPlaylistApi } from '@/utils/api/songs';
+import { useRecoilState } from 'recoil';
+import { isNowPlayState, nowPlaySongState } from '@/recoil/play';
 import SearchItems from '../SearchItems/SearchItems';
+import SearchListContainer from './style';
 
 interface ISearchListProps {
 	searchList: Song[];
 }
 function SearchList(props: ISearchListProps) {
+	const { fetchData } = useFetchPlaylist();
 	const { searchList } = props;
+	const [, setIsNowPlay] = useRecoilState(isNowPlayState);
+	const [, setNowPlaySong] = useRecoilState(nowPlaySongState);
+
+	// 검색 결과 노래 재생시
+	const handlePlay = async (song: Song) => {
+		const playSong: Song = {
+			title: song.title,
+			youtubeId: song.youtubeId,
+			albumImg: song.albumImg,
+			artist: song.artist,
+			playTime: -1, // 이 값을 바꾸고싶어.
+			songId: -1,
+		};
+
+		setNowPlaySong(playSong);
+		setIsNowPlay(true);
+
+		try {
+			const response = await saveSongToPlaylistApi(playSong);
+			if (response.status === 200) {
+				setNowPlaySong((state) => {
+					if (state) return { basicSongId: response.data.playListSongId, ...state };
+					return state;
+				});
+				fetchData();
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	return (
 		<SearchListContainer>
 			{searchList.map((item) => (
 				<ContentLayout key={item.youtubeId}>
-					<SearchItems searchItem={item} />
+					<SearchItems searchItem={item} handleButtonClick={() => handlePlay(item)} />
 				</ContentLayout>
 			))}
 		</SearchListContainer>

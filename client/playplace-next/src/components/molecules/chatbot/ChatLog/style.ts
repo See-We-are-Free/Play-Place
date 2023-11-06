@@ -1,14 +1,12 @@
 import styled from 'styled-components';
 
-const ChatLogsContainer = styled.div`
-	height: calc(100vh - 120px);
+const ChatLogContainer = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
 
 	#date {
 		text-align: center;
 	}
 `;
 
-export default ChatLogsContainer;
+export default ChatLogContainer;
