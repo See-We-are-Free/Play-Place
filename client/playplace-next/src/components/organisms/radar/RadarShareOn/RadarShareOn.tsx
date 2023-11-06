@@ -53,9 +53,20 @@ function RadarShareOn() {
 	}, [currentLocation, getCurrentLocation]);
 
 	useEffect(() => {
+		let intervalId: NodeJS.Timeout;
+
 		if (currentLocation) {
 			getMarkerList();
+			intervalId = setInterval(() => {
+				getMarkerList();
+			}, 30000);
 		}
+
+		return () => {
+			if (intervalId) {
+				clearInterval(intervalId);
+			}
+		};
 	}, [currentLocation, getMarkerList]);
 
 	useEffect(() => {
