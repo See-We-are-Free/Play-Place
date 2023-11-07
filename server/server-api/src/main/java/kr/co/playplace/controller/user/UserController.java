@@ -45,10 +45,10 @@ public class UserController {
 
     @DeleteMapping("")
     public ResponseEntity<StatusResponseDto> deleteUsers(@RequestHeader(value = "Authorization") final String accessToken) {
+
+        userService.deleteUsers(accessToken, SecurityUtils.getUser());
         // 엑세스 토큰으로 현재 Redis 정보 삭제
         tokenService.removeRefreshToken(accessToken, SecurityUtils.getUser());
-
-        userService.deleteUsers(SecurityUtils.getUser());
 
         return ResponseEntity.ok(StatusResponseDto.addStatus(200));
     }
