@@ -1,7 +1,6 @@
 package kr.co.playplace.service.song.dto;
 
-import kr.co.playplace.entity.location.Village;
-import kr.co.playplace.entity.song.Song;
+import kr.co.playplace.entity.stats.SongAreaStats;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
@@ -15,6 +14,7 @@ import org.springframework.data.redis.core.RedisHash;
 public class SongAreaDto {
 
     @Id
+    private Long id;
     private Long songId;
     private String youtubeId;
     private String title;
@@ -24,16 +24,17 @@ public class SongAreaDto {
     private String villageName;
     private int villageCode;
 
-    public static SongAreaDto of(Song song, Village village){
+    public static SongAreaDto of(SongAreaStats songAreaStats){
         return SongAreaDto.builder()
-                .songId(song.getId())
-                .youtubeId(song.getYoutubeId())
-                .title(song.getTitle())
-                .artist(song.getArtist())
-                .albumImg(song.getAlbumImg())
-                .playTime(song.getPlayTime())
-                .villageName(village.getName())
-                .villageCode(village.getCode())
+                .id(songAreaStats.getId())
+                .songId(songAreaStats.getId())
+                .youtubeId(songAreaStats.getSong().getYoutubeId())
+                .title(songAreaStats.getSong().getTitle())
+                .artist(songAreaStats.getSong().getArtist())
+                .albumImg(songAreaStats.getSong().getAlbumImg())
+                .playTime(songAreaStats.getSong().getPlayTime())
+                .villageName(songAreaStats.getVillage().getName())
+                .villageCode(songAreaStats.getVillage().getCode())
                 .build();
     }
 }

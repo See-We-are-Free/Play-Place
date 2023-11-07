@@ -244,7 +244,7 @@ public class SongService {
 //        }
 //    }
 
-    // TODO: redis 저장 dto id 확인
+    // redis 저장 dto id 확인
     @Scheduled(cron = "0 0 10 ? * MON") // 매주 월요일 오전 10시에 실행
     public void getAreaStatistics(){
         List<GetAreaSongDto> getAreaSongDtoList = songQueryRepository.findSongsWithArea();
@@ -255,7 +255,7 @@ public class SongService {
             SongAreaStats songAreaStats = getAreaSongDtoList.get(i).toEntity();
             songAreaStatsRepository.save(songAreaStats);
             // redis에 저장
-            SongAreaDto songAreaDto = SongAreaDto.of(getAreaSongDtoList.get(i).getSong(), getAreaSongDtoList.get(i).getVillage());
+            SongAreaDto songAreaDto = SongAreaDto.of(songAreaStats);
             songAreaDtoRedisRepository.save(songAreaDto);
         }
     }
@@ -269,7 +269,7 @@ public class SongService {
             SongWeatherStats songWeatherStats = getWeatherSongDto.toEntity();
             songWeatherStatsRepository.save(songWeatherStats);
             // redis에 저장
-            SongWeatherDto songWeatherDto = SongWeatherDto.of(getWeatherSongDto.getSong(), getWeatherSongDto.getWeather(), getWeatherSongDto.getCount());
+            SongWeatherDto songWeatherDto = SongWeatherDto.of(songWeatherStats);
             songWeatherDtoRedisRepository.save(songWeatherDto);
         }
     }
@@ -283,7 +283,7 @@ public class SongService {
             SongTimeStats songTimeStats = getTimezoneSongDto.toEntity();
             songTimeStatsRepository.save(songTimeStats);
             // redis에 저장
-            SongTimezoneDto songTimezoneDto = SongTimezoneDto.of(getTimezoneSongDto.getSong(), getTimezoneSongDto.getTimezone(), getTimezoneSongDto.getCount());
+            SongTimezoneDto songTimezoneDto = SongTimezoneDto.of(songTimeStats);
             songTimeDtoRedisRepository.save(songTimezoneDto);
         }
     }
