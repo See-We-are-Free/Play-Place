@@ -45,5 +45,7 @@ services:
       GOOGLE_APPLICATION_CREDENTIALS: ${GOOGLE_APPLICATION_CREDENTIALS}
     ports:
       - "8080:8080"
+    volumes:
+      - /var/lib/service
 volumes:
   mysql-data:
