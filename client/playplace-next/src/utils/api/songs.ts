@@ -64,6 +64,6 @@ export const saveSongLikeToggleApi = (body: SaveSongLikeToggleApiBody) => {
 };
 
 export const searchSongApi = (searchWord: string) => {
-	const response = http.get(`/search/${searchWord}`);
+	const response = http.get(`/songs/search/${searchWord}`);
 	return response;
 };
