@@ -15,6 +15,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
@@ -32,7 +34,9 @@ public class UserService {
     }
 
     public void deleteUsers(SecurityUserDto userDto) {
-        userRepository.deleteById(userDto.getUserId());
+        Optional<Users> find = userRepository.findById(userDto.getUserId());
+        find.get().changeOauthId();
+        userRepository.save(find.get());
     }
 
     public int changePushState() {
