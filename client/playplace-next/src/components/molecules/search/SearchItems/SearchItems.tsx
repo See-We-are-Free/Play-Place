@@ -5,7 +5,7 @@ import { Song } from '@/types/songs';
 import Play from '@root/public/assets/icons/Play.svg';
 import Plus from '@root/public/assets/icons/Plus.svg';
 import { AddSongLandmarkApiBody } from '@/types/api';
-import { postDevelopLandmarkAddSong } from '@/utils/api/landmarks';
+import { postLandmarkAddSong } from '@/utils/api/landmarks';
 import CustomToast from '@/components/atoms/CustomToast/CustomToast';
 import { ToastStyles } from '@/types/styles.d';
 import { AxiosError } from 'axios';
@@ -39,7 +39,7 @@ function SearchItems(props: ISearchItemsProps) {
 			};
 
 			try {
-				const response = await postDevelopLandmarkAddSong(song);
+				const response = await postLandmarkAddSong(song);
 				if (response.status === 200) {
 					CustomToast(ToastStyles.noTabbarSuccess, `${title} 등록완료!`);
 				}

@@ -5,7 +5,7 @@ import {
 	SaveSongToPlaylistApiBody,
 	UpdatePlayTimeApiBody,
 } from '@/types/api';
-import http, { localHttp } from './http';
+import http from './http';
 
 /**
  * 가장 최근에 재생한 노래 정보
@@ -64,8 +64,6 @@ export const saveSongLikeToggleApi = (body: SaveSongLikeToggleApiBody) => {
 };
 
 export const searchSongApi = (searchWord: string) => {
-	// 개발용
-	const response = localHttp.get(`/songs/search/${searchWord}`);
-	// const response = http.get(`/search/${searchWord}`);
+	const response = http.get(`/search/${searchWord}`);
 	return response;
 };

@@ -44,7 +44,6 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 	const connect = useCallback(() => {
 		console.log('연결 시작');
 		const baseUrl = process.env.NEXT_PUBLIC_WS_BASE_URL || '';
-		// const baseUrl = process.env.NEXT_PUBLIC_DEVELOP_WS_BASE_URL || ''; // 개발용
 		client.current = new StompJs.Client({
 			webSocketFactory: () => new SockJS(baseUrl),
 			connectHeaders: {

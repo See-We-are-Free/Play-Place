@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { GoogleMap, useJsApiLoader, Circle, MarkerF, MarkerClustererF } from '@react-google-maps/api';
 import { LandMarkInfo, MapsCenter } from '@/types/maps';
 import LocateButton from '@/components/atoms/LocateButton/LocateButton';
-import { getDevelopLandmarkDetailApi, getDevelopLandmarksApi } from '@/utils/api/landmarks';
+import getLandmarksApi, { getLandmarkDetailApi } from '@/utils/api/landmarks';
 import clusterOptions, { CalDistance } from '@/constants/map';
 import CustomBottomSheet from '@/components/molecules/CustomBottomSheet/CustomBottomSheet';
 import { Song } from '@/types/songs';
@@ -73,15 +73,14 @@ function PlayMaps() {
 	}, [map]);
 
 	const getLandmarks = async () => {
-		// const response = await getLandmarksApi();
-		const response = await getDevelopLandmarksApi(); // 개발용
+		const response = await getLandmarksApi();
 		if (response && response.status === 200) {
 			setLandMarks(response.data.data);
 		}
 	};
 
 	const detailLandMarkTest = async (landmarkId: number) => {
-		const response = await getDevelopLandmarkDetailApi(landmarkId);
+		const response = await getLandmarkDetailApi(landmarkId);
 		console.log(response);
 		if (response && response.status === 200) {
 			setLandMarkList(response.data.data);

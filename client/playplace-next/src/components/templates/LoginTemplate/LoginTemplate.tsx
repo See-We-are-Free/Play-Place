@@ -9,7 +9,6 @@ import ContentLayout from '../layout/ContentLayout/ContentLayout';
 import LoginContainer from './style';
 
 const LOGIN_PATH = process.env.NEXT_PUBLIC_GOOGLE_LOGIN_PATH || '';
-// const LOGIN_PATH = process.env.NEXT_PUBLIC_DEVELOP_GOOGLE_LOGIN_PATH || ''; // 개발용
 
 function LoginTemplate() {
 	const params = useSearchParams();
