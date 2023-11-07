@@ -30,6 +30,7 @@ function MapBottomSheet(props: IMapBottomSheetProps) {
 					landMarkTitle={landMarkTitle}
 					setOpen={setOpen}
 					isDistance={isDistance}
+					landmarkId={landmarkId}
 				/>
 			</ContentLayout>
 			<MapBottomSheetHR />

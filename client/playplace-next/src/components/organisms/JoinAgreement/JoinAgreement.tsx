@@ -1,10 +1,11 @@
 'use client';
 
 import RightArrow from '@root/public/assets/icons/RightArrow.svg';
-import { ButtonStyles } from '@/types/styles.d';
+import { ButtonStyles, ToastStyles } from '@/types/styles.d';
 import Button from '@/components/atoms/Button/Button';
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import AgreementDetail from '@/components/molecules/AgreementDetail/AgreementDetail';
+import CustomToast from '@/components/atoms/CustomToast/CustomToast';
 import { AgreementListItem, JoinAgreementContainer, Line } from './style';
 
 interface JoinAgreementProps {
@@ -18,7 +19,7 @@ function JoinAgreement(props: JoinAgreementProps) {
 
 	const handleNext = () => {
 		if (agreements.filter((v) => v === false).length !== 0) {
-			alert('동의가 필요합니다.');
+			CustomToast(ToastStyles.error, '동의가 필요합니다.');
 			return;
 		}
 

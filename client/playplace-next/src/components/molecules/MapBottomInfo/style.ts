@@ -9,6 +9,7 @@ export const MapBottomInfoLandmarkInfo = styled.div`
 	display: flex;
 	gap: 10px;
 	align-items: end;
+	text-wrap: nowrap;
 `;
 
 export const MapBottomInfoTitle = styled.div`
@@ -25,7 +26,7 @@ export const MapBottomInfoIcon = styled.button`
 	}
 `;
 
-export const MapBottomButton = styled.button`
+export const MapBottomButton = styled.div`
 	margin: 10px 0px;
 `;
 

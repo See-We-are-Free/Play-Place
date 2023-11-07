@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
-const SongGroupContainer = styled.div`
+interface SongGroupContainerProps {
+	$isFold: boolean;
+}
+const SongGroupContainer = styled.div<SongGroupContainerProps>`
 	background-color: var(--black-500);
 	border-radius: var(--radius-s);
 	display: flex;
@@ -29,7 +32,18 @@ const SongGroupContainer = styled.div`
 				width: 22px;
 				height: auto;
 			}
+
+			#fold-btn {
+				svg {
+					transition: all 0.2s;
+					transform: ${({ $isFold }) => ($isFold ? 'none' : 'rotateZ(-180deg);')};
+				}
+			}
 		}
+	}
+
+	#group-songs {
+		display: ${({ $isFold }) => ($isFold ? 'none' : 'block')};
 	}
 `;
 

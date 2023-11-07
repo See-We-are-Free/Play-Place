@@ -5,7 +5,7 @@ import { Song } from '@/types/songs';
 import Play from '@root/public/assets/icons/Play.svg';
 import Plus from '@root/public/assets/icons/Plus.svg';
 import { AddSongLandmarkApiBody } from '@/types/api';
-import { postDevelopLandmarkAddSong } from '@/utils/api/playmaps';
+import { postLandmarkAddSong } from '@/utils/api/landmarks';
 import CustomToast from '@/components/atoms/CustomToast/CustomToast';
 import { ToastStyles } from '@/types/styles.d';
 import { AxiosError } from 'axios';
@@ -28,6 +28,7 @@ function SearchItems(props: ISearchItemsProps) {
 	const { artist, title, albumImg, youtubeId } = searchItem;
 
 	const addLandmarkSong = async () => {
+		if (!window.confirm(`'${title}'을 랜드마크에 등록하시겠어요?`)) return;
 		if (landmarkId) {
 			const song: AddSongLandmarkApiBody = {
 				artist,
@@ -39,16 +40,15 @@ function SearchItems(props: ISearchItemsProps) {
 			};
 
 			try {
-				const response = await postDevelopLandmarkAddSong(song);
+				const response = await postLandmarkAddSong(song);
 				if (response.status === 200) {
-					CustomToast(ToastStyles.success, `${title} 등록완료!`);
+					CustomToast(ToastStyles.success, `랜드마크에 1곡이 등록되었습니다.`);
 				}
 			} catch (error) {
 				if (error instanceof AxiosError) {
 					const response = error?.response;
 					if (response?.status === 409) {
-						// 처리로직
-						CustomToast(ToastStyles.error, '이미 노래를 등록하셨습니다!');
+						CustomToast(ToastStyles.noTabbarError, '해당 랜드마크에는 이미 음악을 등록하셨습니다.');
 					}
 				}
 			}

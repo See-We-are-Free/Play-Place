@@ -1,3 +1,5 @@
+/* eslint-disable no-nested-ternary */
+
 'use client';
 
 import React, { useState } from 'react';
@@ -17,10 +19,14 @@ function SearchSongs(props: ISearchSongsprops) {
 	const { landmarkId, closeSearch } = props;
 	const [text, setText] = useState<string>('');
 	const [getSong, setGetSong] = useState<Song[]>([]);
+	const [isLanding, setIsLanding] = useState(true);
 
 	const handleSearch = async (searchText: string) => {
 		const response = await searchSongApi(searchText);
-		setGetSong(response.data);
+		if (response.status === 200) {
+			setIsLanding(false);
+			setGetSong(response.data);
+		}
 	};
 
 	// const cameraButton = () => {
@@ -46,7 +52,15 @@ function SearchSongs(props: ISearchSongsprops) {
 			<SearchBar handleSearch={() => handleSearch(text)} text={text} setText={setText} />
 			<SearchSongsList>
 				<SearSongTitle>
-					<Text text="곡 검색 결과" color="gradientMain" fontSize={16} />
+					{isLanding ? (
+						<>
+							<Text text="음악 제목 또는 아티스트 명으로 검색하세요." color="gray" fontSize={14} />
+						</>
+					) : getSong.length ? (
+						<Text text="곡 검색 결과" color="gradientMain" fontSize={16} />
+					) : (
+						<Text text="검색결과가 없습니다." color="gray" fontSize={14} />
+					)}
 				</SearSongTitle>
 				{/* <button type="button" onClick={cameraButton}>
 					이건 카메라버튼이야
