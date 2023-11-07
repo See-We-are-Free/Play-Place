@@ -29,7 +29,7 @@ public class UserService {
 
     public String save(JoinUserDto joinUserDto) {
         userRepository.save(joinUserDto.toEntity());
-        GeneratedToken generatedToken = jwtUtil.generateToken(joinUserDto.getEmail(), "ROLE_USER");
+        GeneratedToken generatedToken = jwtUtil.generateToken(joinUserDto.getEmail(), "ROLE_USER", joinUserDto.getGoogleToken());
         return generatedToken.getAccessToken();
     }
 

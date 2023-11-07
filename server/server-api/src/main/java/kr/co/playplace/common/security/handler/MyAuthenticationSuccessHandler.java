@@ -45,14 +45,13 @@ public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucce
         // 회원이 존재할경우
         if (isExist) {
             // 회원이 존재하면 jwt token 발행을 시작한다.
-            GeneratedToken token = jwtUtil.generateToken(email, role);
+            GeneratedToken token = jwtUtil.generateToken(email, role, googleToken);
 
             log.info("accessToken = {}", token.getAccessToken());
 
             // accessToken을 쿼리스트링에 담는 url을 만들어준다.
             String targetUrl = UriComponentsBuilder.fromUriString("https://k9c109.p.ssafy.io/pp/login")
                     .queryParam("accessToken", token.getAccessToken())
-                    .queryParam("googleToken", googleToken)
                     .build()
                     .encode(StandardCharsets.UTF_8)
                     .toUriString();

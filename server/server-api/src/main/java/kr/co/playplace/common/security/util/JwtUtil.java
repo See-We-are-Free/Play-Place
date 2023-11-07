@@ -30,13 +30,13 @@ public class JwtUtil {
     }
 
 
-    public GeneratedToken generateToken(String email, String role) {
+    public GeneratedToken generateToken(String email, String role, String googleToken) {
         // refreshToken과 accessToken을 생성한다.
         String refreshToken = generateRefreshToken(email, role);
         String accessToken = generateAccessToken(email, role);
 
         // 토큰을 Redis에 저장한다.
-        tokenService.saveTokenInfo(email, refreshToken, accessToken);
+        tokenService.saveTokenInfo(email, refreshToken, accessToken, googleToken);
         return new GeneratedToken(accessToken, refreshToken);
     }
 
