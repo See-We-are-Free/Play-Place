@@ -1,23 +1,18 @@
 'use client';
 
-import { SetterOrUpdater } from 'recoil';
 import { Button, ToggleButtonWrapper } from './style';
 
 interface ToggleButtonProps {
 	isActive: boolean;
-	setIsActive: SetterOrUpdater<boolean>;
+	handleActive: () => void;
 }
 
 function ToggleButton(props: ToggleButtonProps) {
-	const { isActive, setIsActive } = props;
-
-	const handleToggle = () => {
-		setIsActive((prev) => !prev);
-	};
+	const { isActive, handleActive } = props;
 
 	return (
 		<ToggleButtonWrapper>
-			<Button onClick={handleToggle} $isActive={isActive} />
+			<Button onClick={handleActive} $isActive={isActive} />
 		</ToggleButtonWrapper>
 	);
 }
