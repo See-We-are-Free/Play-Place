@@ -44,7 +44,7 @@ function PlayList() {
 				)}
 			</div>
 			<div id="landmark-song-groups">
-				<SongGroupAreaHeader groupAreaName="랜드마크 그룹" setEditMode={toggleEditMode} />
+				<SongGroupAreaHeader groupAreaName="랜드마크 그룹" setEditMode={toggleEditMode} editMode={editMode} />
 				{/* TODO : 랜드마크 만큼 map 돌리기 */}
 				{landmarkGroups.length ? (
 					landmarkGroups.map((l: LandmarkGroup) => (

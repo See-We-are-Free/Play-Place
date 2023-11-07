@@ -6,11 +6,12 @@ import SongGroupAreaHeaderContainer from './style';
 
 interface ISongGroupAreaHeaderProps {
 	groupAreaName: string;
+	editMode?: boolean;
 	setEditMode?: () => void;
 	isBasicGroup?: boolean;
 }
 function SongGroupAreaHeader(props: ISongGroupAreaHeaderProps) {
-	const { groupAreaName, setEditMode = () => {}, isBasicGroup = false } = props;
+	const { groupAreaName, setEditMode = () => {}, isBasicGroup = false, editMode = false } = props;
 
 	return (
 		<SongGroupAreaHeaderContainer>
@@ -18,7 +19,12 @@ function SongGroupAreaHeader(props: ISongGroupAreaHeaderProps) {
 			{isBasicGroup ? (
 				<></>
 			) : (
-				<SmallIconButton Icon={<EditList />} color="black300" onClick={() => setEditMode()} text="편집" />
+				<SmallIconButton
+					Icon={<EditList />}
+					color="black300"
+					onClick={() => setEditMode()}
+					text={editMode ? '완료' : '편집'}
+				/>
 			)}
 		</SongGroupAreaHeaderContainer>
 	);
