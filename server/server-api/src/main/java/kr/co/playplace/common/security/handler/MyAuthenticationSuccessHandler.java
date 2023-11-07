@@ -32,6 +32,7 @@ public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucce
         String email = oAuth2User.getAttribute("email");
         // 서비스 제공 플랫폼(GOOGLE, KAKAO, NAVER)이 어디인지 가져온다.
         String provider = oAuth2User.getAttribute("provider");
+        String googleToken = oAuth2User.getAttribute("googleToken");
 
         // CustomOAuth2UserService에서 셋팅한 로그인한 회원 존재 여부를 가져온다.
         boolean isExist = oAuth2User.getAttribute("exist");
@@ -44,7 +45,7 @@ public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucce
         // 회원이 존재할경우
         if (isExist) {
             // 회원이 존재하면 jwt token 발행을 시작한다.
-            GeneratedToken token = jwtUtil.generateToken(email, role);
+            GeneratedToken token = jwtUtil.generateToken(email, role, googleToken);
 
             log.info("accessToken = {}", token.getAccessToken());
 
@@ -64,6 +65,7 @@ public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucce
             String targetUrl = UriComponentsBuilder.fromUriString("https://k9c109.p.ssafy.io/pp/signup")
                     .queryParam("email", (String) oAuth2User.getAttribute("email"))
                     .queryParam("provider", provider)
+                    .queryParam("googleToken", googleToken)
                     .build()
                     .encode(StandardCharsets.UTF_8)
                     .toUriString();

@@ -49,6 +49,9 @@ public class Users extends TimeBaseEntity {
         this.role = role;
     }
 
+    public void changeOauthId(){
+        this.outhId = null;
+    }
     public void changePushState() {
         this.isPush = this.isPush == 0 ? 1 : 0;
     }
