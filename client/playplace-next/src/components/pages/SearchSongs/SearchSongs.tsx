@@ -29,6 +29,24 @@ function SearchSongs(props: ISearchSongsprops) {
 		}
 	};
 
+	// const cameraButton = () => {
+	// 	window.AndCamera.openCamera();
+	// };
+
+	// const cameraResponse = window.AndCamera.sendData();
+
+	// const [imgSrc, setImageSrc] = useState<string>('');
+
+	// function receiveImageData(encodedImageData: string) {
+	// 	setImageSrc(`data:image/png;base64,${encodedImageData}`);
+	// }
+
+	// useEffect(() => {
+	// 	if (cameraResponse) {
+	// 		receiveImageData(cameraResponse);
+	// 	}
+	// }, [cameraResponse]);
+
 	return (
 		<SearchTemplate>
 			<SearchBar handleSearch={() => handleSearch(text)} text={text} setText={setText} />
@@ -44,6 +62,10 @@ function SearchSongs(props: ISearchSongsprops) {
 						<Text text="검색결과가 없습니다." color="gray" fontSize={14} />
 					)}
 				</SearSongTitle>
+				{/* <button type="button" onClick={cameraButton}>
+					이건 카메라버튼이야
+				</button>
+				<p>{imgSrc}</p> */}
 				{getSong && <SearchList searchList={getSong} landMarkId={landmarkId} closeSearch={closeSearch} />}
 			</SearchSongsList>
 		</SearchTemplate>

@@ -14,6 +14,12 @@ export default function HomePage() {
 		setIsMyMenuOpen(true);
 	};
 
+	useEffect(() => {
+		if (window.AndMap) {
+			window.AndMap.successLocate();
+		}
+	}, []);
+
 	const header = (
 		<Header $headerType={HeaderStyles.home} location="장덕동">
 			<button type="button" onClick={handleMyPageOn}>
