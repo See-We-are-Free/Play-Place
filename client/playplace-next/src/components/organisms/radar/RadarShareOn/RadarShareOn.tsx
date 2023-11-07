@@ -1,9 +1,9 @@
 import Text from '@/components/atoms/Text/Text';
-import { memo, useCallback, useContext, useEffect, useState } from 'react';
+import { memo, useContext, useEffect, useState } from 'react';
 import { UserInfo } from '@/types/auth';
 import Image from 'next/image';
 import { PROFILE_IMAGES } from '@/constants/member';
-import { CurrentLocation, IAroundPeople } from '@/types/radar';
+import { IAroundPeople } from '@/types/radar';
 import SongMarkerList from '@/components/molecules/SongMarkerList/SongMarkerList';
 import getRandomMarkerList from '@/utils/common/randomMarkerList';
 import StompClientContext from '@/utils/common/StompClientContext';
@@ -11,9 +11,8 @@ import { BackgroundRound, BackgroundContainer, EmojiWrapper, RadarShareOnContain
 import MarkerDetailInfo from '../MarkerDetailInfo/MarkerDetailInfo';
 
 function RadarShareOn() {
-	const { publish, data } = useContext(StompClientContext);
+	const { data } = useContext(StompClientContext);
 	const [markerList, setMarkerList] = useState<IAroundPeople[] | null>(null);
-	const [currentLocation, setCurrentLocation] = useState<CurrentLocation | null>(null);
 	const [user] = useState<UserInfo>({
 		emojiIdx: 0,
 		nickname: '임하스',
@@ -28,46 +27,6 @@ function RadarShareOn() {
 		setDetailItem(item);
 		setIsDetailOpen(true);
 	};
-
-	const getMarkerList = useCallback(async () => {
-		if (currentLocation) {
-			publish(currentLocation.latitude, currentLocation.longitude);
-		}
-	}, [currentLocation, publish]);
-
-	const getCurrentLocation = useCallback(() => {
-		navigator.geolocation.getCurrentPosition((position) => {
-			const location = {
-				longitude: position.coords.longitude,
-				latitude: position.coords.latitude,
-			};
-			console.log('현재 위치', location);
-			setCurrentLocation(location);
-		});
-	}, []);
-
-	useEffect(() => {
-		if (!currentLocation) {
-			getCurrentLocation();
-		}
-	}, [currentLocation, getCurrentLocation]);
-
-	useEffect(() => {
-		let intervalId: NodeJS.Timeout;
-
-		if (currentLocation) {
-			getMarkerList();
-			intervalId = setInterval(() => {
-				getMarkerList();
-			}, 30000);
-		}
-
-		return () => {
-			if (intervalId) {
-				clearInterval(intervalId);
-			}
-		};
-	}, [currentLocation, getMarkerList]);
 
 	useEffect(() => {
 		if (data && data !== markerList) {

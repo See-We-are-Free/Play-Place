@@ -9,6 +9,7 @@ export interface JoinApiParams {
 
 export interface JoinInfoType {
 	email: string;
+	googleToken: string;
 	nickname: string;
 	profileImg: number;
 }
