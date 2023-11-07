@@ -9,7 +9,12 @@ import { searchSongApi } from '@/utils/api/songs';
 import { Song } from '@/types/songs';
 import { SearSongTitle, SearchSongsList } from './style';
 
-function SearchSongs() {
+interface ISearchSongsprops {
+	landmarkId?: number;
+	closeSearch?: () => void;
+}
+function SearchSongs(props: ISearchSongsprops) {
+	const { landmarkId, closeSearch } = props;
 	const [text, setText] = useState<string>('');
 	const [getSong, setGetSong] = useState<Song[]>([]);
 
@@ -25,7 +30,7 @@ function SearchSongs() {
 				<SearSongTitle>
 					<Text text="곡 검색 결과" color="gradientMain" fontSize={16} />
 				</SearSongTitle>
-				{getSong && <SearchList searchList={getSong} />}
+				{getSong && <SearchList searchList={getSong} landMarkId={landmarkId} closeSearch={closeSearch} />}
 			</SearchSongsList>
 		</SearchTemplate>
 	);

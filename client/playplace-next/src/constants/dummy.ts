@@ -1,3 +1,4 @@
+import { ChatLogType } from '@/types/chatbot';
 import { Song } from '@/types/songs';
 
 export const SONGS: Song[] = [
@@ -93,3 +94,46 @@ export const SONGS: Song[] = [
 	},
 ];
 export const landmarks = [];
+
+export const dummyChatLogs: ChatLogType[] = [
+	{
+		time: '13:33',
+		id: 1,
+		date: '2023-01-23',
+		picture: 'https://i.ytimg.com/vi/tBjUhDXxpRs/hqdefault.jpg',
+		resultText: '아름다운 도시네요.',
+		resultSongs: SONGS,
+	},
+	{
+		time: '13:33',
+		id: 2,
+		date: '2023-01-23',
+		picture: 'https://i.ytimg.com/vi/tBjUhDXxpRs/hqdefault.jpg',
+		resultText: '아름다운 도시네요.',
+		resultSongs: SONGS,
+	},
+	{
+		time: '13:33',
+		id: 3,
+		date: '2023-01-23',
+		picture: 'https://i.ytimg.com/vi/tBjUhDXxpRs/hqdefault.jpg',
+		resultText: '아름다운 도시네요.',
+		resultSongs: SONGS,
+	},
+	{
+		time: '13:33',
+		id: 4,
+		date: '2023-01-23',
+		picture: 'https://i.ytimg.com/vi/tBjUhDXxpRs/hqdefault.jpg',
+		resultText: '아름다운 도시네요.',
+		resultSongs: SONGS,
+	},
+	{
+		time: '13:33',
+		id: 5,
+		date: '2023-01-23',
+		picture: 'https://i.ytimg.com/vi/tBjUhDXxpRs/hqdefault.jpg',
+		resultText: '아름다운 도시네요.',
+		resultSongs: SONGS,
+	},
+];

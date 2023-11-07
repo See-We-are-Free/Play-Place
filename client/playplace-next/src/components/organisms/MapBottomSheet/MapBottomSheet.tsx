@@ -12,14 +12,15 @@ interface IMapBottomSheetProps {
 	landMarkTitle: string;
 	landMarkList: Song[];
 	isDistance: boolean;
+	landmarkId: number;
 }
 
 function MapBottomSheet(props: IMapBottomSheetProps) {
-	const { landMarkTitle, landMarkList, isDistance } = props;
+	const { landMarkTitle, landMarkList, isDistance, landmarkId } = props;
 	const [open, setOpen] = useState<boolean>(false);
 
 	if (open === true) {
-		return <LandMarkSearch setOpen={setOpen} landMarkTitle={landMarkTitle} />;
+		return <LandMarkSearch setOpen={setOpen} landMarkTitle={landMarkTitle} landmarkId={landmarkId} />;
 	}
 	return (
 		<ContentLayout size={ContentLayoutSizes.md}>
@@ -29,6 +30,7 @@ function MapBottomSheet(props: IMapBottomSheetProps) {
 					landMarkTitle={landMarkTitle}
 					setOpen={setOpen}
 					isDistance={isDistance}
+					landmarkId={landmarkId}
 				/>
 			</ContentLayout>
 			<MapBottomSheetHR />

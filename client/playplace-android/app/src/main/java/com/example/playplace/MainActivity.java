@@ -78,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
         webView.getSettings().setDatabaseEnabled(false);                        //database storage API 사용 여부
         webView.getSettings().setAllowContentAccess(true);                      // 웹뷰를 통해 Content URL 에 접근할지 여부
         webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
+        webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        webView.getSettings().setDatabaseEnabled(true);
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically( true);
+
     }
 
     /** 액티비티 생성 시 */
@@ -109,9 +113,9 @@ public class MainActivity extends AppCompatActivity {
         // 카메라 권한 요청, 카메라 앱 여는 함수 호출, 버튼을 눌러 webView로 전송 함수 호출
         webView.addJavascriptInterface(new CameraInterface(), "AndCamera");
 
-//        webView.loadUrl("https://k9c109.p.ssafy.io/pp/login"); // 서버
-//        webView.loadUrl("http://10.0.2.2:3000/pp/login"); // 로컬
-        webView.loadUrl("http://192.168.137.1:3000/pp");
+
+        webView.loadUrl("https://k9c109.p.ssafy.io/pp"); // 서버
+//        webView.loadUrl("http://192.168.137.1:3000/pp"); // 로컬
 
 
     }

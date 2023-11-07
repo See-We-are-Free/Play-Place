@@ -25,7 +25,9 @@ function Radar() {
 	const songShare = useCallback(async () => {
 		try {
 			const response = await getSongShareInfo();
-			setIsSongShare(response);
+			if (response.status === 200) {
+				setIsSongShare(response.data.isRadar);
+			}
 		} catch (error) {
 			console.error(error);
 		}

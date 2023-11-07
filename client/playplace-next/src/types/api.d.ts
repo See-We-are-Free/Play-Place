@@ -18,9 +18,22 @@ export interface SaveNowPlaySongApiBody {
 	playlistSongId: number;
 }
 
+export interface UpdatePlayTimeApiBody {
+	youtubeId: string;
+	playTime: number;
+}
+
 export interface SaveSongLikeToggleApiBody {
 	like: boolean;
 	songId: number;
 }
 
+export interface AddSongLandmarkApiBody {
+	landmarkId: number;
+	youtubeId: string;
+	albumImg: string;
+	artist: string;
+	playTime: number;
+	title: string;
+}
 //

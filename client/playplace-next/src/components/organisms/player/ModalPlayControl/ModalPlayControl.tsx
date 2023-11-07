@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { isNowPlayState, nowPlaySongState, playModalState } from '@/recoil/play';
 import SkipPrevious from '@root/public/assets/icons/SkipPrevious.svg';
@@ -27,6 +27,14 @@ function ModalPlayControl() {
 	};
 
 	const handleLike = () => {};
+
+	const fetchLikeData = async () => {
+		console.log('fetchLikeData');
+	};
+	useEffect(() => {
+		fetchLikeData();
+	}, []);
+
 	return (
 		<ModalPlayControlContainer>
 			<IconButton size="s" Icon={<HeartOff />} onClick={handleLike} color="black300" />

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 const BottomMenuContainer = styled.div`
+	background-color: var(--black-700);
 	width: 100%;
 	height: 70px;
 	display: flex;

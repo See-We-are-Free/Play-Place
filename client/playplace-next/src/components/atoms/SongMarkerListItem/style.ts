@@ -16,6 +16,15 @@ const fadeInAndDrop = keyframes`
   }
 `;
 
+const floatAnimation = keyframes`
+  0%, 100% {
+    transform: translateY(0) translateX(-28px);
+  }
+  50% {
+    transform: translateY(-4px) translateX(-28px);
+  }
+`;
+
 export const SongMarkerListItemContainer = styled.div`
 	position: relative;
 	width: 100%;
@@ -29,7 +38,9 @@ export const SongMarkerButton = styled.button<SongMarkerContainerProps>`
 	transform: translateX(-28px);
 	z-index: 1;
 	text-align: center;
-	animation: ${fadeInAndDrop} 0.5s ease-out;
+	animation:
+		${fadeInAndDrop} 0.5s ease-out,
+		${floatAnimation} 2.5s ease-in-out infinite;
 
 	&:focus {
 		outline: none;

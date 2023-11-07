@@ -3,8 +3,9 @@ import {
 	SaveSongLikeToggleApiBody,
 	SaveSongRecordApiBody,
 	SaveSongToPlaylistApiBody,
+	UpdatePlayTimeApiBody,
 } from '@/types/api';
-import http, { localHttp } from './http';
+import http from './http';
 
 /**
  * 가장 최근에 재생한 노래 정보
@@ -39,6 +40,14 @@ export const saveNowPlaySongApi = (body: SaveNowPlaySongApiBody) => {
 };
 
 /**
+ * 노래 재생 시 호출하기
+ */
+export const updatePlayTimeApi = (body: UpdatePlayTimeApiBody) => {
+	const response = http.put('/songs/play', body);
+	return response;
+};
+
+/**
  * 좋아요 여부 조회하기
  */
 export const getSongLike = (songId: number) => {
@@ -55,8 +64,6 @@ export const saveSongLikeToggleApi = (body: SaveSongLikeToggleApiBody) => {
 };
 
 export const searchSongApi = (searchWord: string) => {
-	// 개발용
-	const response = localHttp.get(`/songs/search/${searchWord}`);
-	// const response = http.get(`/search/${searchWord}`);
+	const response = http.get(`/songs/search/${searchWord}`);
 	return response;
 };
