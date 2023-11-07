@@ -1,5 +1,5 @@
 import { JoinApiParams } from '@/types/auth';
-import http, { localHttp } from './http';
+import http from './http';
 
 /**
  * 회원가입 API
@@ -13,15 +13,5 @@ export const joinApi = ({ body }: JoinApiParams) => {
 
 export const getUserInfoApi = () => {
 	const response = http.get('/users');
-	return response;
-};
-
-export const developJoinApi = ({ body }: JoinApiParams) => {
-	const response = localHttp.post('/users', body);
-	return response;
-};
-
-export const developGetUserInfoApi = () => {
-	const response = localHttp.get('/users');
 	return response;
 };

@@ -1,7 +1,7 @@
-import http, { localHttp } from './http';
+import http from './http';
 
 export const getPlaylistApi = () => {
-	const response = localHttp.get('/playlists');
+	const response = http.get('/playlists');
 	return response;
 };
 

@@ -1,16 +1,17 @@
 'use client';
 
 import { JoinInfoType } from '@/types/auth';
-import { developJoinApi } from '@/utils/api/auth';
+import { joinApi } from '@/utils/api/auth';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Button from '@/components/atoms/Button/Button';
-import { ButtonStyles } from '@/types/styles.d';
+import { ButtonStyles, ToastStyles } from '@/types/styles.d';
 
 import { AxiosHeaders } from 'axios';
 import ContentLayout from '@/components/templates/layout/ContentLayout/ContentLayout';
 import EmojiList from '@/components/molecules/EmojiList/EmojiList';
 import Text from '@/components/atoms/Text/Text';
+import CustomToast from '@/components/atoms/CustomToast/CustomToast';
 import NicknameContainer from './style';
 
 function JoinInfo() {
@@ -28,8 +29,7 @@ function JoinInfo() {
 					nickname,
 					profileImg,
 				};
-				// const response = await joinApi({ body });
-				const response = await developJoinApi({ body }); // 개발용
+				const response = await joinApi({ body });
 				if (response && response.status === 200) {
 					console.log(response);
 					const { headers } = response;
@@ -37,7 +37,7 @@ function JoinInfo() {
 						// TODOS: 토큰 저장
 						const token = headers.get('authorization');
 						console.log(token);
-						alert('회원가입 OR 로그인 성공');
+						CustomToast(ToastStyles.success, `${nickname} 님 환영합니다.`);
 						localStorage.setItem('accessToken', `${token}`);
 						router.push('/');
 					}
