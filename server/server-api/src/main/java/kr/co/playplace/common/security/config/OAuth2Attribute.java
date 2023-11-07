@@ -18,13 +18,14 @@ public class OAuth2Attribute {
     private String name; // 이름 정보
     private String picture; // 프로필 사진 정보
     private String provider; // 제공자 정보
+    private String googleToken;
 
     // 서비스에 따라 OAuth2Attribute 객체를 생성하는 메서드
     static OAuth2Attribute of(String provider, String attributeKey,
-                              Map<String, Object> attributes) {
+                              Map<String, Object> attributes, String token) {
         switch (provider) {
             case "google":
-                return ofGoogle(provider, attributeKey, attributes);
+                return ofGoogle(provider, attributeKey, attributes, token);
             default:
                 throw new RuntimeException();
         }
@@ -35,12 +36,13 @@ public class OAuth2Attribute {
      *   바로 get() 메서드로 접근이 가능하다.
      * */
     private static OAuth2Attribute ofGoogle(String provider, String attributeKey,
-                                            Map<String, Object> attributes) {
+                                            Map<String, Object> attributes, String token) {
         return OAuth2Attribute.builder()
                 .email((String) attributes.get("email"))
                 .provider(provider)
                 .attributes(attributes)
                 .attributeKey(attributeKey)
+                .googleToken(token)
                 .build();
     }
 
@@ -51,6 +53,7 @@ public class OAuth2Attribute {
         map.put("key", attributeKey);
         map.put("email", email);
         map.put("provider", provider);
+        map.put("googleToken", googleToken);
 
         return map;
     }

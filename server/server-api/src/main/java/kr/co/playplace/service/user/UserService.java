@@ -3,6 +3,7 @@ package kr.co.playplace.service.user;
 import kr.co.playplace.common.exception.BaseException;
 import kr.co.playplace.common.exception.ErrorCode;
 import kr.co.playplace.common.security.dto.GeneratedToken;
+import kr.co.playplace.common.security.dto.SecurityUserDto;
 import kr.co.playplace.common.security.util.JwtUtil;
 import kr.co.playplace.common.util.SecurityUtils;
 import kr.co.playplace.entity.user.Users;
@@ -28,6 +29,10 @@ public class UserService {
         userRepository.save(joinUserDto.toEntity());
         GeneratedToken generatedToken = jwtUtil.generateToken(joinUserDto.getEmail(), "ROLE_USER");
         return generatedToken.getAccessToken();
+    }
+
+    public void deleteUsers(SecurityUserDto userDto) {
+        userRepository.deleteById(userDto.getUserId());
     }
 
     public int changePushState() {

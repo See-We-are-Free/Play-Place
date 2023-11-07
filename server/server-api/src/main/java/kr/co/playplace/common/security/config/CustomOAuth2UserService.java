@@ -29,6 +29,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     private final UserQueryService userQueryService;
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+        log.info("userrequest {}", userRequest.getAccessToken().getTokenValue());
+
         // 기본 OAuth2UserService 객체 생성
         OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService = new DefaultOAuth2UserService();
 
@@ -39,10 +41,11 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         String userNameAttributeName = userRequest.getClientRegistration()
                 .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
+        String googleToken = userRequest.getAccessToken().getTokenValue();
 
         // OAuth2UserService를 사용하여 가져온 OAuth2User 정보로 OAuth2Attribute 객체를 만든다.
         OAuth2Attribute oAuth2Attribute =
-                OAuth2Attribute.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
+                OAuth2Attribute.of(registrationId, userNameAttributeName, oAuth2User.getAttributes(), googleToken);
 
         // OAuth2Attribute의 속성값들을 Map으로 반환 받는다.
         Map<String, Object> memberAttribute = oAuth2Attribute.convertToMap();
