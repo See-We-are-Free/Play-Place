@@ -76,8 +76,8 @@ dependencies {
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.0'
 
 	//google vision
-	implementation 'com.google.cloud:spring-cloud-gcp-starter'
-	implementation 'com.google.cloud:spring-cloud-gcp-starter-vision'
+//	implementation 'com.google.cloud:spring-cloud-gcp-starter'
+//	implementation 'com.google.cloud:spring-cloud-gcp-starter-vision'
 
 }
 
