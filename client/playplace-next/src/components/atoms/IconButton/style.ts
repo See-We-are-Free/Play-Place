@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 interface IconButtonWrapperProps {
 	$size: 's' | 'm' | 'l';
-	$color: 'white100' | 'black300';
+	$color: 'white100' | 'black300' | 'danger';
 }
 
 const IconButtonSize = {
@@ -29,6 +29,11 @@ const IconButtonColor = {
 	white100: css`
 		svg {
 			fill: var(--white-100);
+		}
+	`,
+	danger: css`
+		svg {
+			fill: var(--danger);
 		}
 	`,
 };
