@@ -4,6 +4,7 @@ import kr.co.playplace.common.ApiResponse;
 import kr.co.playplace.controller.landmark.requset.SaveLandmarkSongRequest;
 import kr.co.playplace.controller.landmark.response.FindLandmarkResponse;
 import kr.co.playplace.controller.landmark.response.FindLandmarkSongResponse;
+import kr.co.playplace.controller.landmark.response.SearchLandmarkResponse;
 import kr.co.playplace.service.landmark.LandmarkQueryService;
 import kr.co.playplace.service.landmark.LandmarkService;
 import kr.co.playplace.service.landmark.LandmarkUserService;
@@ -42,6 +43,12 @@ public class LandmarkController {
     public ApiResponse<Object> savaLandmarkListToMyList(@PathVariable Long landmarkId) {
         landmarkUserService.saveLandmarkPlayListToUserPlayList(landmarkId);
         return ApiResponse.messageOk("SUCCESS");
+    }
+
+    @GetMapping("/search/{keyword}")
+    public ApiResponse<Object> searchLandmark(@PathVariable String keyword) {
+        List<SearchLandmarkResponse> responses = landmarkQueryService.searchLandmark(keyword);
+        return ApiResponse.ok(responses);
     }
 
 }

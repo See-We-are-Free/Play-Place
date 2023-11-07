@@ -1,9 +1,12 @@
 package kr.co.playplace.repository.landmark;
 
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.co.playplace.controller.landmark.response.FindLandmarkResponse;
 import kr.co.playplace.controller.landmark.response.FindLandmarkSongResponse;
+import kr.co.playplace.controller.landmark.response.SearchLandmarkResponse;
+import kr.co.playplace.entity.landmark.Landmark;
 import kr.co.playplace.service.landmark.dto.FindLandmarkSongDto;
 import org.springframework.stereotype.Repository;
 
@@ -63,4 +66,19 @@ public class LandmarkQueryRepository {
                 .fetch();
     }
 
+    public List<Landmark> searchLandmark(String keyword) {
+        return queryFactory
+                .select(landmark)
+                .from(landmark)
+                .where(containKeyword(keyword))
+                .orderBy(landmark.title.asc())
+                .fetch();
+    }
+
+    private BooleanExpression containKeyword(String keyword) {
+        if(keyword == null || keyword.isEmpty()) {
+            return null;
+        }
+        return landmark.title.containsIgnoreCase(keyword);
+    }
 }
