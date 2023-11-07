@@ -2,8 +2,8 @@
 
 import { JoinInfoType } from '@/types/auth';
 import { joinApi } from '@/utils/api/auth';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import Button from '@/components/atoms/Button/Button';
 import { ButtonStyles, ToastStyles } from '@/types/styles.d';
 
@@ -14,18 +14,23 @@ import Text from '@/components/atoms/Text/Text';
 import CustomToast from '@/components/atoms/CustomToast/CustomToast';
 import NicknameContainer from './style';
 
-function JoinInfo() {
-	const params = useSearchParams();
+interface JoinInfoProps {
+	email: string;
+	googleToken: string;
+}
+
+function JoinInfo(props: JoinInfoProps) {
+	const { email, googleToken } = props;
 	const router = useRouter();
-	const [email, setEmail] = useState<string | null>(null);
 	const [nickname, setNickname] = useState<string | null>(null);
 	const [profileImg, setProfileImg] = useState<number | null>(null);
 
 	const join = async () => {
 		try {
-			if (email && nickname && profileImg !== null) {
+			if (email && googleToken && nickname && profileImg !== null) {
 				const body: JoinInfoType = {
 					email,
+					googleToken,
 					nickname,
 					profileImg,
 				};
@@ -34,7 +39,6 @@ function JoinInfo() {
 					console.log(response);
 					const { headers } = response;
 					if (headers instanceof AxiosHeaders) {
-						// TODOS: 토큰 저장
 						const token = headers.get('authorization');
 						console.log(token);
 						CustomToast(ToastStyles.success, `${nickname} 님 환영합니다.`);
@@ -43,8 +47,9 @@ function JoinInfo() {
 					}
 				}
 			} else {
-				alert('값을 입력해주세요.');
+				CustomToast(ToastStyles.error, '값을 입력해주세요!');
 				console.log('email', email);
+				console.log('googleToken', googleToken);
 				console.log('nickname', nickname);
 				console.log('profileImg', profileImg);
 			}
@@ -60,21 +65,6 @@ function JoinInfo() {
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setNickname(event.target.value);
 	};
-
-	useEffect(() => {
-		if (!email) {
-			if (params.get('email')) {
-				setEmail(params.get('email'));
-			} else {
-				alert('잘못된 접근입니다.');
-				router.push('/');
-			}
-		}
-	}, [email, params]);
-
-	if (!email) {
-		return <></>;
-	}
 
 	return (
 		<>
