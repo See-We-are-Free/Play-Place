@@ -30,14 +30,13 @@ public class RadarQueryService {
 
     private final SongQueryService songQueryService;
 
-    private final UserRepository userRepository;
     private final UserLocationRepository userLocationRepository;
 
     private final RedisTemplate redisTemplate;
 
     public List<UsersNearbyResponse> findNearbyUsers(long userId) {
 
-        // TODO: 사용자의 레이더 설정이 꺼져 있다면 에러 처리
+        // TODO: 사용자의 레이더 설정이 꺼져 있다면 에러 처리 -> 레이더 끌 때 값 삭제
 
         // 사용자 위치 redis에서 조회
         Point userLocation = findUserLocation(userId);
@@ -208,7 +207,7 @@ public class RadarQueryService {
     }
 
     public Set<String> findActiveUser() {
-        Set<String> result = redisTemplate.opsForHash().keys("user_location");
+        Set<String> result = redisTemplate.opsForSet().members("user_location");
         log.debug("ActiveUser: {}", result.size());
         return result;
     }

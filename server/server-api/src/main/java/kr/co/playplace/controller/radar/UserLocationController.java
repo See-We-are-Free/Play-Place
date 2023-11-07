@@ -25,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -35,7 +36,7 @@ public class UserLocationController {
     private final RadarService radarService;
     private final RadarQueryService radarQueryService;
 
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     private final RedisTemplate redisTemplate;
 
@@ -54,19 +55,22 @@ public class UserLocationController {
     public void sendNearbyUsersToActiveUsers() throws JsonProcessingException {
 
         // 세션 연결된 사용자들한테 보냄
-        log.debug("가라");
         Set<String> activeUsers = radarQueryService.findActiveUser();
 
         for(String userKey : activeUsers) {
             long userId = Long.parseLong(userKey);
 
+            log.debug("activeUser sub: {}", userId);
             List<UsersNearbyResponse> list = radarQueryService.findNearbyUsers(userId);
+
+            if(list.isEmpty()) {
+                list = new ArrayList<>();
+            }
 
             String message = objectMapper.writeValueAsString(list);
 
-            String destination = "/topic/location" + userId;
-            redisTemplate.convertAndSend(destination, message);
-    //        messagingTemplate.convertAndSend(destination, list);
+//            String destination = "/topic/location/" + userId;
+            redisTemplate.convertAndSend("topic", message);
         }
     }
 }

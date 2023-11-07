@@ -22,11 +22,12 @@ public class RedisSubscriber implements MessageListener {
 
     @Override
     public void onMessage(Message message, byte[] pattern) {
-        try {
+        try { 
             log.debug("message: {}", message);
+            log.debug("pattern: {}", new String(pattern));
             String subscribeMessage = new String(message.getBody());
             List<UsersNearbyResponse> userLocation = objectMapper.readValue(subscribeMessage, List.class);
-            messagingTemplate.convertAndSendToUser("", "/topic/data", userLocation);
+            messagingTemplate.convertAndSend("/topic/location/" + 2, userLocation);
         } catch (Exception e) {
             log.debug("잘못된 형식입니다.");
         }
