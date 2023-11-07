@@ -35,5 +35,7 @@ export enum HeaderStyles {
 
 export enum ToastStyles {
 	success = 'success',
+	noTabbarSuccess = 'noTabbarSuccess',
 	error = 'error',
+	noTabbarError = 'noTabbarError',
 }

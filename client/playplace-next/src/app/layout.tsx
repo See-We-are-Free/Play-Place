@@ -30,7 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 							position="bottom-center"
 							reverseOrder
 							containerStyle={{
-								bottom: 150,
+								bottom: 30,
 								fontSize: 10,
 							}}
 							toastOptions={{

@@ -41,13 +41,13 @@ function SearchItems(props: ISearchItemsProps) {
 			try {
 				const response = await postDevelopLandmarkAddSong(song);
 				if (response.status === 200) {
-					CustomToast(ToastStyles.success, `${title} 등록완료!`);
+					CustomToast(ToastStyles.noTabbarSuccess, `${title} 등록완료!`);
 				}
 			} catch (error) {
 				if (error instanceof AxiosError) {
 					const response = error?.response;
 					if (response?.status === 409) {
-						CustomToast(ToastStyles.error, '해당 랜드마크에는 이미 음악을 등록하셨습니다.');
+						CustomToast(ToastStyles.noTabbarError, '해당 랜드마크에는 이미 음악을 등록하셨습니다.');
 					}
 				}
 			}

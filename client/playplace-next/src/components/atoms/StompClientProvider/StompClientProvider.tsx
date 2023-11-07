@@ -73,7 +73,13 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 	}, []);
 
 	useEffect(() => {
+		if (!localStorage.getItem('accessToken')) {
+			return;
+		}
+
 		connect();
+
+		// eslint-disable-next-line consistent-return
 		return () => {
 			disconnect();
 		};

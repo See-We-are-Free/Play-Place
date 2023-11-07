@@ -29,7 +29,7 @@ function MapBottomInfo(props: IMapBottomInfoProps) {
 		if (isDistance === true) {
 			setOpen(true);
 		} else {
-			CustomToast(ToastStyles.error, '100m안에서 등록이 가능합니다!');
+			CustomToast(ToastStyles.noTabbarError, '100m안에서 등록이 가능합니다!');
 		}
 	};
 
@@ -52,7 +52,7 @@ function MapBottomInfo(props: IMapBottomInfoProps) {
 		<MapBottomInfoContainer>
 			<MapBottomInfoTitle>
 				<MapBottomInfoLandmarkInfo>
-					<Text text={landMarkTitle} color="default" fontSize={20} />
+					<Text text={landMarkTitle} color="default" fontSize={20} $overflowHidden={false} />
 					<Text text={`${songVolume} / 99`} color="gray" fontSize={12} />
 				</MapBottomInfoLandmarkInfo>
 				<MapBottomInfoIcon type="button" onClick={addGroupToPlaylist}>
