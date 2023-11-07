@@ -2,10 +2,9 @@ package kr.co.playplace.service.radar;
 
 
 import kr.co.playplace.common.security.dto.SecurityUserDto;
-import kr.co.playplace.entity.location.UserLocation;
+import kr.co.playplace.service.radar.dto.UserLocation;
 import kr.co.playplace.repository.location.UserLocationRepository;
 import kr.co.playplace.controller.radar.request.UserLocationRequest;
-import kr.co.playplace.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.geo.*;

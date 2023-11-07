@@ -3,11 +3,8 @@ package kr.co.playplace.service.radar;
 import kr.co.playplace.common.exception.BaseException;
 import kr.co.playplace.common.exception.ErrorCode;
 import kr.co.playplace.controller.radar.response.UsersNearbyResponse;
-import kr.co.playplace.entity.location.UserLocation;
-import kr.co.playplace.entity.song.Song;
-import kr.co.playplace.entity.user.Users;
+import kr.co.playplace.service.radar.dto.UserLocation;
 import kr.co.playplace.repository.location.UserLocationRepository;
-import kr.co.playplace.repository.song.SongRepository;
 import kr.co.playplace.repository.user.UserRepository;
 import kr.co.playplace.service.song.SongQueryService;
 import kr.co.playplace.service.song.dto.RecentSongDto;
@@ -22,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -206,6 +205,12 @@ public class RadarQueryService {
                 .position("geoPoints", String.valueOf(userId));
 
         return position.get(0);
+    }
+
+    public Set<String> findActiveUser() {
+        Set<String> result = redisTemplate.opsForHash().keys("user_location");
+        log.debug("ActiveUser: {}", result.size());
+        return result;
     }
 
 }

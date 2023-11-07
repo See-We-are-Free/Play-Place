@@ -1,8 +1,6 @@
 package kr.co.playplace.controller.radar.response;
 
-import kr.co.playplace.entity.location.UserLocation;
-import kr.co.playplace.entity.song.Song;
-import kr.co.playplace.entity.user.Users;
+import kr.co.playplace.service.radar.dto.UserLocation;
 import kr.co.playplace.service.song.dto.RecentSongDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

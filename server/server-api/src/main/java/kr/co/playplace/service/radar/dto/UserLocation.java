@@ -1,4 +1,4 @@
-package kr.co.playplace.entity.location;
+package kr.co.playplace.service.radar.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import org.springframework.data.redis.core.RedisHash;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@RedisHash(value = "user_location", timeToLive = 600)
+@RedisHash(value = "user_location")
 public class UserLocation {
     @Id
     private Long id;

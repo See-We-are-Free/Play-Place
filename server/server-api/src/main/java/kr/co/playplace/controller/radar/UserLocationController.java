@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Controller
@@ -54,12 +55,18 @@ public class UserLocationController {
 
         // 세션 연결된 사용자들한테 보냄
         log.debug("가라");
-        List<UsersNearbyResponse> list = radarQueryService.findNearbyUsers(1);
+        Set<String> activeUsers = radarQueryService.findActiveUser();
 
-        String message = objectMapper.writeValueAsString(list);
+        for(String userKey : activeUsers) {
+            long userId = Long.parseLong(userKey);
 
-        String destination = "/user/" + 1 + "/location/";
-        redisTemplate.convertAndSend(destination, message);
-//        messagingTemplate.convertAndSend(destination, list);
+            List<UsersNearbyResponse> list = radarQueryService.findNearbyUsers(userId);
+
+            String message = objectMapper.writeValueAsString(list);
+
+            String destination = "/topic/location" + userId;
+            redisTemplate.convertAndSend(destination, message);
+    //        messagingTemplate.convertAndSend(destination, list);
+        }
     }
 }
