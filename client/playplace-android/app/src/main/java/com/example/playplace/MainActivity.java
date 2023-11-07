@@ -25,6 +25,7 @@ import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private LocationCallback mLocationCallback;
     private LocationSettingsRequest mLocationSettingsRequest;
     private Location mLastLocation;
-
+    private WebView webView;
     private Bitmap imageBitmap;
 
     /* 웹뷰 기본설정 */
@@ -105,21 +106,45 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        WebView webView = findViewById(R.id.webview);
+        webView = findViewById(R.id.webview);
         setWebView(webView);
 
         // 지도 위치 권한 요청, (위도, 경도) 값을 받는 함수 호출
         webView.addJavascriptInterface(new MapInterface(), "AndMap");
         // 카메라 권한 요청, 카메라 앱 여는 함수 호출, 버튼을 눌러 webView로 전송 함수 호출
         webView.addJavascriptInterface(new CameraInterface(), "AndCamera");
-
+        webView.setWebViewClient(new MyWebViewClient());
 
         webView.loadUrl("https://k9c109.p.ssafy.io/pp"); // 서버
 //        webView.loadUrl("http://192.168.137.1:3000/pp"); // 로컬
-
-
     }
 
+    // MyWebViewClient : 웹뷰에서 일어나는 요청 처리
+    private class MyWebViewClient extends WebViewClient {
+        // shouldOverrideUrlLoading : 리디렉션 요청을 WebView에서 처리하도록 함
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
+    }
+
+    // 뒤로가기 이벤트 제어
+    private long backBtnTime = 0;
+    @Override
+    public void onBackPressed() {
+        long curTime = System.currentTimeMillis();
+        long gapTime = curTime - backBtnTime;
+        if (webView.canGoBack()) {
+            webView.goBack();
+        } else if (0 <= gapTime && 2000 >= gapTime) {
+            super.onBackPressed();
+        } else {
+            backBtnTime = curTime;
+            Toast.makeText(this, "뒤로가기를 한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
+    }
+    
     private static String Tag = "permission";
     public class MapInterface {
         @JavascriptInterface
