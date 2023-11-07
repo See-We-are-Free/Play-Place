@@ -5,7 +5,7 @@ import LayoutWithHeader from '@/components/templates/layout/LayoutWithHeader/Lay
 import { HeaderStyles } from '@/types/styles.d';
 import MenuIcon from '@root/public/assets/icons/Menu.svg';
 import Home from '@/components/pages/Home/Home';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function HomePage() {
 	const [isMyMenuOpen, setIsMyMenuOpen] = useState<boolean>(false);
