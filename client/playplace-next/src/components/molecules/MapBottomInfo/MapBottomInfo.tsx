@@ -29,7 +29,7 @@ function MapBottomInfo(props: IMapBottomInfoProps) {
 		if (isDistance === true) {
 			setOpen(true);
 		} else {
-			CustomToast(ToastStyles.error, '100m안에서 등록이 가능합니다!');
+			CustomToast(ToastStyles.noTabbarError, '100m안에서 등록이 가능합니다!');
 		}
 	};
 

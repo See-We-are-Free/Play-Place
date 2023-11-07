@@ -43,7 +43,7 @@ function GroupSongListItemMore(props: IGroupSongListItemMoreProps) {
 				closeSheet();
 				playNextSong();
 				fetchData();
-				CustomToast(ToastStyles.success, '1곡이 삭제되었습니다.');
+				CustomToast(ToastStyles.noTabbarSuccess, '1곡이 삭제되었습니다.');
 			}
 		} catch (error) {
 			console.error(error);
