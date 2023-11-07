@@ -6,6 +6,8 @@ import { ButtonStyles, ToastStyles } from '@/types/styles.d';
 import CustomToast from '@/components/atoms/CustomToast/CustomToast';
 import useFetchPlaylist from '@/hooks/player/useFetchPlaylist';
 import { addGroupToPlaylistApi } from '@/utils/api/landmarks';
+import { useRecoilState } from 'recoil';
+import { playModalState } from '@/recoil/play';
 import MapBottomInfoContainer, {
 	MapBottomButton,
 	MapBottomInfoIcon,
@@ -24,6 +26,7 @@ interface IMapBottomInfoProps {
 function MapBottomInfo(props: IMapBottomInfoProps) {
 	const { landMarkTitle, songVolume, setOpen, isDistance, landmarkId } = props;
 	const { fetchData } = useFetchPlaylist();
+	const [, setPlayModal] = useRecoilState(playModalState);
 
 	const searchOpen = () => {
 		if (isDistance === true) {
@@ -38,9 +41,10 @@ function MapBottomInfo(props: IMapBottomInfoProps) {
 			try {
 				const response = await addGroupToPlaylistApi(landmarkId);
 
-				console.log(response);
+				console.log('addGroupToPlaylistApi :: ', response);
 				if (response.status === 200) {
 					fetchData();
+					setPlayModal('playlist');
 				}
 			} catch (error) {
 				console.error(error);

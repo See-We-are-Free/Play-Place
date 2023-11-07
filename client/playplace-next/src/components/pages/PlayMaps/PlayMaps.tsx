@@ -82,7 +82,7 @@ function PlayMaps() {
 
 	const detailLandMarkTest = async (landmarkId: number) => {
 		const response = await getDevelopLandmarkDetailApi(landmarkId);
-		console.log(response);
+		console.log('detailLandMarkTest :: ', response);
 		if (response && response.status === 200) {
 			setLandMarkList(response.data.data);
 		}
@@ -106,7 +106,6 @@ function PlayMaps() {
 	useEffect(() => {
 		// console.log(detailLandmark);
 		if (choose) {
-			console.log(detailLandmark.landmarkId);
 			detailLandMarkTest(detailLandmark.landmarkId);
 			setChoose(false);
 		}
