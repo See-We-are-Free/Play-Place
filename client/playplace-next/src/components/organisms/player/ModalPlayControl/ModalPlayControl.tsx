@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { isNowPlayState, nowPlaySongState, playModalState } from '@/recoil/play';
 import SkipPrevious from '@root/public/assets/icons/SkipPrevious.svg';
@@ -11,17 +11,15 @@ import IconButton from '@/components/atoms/IconButton/IconButton';
 import PlayList from '@root/public/assets/icons/PlayList.svg';
 import SongThumbnail from '@/components/atoms/SongThumbnail/SongThumbnail';
 import usePlayer from '@/hooks/player/usePlayer';
-import { getSongLike, saveSongLikeToggleApi } from '@/utils/api/songs';
-import CustomToast from '@/components/atoms/CustomToast/CustomToast';
-import { ToastStyles } from '@/types/styles.d';
+import useSongLike from '@/hooks/player/useSongLike';
 import ModalPlayControlContainer from './style';
 
 function ModalPlayControl() {
 	const [isNowPlay] = useRecoilState(isNowPlayState);
 	const [nowPlaySong] = useRecoilState(nowPlaySongState);
 	const [playModal, setPlayModal] = useRecoilState(playModalState);
-	const [isLike, setIsLike] = useState(false);
 	const { playPreviousSong, playNextSong, playSong, pauseSong } = usePlayer();
+	const { isLike, toggleLike } = useSongLike();
 
 	const handlePlayList = () => {
 		setPlayModal('playlist');
@@ -31,45 +29,9 @@ function ModalPlayControl() {
 		setPlayModal('nowPlay');
 	};
 
-	const handleLike = async () => {
-		try {
-			if (!nowPlaySong) return;
-
-			const response = await saveSongLikeToggleApi({ songId: nowPlaySong.songId, like: !isLike });
-			console.log('saveSongLikeToggleApi :: ', response);
-
-			if (response.status === 200) {
-				setIsLike(!isLike);
-				if (isLike) {
-					CustomToast(ToastStyles.success, '이 음악의 좋아요를 취소합니다.');
-				} else {
-					CustomToast(ToastStyles.success, '이 음악을 좋아합니다.');
-				}
-			}
-		} catch (error) {
-			console.error(error);
-		}
-	};
-
-	const fetchLikeData = async () => {
-		try {
-			if (!nowPlaySong) return;
-			const response = await getSongLike(nowPlaySong?.songId);
-			if (response.status === 200) {
-				setIsLike(response.data.like);
-			}
-			console.log('fetchLikeData :: ', response);
-		} catch (error) {
-			console.log(error);
-		}
-	};
-	useEffect(() => {
-		fetchLikeData();
-	}, [nowPlaySong?.songId]);
-
 	return (
 		<ModalPlayControlContainer>
-			<IconButton size="s" Icon={isLike ? <HeartOn /> : <HeartOff />} onClick={handleLike} color="black300" />
+			<IconButton size="s" Icon={isLike ? <HeartOn /> : <HeartOff />} onClick={toggleLike} color="black300" />
 			<IconButton size="l" Icon={<SkipPrevious />} onClick={playPreviousSong} color="white100" />
 			{isNowPlay ? (
 				<IconButton size="l" Icon={<Pause />} onClick={pauseSong} color="white100" />
