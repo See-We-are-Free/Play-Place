@@ -17,8 +17,8 @@ function Radar() {
 	const [isSongShare, setIsSongShare] = useRecoilState(songShareState);
 
 	const handleActive = useCallback(async () => {
-		setIsSongShare((prev) => !prev);
 		await setSongShareState();
+		setIsSongShare((prev) => !prev);
 	}, [setIsSongShare]);
 
 	const header = (

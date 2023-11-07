@@ -15,3 +15,8 @@ export const getUserInfoApi = () => {
 	const response = http.get('/users');
 	return response;
 };
+
+export const getRefreshToken = () => {
+	const response = http.get('/refresh');
+	return response;
+};
