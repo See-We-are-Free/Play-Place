@@ -7,8 +7,13 @@ const MapBottomInfoContainer = styled.div`
 
 export const MapBottomInfoLandmarkInfo = styled.div`
 	display: flex;
-	gap: 10px;
-	align-items: end;
+	align-items: center;
+	gap: 5px;
+	line-height: 30px;
+
+	p {
+		width: fit-content;
+	}
 `;
 
 export const MapBottomInfoTitle = styled.div`
