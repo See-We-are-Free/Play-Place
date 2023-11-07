@@ -50,7 +50,7 @@ function PlayList() {
 					landmarkGroups.map((l: LandmarkGroup) => (
 						<SongGroup
 							key={l.landmarkId}
-							landmarkId={l.landmarkId}
+							userLandmarkGroupId={l.userLandmarkGroupId}
 							groupName={l.title}
 							songs={l.landmarkSongs}
 							editMode={editMode}

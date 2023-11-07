@@ -17,7 +17,7 @@ import SongGroupContainer from './style';
 
 interface ISongGroupProps {
 	groupName: string;
-	landmarkId?: number;
+	userLandmarkGroupId?: number;
 	songs: BasicSong[] | LandmarkSong[];
 	isBasicGroup?: boolean;
 	editMode?: boolean;
@@ -27,7 +27,7 @@ interface ISongGroupProps {
 function SongGroup(props: ISongGroupProps) {
 	const {
 		groupName,
-		landmarkId = -1,
+		userLandmarkGroupId = -1,
 		songs,
 		isBasicGroup = false,
 		editMode = false,
@@ -42,7 +42,7 @@ function SongGroup(props: ISongGroupProps) {
 		if (!window.confirm(`'${groupName}' 그룹 재생목록을 삭제하시겠습니까?`)) return;
 
 		try {
-			const response = await deleteGroupFromPlayListApi(landmarkId);
+			const response = await deleteGroupFromPlayListApi(userLandmarkGroupId);
 			console.log(response);
 			setNowPlaySong(playQueue[0]);
 
