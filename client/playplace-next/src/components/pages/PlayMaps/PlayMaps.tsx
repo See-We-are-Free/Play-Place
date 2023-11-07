@@ -198,7 +198,7 @@ function PlayMaps() {
 							<SearchHeader>
 								<MapBottomSheet
 									isDistance={isDistance}
-									landMarkTitle={`${detailLandmark.title}에 음악 추가`}
+									landMarkTitle={`${detailLandmark.title}`}
 									landMarkList={landMarkList}
 									landmarkId={detailLandmark.landmarkId}
 								/>
