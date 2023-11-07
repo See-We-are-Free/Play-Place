@@ -295,6 +295,7 @@ public class SongService {
 
     public GetLikeSongResponse getLikeSong(long songId){
         Optional<Users> user = userRepository.findById(SecurityUtils.getUser().getUserId());
+        log.info(user.get().toString());
         // redis -> mysql
         Set<Object> songs = redisTemplate.opsForHash().keys("like:" + user.get().getId());
         if (!songs.isEmpty()) {
@@ -326,9 +327,9 @@ public class SongService {
     public void syncLike() {
         Set<String> changeSongKeys = redisTemplate.keys("like:*");
         if (changeSongKeys.isEmpty()) return;
-
         for (String key : changeSongKeys) {
             Long userId = Long.parseLong(key.split(":")[1]);
+            log.info(userId.toString());
             Users user = userRepository.findById(userId).orElse(null);
             if (user != null) syncLikeForUser(user); // mysql update
             redisTemplate.delete(key); // Redis 데이터 삭제
@@ -340,6 +341,7 @@ public class SongService {
         Set<Long> songIds = songIdsObjects.stream()
                 .map(objectId -> (Long) objectId)
                 .collect(Collectors.toSet());
+        log.info(songIds.toString());
 
         List<Song> songs = songRepository.findAllById(songIds);
         if (songIds.isEmpty()) return;
@@ -349,11 +351,13 @@ public class SongService {
         for (Song song : songs) {
             Object check = redisTemplate.opsForHash().get("like:" + user.getId(), song.getId());
             if (check == null) continue;
-            if (check.equals("true")) {
+            if (check.equals(true)) {
+                log.info("true");
                 if(!jjimRepository.existsByJjimId_UserIdAndJjimId_SongId(user.getId(), song.getId())) {
                     saveSong.add(song);
                 }
             } else {
+                log.info("false");
                 Optional<Jjim> like = jjimRepository.findByJjimId_UserIdAndJjimId_SongId(user.getId(), song.getId());
                 like.ifPresent(jjimRepository::delete);
             }
