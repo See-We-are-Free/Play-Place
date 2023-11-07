@@ -57,6 +57,27 @@ function PlayMaps() {
 		setMap(loadMap);
 	}, []);
 
+	const [getLocateFromAndroid, setGetLocateFromAndroid] = useState<string>('');
+	if (window.AndMap) {
+		setGetLocateFromAndroid(window.AndMap.getLastKnownLocation());
+		// const getLocateFromAndroid = window.AndMap.getLastKnownLocation();
+	}
+	// 안드로이드에서 현재 위치를 받음
+	const setLocateFromAndroid = (data: MapsCenter) => {
+		setCenter(data);
+	};
+
+	useEffect(() => {
+		if (getLocateFromAndroid !== '위치를 찾을 수 없습니다') {
+			const presentLocate: string[] = getLocateFromAndroid.split(',');
+			const preCenter = {
+				lat: parseFloat(presentLocate[0]),
+				lng: parseFloat(presentLocate[1]),
+			};
+			setLocateFromAndroid(preCenter);
+		}
+	}, [getLocateFromAndroid]);
+
 	// 현재 위치로 이동
 	const locateUser = useCallback(() => {
 		navigator.geolocation.getCurrentPosition((position) => {
