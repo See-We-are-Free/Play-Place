@@ -54,6 +54,7 @@ function PlayList() {
 							groupName={l.title}
 							songs={l.landmarkSongs}
 							editMode={editMode}
+							toggleEditMode={toggleEditMode}
 						/>
 					))
 				) : (

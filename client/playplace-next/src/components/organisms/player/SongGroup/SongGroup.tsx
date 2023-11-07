@@ -19,10 +19,18 @@ interface ISongGroupProps {
 	songs: BasicSong[] | LandmarkSong[];
 	isBasicGroup?: boolean;
 	editMode?: boolean;
+	toggleEditMode?: () => void;
 }
 
 function SongGroup(props: ISongGroupProps) {
-	const { groupName, landmarkId = -1, songs, isBasicGroup = false, editMode = false } = props;
+	const {
+		groupName,
+		landmarkId = -1,
+		songs,
+		isBasicGroup = false,
+		editMode = false,
+		toggleEditMode = () => {},
+	} = props;
 	const { fetchData } = useFetchPlaylist();
 	const [toggle, setToggle] = useToggle(false);
 
@@ -38,6 +46,8 @@ function SongGroup(props: ISongGroupProps) {
 				CustomToast(ToastStyles.success, `'${groupName}' 그룹을 삭제했습니다.`);
 			}
 		} catch (error) {
+			CustomToast(ToastStyles.error, '그룹 삭제에 실패했습니다 \n잠시 후 다시 시도하세요');
+			toggleEditMode();
 			console.error(error);
 		}
 	};
