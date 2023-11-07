@@ -11,6 +11,8 @@ import { deleteGroupFromPlayListApi } from '@/utils/api/playlists';
 import useFetchPlaylist from '@/hooks/player/useFetchPlaylist';
 import CustomToast from '@/components/atoms/CustomToast/CustomToast';
 import { ToastStyles } from '@/types/styles.d';
+import { useRecoilState } from 'recoil';
+import { nowPlaySongState, playQueueState } from '@/recoil/play';
 import SongGroupContainer from './style';
 
 interface ISongGroupProps {
@@ -31,6 +33,8 @@ function SongGroup(props: ISongGroupProps) {
 		editMode = false,
 		toggleEditMode = () => {},
 	} = props;
+	const [, setNowPlaySong] = useRecoilState(nowPlaySongState);
+	const [playQueue] = useRecoilState(playQueueState);
 	const { fetchData } = useFetchPlaylist();
 	const [toggle, setToggle] = useToggle(false);
 
@@ -40,6 +44,7 @@ function SongGroup(props: ISongGroupProps) {
 		try {
 			const response = await deleteGroupFromPlayListApi(landmarkId);
 			console.log(response);
+			setNowPlaySong(playQueue[0]);
 
 			if (response.status === 200) {
 				fetchData();
