@@ -37,7 +37,7 @@ function MapBottomInfo(props: IMapBottomInfoProps) {
 			<MapBottomInfoTitle>
 				<MapBottomInfoLandmarkInfo>
 					<Text text={landMarkTitle} color="default" fontSize={20} />
-					<Text text={`${songVolume} / 99`} color="gray" fontSize={12} />
+					<Text text={`${songVolume} / 99`} color="gray" fontSize={12} /> 
 				</MapBottomInfoLandmarkInfo>
 				<MapBottomInfoIcon type="button" onClick={addLGroupToPlaylist}>
 					<ListPlus />
