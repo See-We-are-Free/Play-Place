@@ -4,7 +4,7 @@ import { PropsWithChildren, useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
 import { usePathname, useRouter } from 'next/navigation';
 import StompClientProvider from '@/components/atoms/StompClientProvider/StompClientProvider';
-import GlobalStyles from '../styles/GlobalStyles';
+import GlobalStyles from '@/styles/GlobalStyles';
 
 function Providers({ children }: PropsWithChildren) {
 	const router = useRouter();
@@ -12,7 +12,7 @@ function Providers({ children }: PropsWithChildren) {
 
 	useEffect(() => {
 		if (!localStorage.getItem('accessToken') && pathname !== '/login' && pathname !== '/signup') {
-			// alert('로그인이 필요합니다.');
+			// CustomToast(ToastStyles.error, '로그인이 필요한 서비스입니다.');
 			// router.push('/login');
 		}
 	}, [pathname, router]);

@@ -1,14 +1,12 @@
 import http from './http';
 
-export const getSongShareInfo = async (): Promise<boolean> => {
-	// const response = await localHttp.get('/radar?longitude=126.823577&latitude=35.191318');
-	// console.log(response);
-	// return response.data;
-	// return true;
-	return true;
+export const getSongShareInfo = async () => {
+	// const response = await http.get('/radar');
+	// return response;
+	return false; // 임시
 };
 
-export const setSongShareState = (share: boolean) => {
-	const response = http.post('/test', share);
+export const setSongShareState = () => {
+	const response = http.patch('/radar');
 	return response;
 };

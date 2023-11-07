@@ -8,6 +8,7 @@ export const MapBottomResult = styled.div`
 	height: 50vh;
 	display: flex;
 	justify-content: center;
+	align-items: flex-start;
 	color: var(--primary-grandiant-sub-orange);
 `;
 
