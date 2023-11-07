@@ -11,18 +11,30 @@ import { deleteGroupFromPlayListApi } from '@/utils/api/playlists';
 import useFetchPlaylist from '@/hooks/player/useFetchPlaylist';
 import CustomToast from '@/components/atoms/CustomToast/CustomToast';
 import { ToastStyles } from '@/types/styles.d';
+import { useRecoilState } from 'recoil';
+import { nowPlaySongState, playQueueState } from '@/recoil/play';
 import SongGroupContainer from './style';
 
 interface ISongGroupProps {
 	groupName: string;
-	landmarkId?: number;
+	userLandmarkGroupId?: number;
 	songs: BasicSong[] | LandmarkSong[];
 	isBasicGroup?: boolean;
 	editMode?: boolean;
+	toggleEditMode?: () => void;
 }
 
 function SongGroup(props: ISongGroupProps) {
-	const { groupName, landmarkId = -1, songs, isBasicGroup = false, editMode = false } = props;
+	const {
+		groupName,
+		userLandmarkGroupId = -1,
+		songs,
+		isBasicGroup = false,
+		editMode = false,
+		toggleEditMode = () => {},
+	} = props;
+	const [, setNowPlaySong] = useRecoilState(nowPlaySongState);
+	const [playQueue] = useRecoilState(playQueueState);
 	const { fetchData } = useFetchPlaylist();
 	const [toggle, setToggle] = useToggle(false);
 
@@ -30,14 +42,17 @@ function SongGroup(props: ISongGroupProps) {
 		if (!window.confirm(`'${groupName}' 그룹 재생목록을 삭제하시겠습니까?`)) return;
 
 		try {
-			const response = await deleteGroupFromPlayListApi(landmarkId);
+			const response = await deleteGroupFromPlayListApi(userLandmarkGroupId);
 			console.log(response);
+			setNowPlaySong(playQueue[0]);
 
 			if (response.status === 200) {
 				fetchData();
 				CustomToast(ToastStyles.success, `'${groupName}' 그룹을 삭제했습니다.`);
 			}
 		} catch (error) {
+			CustomToast(ToastStyles.error, '그룹 삭제에 실패했습니다 \n잠시 후 다시 시도하세요');
+			toggleEditMode();
 			console.error(error);
 		}
 	};
@@ -53,7 +68,7 @@ function SongGroup(props: ISongGroupProps) {
 
 	return (
 		<SongGroupContainer $isFold={toggle}>
-			<div id="group-header">
+			<div id="group-header" role="presentation" onClick={() => setToggle()}>
 				<div id="group-info">
 					<Text text={groupName} fontSize={16} />
 					<Text text={`${songs.length} / ${isBasicGroup ? 999 : 99}`} color="gray" />

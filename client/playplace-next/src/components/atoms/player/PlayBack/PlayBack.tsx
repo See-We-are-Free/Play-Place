@@ -2,6 +2,7 @@
 
 import useFetchPlaylist from '@/hooks/player/useFetchPlaylist';
 import usePlayer from '@/hooks/player/usePlayer';
+import useLocalStorage from '@/hooks/useLocalStorage';
 import { isNowPlayState, nowPlaySongState, playbackState } from '@/recoil/play';
 import { UpdatePlayTimeApiBody } from '@/types/api';
 import { PlaybackType } from '@/types/play';
@@ -12,6 +13,7 @@ import YouTube, { YouTubeProps } from 'react-youtube';
 import { useRecoilState } from 'recoil';
 
 function PlayBack() {
+	const localStorage = useLocalStorage();
 	const [isNowPlay, setIsNowPlay] = useRecoilState(isNowPlayState);
 	const [, setPlayback] = useRecoilState(playbackState);
 	const [nowPlaySong, setNowPlaySong] = useRecoilState(nowPlaySongState);
@@ -50,7 +52,7 @@ function PlayBack() {
 	const fetchLatestSongData = async () => {
 		try {
 			const response = await getLatestSongApi();
-			console.log('getLatestSongApi', response);
+			console.log('fetchLatestSongData :: ', response);
 			if (response.status === 200) {
 				if (response.data.landmark) {
 					const song: LandmarkSong = {
@@ -106,7 +108,7 @@ function PlayBack() {
 		try {
 			if (playlistSongId !== -1) {
 				const response = await saveNowPlaySongApi({ isLandmark, playlistSongId });
-				console.log(response);
+				console.log('saveNowPlaySongApi :: ', response);
 			}
 		} catch (error) {
 			console.error(error);
@@ -123,9 +125,8 @@ function PlayBack() {
 	};
 
 	useEffect(() => {
-		fetchLatestSongData();
-		console.log('fetch해라');
-	}, []);
+		if (localStorage?.getItem('accessToken')) fetchLatestSongData();
+	}, [localStorage]);
 
 	return (
 		<YouTube

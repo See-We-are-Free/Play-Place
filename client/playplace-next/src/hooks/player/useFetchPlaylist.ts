@@ -12,11 +12,10 @@ function useFetchPlaylist() {
 	const fetchData = async () => {
 		try {
 			const response = await getPlaylistApi();
-			console.log('fetchPlayList', response);
+			console.log('fetchPlayList :: ', response);
 			if (response.status === 200) {
 				setBasicSongs(response.data.basicSongs);
 				setLandmarkGroups(response.data.landmarks);
-				console.log(response.data.landmarks);
 
 				// 랜드마크 그룹이 포함되어 있으면,
 				const queue = [...response.data.basicSongs];
@@ -25,7 +24,6 @@ function useFetchPlaylist() {
 						queue.push(...el.landmarkSongs);
 					});
 				}
-				console.log(queue);
 				setPlayQueue(queue);
 			}
 		} catch (error) {

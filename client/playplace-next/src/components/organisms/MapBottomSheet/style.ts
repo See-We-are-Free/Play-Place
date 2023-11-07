@@ -13,8 +13,7 @@ export const MapBottomResult = styled.div`
 `;
 
 export const MapBottomResultText = styled.p`
-	font-size: 18px;
-	font-weight: 700;
+	font-size: 14px;
 `;
 
 export default MapBottomSheetHR;

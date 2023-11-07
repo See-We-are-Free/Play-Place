@@ -105,7 +105,6 @@ function PlayMaps() {
 	useEffect(() => {
 		// console.log(detailLandmark);
 		if (choose) {
-			console.log(detailLandmark.landmarkId);
 			detailLandMarkTest(detailLandmark.landmarkId);
 			setChoose(false);
 		}
@@ -197,7 +196,7 @@ function PlayMaps() {
 							<SearchHeader>
 								<MapBottomSheet
 									isDistance={isDistance}
-									landMarkTitle={detailLandmark.title}
+									landMarkTitle={`${detailLandmark.title}`}
 									landMarkList={landMarkList}
 									landmarkId={detailLandmark.landmarkId}
 								/>

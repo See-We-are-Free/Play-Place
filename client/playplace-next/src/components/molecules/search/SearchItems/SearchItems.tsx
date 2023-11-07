@@ -28,6 +28,7 @@ function SearchItems(props: ISearchItemsProps) {
 	const { artist, title, albumImg, youtubeId } = searchItem;
 
 	const addLandmarkSong = async () => {
+		if (!window.confirm(`'${title}'을 랜드마크에 등록하시겠어요?`)) return;
 		if (landmarkId) {
 			const song: AddSongLandmarkApiBody = {
 				artist,
@@ -41,7 +42,7 @@ function SearchItems(props: ISearchItemsProps) {
 			try {
 				const response = await postLandmarkAddSong(song);
 				if (response.status === 200) {
-					CustomToast(ToastStyles.noTabbarSuccess, `${title} 등록완료!`);
+					CustomToast(ToastStyles.success, `랜드마크에 1곡이 등록되었습니다.`);
 				}
 			} catch (error) {
 				if (error instanceof AxiosError) {
