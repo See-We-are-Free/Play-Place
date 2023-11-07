@@ -9,6 +9,7 @@ export const MapBottomInfoLandmarkInfo = styled.div`
 	display: flex;
 	gap: 10px;
 	align-items: end;
+	text-wrap: nowrap;
 `;
 
 export const MapBottomInfoTitle = styled.div`

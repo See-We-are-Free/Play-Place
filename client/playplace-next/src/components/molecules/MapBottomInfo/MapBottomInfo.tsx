@@ -52,7 +52,7 @@ function MapBottomInfo(props: IMapBottomInfoProps) {
 		<MapBottomInfoContainer>
 			<MapBottomInfoTitle>
 				<MapBottomInfoLandmarkInfo>
-					<Text text={landMarkTitle} color="default" fontSize={20} />
+					<Text text={landMarkTitle} color="default" fontSize={20} $overflowHidden={false} />
 					<Text text={`${songVolume} / 99`} color="gray" fontSize={12} />
 				</MapBottomInfoLandmarkInfo>
 				<MapBottomInfoIcon type="button" onClick={addGroupToPlaylist}>
