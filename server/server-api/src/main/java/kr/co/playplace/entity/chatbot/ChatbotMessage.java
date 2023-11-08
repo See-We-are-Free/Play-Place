@@ -20,4 +20,7 @@ public class ChatbotMessage extends TimeBaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private Users user;
+
+    private String imgUrl;
+    private String comment;
 }
