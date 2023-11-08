@@ -59,7 +59,7 @@ public class SongQueryService {
 
         // 재생 기록 확인 -> redis 확인 후 mysql 확인
 //        List<Long> playListSongIds = checkRedis(user.get());
-        Optional<RecentSongDto> recentSongDto = recentSongDtoRedisRepository.findByUserId(userId);
+        Optional<RecentSongDto> recentSongDto = recentSongDtoRedisRepository.findById(userId);
         if(recentSongDto.isEmpty()){ // mysql 확인
             Optional<NowPlay> nowPlay = nowPlayRepository.findByUser_Id(userId);
             if(nowPlay.isEmpty()){
