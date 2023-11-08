@@ -19,6 +19,11 @@ function PlayMaps() {
 		lng: 0,
 	});
 
+	const [mapCenter, setMapCenter] = useState<MapsCenter>({
+		lat: 0,
+		lng: 0,
+	});
+
 	// 바텀시트를 여는 state
 	const [open, setOpen] = useState<boolean>(false);
 	// 랜드마크 정보 저장 배열
@@ -57,8 +62,19 @@ function PlayMaps() {
 		setMap(loadMap);
 	}, []);
 
-	const [getLocateFromAndroid, setGetLocateFromAndroid] = useState<string>('');
+	const onMapIdle = useCallback(() => {
+		if (map) {
+			const newCenter = map.getCenter();
+			if (newCenter) {
+				setMapCenter({
+					lat: newCenter.lat(),
+					lng: newCenter.lng(),
+				});
+			}
+		}
+	}, [map]);
 
+	const [getLocateFromAndroid, setGetLocateFromAndroid] = useState<string>('');
 	// 안드로이드에서 현재 위치를 받음
 	const setLocateFromAndroid = (data: MapsCenter) => {
 		console.log(data);
@@ -89,34 +105,6 @@ function PlayMaps() {
 			clearInterval(locationInterval);
 		};
 	}, [getLocateFromAndroid]);
-
-	// useEffect(() => {
-	// 	function updatePosition(position: GeolocationPosition) {
-	// 		const { latitude } = position.coords;
-	// 		const { longitude } = position.coords;
-
-	// 		// 위치 업데이트
-	// 		setCenter({ lat: latitude, lng: longitude });
-	// 	}
-
-	// 	// 위치 추적 시작
-	// 	const watchId = navigator.geolocation.watchPosition(
-	// 		updatePosition,
-	// 		(error) => {
-	// 			console.error(`오류: ${error.message}`);
-	// 		},
-	// 		{
-	// 			enableHighAccuracy: true,
-	// 			maximumAge: 10000,
-	// 			timeout: 5000,
-	// 		},
-	// 	);
-
-	// 	// 컴포넌트 언마운트 시 위치 추적 중지
-	// 	return () => {
-	// 		navigator.geolocation.clearWatch(watchId);
-	// 	};
-	// }, [center]);
 
 	// 현재 위치로 이동
 	const locateUser = useCallback(() => {
@@ -182,6 +170,17 @@ function PlayMaps() {
 		});
 	}, []);
 
+	useEffect(() => {
+		if (map) {
+			const idleListener = google.maps.event.addListener(map, 'idle', onMapIdle);
+
+			return () => {
+				google.maps.event.removeListener(idleListener);
+			};
+		}
+		return undefined;
+	}, [map, onMapIdle]);
+
 	// 현재위치 표시
 	const circleRangeOptions = {
 		strokeColor: '#FF7575',
@@ -210,10 +209,11 @@ function PlayMaps() {
 					<LocateButton onLocateClick={locateUser} />
 					<GoogleMap
 						mapContainerStyle={{ width: '100%', height: '100%' }}
-						center={center}
+						center={mapCenter}
 						zoom={18}
 						onLoad={onLoad}
 						onUnmount={onUnmount}
+						onIdle={onMapIdle}
 						options={{
 							styles: nightModeStyles,
 							mapTypeControl: false,
