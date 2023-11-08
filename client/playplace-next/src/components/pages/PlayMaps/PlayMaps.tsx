@@ -61,6 +61,7 @@ function PlayMaps() {
 
 	// 안드로이드에서 현재 위치를 받음
 	const setLocateFromAndroid = (data: MapsCenter) => {
+		console.log(data);
 		setCenter(data);
 	};
 
@@ -75,6 +76,7 @@ function PlayMaps() {
 	useEffect(() => {
 		const locationInterval = setInterval(callAndroidLocation, 500);
 
+		console.log(getLocateFromAndroid);
 		if (getLocateFromAndroid !== '위치를 찾을 수 없습니다') {
 			const presentLocate: string[] = getLocateFromAndroid.split(',');
 			const preCenter = {
