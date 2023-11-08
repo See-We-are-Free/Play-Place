@@ -4,11 +4,14 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
@@ -21,6 +24,7 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.widget.Toast;
 
+import kr.co.playplace.R;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,7 +49,6 @@ import kr.co.playplace.utils.SetWebView;
 import kr.co.playplace.webview.MyWebViewClient;
 
 public class MainActivity extends AppCompatActivity {
-    private Uri cameraImageUri = null;
     private static final int REQUEST_CAMERA_PERMISSION_CODE = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 2;
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 1981;
@@ -59,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
     private Location mLastLocation;
     private WebView webView;
     private Bitmap imageBitmap;
+    private SensorManager mSensorManager;
+    private Sensor mAccelerometer;
+    private ShakeDetector mShakeDetector;
 
     /** 액티비티 생성 시 */
     @Override
@@ -69,6 +75,17 @@ public class MainActivity extends AppCompatActivity {
         init();
         webView = findViewById(R.id.webview);
         SetWebView.setWebView(webView);
+
+        // ShakeDetector 초기설정
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mShakeDetector = new ShakeDetector();
+        mShakeDetector.setOnShakeListener(new ShakeDetector.OhShakeListener(){
+            @Override
+            public void onShake(int count){
+                webView.loadUrl("https://k9c109.p.ssafy.io/pp/chatbot");
+            }
+        });
 
         mLocationCallback = new LocationCallback() {
             @Override
@@ -127,24 +144,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public class CameraInterface {
+        // 카메라 권한 허용
         @JavascriptInterface
         public void successCamera() {
             checkCamera();
         }
 
+        // 카메라 어플 작동
         @JavascriptInterface
         public void openCamera() {
             captureImage();
         }
 
+        // 사진 찍고 이미지 전달
         @JavascriptInterface
         public String sendData() {
             if (imageBitmap != null) {
+//                webView.loadUrl("https://k9c109.p.ssafy.io/pp/chatbot") // 서버;
+                webView.loadUrl("http://192.168.137.1:3000/pp/search");
                 return encodeToBase64(imageBitmap);
             }
             return null;
         }
 
+        // image 인코딩 함수
         private String encodeToBase64(Bitmap image) {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
@@ -192,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
         mLocationRequest.setInterval(500);
         mLocationRequest.setFastestInterval(500);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+//        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
         builder.addLocationRequest(mLocationRequest);
@@ -333,5 +356,17 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    public void onPause() {
+        mSensorManager.unregisterListener(mShakeDetector);
+        super.onPause();
     }
 }
