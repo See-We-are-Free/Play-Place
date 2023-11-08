@@ -6,6 +6,7 @@ import Button from '@/components/atoms/Button/Button';
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import AgreementDetail from '@/components/molecules/AgreementDetail/AgreementDetail';
 import CustomToast from '@/components/atoms/CustomToast/CustomToast';
+import { AGREEMENT_DETAIL } from '@/constants/member';
 import { AgreementListItem, JoinAgreementContainer, Line } from './style';
 
 interface JoinAgreementProps {
@@ -88,7 +89,7 @@ function JoinAgreement(props: JoinAgreementProps) {
 							onChange={(e) => handleCheckOption(e, 1)}
 							checked={agreements[1]}
 						/>
-						<span>이용약관 동의(필수)</span>
+						<span>{AGREEMENT_DETAIL[0].title}</span>
 					</label>
 					<button type="button" onClick={() => handleOpenDetail(0)}>
 						<RightArrow />
@@ -104,7 +105,7 @@ function JoinAgreement(props: JoinAgreementProps) {
 							onChange={(e) => handleCheckOption(e, 2)}
 							checked={agreements[2]}
 						/>
-						<span>개인정보 수집 및 이용(필수)</span>
+						<span>{AGREEMENT_DETAIL[1].title}</span>
 					</label>
 					<button type="button" onClick={() => handleOpenDetail(1)}>
 						<RightArrow />
