@@ -167,6 +167,11 @@ function PlayMaps() {
 				lat: position.coords.latitude,
 				lng: position.coords.longitude,
 			});
+
+			setMapCenter({
+				lat: position.coords.latitude,
+				lng: position.coords.longitude,
+			});
 		});
 	}, []);
 
