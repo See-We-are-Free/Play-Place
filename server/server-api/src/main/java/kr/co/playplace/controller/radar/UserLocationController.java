@@ -62,7 +62,7 @@ public class UserLocationController {
 ////            redisTemplate.convertAndSend("topic", message);
 ////            simpMessagingTemplate.convertAndSend("/topic/location/" + securityUserDto.getUserId(), list);
 //
-//            simpMessagingTemplate.convertAndSendToUser(securityUserDto.getEmail(),"/queue/location", list);
+//            simpMessagingTemplate.convertAndSendToUser(securityUserDto.toString(),"/queue/location", message);
 //
 //        } catch (JsonProcessingException e) {
 //            e.printStackTrace();
