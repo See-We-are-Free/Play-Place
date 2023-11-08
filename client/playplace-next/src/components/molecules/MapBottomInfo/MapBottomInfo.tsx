@@ -6,6 +6,8 @@ import { ButtonStyles, ToastStyles } from '@/types/styles.d';
 import CustomToast from '@/components/atoms/CustomToast/CustomToast';
 import useFetchPlaylist from '@/hooks/player/useFetchPlaylist';
 import { addGroupToPlaylistApi } from '@/utils/api/landmarks';
+import { useRecoilState } from 'recoil';
+import { playModalState } from '@/recoil/play';
 import MapBottomInfoContainer, {
 	MapBottomButton,
 	MapBottomInfoIcon,
@@ -24,12 +26,13 @@ interface IMapBottomInfoProps {
 function MapBottomInfo(props: IMapBottomInfoProps) {
 	const { landMarkTitle, songVolume, setOpen, isDistance, landmarkId } = props;
 	const { fetchData } = useFetchPlaylist();
+	const [, setPlayModal] = useRecoilState(playModalState);
 
 	const searchOpen = () => {
 		if (isDistance === true) {
 			setOpen(true);
 		} else {
-			CustomToast(ToastStyles.noTabbarError, '100m안에서 등록이 가능합니다!');
+			CustomToast(ToastStyles.error, '100m 이내에 있는 랜드마크에만 등록할 수 있습니다! 이동 후 다시 시도하세요.');
 		}
 	};
 
@@ -38,9 +41,10 @@ function MapBottomInfo(props: IMapBottomInfoProps) {
 			try {
 				const response = await addGroupToPlaylistApi(landmarkId);
 
-				console.log(response);
+				console.log('addGroupToPlaylistApi :: ', response);
 				if (response.status === 200) {
 					fetchData();
+					setPlayModal('playlist');
 				}
 			} catch (error) {
 				console.error(error);

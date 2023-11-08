@@ -3,7 +3,8 @@ import SongThumbnail from '@/components/atoms/SongThumbnail/SongThumbnail';
 import Text from '@/components/atoms/Text/Text';
 import { Song } from '@/types/songs';
 import formatPlayTime from '@/utils/common/formatPlayTime';
-import Heart from '@root/public/assets/icons/HeartOff.svg';
+import HeartOff from '@root/public/assets/icons/HeartOff.svg';
+import HeartOn from '@root/public/assets/icons/HeartOn.svg';
 import TrashBox from '@root/public/assets/icons/TrashBox.svg';
 import Share from '@root/public/assets/icons/Share.svg';
 
@@ -13,6 +14,7 @@ import useFetchPlaylist from '@/hooks/player/useFetchPlaylist';
 import CustomToast from '@/components/atoms/CustomToast/CustomToast';
 import { ToastStyles } from '@/types/styles.d';
 import usePlayer from '@/hooks/player/usePlayer';
+import useSongLike from '@/hooks/player/useSongLike';
 import GroupSongListItemMoreContainer from './style';
 
 interface IGroupSongListItemMoreProps {
@@ -24,6 +26,12 @@ function GroupSongListItemMore(props: IGroupSongListItemMoreProps) {
 	const { song, closeSheet = () => {} } = props;
 	const { fetchData } = useFetchPlaylist();
 	const { playNextSong } = usePlayer();
+	const { isLike, toggleLike } = useSongLike();
+
+	const likeSong = () => {
+		toggleLike();
+		closeSheet();
+	};
 
 	const removeSong = async () => {
 		let isLandmark = false;
@@ -50,6 +58,10 @@ function GroupSongListItemMore(props: IGroupSongListItemMoreProps) {
 		}
 	};
 
+	const shareSong = () => {
+		CustomToast(ToastStyles.error, '준비 중입니다.');
+	};
+
 	return (
 		<GroupSongListItemMoreContainer>
 			<div id="song-info">
@@ -60,15 +72,15 @@ function GroupSongListItemMore(props: IGroupSongListItemMoreProps) {
 				</div>
 			</div>
 			<ul id="menu">
-				<li>
-					<IconButton Icon={<Heart />} color="white100" size="s" />
+				<li role="presentation" onClick={likeSong}>
+					<IconButton Icon={isLike ? <HeartOn /> : <HeartOff />} color="white100" size="s" />
 					<Text text="좋아요" fontSize={16} />
 				</li>
 				<li role="presentation" onClick={removeSong}>
 					<IconButton Icon={<TrashBox />} color="white100" size="s" />
 					<Text text="재생목록에서 삭제" fontSize={16} />
 				</li>
-				<li>
+				<li role="presentation" onClick={shareSong}>
 					<IconButton Icon={<Share />} color="white100" size="s" />
 					<Text text="공유하기" fontSize={14} />
 				</li>

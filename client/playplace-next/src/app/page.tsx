@@ -33,6 +33,11 @@ export default function HomePage() {
 			router.push('/login');
 		}
 	}, [router, setUserInfo]);
+	useEffect(() => {
+		if (window.AndMap) {
+			window.AndMap.successLocate();
+		}
+	}, []);
 
 	const header = (
 		<>

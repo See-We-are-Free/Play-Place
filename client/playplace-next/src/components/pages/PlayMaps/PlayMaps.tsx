@@ -14,9 +14,16 @@ function PlayMaps() {
 	// 구글 맵
 	const [map, setMap] = useState<google.maps.Map | null>(null);
 	// 현재 위치
+
 	const [center, setCenter] = useState<MapsCenter>({
 		lat: 0,
 		lng: 0,
+	});
+
+	// 지도 기준 현 위치
+	const [mapCenter, setMapCenter] = useState<MapsCenter>({
+		lat: center.lat,
+		lng: center.lng,
 	});
 
 	// 바텀시트를 여는 state
@@ -30,6 +37,7 @@ function PlayMaps() {
 	// 랜드마크를 눌렀을 때
 	const [choose, setChoose] = useState<boolean>(false);
 
+	// 랜드마크정보
 	const [detailLandmark, setDetailLandmark] = useState<LandMarkInfo>({
 		landmarkId: 0,
 		latitude: 0,
@@ -37,10 +45,13 @@ function PlayMaps() {
 		title: '',
 		representativeImg: '',
 	});
+
 	// 랜드만크안에 들어있는 곡 정보
 	const [landMarkList, setLandMarkList] = useState<Song[]>([]);
+
 	// google api 키
 	const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS || '';
+
 	// map 로딩
 	const { isLoaded } = useJsApiLoader({
 		id: 'google-map-script',
@@ -57,20 +68,60 @@ function PlayMaps() {
 		setMap(loadMap);
 	}, []);
 
+	const onMapIdle = useCallback(() => {
+		if (map) {
+			const newCenter = map.getCenter();
+			if (newCenter) {
+				setMapCenter({
+					lat: newCenter.lat(),
+					lng: newCenter.lng(),
+				});
+			}
+		}
+	}, [map]);
+
+	const [getLocateFromAndroid, setGetLocateFromAndroid] = useState<string>('');
+
+	// 안드로이드에서 현재 위치를 받음
+	const setLocateFromAndroid = (data: MapsCenter) => {
+		setCenter(data);
+	};
+
+	useEffect(() => {
+		console.log(getLocateFromAndroid);
+
+		if (getLocateFromAndroid !== '위치를 찾을 수 없습니다') {
+			const presentLocate: string[] = getLocateFromAndroid.split(',');
+			const preCenter = {
+				lat: parseFloat(presentLocate[0]),
+				lng: parseFloat(presentLocate[1]),
+			};
+			setLocateFromAndroid(preCenter);
+		}
+	}, [getLocateFromAndroid]);
+
+	const callAndroidLocation = () => {
+		console.log('callAndroidLocation');
+		console.log('갱신이 되고있니', window.AndMap.getLastKnownLocation());
+		if (window.AndMap) {
+			setGetLocateFromAndroid(window.AndMap.getLastKnownLocation());
+		}
+	};
+
 	// 현재 위치로 이동
 	const locateUser = useCallback(() => {
-		navigator.geolocation.getCurrentPosition((position) => {
+		if (center.lat && center.lng) {
 			const newLocation = {
-				lat: position.coords.latitude,
-				lng: position.coords.longitude,
+				lat: center.lat,
+				lng: center.lng,
 			};
-			setCenter(newLocation);
+			setMapCenter(newLocation);
 			if (map) {
 				map.panTo(newLocation);
 				map.setZoom(18);
 			}
-		});
-	}, [map]);
+		}
+	}, [center.lat, center.lng, map]);
 
 	const getLandmarks = async () => {
 		const response = await getLandmarksApi();
@@ -105,7 +156,6 @@ function PlayMaps() {
 	useEffect(() => {
 		// console.log(detailLandmark);
 		if (choose) {
-			console.log(detailLandmark.landmarkId);
 			detailLandMarkTest(detailLandmark.landmarkId);
 			setChoose(false);
 		}
@@ -114,13 +164,23 @@ function PlayMaps() {
 	useEffect(() => {
 		getLandmarks();
 		// 사용자의 위치 권한을 체크하고, 현재 위치를 가져와 center 상태를 업데이트합니다.
-		navigator.geolocation.getCurrentPosition((position) => {
-			setCenter({
-				lat: position.coords.latitude,
-				lng: position.coords.longitude,
-			});
-		});
+		const locationInterval = setInterval(callAndroidLocation, 500);
+
+		return () => {
+			clearInterval(locationInterval);
+		};
 	}, []);
+
+	useEffect(() => {
+		if (map) {
+			const idleListener = google.maps.event.addListener(map, 'idle', onMapIdle);
+			locateUser();
+			return () => {
+				google.maps.event.removeListener(idleListener);
+			};
+		}
+		return undefined;
+	}, [map, onMapIdle]);
 
 	// 현재위치 표시
 	const circleRangeOptions = {
@@ -145,15 +205,16 @@ function PlayMaps() {
 
 	return (
 		<>
-			{landMarks && isLoaded && (
+			{center && landMarks && isLoaded && (
 				<div style={{ position: 'relative', ...containerStyle }}>
 					<LocateButton onLocateClick={locateUser} />
 					<GoogleMap
 						mapContainerStyle={{ width: '100%', height: '100%' }}
-						center={center}
+						center={mapCenter}
 						zoom={18}
 						onLoad={onLoad}
 						onUnmount={onUnmount}
+						onIdle={onMapIdle}
 						options={{
 							styles: nightModeStyles,
 							mapTypeControl: false,
@@ -174,7 +235,6 @@ function PlayMaps() {
 												checkLandmarkInfo(landMark);
 											}}
 											icon={{
-												// url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(landMarkIcon())}`,
 												url:
 													landMark.representativeImg === 'test.png' || landMark.representativeImg === null
 														? LandMarkDefault.src
@@ -197,7 +257,7 @@ function PlayMaps() {
 							<SearchHeader>
 								<MapBottomSheet
 									isDistance={isDistance}
-									landMarkTitle={detailLandmark.title}
+									landMarkTitle={`${detailLandmark.title}`}
 									landMarkList={landMarkList}
 									landmarkId={detailLandmark.landmarkId}
 								/>
