@@ -19,6 +19,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
@@ -186,7 +187,8 @@ public class MainActivity extends AppCompatActivity {
 
         mSettingsClient = LocationServices.getSettingsClient(this);
 
-        mLocationRequest = new LocationRequest();
+//        mLocationRequest = new LocationRequest();
+        mLocationRequest = LocationRequest.create();
         mLocationRequest.setInterval(500);
         mLocationRequest.setFastestInterval(500);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -269,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
                 mFusedLocationClient.requestLocationUpdates(mLocationRequest,
                         mLocationCallback,
-                        null /* Looper */);
+                        Looper.myLooper());
                 Log.e(Tag, "onSuccess");
             }
         }).addOnFailureListener(this, new OnFailureListener() {
