@@ -1,38 +1,24 @@
 import LandMarkIcon from '@root/public/assets/icons/LandMark.svg';
 import Image from 'next/image';
 import TempImage from '@root/public/assets/images/hypeBoy.jpg';
-import CustomBottomSheet from '@/components/molecules/CustomBottomSheet/CustomBottomSheet';
-import { useState } from 'react';
 import { IAroundPeople } from '@/types/radar';
-import {
-	BottomContent,
-	BottomSheetImageWrapper,
-	ImageWrapper,
-	SongMarkerButton,
-	SongMarkerContainer,
-	SongMarkerListItemContainer,
-} from './style';
+import { ImageWrapper, SongMarkerButton, SongMarkerContainer, SongMarkerListItemContainer } from './style';
 import Text from '../Text/Text';
 
 interface SongMarkerListItemProps {
 	$bottom?: number;
 	$left?: number;
 	item: IAroundPeople;
+	handleMarkerInfoOpen: (detailItem: IAroundPeople) => void;
 }
 
 function SongMarkerListItem(props: SongMarkerListItemProps) {
-	const { $bottom = 50, $left = 50, item } = props;
-	const [isOpen, setIsOpen] = useState(false);
-
-	const hadnleMarkerInfoOpen = () => {
-		console.log('hadnleMarkerInfoOpen');
-		setIsOpen(true);
-	};
+	const { $bottom = 50, $left = 50, item, handleMarkerInfoOpen } = props;
 
 	return (
 		<>
 			<SongMarkerListItemContainer>
-				<SongMarkerButton $bottom={$bottom} $left={$left} type="button" onClick={hadnleMarkerInfoOpen}>
+				<SongMarkerButton $bottom={$bottom} $left={$left} type="button" onClick={() => handleMarkerInfoOpen(item)}>
 					<SongMarkerContainer>
 						<ImageWrapper>
 							<Image alt="TempImage" src={TempImage} />
@@ -42,24 +28,6 @@ function SongMarkerListItem(props: SongMarkerListItemProps) {
 					</SongMarkerContainer>
 				</SongMarkerButton>
 			</SongMarkerListItemContainer>
-			{isOpen && (
-				<CustomBottomSheet open={isOpen} setOpen={setIsOpen}>
-					<BottomContent>
-						<div>
-							<div>{item.nickname} 님이 현재 듣고 있는 노래</div>
-							<div>
-								<BottomSheetImageWrapper>
-									<Image alt="TempImage" src={TempImage} />
-								</BottomSheetImageWrapper>
-								<div>
-									<p>{item.title}</p>
-									<p>{item.artist}</p>
-								</div>
-							</div>
-						</div>
-					</BottomContent>
-				</CustomBottomSheet>
-			)}
 		</>
 	);
 }

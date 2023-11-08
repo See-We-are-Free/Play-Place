@@ -79,4 +79,5 @@ export function landMarkIcon() {
 		</defs>
 	</svg>`;
 }
+
 export default clusterOptions;

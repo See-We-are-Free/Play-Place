@@ -9,31 +9,41 @@ import ContentLayout from '@/components/templates/layout/ContentLayout/ContentLa
 import LayoutWithHeader from '@/components/templates/layout/LayoutWithHeader/LayoutWithHeader';
 import songShareState from '@/recoil/radar';
 import { HeaderStyles } from '@/types/styles.d';
-import { getSongShareInfo } from '@/utils/api/radar';
+import { getSongShareInfo, setSongShareState } from '@/utils/api/radar';
 import { useCallback, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 
 function Radar() {
 	const [isSongShare, setIsSongShare] = useRecoilState(songShareState);
+
+	const handleActive = useCallback(async () => {
+		await setSongShareState();
+		setIsSongShare((prev) => !prev);
+	}, [setIsSongShare]);
+
 	const header = (
 		<Header $headerType={HeaderStyles.radar}>
 			<Text>공유하기</Text>
-			<ToggleButton isActive={isSongShare} setIsActive={setIsSongShare} />
+			<ToggleButton isActive={isSongShare} handleActive={handleActive} />
 		</Header>
 	);
 
-	const songShare = useCallback(async () => {
+	const getSongShare = useCallback(async () => {
 		try {
 			const response = await getSongShareInfo();
-			setIsSongShare(response);
+			setIsSongShare(response); // 임시
+
+			// if (response.status === 200) {
+			// 	setIsSongShare(response.data.isRadar);
+			// }
 		} catch (error) {
 			console.error(error);
 		}
 	}, [setIsSongShare]);
 
 	useEffect(() => {
-		songShare();
-	}, [songShare]);
+		getSongShare();
+	}, [getSongShare]);
 
 	return (
 		<LayoutWithHeader header={header}>

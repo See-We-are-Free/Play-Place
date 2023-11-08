@@ -2,10 +2,11 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { GoogleMap, useJsApiLoader, Circle, MarkerF, MarkerClustererF } from '@react-google-maps/api';
 import { LandMarkInfo, MapsCenter } from '@/types/maps';
 import LocateButton from '@/components/atoms/LocateButton/LocateButton';
-import { getDevelopLandmarkDetailApi, getDevelopLandmarksApi } from '@/utils/api/playmaps';
-import clusterOptions, { CalDistance, landMarkIcon } from '@/constants/map';
+import getLandmarksApi, { getLandmarkDetailApi } from '@/utils/api/landmarks';
+import clusterOptions, { CalDistance } from '@/constants/map';
 import CustomBottomSheet from '@/components/molecules/CustomBottomSheet/CustomBottomSheet';
 import { Song } from '@/types/songs';
+import LandMarkDefault from '@root/public/assets/images/LandMarkDefault.png';
 import MapBottomSheet from '@/components/organisms/MapBottomSheet/MapBottomSheet';
 import { SearchHeader, containerStyle, nightModeStyles } from './style';
 
@@ -56,6 +57,54 @@ function PlayMaps() {
 		setMap(loadMap);
 	}, []);
 
+	// const [getLocateFromAndroid, setGetLocateFromAndroid] = useState<string>('');
+	// if (window.AndMap) {
+	// 	setGetLocateFromAndroid(window.AndMap.getLastKnownLocation());
+	// 	// const getLocateFromAndroid = window.AndMap.getLastKnownLocation();
+	// }
+	// // 안드로이드에서 현재 위치를 받음
+	// const setLocateFromAndroid = (data: MapsCenter) => {
+	// 	setCenter(data);
+	// };
+
+	// useEffect(() => {
+	// 	if (getLocateFromAndroid !== '위치를 찾을 수 없습니다') {
+	// 		const presentLocate: string[] = getLocateFromAndroid.split(',');
+	// 		const preCenter = {
+	// 			lat: parseFloat(presentLocate[0]),
+	// 			lng: parseFloat(presentLocate[1]),
+	// 		};
+	// 		setLocateFromAndroid(preCenter);
+	// 	}
+	// }, [getLocateFromAndroid]);
+	useEffect(() => {
+		function updatePosition(position: GeolocationPosition) {
+			const { latitude } = position.coords;
+			const { longitude } = position.coords;
+
+			// 위치 업데이트
+			setCenter({ lat: latitude, lng: longitude });
+		}
+
+		// 위치 추적 시작
+		const watchId = navigator.geolocation.watchPosition(
+			updatePosition,
+			(error) => {
+				console.error(`오류: ${error.message}`);
+			},
+			{
+				enableHighAccuracy: true,
+				maximumAge: 10000,
+				timeout: 5000,
+			},
+		);
+
+		// 컴포넌트 언마운트 시 위치 추적 중지
+		return () => {
+			navigator.geolocation.clearWatch(watchId);
+		};
+	}, [center]);
+
 	// 현재 위치로 이동
 	const locateUser = useCallback(() => {
 		navigator.geolocation.getCurrentPosition((position) => {
@@ -71,16 +120,15 @@ function PlayMaps() {
 		});
 	}, [map]);
 
-	const test = async () => {
-		// const response = await getLandmarksApi();
-		const response = await getDevelopLandmarksApi(); // 개발용
+	const getLandmarks = async () => {
+		const response = await getLandmarksApi();
 		if (response && response.status === 200) {
 			setLandMarks(response.data.data);
 		}
 	};
 
 	const detailLandMarkTest = async (landmarkId: number) => {
-		const response = await getDevelopLandmarkDetailApi(landmarkId);
+		const response = await getLandmarkDetailApi(landmarkId);
 		console.log(response);
 		if (response && response.status === 200) {
 			setLandMarkList(response.data.data);
@@ -88,7 +136,7 @@ function PlayMaps() {
 		setOpen(true);
 	};
 
-	const test2 = (detail: LandMarkInfo) => {
+	const checkLandmarkInfo = (detail: LandMarkInfo) => {
 		const distance = CalDistance(center.lat, detail.latitude, center.lng, detail.longitude);
 
 		if (distance <= 0.1) {
@@ -105,14 +153,13 @@ function PlayMaps() {
 	useEffect(() => {
 		// console.log(detailLandmark);
 		if (choose) {
-			console.log(detailLandmark.landmarkId);
 			detailLandMarkTest(detailLandmark.landmarkId);
 			setChoose(false);
 		}
-	}, [choose]);
+	}, [choose, detailLandmark.landmarkId]);
 
 	useEffect(() => {
-		test();
+		getLandmarks();
 		// 사용자의 위치 권한을 체크하고, 현재 위치를 가져와 center 상태를 업데이트합니다.
 		navigator.geolocation.getCurrentPosition((position) => {
 			setCenter({
@@ -171,10 +218,14 @@ function PlayMaps() {
 											position={{ lat: landMark.latitude, lng: landMark.longitude }}
 											clusterer={clusterer}
 											onClick={() => {
-												test2(landMark);
+												checkLandmarkInfo(landMark);
 											}}
 											icon={{
-												url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(landMarkIcon())}`,
+												// url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(landMarkIcon())}`,
+												url:
+													landMark.representativeImg === 'test.png' || landMark.representativeImg === null
+														? LandMarkDefault.src
+														: landMark.representativeImg,
 												scaledSize: new google.maps.Size(50, 50),
 												origin: new google.maps.Point(0, 0),
 												anchor: new google.maps.Point(25, 50),
@@ -193,8 +244,9 @@ function PlayMaps() {
 							<SearchHeader>
 								<MapBottomSheet
 									isDistance={isDistance}
-									landMarkTitle={detailLandmark.title}
+									landMarkTitle={`${detailLandmark.title}`}
 									landMarkList={landMarkList}
+									landmarkId={detailLandmark.landmarkId}
 								/>
 							</SearchHeader>
 						</CustomBottomSheet>

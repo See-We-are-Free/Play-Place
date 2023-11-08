@@ -28,6 +28,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Toast;
 
+import com.example.playplace.utils.SetWebView;
+import com.example.playplace.webview.MyWebViewClient;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -42,7 +44,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.io.ByteArrayOutputStream;
 
-
 public class MainActivity extends AppCompatActivity {
     private Uri cameraImageUri = null;
     private static final int REQUEST_CAMERA_PERMISSION_CODE = 1;
@@ -56,30 +57,8 @@ public class MainActivity extends AppCompatActivity {
     private LocationCallback mLocationCallback;
     private LocationSettingsRequest mLocationSettingsRequest;
     private Location mLastLocation;
-
+    private WebView webView;
     private Bitmap imageBitmap;
-
-    /* 웹뷰 기본설정 */
-    static void setWebView (WebView webView) {
-        webView.getSettings().setJavaScriptEnabled(true);                       // 자바스크립트 사용여부
-        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);   // 자바스크립트가 창을 자동으로 열 수 있게할지 여부
-        webView.getSettings().setLoadsImagesAutomatically(true);                // 이미지 자동 로드
-        webView.getSettings().setUseWideViewPort(true);                         // wide viewport 설정
-        webView.getSettings().setLoadWithOverviewMode(true);                    // 컨텐츠가 웹뷰보다 클때 스크린크기에 맞추기
-        webView.getSettings().setSupportZoom(false);                            // 줌설정
-        webView.getSettings().setBuiltInZoomControls(true);                     // 줌아이콘
-        webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);          // 캐시모드 활성화
-        webView.getSettings().setDomStorageEnabled(true);                       // 로컬 스토리지 사용여부
-        webView.getSettings().setAllowFileAccess(true);                         // 파일 액세스 허용 여부
-        webView.getSettings().setUserAgentString("app");                        // 사용자 문자열 설정
-        webView.getSettings().setDefaultTextEncodingName("UTF-8");              // 인코딩 설정
-        webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
-        webView.getSettings().setBlockNetworkImage(false);                      // 네트워크를 통해 이미지리소스 받을지 여부
-        webView.getSettings().setSupportMultipleWindows(true);                  //  멀티윈도우를 지원할지 여부
-        webView.getSettings().setDatabaseEnabled(false);                        //database storage API 사용 여부
-        webView.getSettings().setAllowContentAccess(true);                      // 웹뷰를 통해 Content URL 에 접근할지 여부
-        webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
-    }
 
     /** 액티비티 생성 시 */
     @Override
@@ -88,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         init();
-
+        webView = findViewById(R.id.webview);
+        SetWebView.setWebView(webView);
 
         mLocationCallback = new LocationCallback() {
             @Override
@@ -102,21 +82,32 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        WebView webView = findViewById(R.id.webview);
-        setWebView(webView);
-
         // 지도 위치 권한 요청, (위도, 경도) 값을 받는 함수 호출
         webView.addJavascriptInterface(new MapInterface(), "AndMap");
         // 카메라 권한 요청, 카메라 앱 여는 함수 호출, 버튼을 눌러 webView로 전송 함수 호출
         webView.addJavascriptInterface(new CameraInterface(), "AndCamera");
+        webView.setWebViewClient(new MyWebViewClient());
 
-        webView.loadUrl("https://k9c109.p.ssafy.io/pp/login"); // 서버
-//        webView.loadUrl("http://10.0.2.2:3000/pp/login"); // 로컬
-//        webView.loadUrl("http://192.168.137.1:3000/pp");
-
-
+        webView.loadUrl("https://k9c109.p.ssafy.io/pp"); // 서버
+//        webView.loadUrl("http://192.168.137.1:3000/pp"); // 로컬
     }
 
+    // 뒤로가기 이벤트 제어
+    private long backBtnTime = 0;
+    @Override
+    public void onBackPressed() {
+        long curTime = System.currentTimeMillis();
+        long gapTime = curTime - backBtnTime;
+        if (webView.canGoBack()) {
+            webView.goBack();
+        } else if (0 <= gapTime && 2000 >= gapTime) {
+            super.onBackPressed();
+        } else {
+            backBtnTime = curTime;
+            Toast.makeText(this, "뒤로가기를 한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
+    }
+    
     private static String Tag = "permission";
     public class MapInterface {
         @JavascriptInterface
@@ -136,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public class CameraInterface {
-
         @JavascriptInterface
         public void successCamera() {
             checkCamera();
@@ -161,9 +151,7 @@ public class MainActivity extends AppCompatActivity {
             byte[] byteArray = byteArrayOutputStream.toByteArray();
             return Base64.encodeToString(byteArray, Base64.DEFAULT);
         }
-
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

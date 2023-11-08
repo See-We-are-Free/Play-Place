@@ -12,7 +12,7 @@ function SongSquareItems(props: ISongSquareItemsProps) {
 
 	return (
 		<SongSquareItemsContainer onClick={onClick}>
-			<SongThumbnail src={imgSrc || ''} $height={130} $width={130} />
+			<SongThumbnail src={imgSrc || ''} $isFullSize />
 			{/* <SongThumbnail src={HypeBoy} $height={180} $width={130} /> */}
 		</SongSquareItemsContainer>
 	);
