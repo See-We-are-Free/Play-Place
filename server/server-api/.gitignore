@@ -6,7 +6,7 @@ build/
 !**/src/test/**/build/
 
 ### vision ###
-**/src/main/resources/playplace-c109-63af6b6b49fd.json
+#**/src/main/resources/playplace-c109-63af6b6b49fd.json
 
 ### STS ###
 .apt_generated
