@@ -10,8 +10,8 @@ import { useRecoilState } from 'recoil';
 import userInfoState from '@/recoil/user';
 import { getUserInfoApi } from '@/utils/api/auth';
 import CustomToast from '@/components/atoms/CustomToast/CustomToast';
-import { useRouter } from 'next/router';
 import { ToastStyles } from '@/types/styles.d';
+import { useRouter } from 'next/navigation';
 import { BackgroundRound, BackgroundContainer, EmojiWrapper, RadarShareOnContainer, UserContainer } from './style';
 import MarkerDetailInfo from '../MarkerDetailInfo/MarkerDetailInfo';
 

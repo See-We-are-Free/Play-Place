@@ -31,11 +31,9 @@ function Radar() {
 	const getSongShare = useCallback(async () => {
 		try {
 			const response = await getSongShareInfo();
-			setIsSongShare(response); // 임시
-
-			// if (response.status === 200) {
-			// 	setIsSongShare(response.data.isRadar);
-			// }
+			if (response.status === 200) {
+				setIsSongShare(response.data.data);
+			}
 		} catch (error) {
 			console.error(error);
 		}
