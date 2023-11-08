@@ -70,7 +70,7 @@ public class SongController {
 
     @GetMapping("/search/{keyword}") // 곡 검색
     public ResponseEntity<?> searchSongInYoutube(@PathVariable("keyword") String keyword){
-        List<SearchSongResponse> searchSongResponse = getSongInYoutube.searchSongInYoutube(keyword);
+        List<SearchSongResponse> searchSongResponse = getSongInYoutube.searchSongsInYoutube(keyword);
         return ResponseEntity.ok().body(searchSongResponse);
     }
 }
