@@ -1,9 +1,8 @@
 import http from './http';
 
 export const getSongShareInfo = async () => {
-	// const response = await http.get('/radar');
-	// return response;
-	return false; // 임시
+	const response = await http.get('/radar/activate');
+	return response;
 };
 
 export const setSongShareState = () => {

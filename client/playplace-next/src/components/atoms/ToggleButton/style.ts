@@ -28,6 +28,7 @@ export const Button = styled.button<ButtonProps>`
 	height: 18px;
 	border-radius: 50px;
 	position: relative;
+	background: var(--primary-grandiant-main);
 
 	&::before {
 		content: '';
@@ -37,6 +38,7 @@ export const Button = styled.button<ButtonProps>`
 		background-color: var(--white);
 		position: absolute;
 		top: 50%;
+		left: calc(100% - 18px);
 		transform: translateY(-50%);
 		transition: all 0.2s;
 	}
