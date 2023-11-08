@@ -110,14 +110,16 @@ function PlayMaps() {
 
 	// 현재 위치로 이동
 	const locateUser = useCallback(() => {
-		const newLocation = {
-			lat: center.lat,
-			lng: center.lng,
-		};
-		setMapCenter(newLocation);
-		if (map) {
-			map.panTo(newLocation);
-			map.setZoom(18);
+		if (center.lat && center.lng) {
+			const newLocation = {
+				lat: center.lat,
+				lng: center.lng,
+			};
+			setMapCenter(newLocation);
+			if (map) {
+				map.panTo(newLocation);
+				map.setZoom(18);
+			}
 		}
 	}, [center.lat, center.lng, map]);
 
