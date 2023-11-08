@@ -30,7 +30,7 @@ public class PlaylistController {
     }
 
     @DeleteMapping("/group/{groupId}")
-    public ResponseEntity<?> deleteMySong(@PathVariable("groupId") long groupId){
+    public ResponseEntity<?> deleteMyGroup(@PathVariable("groupId") long groupId){
         playlistService.deleteMyGroup(groupId);
         return ResponseEntity.ok().build();
     }

@@ -244,7 +244,7 @@ public class SongService {
 //        }
 //    }
 
-    // TODO: redis 저장 dto id 확인
+    // redis 저장 dto id 확인
     @Scheduled(cron = "0 0 10 ? * MON") // 매주 월요일 오전 10시에 실행
     public void getAreaStatistics(){
         List<GetAreaSongDto> getAreaSongDtoList = songQueryRepository.findSongsWithArea();
@@ -255,7 +255,7 @@ public class SongService {
             SongAreaStats songAreaStats = getAreaSongDtoList.get(i).toEntity();
             songAreaStatsRepository.save(songAreaStats);
             // redis에 저장
-            SongAreaDto songAreaDto = SongAreaDto.of(getAreaSongDtoList.get(i).getSong(), getAreaSongDtoList.get(i).getVillage());
+            SongAreaDto songAreaDto = SongAreaDto.of(songAreaStats);
             songAreaDtoRedisRepository.save(songAreaDto);
         }
     }
@@ -269,7 +269,7 @@ public class SongService {
             SongWeatherStats songWeatherStats = getWeatherSongDto.toEntity();
             songWeatherStatsRepository.save(songWeatherStats);
             // redis에 저장
-            SongWeatherDto songWeatherDto = SongWeatherDto.of(getWeatherSongDto.getSong(), getWeatherSongDto.getWeather(), getWeatherSongDto.getCount());
+            SongWeatherDto songWeatherDto = SongWeatherDto.of(songWeatherStats);
             songWeatherDtoRedisRepository.save(songWeatherDto);
         }
     }
@@ -283,7 +283,7 @@ public class SongService {
             SongTimeStats songTimeStats = getTimezoneSongDto.toEntity();
             songTimeStatsRepository.save(songTimeStats);
             // redis에 저장
-            SongTimezoneDto songTimezoneDto = SongTimezoneDto.of(getTimezoneSongDto.getSong(), getTimezoneSongDto.getTimezone(), getTimezoneSongDto.getCount());
+            SongTimezoneDto songTimezoneDto = SongTimezoneDto.of(songTimeStats);
             songTimeDtoRedisRepository.save(songTimezoneDto);
         }
     }
@@ -295,6 +295,7 @@ public class SongService {
 
     public GetLikeSongResponse getLikeSong(long songId){
         Optional<Users> user = userRepository.findById(SecurityUtils.getUser().getUserId());
+        log.info(user.get().toString());
         // redis -> mysql
         Set<Object> songs = redisTemplate.opsForHash().keys("like:" + user.get().getId());
         if (!songs.isEmpty()) {
@@ -326,9 +327,9 @@ public class SongService {
     public void syncLike() {
         Set<String> changeSongKeys = redisTemplate.keys("like:*");
         if (changeSongKeys.isEmpty()) return;
-
         for (String key : changeSongKeys) {
             Long userId = Long.parseLong(key.split(":")[1]);
+            log.info(userId.toString());
             Users user = userRepository.findById(userId).orElse(null);
             if (user != null) syncLikeForUser(user); // mysql update
             redisTemplate.delete(key); // Redis 데이터 삭제
@@ -340,6 +341,7 @@ public class SongService {
         Set<Long> songIds = songIdsObjects.stream()
                 .map(objectId -> (Long) objectId)
                 .collect(Collectors.toSet());
+        log.info(songIds.toString());
 
         List<Song> songs = songRepository.findAllById(songIds);
         if (songIds.isEmpty()) return;
@@ -349,11 +351,13 @@ public class SongService {
         for (Song song : songs) {
             Object check = redisTemplate.opsForHash().get("like:" + user.getId(), song.getId());
             if (check == null) continue;
-            if (check.equals("true")) {
+            if (check.equals(true)) {
+                log.info("true");
                 if(!jjimRepository.existsByJjimId_UserIdAndJjimId_SongId(user.getId(), song.getId())) {
                     saveSong.add(song);
                 }
             } else {
+                log.info("false");
                 Optional<Jjim> like = jjimRepository.findByJjimId_UserIdAndJjimId_SongId(user.getId(), song.getId());
                 like.ifPresent(jjimRepository::delete);
             }

@@ -1,4 +1,4 @@
-package kr.co.playplace.controller.song.response;
+package kr.co.playplace.service.chatbot.dto;
 
 import kr.co.playplace.entity.song.Song;
 import lombok.AllArgsConstructor;
@@ -10,21 +10,19 @@ import lombok.ToString;
 @Builder
 @ToString
 @AllArgsConstructor
-public class SearchSongResponse {
+public class SongDto {
 
     private String youtubeId;
     private String title;
     private String artist;
     private String albumImg;
 
-    public Song toEntity(){
-        return Song.builder()
-                .youtubeId(youtubeId)
-                .title(title)
-                .artist(artist)
-                .playTime(-1)
-                .albumImg(albumImg)
+    public static SongDto of(Song song){
+        return SongDto.builder()
+                .youtubeId(song.getYoutubeId())
+                .title(song.getTitle())
+                .artist(song.getArtist())
+                .albumImg(song.getAlbumImg())
                 .build();
     }
-
 }

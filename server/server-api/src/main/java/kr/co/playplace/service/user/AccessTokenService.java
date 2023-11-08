@@ -16,8 +16,7 @@ public class AccessTokenService {
 
     private final RefreshTokenRepository tokenRepository;
 
-    public void saveTokenInfo(String email, String refreshToken, String accessToken) {
-        tokenRepository.save(new RefreshToken(email, accessToken, refreshToken));
-
+    public void saveTokenInfo(String email, String refreshToken, String accessToken, String googleToken) {
+        tokenRepository.save(new RefreshToken(email, accessToken, refreshToken, googleToken));
     }
 }

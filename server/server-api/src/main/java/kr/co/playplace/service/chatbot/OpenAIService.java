@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kr.co.playplace.entity.chatbot.ChatbotMessage;
 import kr.co.playplace.service.chatbot.dto.ChatbotDto;
+import kr.co.playplace.service.chatbot.dto.ChatbotMessageDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -33,7 +35,9 @@ public class OpenAIService {
         this.restTemplate = new RestTemplate();
     }
 
-    public ChatbotDto getResponse(String prompt) {
+    public ChatbotDto getResponse(ChatbotMessageDto chatbotMessageDto) {
+
+        String prompt = chatbotMessageDto.getComment();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

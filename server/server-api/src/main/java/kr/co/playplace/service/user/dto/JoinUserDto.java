@@ -12,12 +12,14 @@ public class JoinUserDto {
     String email;
     String nickname;
     int profileImg;
+    String googleToken;
 
     @Builder
-    public JoinUserDto(String email, String nickname, int profileImg) {
+    public JoinUserDto(String email, String nickname, int profileImg, String googleToken) {
         this.email = email;
         this.nickname = nickname;
         this.profileImg = profileImg;
+        this.googleToken = googleToken;
     }
 
     public Users toEntity() {
