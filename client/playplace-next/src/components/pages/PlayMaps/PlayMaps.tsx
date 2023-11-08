@@ -172,7 +172,7 @@ function PlayMaps() {
 	useEffect(() => {
 		if (map) {
 			const idleListener = google.maps.event.addListener(map, 'idle', onMapIdle);
-
+			locateUser();
 			return () => {
 				google.maps.event.removeListener(idleListener);
 			};
