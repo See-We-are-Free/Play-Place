@@ -1,6 +1,8 @@
 export interface UserInfo {
 	nickname: string;
-	emojiIdx: number;
+	profileImg: number;
+	isPush: boolean;
+	isShake: boolean;
 }
 
 export interface JoinApiParams {

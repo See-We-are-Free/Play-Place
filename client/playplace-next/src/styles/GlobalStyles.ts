@@ -67,6 +67,8 @@ const GlobalStyles = createGlobalStyle`
         --zindex-toast: 1090;
         --zindex-bottomsheet-backdrop: 1099;
         --zindex-bottomsheet: 1100;
+        --zindex-mypage-background: 1111;
+        --zindex-mypage-content: 1113;
     }
 
     body{
@@ -78,11 +80,22 @@ const GlobalStyles = createGlobalStyle`
         line-height: normal;
         background: var(--black-700);
         color: var(--white-100);
+        
+        &.no-scroll {
+            overflow: hidden;
+        }
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+        &::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera*/
+        }
     };
+    
+
 
     // 스크롤 바
     &::-webkit-scrollbar {
-    } 
+    }
 
     a{
         text-decoration: none;
@@ -126,7 +139,6 @@ const GlobalStyles = createGlobalStyle`
             margin: 10px;
         }
     }
-    
 `;
 
 export default GlobalStyles;
