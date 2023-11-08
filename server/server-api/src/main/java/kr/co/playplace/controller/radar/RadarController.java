@@ -6,6 +6,7 @@ import kr.co.playplace.controller.radar.request.UserLocationRequest;
 import kr.co.playplace.controller.radar.response.UsersNearbyResponse;
 import kr.co.playplace.service.radar.RadarQueryService;
 import kr.co.playplace.service.radar.RadarService;
+import kr.co.playplace.service.user.UserQueryService;
 import kr.co.playplace.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,8 @@ public class RadarController {
 
     private final RadarQueryService radarQueryService;
     private final RadarService radarService;
+
+    private final UserQueryService userQueryService;
     private final UserService userService;
 
     @GetMapping
@@ -39,6 +42,11 @@ public class RadarController {
     @PatchMapping
     public ApiResponse<Integer> changeRadarState() {
         return ApiResponse.ok(userService.changeRadarState());
+    }
+
+    @GetMapping("/activate")
+    public ApiResponse<Boolean> findIsRadar(@AuthenticationPrincipal SecurityUserDto securityUserDto) {
+        return ApiResponse.ok(userQueryService.findUserIsRadar(securityUserDto.getUserId()));
     }
 
 }

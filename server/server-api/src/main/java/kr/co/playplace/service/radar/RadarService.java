@@ -2,10 +2,9 @@ package kr.co.playplace.service.radar;
 
 
 import kr.co.playplace.common.security.dto.SecurityUserDto;
-import kr.co.playplace.entity.location.UserLocation;
+import kr.co.playplace.service.radar.dto.UserLocation;
 import kr.co.playplace.repository.location.UserLocationRepository;
 import kr.co.playplace.controller.radar.request.UserLocationRequest;
-import kr.co.playplace.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.geo.*;
@@ -27,17 +26,12 @@ public class RadarService {
 
     public void saveUserLocation(SecurityUserDto securityUserDto, UserLocationRequest userLocationRequest) {
         UserLocation userLocation = UserLocation.builder()
-                .userId(securityUserDto.getUserId())
+                .id(securityUserDto.getUserId())
                 .nickname(securityUserDto.getNickname())
-                .longitude(userLocationRequest.getLongitude())
-                .latitude(userLocationRequest.getLatitude())
-                .songId(1L)
                 .build();
-
         userLocationRepository.save(userLocation);
 
 //        log.debug("latitude: {}",userLocationRepository.findById(userId).map(UserLocation::getLatitude).orElse(0.0));
-
 //        String key = GeoHash.withCharacterPrecision(userLocationRequest.getLatitude(), userLocationRequest.getLongitude(), 7).toBase32();
 
         // redis geo 자료구조 설정

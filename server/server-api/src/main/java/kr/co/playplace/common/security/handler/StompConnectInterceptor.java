@@ -31,8 +31,6 @@ public class StompConnectInterceptor implements ChannelInterceptor {
     private final JwtUtil jwtUtil;
     private final UserQueryService userQueryService;
 
-
-
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
 
@@ -41,7 +39,6 @@ public class StompConnectInterceptor implements ChannelInterceptor {
 
         if(StompCommand.CONNECT.equals(accessor.getCommand())) {
             String token = accessor.getFirstNativeHeader("Authorization");
-//            String token = accessor.getFirstNativeHeader("X-Auth-Token");
 
             if(!jwtUtil.verifyToken(token)) {
                 throw new JwtException("유효하지 않은 토큰입니다.");

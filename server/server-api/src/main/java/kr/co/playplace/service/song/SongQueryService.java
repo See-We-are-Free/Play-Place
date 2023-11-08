@@ -196,46 +196,17 @@ public class SongQueryService {
         return TimezoneSongResponse.builder().timezone(timezone).songs(songDtos).build();
     }
 
-    public long getOtherUsersRecentSong(long userId) {
-        // 주변 사용자
-        Optional<Users> user = userRepository.findById(userId);
+    public RecentSongDto getOtherUsersRecentSong(long userId) {
+        // 재생 기록 확인 -> redis 확인 후 mysql 확인
+        Optional<RecentSongDto> recentSongDto = recentSongDtoRedisRepository.findById(userId);
 
-        // 재생 기록 확인 -> redis 확인
-//        List<Long> playListSongIds = checkRedis(user.get());
-//
-//        if(playListSongIds == null){ // mysql 확인
-//            Optional<NowPlay> nowPlay = nowPlayRepository.findByUser_Id(user.get().getId());
-//            if(nowPlay.isEmpty()){
-//                return -1;
-//            }
-//
-//            playListSongIds = new ArrayList<>();
-//            if(nowPlay.get().getUserSong() != null){
-//                playListSongIds.add(nowPlay.get().getUserSong().getId());
-//                playListSongIds.add(1L);
-//            }else if(nowPlay.get().getUserLandmarkSong() != null){
-//                playListSongIds.add(nowPlay.get().getUserLandmarkSong().getId());
-//                playListSongIds.add(0L);
-//            }
-//        }
-//
-//        if(playListSongIds.get(1) == 0L){
-//            // landmark
-//            Optional<UserLandmarkSong> userLandmarkSong = userLandmarkSongRepository.findById(playListSongIds.get(0));
-//            return userLandmarkSong.get().getSong().getId();
-//        }else{
-//            // song
-//            Optional<UserSong> userSong = userSongRepository.findById(playListSongIds.get(0));
-//            return userSong.get().getSong().getId();
-//        }
-
-//        if(playListSongIds == null){
-//            return -1;
-//        }
-//
-//        Optional<UserSong> userSong = userSongRepository.findById(playListSongIds.get(0));
-//        return userSong.get().getSong().getId();
-        return 0;
+        // TODO: mysql 접근 로직 수정
+        if(recentSongDto.isEmpty()) {
+            Optional<NowPlay> nowPlay = nowPlayRepository.findByUser_Id(userId);
+            return null;
+        } else {
+            return recentSongDto.get();
+        }
 
     }
 

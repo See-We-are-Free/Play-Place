@@ -3,11 +3,11 @@ package kr.co.playplace.service.radar;
 import kr.co.playplace.common.exception.BaseException;
 import kr.co.playplace.common.exception.ErrorCode;
 import kr.co.playplace.controller.radar.response.UsersNearbyResponse;
-import kr.co.playplace.entity.song.Song;
-import kr.co.playplace.entity.user.Users;
-import kr.co.playplace.repository.song.SongRepository;
+import kr.co.playplace.service.radar.dto.UserLocation;
+import kr.co.playplace.repository.location.UserLocationRepository;
 import kr.co.playplace.repository.user.UserRepository;
 import kr.co.playplace.service.song.SongQueryService;
+import kr.co.playplace.service.song.dto.RecentSongDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.geo.*;
@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -28,14 +30,13 @@ public class RadarQueryService {
 
     private final SongQueryService songQueryService;
 
-    private final UserRepository userRepository;
-    private final SongRepository songRepository;
+    private final UserLocationRepository userLocationRepository;
 
     private final RedisTemplate redisTemplate;
 
     public List<UsersNearbyResponse> findNearbyUsers(long userId) {
 
-        // TODO: 사용자의 레이더 설정이 꺼져 있다면 에러 처리
+        // TODO: 사용자의 레이더 설정이 꺼져 있다면 에러 처리 -> 레이더 끌 때 값 삭제
 
         // 사용자 위치 redis에서 조회
         Point userLocation = findUserLocation(userId);
@@ -88,19 +89,19 @@ public class RadarQueryService {
                 level = 2;
             }
 
-            Users userNearby = userRepository.findById(userNearbyId).get();
+            UserLocation userNearby = userLocationRepository.findById(userNearbyId).orElseThrow(
+                    () -> new BaseException(ErrorCode.NOT_FOUND_USER)
+            );
 
             // TODO: 사용자 최신 재생 곡 정보 가져오기
 //            Song song = new Song(1L, "youtubeId", "title", "artist", "img", 1);
-            long songId = songQueryService.getOtherUsersRecentSong(userNearbyId);
+            RecentSongDto recentSongDto = songQueryService.getOtherUsersRecentSong(userNearbyId);
 
-            if(songId == -1) {
+            if(recentSongDto == null) {
                 continue;
             }
 
-            Song song = songRepository.findById(songId).get();
-
-            UsersNearbyResponse usersNearbyResponse = UsersNearbyResponse.of(userNearby, song, level);
+            UsersNearbyResponse usersNearbyResponse = UsersNearbyResponse.of(userNearby, recentSongDto, level);
 
             list.add(usersNearbyResponse);
         }
@@ -203,6 +204,12 @@ public class RadarQueryService {
                 .position("geoPoints", String.valueOf(userId));
 
         return position.get(0);
+    }
+
+    public Set<String> findActiveUser() {
+        Set<String> result = redisTemplate.opsForSet().members("user_location");
+        log.debug("ActiveUser: {}", result.size());
+        return result;
     }
 
 }
