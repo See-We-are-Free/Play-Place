@@ -6,12 +6,12 @@ import { HeaderStyles, ToastStyles } from '@/types/styles.d';
 import MenuIcon from '@root/public/assets/icons/Menu.svg';
 import Home from '@/components/pages/Home/Home';
 import { useCallback, useEffect, useState } from 'react';
-import MypageTemplate from '@/components/templates/MypageTemplate/MypageTemplate';
 import { useRecoilState } from 'recoil';
 import userInfoState from '@/recoil/user';
 import { getUserInfoApi } from '@/utils/api/auth';
 import CustomToast from '@/components/atoms/CustomToast/CustomToast';
 import { useRouter } from 'next/navigation';
+import MypageView from '@/components/organisms/MypageView/MypageView';
 
 export default function HomePage() {
 	const router = useRouter();
@@ -55,7 +55,7 @@ export default function HomePage() {
 			<LayoutWithHeader header={header}>
 				<Home />
 			</LayoutWithHeader>
-			<MypageTemplate $isMyMenuOpen={isMyMenuOpen} setIsMyMenuOpen={setIsMyMenuOpen} />
+			<MypageView $isMyMenuOpen={isMyMenuOpen} setIsMyMenuOpen={setIsMyMenuOpen} />
 		</>
 	);
 }
