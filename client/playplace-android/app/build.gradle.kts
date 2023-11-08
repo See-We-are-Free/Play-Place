@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.playplace"
+    namespace = "kr.co.playplace"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.playplace"
+        applicationId = "kr.co.playplace"
         minSdk = 24
         targetSdk = 33
         versionCode = 1

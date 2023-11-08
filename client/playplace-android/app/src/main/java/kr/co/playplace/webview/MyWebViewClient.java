@@ -1,4 +1,4 @@
-package com.example.playplace.webview;
+package kr.co.playplace.webview;
 
 import android.webkit.WebView;
 import android.webkit.WebViewClient;

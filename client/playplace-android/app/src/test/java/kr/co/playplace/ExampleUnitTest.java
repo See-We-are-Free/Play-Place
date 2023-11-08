@@ -1,4 +1,4 @@
-package com.example.playplace;
+package kr.co.playplace;
 
 import org.junit.Test;
 

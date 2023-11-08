@@ -1,4 +1,4 @@
-package com.example.playplace.webview;
+package kr.co.playplace.webview;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
