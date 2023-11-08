@@ -58,16 +58,25 @@ function PlayMaps() {
 	}, []);
 
 	const [getLocateFromAndroid, setGetLocateFromAndroid] = useState<string>('');
-	if (window.AndMap) {
-		setGetLocateFromAndroid(window.AndMap.getLastKnownLocation());
-		// const getLocateFromAndroid = window.AndMap.getLastKnownLocation();
-	}
+
 	// 안드로이드에서 현재 위치를 받음
 	const setLocateFromAndroid = (data: MapsCenter) => {
+		console.log(data);
 		setCenter(data);
 	};
 
+	const callAndroidLocation = () => {
+		console.log('callAndroidLocation');
+		if (window.AndMap) {
+			setGetLocateFromAndroid(window.AndMap.getLastKnownLocation());
+			// const getLocateFromAndroid = window.AndMap.getLastKnownLocation();
+		}
+	};
+
 	useEffect(() => {
+		const locationInterval = setInterval(callAndroidLocation, 500);
+
+		console.log(getLocateFromAndroid);
 		if (getLocateFromAndroid !== '위치를 찾을 수 없습니다') {
 			const presentLocate: string[] = getLocateFromAndroid.split(',');
 			const preCenter = {
@@ -76,7 +85,38 @@ function PlayMaps() {
 			};
 			setLocateFromAndroid(preCenter);
 		}
+		return () => {
+			clearInterval(locationInterval);
+		};
 	}, [getLocateFromAndroid]);
+
+	// useEffect(() => {
+	// 	function updatePosition(position: GeolocationPosition) {
+	// 		const { latitude } = position.coords;
+	// 		const { longitude } = position.coords;
+
+	// 		// 위치 업데이트
+	// 		setCenter({ lat: latitude, lng: longitude });
+	// 	}
+
+	// 	// 위치 추적 시작
+	// 	const watchId = navigator.geolocation.watchPosition(
+	// 		updatePosition,
+	// 		(error) => {
+	// 			console.error(`오류: ${error.message}`);
+	// 		},
+	// 		{
+	// 			enableHighAccuracy: true,
+	// 			maximumAge: 10000,
+	// 			timeout: 5000,
+	// 		},
+	// 	);
+
+	// 	// 컴포넌트 언마운트 시 위치 추적 중지
+	// 	return () => {
+	// 		navigator.geolocation.clearWatch(watchId);
+	// 	};
+	// }, [center]);
 
 	// 현재 위치로 이동
 	const locateUser = useCallback(() => {
