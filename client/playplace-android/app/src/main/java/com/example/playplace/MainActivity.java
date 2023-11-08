@@ -19,6 +19,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
@@ -109,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
         // 카메라 권한 요청, 카메라 앱 여는 함수 호출, 버튼을 눌러 webView로 전송 함수 호출
         webView.addJavascriptInterface(new CameraInterface(), "AndCamera");
 
-//        webView.loadUrl("https://k9c109.p.ssafy.io/pp/login"); // 서버
+        webView.loadUrl("https://k9c109.p.ssafy.io/pp/login"); // 서버
 //        webView.loadUrl("http://10.0.2.2:3000/pp/login"); // 로컬
-        webView.loadUrl("http://192.168.137.1:3000/pp");
+//        webView.loadUrl("http://192.168.137.1:3000/pp");
 
 
     }
@@ -135,8 +136,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public class CameraInterface {
-
-
 
         @JavascriptInterface
         public void successCamera() {
@@ -200,7 +199,8 @@ public class MainActivity extends AppCompatActivity {
 
         mSettingsClient = LocationServices.getSettingsClient(this);
 
-        mLocationRequest = new LocationRequest();
+//        mLocationRequest = new LocationRequest();
+        mLocationRequest = LocationRequest.create();
         mLocationRequest.setInterval(500);
         mLocationRequest.setFastestInterval(500);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -283,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
                 mFusedLocationClient.requestLocationUpdates(mLocationRequest,
                         mLocationCallback,
-                        null /* Looper */);
+                        Looper.myLooper());
                 Log.e(Tag, "onSuccess");
             }
         }).addOnFailureListener(this, new OnFailureListener() {
