@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.User;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -25,9 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -39,6 +38,7 @@ public class UserLocationController {
     private final ObjectMapper objectMapper;
 
     private final RedisTemplate redisTemplate;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     @MessageMapping("/location")
     public void updateUserLocationTest(Principal principal, UserLocationRequest userLocationRequest) {
@@ -49,11 +49,28 @@ public class UserLocationController {
         log.debug("send_userId: {}", securityUserDto.getUserId());
 
         radarService.saveUserLocation(securityUserDto, userLocationRequest);
+
+//        try {
+//            List<UsersNearbyResponse> list = radarQueryService.findNearbyUsers(securityUserDto.getUserId());
+//
+//            if(list.isEmpty()) {
+//                list = new ArrayList<>();
+//            }
+//
+//            String message = objectMapper.writeValueAsString(list);
+////            String destination = "/topic/location/" + userId;
+////            redisTemplate.convertAndSend("topic", message);
+////            simpMessagingTemplate.convertAndSend("/topic/location/" + securityUserDto.getUserId(), list);
+//
+//            simpMessagingTemplate.convertAndSendToUser(securityUserDto.getEmail(),"/queue/location", list);
+//
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Scheduled(fixedRate = 10 * 1000)
     public void sendNearbyUsersToActiveUsers() throws JsonProcessingException {
-
         // 세션 연결된 사용자들한테 보냄
         Set<String> activeUsers = radarQueryService.findActiveUser();
 
@@ -67,10 +84,18 @@ public class UserLocationController {
                 list = new ArrayList<>();
             }
 
-            String message = objectMapper.writeValueAsString(list);
+            Map<String, Object> map = new HashMap<>();
+            map.put("sendUserId", userKey);
+            map.put("data", list);
+
+//            String message = objectMapper.writeValueAsString(list);
+            String message = objectMapper.writeValueAsString(map);
+
+            redisTemplate.convertAndSend("channel", message);
 
 //            String destination = "/topic/location/" + userId;
-            redisTemplate.convertAndSend("topic", message);
+//            simpMessagingTemplate.convertAndSend(destination, message);
+
         }
     }
 }
