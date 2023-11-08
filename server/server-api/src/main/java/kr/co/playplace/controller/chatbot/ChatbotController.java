@@ -4,7 +4,6 @@ package kr.co.playplace.controller.chatbot;
 import kr.co.playplace.common.ApiResponse;
 import kr.co.playplace.controller.chatbot.response.GetRecommendHistoryResponse;
 import kr.co.playplace.controller.chatbot.response.GetRecommendSongsResponse;
-import kr.co.playplace.entity.chatbot.ChatbotMessage;
 import kr.co.playplace.service.chatbot.ChatbotQueryService;
 import kr.co.playplace.service.chatbot.ChatbotService;
 import kr.co.playplace.service.chatbot.OpenAIService;

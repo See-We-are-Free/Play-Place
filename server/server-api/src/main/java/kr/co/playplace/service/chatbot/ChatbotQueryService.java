@@ -1,17 +1,13 @@
 package kr.co.playplace.service.chatbot;
 
-import kr.co.playplace.common.exception.BaseException;
-import kr.co.playplace.common.exception.ErrorCode;
 import kr.co.playplace.common.util.SecurityUtils;
 import kr.co.playplace.controller.chatbot.response.GetRecommendHistoryResponse;
 import kr.co.playplace.entity.chatbot.ChatbotMessage;
 import kr.co.playplace.entity.chatbot.ChatbotSong;
 import kr.co.playplace.entity.song.Song;
-import kr.co.playplace.entity.user.Users;
 import kr.co.playplace.repository.chatbot.ChatbotMessageRepository;
 import kr.co.playplace.repository.chatbot.ChatbotSongRepository;
 import kr.co.playplace.repository.song.SongRepository;
-import kr.co.playplace.repository.user.UserRepository;
 import kr.co.playplace.service.chatbot.dto.SongDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,11 +33,9 @@ public class ChatbotQueryService {
 
         List<ChatbotMessage> chatbotMessageList = chatbotMessageRepository.findAllByUser_Id(SecurityUtils.getUser().getUserId());
         for (ChatbotMessage chatbotMessage : chatbotMessageList){
-            log.info("chatbotMessageId {}",chatbotMessage.getId().toString());
             List<ChatbotSong> chatbotSongList = chatbotSongRepository.findAllByChatbotMessage_Id(chatbotMessage.getId());
             List<SongDto> songList = new ArrayList<>();
             for (ChatbotSong chatbotSong : chatbotSongList){
-                log.info("chatbotSong id {}",chatbotSong.getSong().getId().toString());
                 Optional<Song> song = songRepository.findById(chatbotSong.getSong().getId());
                 song.ifPresent(value -> songList.add(SongDto.of(value)));
             }
