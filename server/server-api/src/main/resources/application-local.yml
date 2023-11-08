@@ -25,12 +25,12 @@ spring:
     host: ${REDIS_HOST}
     port: 6379
     password: ${REDIS_PASSWORD}
-#  cloud:
-#    gcp:
-#      project-id: playplace
-#      credentials:
-#        location: classpath:playplace-c109-63af6b6b49fd.json
+  cloud:
+    gcp:
+      project-id: playplace
+      credentials:
+        location: classpath:playplace-c109-63af6b6b49fd.json
 jwt:
   secret: ${JWT_SECRET}
-#openai:
-#  api-key: ${OPENAPI_KEY}
+openai:
+  api-key: ${OPENAPI_KEY}
