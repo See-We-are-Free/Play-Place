@@ -24,7 +24,7 @@ public class Geocoder {
     public int getGeoCode(double lat, double lon){
         StringBuilder url = new StringBuilder("https://api.vworld.kr/req/address?service=address&request=getAddress&version=2.0&type=PARCEL&zipcode=false&simple=true");
         int result = 0;
-        url.append("&point="+lat+","+lon);
+        url.append("&point="+lon+","+lat);
         url.append("&key="+apiKey);
         try{
             JSONParser jspa = new JSONParser();
