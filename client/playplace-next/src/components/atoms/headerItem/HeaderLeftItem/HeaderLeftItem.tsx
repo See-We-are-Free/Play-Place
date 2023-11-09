@@ -27,10 +27,6 @@ function HeaderLeftItem(props: HeaderLeftItemProps) {
 			<HeaderLeftItemContainer>
 				<LogoIcon />
 				<Title>{location}</Title>
-				{/* TODO : 흔들기 구현되면 삭제하기 */}
-				<button type="button" onClick={() => router.push('/chatbot')} style={{ color: 'white' }}>
-					[플플이]
-				</button>
 				<button type="button" onClick={() => router.push('/login')} style={{ color: 'white' }}>
 					[로그인]
 				</button>
