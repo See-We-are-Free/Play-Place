@@ -4,13 +4,15 @@ import useFetchPlaylist from '@/hooks/player/useFetchPlaylist';
 import usePlayer from '@/hooks/player/usePlayer';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import { isNowPlayState, nowPlaySongState, playbackState } from '@/recoil/play';
-import { UpdatePlayTimeApiBody } from '@/types/api';
+import { SaveSongRecordApiBody, UpdatePlayTimeApiBody } from '@/types/api';
 import { PlaybackType } from '@/types/play';
 import { BasicSong, LandmarkSong, Song } from '@/types/songs';
-import { getLatestSongApi, saveNowPlaySongApi, updatePlayTimeApi } from '@/utils/api/songs';
+import { getLatestSongApi, saveNowPlaySongApi, saveSongRecordApi, updatePlayTimeApi } from '@/utils/api/songs';
 import { useEffect, useRef } from 'react';
 import YouTube, { YouTubeProps } from 'react-youtube';
 import { useRecoilState } from 'recoil';
+import { ToastStyles } from '@/types/styles.d';
+import CustomToast from '../../CustomToast/CustomToast';
 
 function PlayBack() {
 	const localStorage = useLocalStorage();
@@ -25,6 +27,27 @@ function PlayBack() {
 		width: '0',
 		height: '0',
 		playerVar: {},
+	};
+
+	const saveSongRecord = async () => {
+		try {
+			const location: { lat: number; lng: number } = JSON.parse(window.AndMap.getLastKnownLocation());
+
+			if (!nowPlaySong || nowPlaySong.songId === -1) return;
+			const body: SaveSongRecordApiBody = {
+				songId: nowPlaySong?.songId,
+				lat: location.lat,
+				lon: location.lng,
+			};
+
+			console.log(JSON.stringify(body));
+			const response = await saveSongRecordApi(body);
+			if (response.status === 200) {
+				CustomToast(ToastStyles.success, '재생 정보가 전송되었습니다.');
+			}
+		} catch (error) {
+			console.error(JSON.stringify(error));
+		}
 	};
 
 	// 재생시간 갱신
@@ -89,6 +112,7 @@ function PlayBack() {
 	};
 
 	const onPlay: YouTubeProps['onPlay'] = async (event) => {
+		setTimeout(saveSongRecord, 3000);
 		setPlayback(event.target);
 		setIsNowPlay(true);
 
@@ -122,6 +146,7 @@ function PlayBack() {
 
 	const onEnd: YouTubeProps['onEnd'] = () => {
 		playNextSong();
+		console.log('끝남 ㅋ');
 	};
 
 	useEffect(() => {
