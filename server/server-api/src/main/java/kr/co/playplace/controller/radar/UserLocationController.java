@@ -50,52 +50,52 @@ public class UserLocationController {
 
         radarService.saveUserLocation(securityUserDto, userLocationRequest);
 
-//        try {
-//            List<UsersNearbyResponse> list = radarQueryService.findNearbyUsers(securityUserDto.getUserId());
-//
-//            if(list.isEmpty()) {
-//                list = new ArrayList<>();
-//            }
-//
-//            String message = objectMapper.writeValueAsString(list);
-////            String destination = "/topic/location/" + userId;
-////            redisTemplate.convertAndSend("topic", message);
-////            simpMessagingTemplate.convertAndSend("/topic/location/" + securityUserDto.getUserId(), list);
-//
-//            simpMessagingTemplate.convertAndSendToUser(securityUserDto.toString(),"/queue/location", message);
-//
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        }
-    }
-
-    @Scheduled(fixedRate = 10 * 1000)
-    public void sendNearbyUsersToActiveUsers() throws JsonProcessingException {
-        // 세션 연결된 사용자들한테 보냄
-        Set<String> activeUsers = radarQueryService.findActiveUser();
-
-        for(String userKey : activeUsers) {
-            long userId = Long.parseLong(userKey);
-
-            log.debug("activeUser sub: {}", userId);
-            List<UsersNearbyResponse> list = radarQueryService.findNearbyUsers(userId);
+        try {
+            List<UsersNearbyResponse> list = radarQueryService.findNearbyUsers(securityUserDto.getUserId());
 
             if(list.isEmpty()) {
                 list = new ArrayList<>();
             }
 
-            Map<String, Object> map = new HashMap<>();
-            map.put("sendUserId", userKey);
-            map.put("data", list);
-
-//            String message = objectMapper.writeValueAsString(list);
-            String message = objectMapper.writeValueAsString(map);
-
-            redisTemplate.convertAndSend("channel", message);
-
+            String message = objectMapper.writeValueAsString(list);
 //            String destination = "/topic/location/" + userId;
-//            simpMessagingTemplate.convertAndSend(destination, message);
+//            redisTemplate.convertAndSend("topic", message);
+//            simpMessagingTemplate.convertAndSend("/topic/location/" + securityUserDto.getUserId(), list);
 
+            simpMessagingTemplate.convertAndSendToUser(securityUserDto.toString(),"/queue/location", message);
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
     }
+
+//    @Scheduled(fixedRate = 10 * 1000)
+//    public void sendNearbyUsersToActiveUsers() throws JsonProcessingException {
+//        // 세션 연결된 사용자들한테 보냄
+//        Set<String> activeUsers = radarQueryService.findActiveUser();
+//
+//        for(String userKey : activeUsers) {
+//            long userId = Long.parseLong(userKey);
+//
+//            log.debug("activeUser sub: {}", userId);
+//            List<UsersNearbyResponse> list = radarQueryService.findNearbyUsers(userId);
+//
+//            if(list.isEmpty()) {
+//                list = new ArrayList<>();
+//            }
+//
+//            Map<String, Object> map = new HashMap<>();
+//            map.put("sendUserId", userKey);
+//            map.put("data", list);
+//
+////            String message = objectMapper.writeValueAsString(list);
+//            String message = objectMapper.writeValueAsString(map);
+//
+//            redisTemplate.convertAndSend("channel", message);
+//
+////            String destination = "/topic/location/" + userId;
+////            simpMessagingTemplate.convertAndSend(destination, message);
+//
+//        }
+//    }
 }
