@@ -6,7 +6,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 public class ShakeDetector implements SensorEventListener {
-    private static final float SHAKE_THRESHOLD_GRAVITY = 2.5F; // 흔들림 감지 기준힘
+    private static final float SHAKE_THRESHOLD_GRAVITY = 5F; // 흔들림 감지 기준힘
     private static final int SHAKE_COUNT_RESET_TIME_MS = 1500; // 흔들림 카운트 초기화 밀리초
     private OhShakeListener mListener;
     private long mShakeTimestamp;
