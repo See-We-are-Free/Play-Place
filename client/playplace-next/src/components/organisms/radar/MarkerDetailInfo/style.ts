@@ -26,17 +26,22 @@ export const NicknameWrapper = styled.span`
 export const MarkerDetailInfoBody = styled.div`
 	display: flex;
 	flex-direction: row;
+	justify-content: space-between;
+`;
+
+export const BodyLeft = styled.div`
+	display: flex;
+	flex-direction: row;
 	gap: 10px;
-	margin: 0 10px;
 `;
 
 export const BottomSheetImageWrapper = styled.div`
 	width: 60px;
 	height: 60px;
-	border-radius: 10px;
-	overflow: hidden;
+	aspect-ratio: 1/1;
 
 	img {
+		border-radius: 10px;
 		width: 100%;
 		height: 100%;
 	}
@@ -46,6 +51,14 @@ export const Info = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 4px;
+`;
+
+export const PlayButton = styled.button`
+	svg {
+		width: 20px;
+		height: 20px;
+		fill: var(--white-100);
+	}
 `;
 
 export const Title = styled.p`

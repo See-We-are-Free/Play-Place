@@ -62,7 +62,7 @@ export const Greeting = styled.div`
 
 export const Profile = styled.button`
 	width: 100%;
-	padding: 20px 4px 14px;
+	margin: 20px 4px 14px;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
