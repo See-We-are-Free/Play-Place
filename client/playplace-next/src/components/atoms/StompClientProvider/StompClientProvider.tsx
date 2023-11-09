@@ -87,14 +87,15 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 	}, [currentLocation, publish]);
 
 	const getCurrentLocation = useCallback(() => {
-		navigator.geolocation.getCurrentPosition((position) => {
-			const location = {
-				longitude: position.coords.longitude,
-				latitude: position.coords.latitude,
-			};
-			console.log('현재 위치', location);
-			setCurrentLocation(location);
-		});
+		if (window.AndMap) {
+			const location: { lat: number; lng: number } = JSON.parse(window.AndMap.getLastKnownLocation());
+			console.log(location);
+
+			setCurrentLocation({
+				latitude: location.lat,
+				longitude: location.lng,
+			});
+		}
 	}, []);
 
 	useEffect(() => {
