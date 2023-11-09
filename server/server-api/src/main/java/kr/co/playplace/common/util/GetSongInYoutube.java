@@ -2,6 +2,7 @@ package kr.co.playplace.common.util;
 
 import kr.co.playplace.controller.song.response.SearchSongResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.text.StringEscapeUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -27,7 +28,7 @@ public class GetSongInYoutube {
     String apiKey;
 
     public List<SearchSongResponse> searchSongsInYoutube(String keyword){
-        StringBuilder url = new StringBuilder("https://www.googleapis.com/youtube/v3/search?part=id,snippet&type=video&videoCategoryId=10");
+        StringBuilder url = new StringBuilder("https://www.googleapis.com/youtube/v3/search?part=id,snippet&type=video&videoCategoryId=10&maxResults=25");
         url.append("&key="+apiKey);
         try { // url에 공백 넣으려면 encoding 필요
             String encodedKeyword = URLEncoder.encode(keyword + " topic auto-generated", "UTF-8");
@@ -48,9 +49,12 @@ public class GetSongInYoutube {
                 String youtubeId = (String) id.get("videoId");
                 // snippet -> title, artist, albumImg
                 JSONObject snippet = (JSONObject) jsonObject.get("snippet");
-                String title = (String) snippet.get("title");
+                String inputTitle = (String) snippet.get("title");
+                String title = StringEscapeUtils.unescapeHtml4(inputTitle);
                 String artist = (String) snippet.get("channelTitle");
-                artist = artist.substring(0, artist.length()-8);
+                if(artist.contains("Topic")) {
+                    artist = artist.substring(0, artist.length()-8);
+                }
                 log.info(artist);
                 JSONObject thumbnails = (JSONObject) snippet.get("thumbnails");
                 JSONObject high = (JSONObject) thumbnails.get("high");
