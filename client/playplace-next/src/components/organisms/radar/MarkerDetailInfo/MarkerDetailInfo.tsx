@@ -39,7 +39,7 @@ function MarkerDetailInfo(props: MarkerDetailInfoProps) {
 					<MarkerDetailInfoBody>
 						<BodyLeft>
 							<BottomSheetImageWrapper>
-								<Image alt={`${item.title} 앨범 이미지`} src={item.albumImg} />
+								<Image width="100" height="100" alt={`${item.title} 앨범 이미지`} src={item.albumImg} />
 							</BottomSheetImageWrapper>
 							<Info>
 								<Title>{item.title}</Title>
