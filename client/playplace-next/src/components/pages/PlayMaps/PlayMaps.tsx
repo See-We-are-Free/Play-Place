@@ -80,31 +80,12 @@ function PlayMaps() {
 		}
 	}, [map]);
 
-	const [getLocateFromAndroid, setGetLocateFromAndroid] = useState<string>('');
-
-	// 안드로이드에서 현재 위치를 받음
-	const setLocateFromAndroid = (data: MapsCenter) => {
-		setCenter(data);
-	};
-
-	useEffect(() => {
-		console.log(getLocateFromAndroid);
-
-		if (getLocateFromAndroid !== '위치를 찾을 수 없습니다') {
-			const presentLocate: string[] = getLocateFromAndroid.split(',');
-			const preCenter = {
-				lat: parseFloat(presentLocate[0]),
-				lng: parseFloat(presentLocate[1]),
-			};
-			setLocateFromAndroid(preCenter);
-		}
-	}, [getLocateFromAndroid]);
-
 	const callAndroidLocation = () => {
-		console.log('callAndroidLocation');
-		console.log('갱신이 되고있니', window.AndMap.getLastKnownLocation());
+		const data = JSON.parse(window.AndMap.getLastKnownLocation());
+		// console.log('callAndroidLocation 위치 데이터 갱신 :: ', JSON.stringify(data));
+
 		if (window.AndMap) {
-			setGetLocateFromAndroid(window.AndMap.getLastKnownLocation());
+			setCenter(data);
 		}
 	};
 
