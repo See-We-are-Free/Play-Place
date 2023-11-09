@@ -1,6 +1,5 @@
 import LandMarkIcon from '@root/public/assets/icons/LandMark.svg';
 import Image from 'next/image';
-import TempImage from '@root/public/assets/images/hypeBoy.jpg';
 import { IAroundPeople } from '@/types/radar';
 import { ImageWrapper, SongMarkerButton, SongMarkerContainer, SongMarkerListItemContainer } from './style';
 import Text from '../Text/Text';
@@ -21,7 +20,7 @@ function SongMarkerListItem(props: SongMarkerListItemProps) {
 				<SongMarkerButton $bottom={$bottom} $left={$left} type="button" onClick={() => handleMarkerInfoOpen(item)}>
 					<SongMarkerContainer>
 						<ImageWrapper>
-							<Image alt="TempImage" src={TempImage} />
+							<Image width="100" height="100" alt={`${item.title} 앨범 이미지`} src={item.albumImg} />
 						</ImageWrapper>
 						<LandMarkIcon />
 						<Text text={item.nickname} fontSize={12} />
