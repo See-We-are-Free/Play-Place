@@ -12,6 +12,7 @@ import { getUserInfoApi } from '@/utils/api/auth';
 import CustomToast from '@/components/atoms/CustomToast/CustomToast';
 import { ToastStyles } from '@/types/styles.d';
 import { useRouter } from 'next/navigation';
+import useLocalStorage from '@/hooks/useLocalStorage';
 import { BackgroundRound, BackgroundContainer, EmojiWrapper, RadarShareOnContainer, UserContainer } from './style';
 import MarkerDetailInfo from '../MarkerDetailInfo/MarkerDetailInfo';
 
@@ -24,6 +25,7 @@ function RadarShareOn() {
 	const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
 	const [detailItem, setDetailItem] = useState<IAroundPeople | null>(null);
 	const SongMarkerListMemoized = memo(SongMarkerList);
+	const localStorage = useLocalStorage();
 
 	const handleMarkerInfoOpen = (item: IAroundPeople) => {
 		console.log('handleMarkerInfoOpen', item);
@@ -62,7 +64,7 @@ function RadarShareOn() {
 		if (!user) {
 			getUserInfo();
 		}
-	});
+	}, [user]);
 
 	return (
 		<>
