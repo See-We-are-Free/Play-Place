@@ -61,7 +61,7 @@ function RadarShareOn() {
 	}, [markerList]);
 
 	useEffect(() => {
-		if (!user) {
+		if (!user && localStorage?.getItem('accessToken')) {
 			getUserInfo();
 		}
 	}, [user]);
