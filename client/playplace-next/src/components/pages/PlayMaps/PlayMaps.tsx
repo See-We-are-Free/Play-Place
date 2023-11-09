@@ -105,19 +105,27 @@ function PlayMaps() {
 	}, [center.lat, center.lng, map]);
 
 	const getLandmarks = async () => {
-		const response = await getLandmarksApi();
-		if (response && response.status === 200) {
-			setLandMarks(response.data.data);
+		try {
+			const response = await getLandmarksApi();
+
+			if (response && response.status === 200) {
+				setLandMarks(response.data.data);
+			}
+		} catch (error) {
+			console.error(error);
 		}
 	};
 
 	const detailLandMarkTest = async (landmarkId: number) => {
-		const response = await getLandmarkDetailApi(landmarkId);
-		console.log(response);
-		if (response && response.status === 200) {
-			setLandMarkList(response.data.data);
+		try {
+			const response = await getLandmarkDetailApi(landmarkId);
+			if (response && response.status === 200) {
+				setLandMarkList(response.data.data);
+			}
+			setOpen(true);
+		} catch (error) {
+			console.error(error);
 		}
-		setOpen(true);
 	};
 
 	const checkLandmarkInfo = (detail: LandMarkInfo) => {
