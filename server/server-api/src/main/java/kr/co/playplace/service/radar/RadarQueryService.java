@@ -17,10 +17,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -89,9 +86,12 @@ public class RadarQueryService {
                 level = 2;
             }
 
-            UserLocation userNearby = userLocationRepository.findById(userNearbyId).orElseThrow(
-                    () -> new BaseException(ErrorCode.NOT_FOUND_USER)
-            );
+            Optional<UserLocation> userNearby = userLocationRepository.findById(userNearbyId);
+
+            if(userNearby.isEmpty()) {
+                geoOperations.remove("geoPoints", userNearbyId.toString());
+                continue;
+            }
 
             // TODO: 사용자 최신 재생 곡 정보 가져오기
 //            Song song = new Song(1L, "youtubeId", "title", "artist", "img", 1);
@@ -101,7 +101,7 @@ public class RadarQueryService {
                 continue;
             }
 
-            UsersNearbyResponse usersNearbyResponse = UsersNearbyResponse.of(userNearby, recentSongDto, level);
+            UsersNearbyResponse usersNearbyResponse = UsersNearbyResponse.of(userNearby.get(), recentSongDto, level);
 
             list.add(usersNearbyResponse);
         }
