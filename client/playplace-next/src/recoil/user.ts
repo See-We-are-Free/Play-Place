@@ -7,7 +7,6 @@ import { atom } from 'recoil';
 const userInfoState = atom<UserInfo>({
 	key: 'userInfoState',
 	default: { nickname: '', profileImg: 0, isPush: false, isShake: false },
-	effects_UNSTABLE: [persistAtom],
 });
 
 export default userInfoState;

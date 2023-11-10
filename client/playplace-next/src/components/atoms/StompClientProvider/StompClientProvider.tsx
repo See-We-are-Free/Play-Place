@@ -101,12 +101,11 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 	useEffect(() => {
 		if (!localStorage.getItem('accessToken')) {
 			console.log('토큰 없음 false');
-			return;
 		}
 
-		if (!currentLocation) {
-			getCurrentLocation();
-		}
+		// if (!currentLocation) {
+		// 	getCurrentLocation();
+		// }
 	}, [currentLocation, getCurrentLocation]);
 
 	useEffect(() => {
