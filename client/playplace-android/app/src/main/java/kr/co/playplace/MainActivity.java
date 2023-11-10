@@ -67,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
     private ShakeDetector mShakeDetector;
     private long backBtnTime = 0;
     private static final String TAG = "permission";
-//    private static final String BASE_URL = "https://k9c109.p.ssafy.io/pp";
-    private static final String BASE_URL = "http://192.168.137.1:3000/pp";
+        private static final String BASE_URL = "https://k9c109.p.ssafy.io/pp";
+//    private static final String BASE_URL = "http://192.168.137.1:3000/pp";
 
 
     /* Activity 시작점 */

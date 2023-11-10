@@ -37,6 +37,13 @@ http.interceptors.response.use(
 					},
 				},
 			);
+
+			// 리프레시 토큰이 만료되었을 경우 refreshResponse가 어떻게 오는지 확인
+			if (refreshResponse.status === 401) {
+				localStorage.removeItem('accessToken');
+				return undefined;
+			}
+
 			const { headers } = refreshResponse;
 			if (headers instanceof AxiosHeaders) {
 				const newAccessToken = headers.get('authorization');

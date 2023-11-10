@@ -1,8 +1,8 @@
 export interface UserInfo {
 	nickname: string;
 	profileImg: number;
-	isPush: boolean;
-	isShake: boolean;
+	push: boolean;
+	shake: boolean;
 }
 
 export interface JoinApiParams {

@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-import userInfoState from '@/recoil/user';
-import { useRecoilState } from 'recoil';
+import React, { useContext, useEffect, useState } from 'react';
 import EmojiList from '@/components/molecules/EmojiList/EmojiList';
 import ContentLayout from '@/components/templates/layout/ContentLayout/ContentLayout';
 import Text from '@/components/atoms/Text/Text';
@@ -9,13 +7,14 @@ import { ButtonStyles, ToastStyles } from '@/types/styles.d';
 import { patchUserApi } from '@/utils/api/auth';
 import CustomToast from '@/components/atoms/CustomToast/CustomToast';
 import { useRouter } from 'next/navigation';
+import UserInfoContext from '@/utils/common/UserInfoContext';
 import NicknameContainer from '../../JoinInfo/style';
 
 function MypageModify() {
-	const [user] = useRecoilState(userInfoState);
+	const { user } = useContext(UserInfoContext);
 	const router = useRouter();
-	const [profileImg, setProfileImg] = useState<number>(user.profileImg);
-	const [nickname, setNickname] = useState<string>(user.nickname);
+	const [profileImg, setProfileImg] = useState<number>(0);
+	const [nickname, setNickname] = useState<string>('');
 
 	const handleSelectEmoji = (idx: number) => {
 		setProfileImg(idx);
@@ -47,6 +46,11 @@ function MypageModify() {
 			CustomToast(ToastStyles.error, '수정 변동 사항이 없습니다!');
 		}
 	};
+
+	useEffect(() => {
+		setProfileImg(user.profileImg);
+		setNickname(user.nickname);
+	}, [user]);
 
 	return (
 		<>

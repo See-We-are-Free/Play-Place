@@ -2,22 +2,15 @@
 
 import Header from '@/components/molecules/Header/Header';
 import LayoutWithHeader from '@/components/templates/layout/LayoutWithHeader/LayoutWithHeader';
-import { HeaderStyles, ToastStyles } from '@/types/styles.d';
+import { HeaderStyles } from '@/types/styles.d';
 import MenuIcon from '@root/public/assets/icons/Menu.svg';
 import Home from '@/components/pages/Home/Home';
-import { useCallback, useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import userInfoState from '@/recoil/user';
-import { getUserInfoApi } from '@/utils/api/auth';
-import CustomToast from '@/components/atoms/CustomToast/CustomToast';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import MypageView from '@/components/organisms/MypageView/MypageView';
 import { Village } from '@/types/songs';
 
 export default function HomePage() {
-	const router = useRouter();
 	const [isMyMenuOpen, setIsMyMenuOpen] = useState<boolean>(false);
-	const [user, setUserInfo] = useRecoilState(userInfoState);
 	const [village, setVillage] = useState<Village>({
 		villageName: '',
 		villageCode: 0,
@@ -27,21 +20,6 @@ export default function HomePage() {
 		console.log('열려');
 		setIsMyMenuOpen(true);
 	};
-
-	const getUserInfo = useCallback(async () => {
-		try {
-			const response = await getUserInfoApi();
-			if (response.status === 200) {
-				console.log('getUserInfo', response);
-				setUserInfo(response.data.data);
-			} else {
-				CustomToast(ToastStyles.error, '로그인이 필요한 서비스입니다.');
-				router.push('/login');
-			}
-		} catch (error) {
-			console.error(error);
-		}
-	}, []);
 
 	useEffect(() => {
 		if (window.AndMap) {
@@ -58,14 +36,6 @@ export default function HomePage() {
 			</Header>
 		</>
 	);
-
-	useEffect(() => {
-		if (user.nickname === '') {
-			getUserInfo();
-		} else {
-			console.log('user', user);
-		}
-	}, [user]);
 
 	return (
 		<>
