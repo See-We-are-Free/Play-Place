@@ -1,5 +1,7 @@
 package kr.co.playplace.common.util;
 
+import kr.co.playplace.common.exception.BaseException;
+import kr.co.playplace.common.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -30,6 +32,8 @@ public class Geocoder {
             JSONParser jspa = new JSONParser();
             JSONObject jsob = (JSONObject) jspa.parse(new BufferedReader(new InputStreamReader(new URL(url.toString()).openStream(), StandardCharsets.UTF_8)));
             JSONObject jsrs = (JSONObject) jsob.get("response");
+            String status = (String) jsrs.get("status");
+            if(status.equals("NOT_FOUND")) throw new BaseException(ErrorCode.INVALID_USE_LAT_LON);
             JSONArray jsonArray = (JSONArray) jsrs.get("result");
             JSONObject jsonfor = (JSONObject) jsonArray.get(0);
             JSONObject jsst = (JSONObject) jsonfor.get("structure");
