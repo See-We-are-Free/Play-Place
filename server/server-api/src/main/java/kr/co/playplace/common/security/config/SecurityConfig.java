@@ -41,7 +41,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests() // 요청에 대한 인증 설정
 //                .antMatchers("/**").permitAll()
-                .antMatchers("/auth/**").permitAll() // 토큰 발급을 위한 경로는 모두 허용
+                .antMatchers("/api/v1/auth/**").permitAll() // 토큰 발급을 위한 경로는 모두 허용
                 .antMatchers("/ws/**").permitAll()
                 .anyRequest().authenticated() // 그 외의 모든 요청은 인증이 필요하다.
                 .and()
