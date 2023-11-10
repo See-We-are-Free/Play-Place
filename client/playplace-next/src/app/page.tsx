@@ -24,15 +24,20 @@ export default function HomePage() {
 	};
 
 	const getUserInfo = useCallback(async () => {
-		const response = await getUserInfoApi();
-		if (response.status === 200) {
-			console.log('getUserInfo', response);
-			setUserInfo(response.data.data);
-		} else {
-			CustomToast(ToastStyles.error, '로그인이 필요한 서비스입니다.');
-			router.push('/login');
+		try {
+			const response = await getUserInfoApi();
+			if (response.status === 200) {
+				console.log('getUserInfo', response);
+				setUserInfo(response.data.data);
+			} else {
+				CustomToast(ToastStyles.error, '로그인이 필요한 서비스입니다.');
+				router.push('/login');
+			}
+		} catch (error) {
+			console.error(error);
 		}
-	}, [router, setUserInfo]);
+	}, []);
+
 	useEffect(() => {
 		if (window.AndMap) {
 			window.AndMap.successLocate();
@@ -55,7 +60,7 @@ export default function HomePage() {
 		} else {
 			console.log('user', user);
 		}
-	}, [getUserInfo, setUserInfo, user]);
+	}, [user]);
 
 	return (
 		<>

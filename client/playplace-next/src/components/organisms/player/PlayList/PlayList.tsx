@@ -8,6 +8,7 @@ import { useRecoilState } from 'recoil';
 import { playModalState } from '@/recoil/play';
 import { useRouter } from 'next/navigation';
 import useToggle from '@/hooks/useToggle';
+import useLocalStorage from '@/hooks/useLocalStorage';
 import PlayListContainer from './style';
 import SongGroup from '../SongGroup/SongGroup';
 import SongGroupAreaHeader from '../SongGroupAreaHeader/SongGroupAreaHeader';
@@ -17,6 +18,7 @@ function PlayList() {
 	const [, setPlayModal] = useRecoilState(playModalState);
 	const [editMode, toggleEditMode] = useToggle(false);
 	const router = useRouter();
+	const localStorage = useLocalStorage();
 
 	const handleClick = (path: string) => {
 		router.push(`/${path}`);
@@ -24,8 +26,10 @@ function PlayList() {
 	};
 
 	useEffect(() => {
-		fetchData();
-	}, []);
+		if (localStorage?.getItem('accessToken')) {
+			fetchData();
+		}
+	}, [localStorage]);
 
 	return (
 		<PlayListContainer>

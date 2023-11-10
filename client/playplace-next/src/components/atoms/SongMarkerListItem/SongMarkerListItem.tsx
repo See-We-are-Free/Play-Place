@@ -20,7 +20,7 @@ function SongMarkerListItem(props: SongMarkerListItemProps) {
 				<SongMarkerButton $bottom={$bottom} $left={$left} type="button" onClick={() => handleMarkerInfoOpen(item)}>
 					<SongMarkerContainer>
 						<ImageWrapper>
-							<Image alt={`${item.title} 앨범 이미지`} src={item.albumImg} />
+							<Image width="100" height="100" alt={`${item.title} 앨범 이미지`} src={item.albumImg} />
 						</ImageWrapper>
 						<LandMarkIcon />
 						<Text text={item.nickname} fontSize={12} />
