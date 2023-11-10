@@ -12,16 +12,16 @@ public class FindUserInfoResponse {
     private String nickname;
     private int profileImg;
     private String email;
-    private int isPush;
-    private int isShake;
+    private boolean isPush;
+    private boolean isShake;
 
     @Builder
-    public FindUserInfoResponse(Long id, String nickname, int profileImg, String email, int isPush, int isShake) {
+    public FindUserInfoResponse(String nickname, int profileImg, String email, int isPush, int isShake) {
         this.nickname = nickname;
         this.profileImg = profileImg;
         this.email = email;
-        this.isPush = isPush;
-        this.isShake = isShake;
+        this.isPush = isPush == 0? true : false;
+        this.isShake = isShake == 0? true : false;
     }
 
     public static FindUserInfoResponse of(Users user) {
