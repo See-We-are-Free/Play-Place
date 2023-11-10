@@ -6,6 +6,7 @@ import kr.co.playplace.common.exception.ErrorCode;
 import kr.co.playplace.common.security.dto.StatusResponseDto;
 import kr.co.playplace.common.util.SecurityUtils;
 import kr.co.playplace.controller.user.requeset.JoinUserRequest;
+import kr.co.playplace.controller.user.requeset.UpdateUserRequest;
 import kr.co.playplace.controller.user.response.FindLikeListResponse;
 import kr.co.playplace.controller.user.response.FindUserInfoResponse;
 import kr.co.playplace.service.song.SongService;
@@ -68,9 +69,10 @@ public class UserController {
         return ApiResponse.ok(userService.changeShakeState());
     }
 
-    @PatchMapping("/{numImg}")
-    public ApiResponse<Integer> changeProfileImg(@PathVariable int numImg) {
-        return ApiResponse.ok(userService.changeProfileImg(numImg));
+    @PatchMapping("")
+    public ApiResponse<Integer> changeInfo(@RequestBody UpdateUserRequest updateUserRequest) {
+        userService.changeInfo(updateUserRequest);
+        return ApiResponse.messageOk("Success");
     }
 
     @GetMapping("/like")

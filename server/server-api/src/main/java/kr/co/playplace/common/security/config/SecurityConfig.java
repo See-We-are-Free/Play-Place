@@ -40,8 +40,9 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션관리 정책을 STATELESS(세션이 있으면 쓰지도 않고, 없으면 만들지도 않는다)
                 .and()
                 .authorizeRequests() // 요청에 대한 인증 설정
-                .antMatchers("/**").permitAll()
-//                .antMatchers("/auth/**").permitAll() // 토큰 발급을 위한 경로는 모두 허용
+//                .antMatchers("/**").permitAll()
+                .antMatchers("/auth/**").permitAll() // 토큰 발급을 위한 경로는 모두 허용
+                .antMatchers("/ws/**").permitAll()
                 .anyRequest().authenticated() // 그 외의 모든 요청은 인증이 필요하다.
                 .and()
                 .oauth2Login() // OAuth2 로그인 설정시작

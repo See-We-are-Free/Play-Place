@@ -7,6 +7,7 @@ import kr.co.playplace.common.security.dto.RefreshToken;
 import kr.co.playplace.common.security.dto.SecurityUserDto;
 import kr.co.playplace.common.security.util.JwtUtil;
 import kr.co.playplace.common.util.SecurityUtils;
+import kr.co.playplace.controller.user.requeset.UpdateUserRequest;
 import kr.co.playplace.entity.user.Users;
 import kr.co.playplace.repository.auth.RefreshTokenRepository;
 import kr.co.playplace.repository.user.UserRepository;
@@ -76,9 +77,13 @@ public class UserService {
         return user.getIsRadar();
     }
 
-    public int changeProfileImg(int numImg) {
+    public void changeInfo(UpdateUserRequest updateUserRequest) {
         Users user = userRepository.findByOuthId(SecurityUtils.getUserId()).orElseThrow(() -> new BaseException(ErrorCode.NOT_FOUND_USER));
-        user.changeProfileImg(numImg);
-        return user.getProfileImg();
+        if(updateUserRequest.getProfileImg() != null) {
+            user.changeProfileImg(updateUserRequest.getProfileImg());
+        }
+        if(updateUserRequest.getNickname() != null){
+            user.changeNickname(updateUserRequest.getNickname());
+        }
     }
 }
