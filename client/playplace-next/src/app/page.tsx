@@ -50,8 +50,10 @@ export default function HomePage() {
 	);
 
 	useEffect(() => {
-		if (!user) {
+		if (user.nickname === '') {
 			getUserInfo();
+		} else {
+			console.log('user', user);
 		}
 	}, [getUserInfo, setUserInfo, user]);
 
