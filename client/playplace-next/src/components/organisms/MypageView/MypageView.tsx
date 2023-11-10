@@ -7,7 +7,7 @@ import RightArrow from '@root/public/assets/icons/RightArrow.svg';
 import ChatIcon from '@root/public/assets/icons/Chat.svg';
 import HeartIcon from '@root/public/assets/icons/HeartOnCustomColor.svg';
 import SettingIcon from '@root/public/assets/icons/Setting.svg';
-import { MY_MENUS } from '@/constants/common';
+import chatbotModalState from '@/recoil/chatbot';
 import { useRouter } from 'next/navigation';
 import {
 	BackgroundShadow,
@@ -29,15 +29,20 @@ interface MypageViewProps {
 function MypageView(props: MypageViewProps) {
 	const { $isMyMenuOpen, setIsMyMenuOpen } = props;
 	const [user] = useRecoilState(userInfoState);
+	const [, setChatbotModal] = useRecoilState(chatbotModalState);
+
 	const router = useRouter();
+
 	const handleMenu = (menu: string) => {
-		console.log('선택한 메뉴', menu);
 		if (menu === 'profile') {
 			router.push('/info');
 		} else if (menu === 'like') {
 			router.push('/like');
 		} else if (menu === 'setting') {
 			router.push('/setting');
+		} else if (menu === 'chatbot') {
+			setChatbotModal(true);
+			setIsMyMenuOpen(false);
 		}
 	};
 
@@ -75,7 +80,7 @@ function MypageView(props: MypageViewProps) {
 					<MypageBody>
 						<ul>
 							<li>
-								<button type="button" onClick={() => handleMenu(MY_MENUS.profile)}>
+								<button type="button" onClick={() => handleMenu('chatbot')}>
 									<ChatIcon />
 									<div>플로디</div>
 								</button>

@@ -8,3 +8,9 @@ export interface ChatLogType {
 	resultText: string;
 	resultSongs: Song[];
 }
+
+export type ChatbotModalType = boolean;
+
+export interface CustomEventData {
+	detail: { data: null };
+}

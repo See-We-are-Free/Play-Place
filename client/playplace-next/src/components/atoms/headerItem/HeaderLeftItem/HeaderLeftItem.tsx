@@ -5,6 +5,8 @@ import LogoIcon from '@root/public/assets/icons/Logo.svg';
 import BackArrowIcon from '@root/public/assets/icons/BackArrow.svg';
 import { HEADER_LIST } from '@/constants/common';
 import { useRouter } from 'next/navigation';
+import { useRecoilState } from 'recoil';
+import chatbotModalState from '@/recoil/chatbot';
 import { HeaderLeftItemContainer, Title } from './style';
 
 interface HeaderLeftItemProps {
@@ -17,6 +19,7 @@ interface HeaderLeftItemProps {
 function HeaderLeftItem(props: HeaderLeftItemProps) {
 	const { $headerType, location, pageName, handler } = props;
 	const router = useRouter();
+	const [, chatbotModal] = useRecoilState(chatbotModalState);
 
 	const handleMoveBack = () => {
 		router.back();
@@ -70,7 +73,7 @@ function HeaderLeftItem(props: HeaderLeftItemProps) {
 	if ($headerType === HeaderStyles.chatbot) {
 		return (
 			<HeaderLeftItemContainer>
-				<button type="button" onClick={handleMoveBack}>
+				<button type="button" onClick={() => chatbotModal(false)}>
 					<BackArrowIcon />
 				</button>
 				<Title>{HEADER_LIST[`${$headerType}`]}</Title>

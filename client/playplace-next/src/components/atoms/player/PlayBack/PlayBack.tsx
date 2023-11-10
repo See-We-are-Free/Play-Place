@@ -11,8 +11,6 @@ import { getLatestSongApi, saveNowPlaySongApi, saveSongRecordApi, updatePlayTime
 import { useEffect, useRef } from 'react';
 import YouTube, { YouTubeProps } from 'react-youtube';
 import { useRecoilState } from 'recoil';
-import { ToastStyles } from '@/types/styles.d';
-import CustomToast from '../../CustomToast/CustomToast';
 
 function PlayBack() {
 	const localStorage = useLocalStorage();
@@ -42,7 +40,7 @@ function PlayBack() {
 
 			const response = await saveSongRecordApi(body);
 			if (response.status === 200) {
-				CustomToast(ToastStyles.success, '재생 정보가 전송되었습니다.');
+				console.log('saveSongRecordApi :: 재생 정보가 전송되었습니다.');
 			}
 		} catch (error) {
 			console.log(error);
