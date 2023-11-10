@@ -7,7 +7,7 @@ import RightArrow from '@root/public/assets/icons/RightArrow.svg';
 import ChatIcon from '@root/public/assets/icons/Chat.svg';
 import HeartIcon from '@root/public/assets/icons/HeartOnCustomColor.svg';
 import SettingIcon from '@root/public/assets/icons/Setting.svg';
-import { MY_MENUS } from '@/constants/common';
+import chatbotModalState from '@/recoil/chatbot';
 import {
 	BackgroundShadow,
 	ConentContaner,
@@ -28,9 +28,13 @@ interface MypageViewProps {
 function MypageView(props: MypageViewProps) {
 	const { $isMyMenuOpen, setIsMyMenuOpen } = props;
 	const [user] = useRecoilState(userInfoState);
+	const [, setChatbotModal] = useRecoilState(chatbotModalState);
 
 	const handleMenu = (menu: string) => {
-		console.log('선택한 메뉴', menu);
+		if (menu === 'chatbot') {
+			setChatbotModal(true);
+			setIsMyMenuOpen(false);
+		}
 	};
 
 	useEffect(() => {
@@ -67,7 +71,7 @@ function MypageView(props: MypageViewProps) {
 					<MypageBody>
 						<ul>
 							<li>
-								<button type="button" onClick={() => handleMenu(MY_MENUS.profile)}>
+								<button type="button" onClick={() => handleMenu('chatbot')}>
 									<ChatIcon />
 									<div>플로디</div>
 								</button>
