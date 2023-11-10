@@ -23,11 +23,11 @@ function Home(props: IHomeProps) {
 		songs: [],
 	});
 	const [weatehrData, setWeatherData] = useState<WeatherSongList>({
-		weather: '',
+		weather: 'SUN',
 		songs: [],
 	});
 	const [timeData, setTimeData] = useState<TimezoneSongList>({
-		timezone: '',
+		timezone: 'DAWN',
 		songs: [],
 	});
 
@@ -36,7 +36,7 @@ function Home(props: IHomeProps) {
 			const response = await postLocateSongsApi(present);
 			if (response.status === 200) {
 				console.log(response.data);
-				setLocateData(response.data.data);
+				setLocateData(response.data);
 			}
 		} catch (error) {
 			console.error(error);
@@ -48,7 +48,7 @@ function Home(props: IHomeProps) {
 			const response = await postWeatherSongApi(present);
 			if (response.status === 200) {
 				console.log(response.data);
-				setWeatherData(response.data.data);
+				setWeatherData(response.data);
 			}
 		} catch (error) {
 			console.error(error);
@@ -61,7 +61,8 @@ function Home(props: IHomeProps) {
 
 			if (response.status === 200) {
 				console.log(response.data);
-				setTimeData(response.data.data);
+				setTimeData(response.data);
+				console.log(timeData);
 			}
 		} catch (error) {
 			console.error(error);
@@ -73,7 +74,7 @@ function Home(props: IHomeProps) {
 			const response = await postVillageApi(present);
 			if (response.status === 200) {
 				console.log(response.data);
-				setVillage(response.data.data);
+				setVillage(response.data);
 			}
 		} catch (error) {
 			console.error(error);
@@ -81,8 +82,10 @@ function Home(props: IHomeProps) {
 	};
 
 	useEffect(() => {
-		const location: { lat: number; lng: number } = JSON.parse(window.AndMap.getLastKnownLocation());
-		setPresent(location);
+		if (window.AndMap) {
+			const location: { lat: number; lng: number } = JSON.parse(window.AndMap.getLastKnownLocation());
+			setPresent(location);
+		}
 		getVillage();
 		getLocate();
 		getWeather();
