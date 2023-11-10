@@ -12,11 +12,16 @@ import { getUserInfoApi } from '@/utils/api/auth';
 import CustomToast from '@/components/atoms/CustomToast/CustomToast';
 import { useRouter } from 'next/navigation';
 import MypageView from '@/components/organisms/MypageView/MypageView';
+import { Village } from '@/types/songs';
 
 export default function HomePage() {
 	const router = useRouter();
 	const [isMyMenuOpen, setIsMyMenuOpen] = useState<boolean>(false);
 	const [user, setUserInfo] = useRecoilState(userInfoState);
+	const [village, setVillage] = useState<Village>({
+		villageName: '',
+		villageCode: 0,
+	});
 
 	const handleMyPageOn = () => {
 		console.log('열려');
@@ -46,7 +51,7 @@ export default function HomePage() {
 
 	const header = (
 		<>
-			<Header $headerType={HeaderStyles.home} location="장덕동">
+			<Header $headerType={HeaderStyles.home} location={village.villageName}>
 				<button type="button" onClick={handleMyPageOn}>
 					<MenuIcon />
 				</button>
@@ -65,7 +70,7 @@ export default function HomePage() {
 	return (
 		<>
 			<LayoutWithHeader header={header}>
-				<Home />
+				<Home setVillage={setVillage} />
 			</LayoutWithHeader>
 			<MypageView $isMyMenuOpen={isMyMenuOpen} setIsMyMenuOpen={setIsMyMenuOpen} />
 		</>
