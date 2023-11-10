@@ -7,14 +7,13 @@ import RadarShareOff from '@/components/organisms/radar/RadarShareOff/RadarShare
 import RadarShareOn from '@/components/organisms/radar/RadarShareOn/RadarShareOn';
 import ContentLayout from '@/components/templates/layout/ContentLayout/ContentLayout';
 import LayoutWithHeader from '@/components/templates/layout/LayoutWithHeader/LayoutWithHeader';
-import songShareState from '@/recoil/radar';
 import { HeaderStyles } from '@/types/styles.d';
 import { getSongShareInfoApi, setSongShareStateApi } from '@/utils/api/radar';
-import { useCallback, useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import UserInfoContext from '@/utils/common/UserInfoContext';
+import { useCallback, useContext, useEffect } from 'react';
 
 function Radar() {
-	const [isSongShare, setIsSongShare] = useRecoilState(songShareState);
+	const { isSongShare, setIsSongShare } = useContext(UserInfoContext);
 
 	const handleActive = useCallback(async () => {
 		await setSongShareStateApi();

@@ -1,14 +1,13 @@
-import React, { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import * as StompJs from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { CurrentLocation, IAroundPeople } from '@/types/radar';
 import StompClientContext, { StompClientContextType } from '@/utils/common/StompClientContext';
-import { useRecoilState } from 'recoil';
-import songShareState from '@/recoil/radar';
+import UserInfoContext from '@/utils/common/UserInfoContext';
 
 function StompClientProvider({ children }: { children: ReactNode }) {
+	const { isSongShare } = useContext(UserInfoContext);
 	const client = useRef<StompJs.Client | null>(null);
-	const [isSongShare] = useRecoilState(songShareState);
 	const [data, setData] = useState<IAroundPeople[] | null>(null);
 	const [currentLocation, setCurrentLocation] = useState<CurrentLocation | null>(null);
 	const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
@@ -48,7 +47,6 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 			client.current.publish({
 				destination: '/pub/location',
 				body: `{ "latitude": ${latitude}, "longitude": ${longitude} }`,
-				// body: `{ "latitude": 35.191318, "longitude": 126.823577 }`, // 개발용
 			});
 		} catch (error) {
 			console.error('발행 중 오류 발생:', error);
@@ -58,8 +56,8 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 
 	const connect = useCallback(() => {
 		console.log('연결 시작');
-		// const baseUrl = process.env.NEXT_PUBLIC_WS_BASE_URL || '';
-		const baseUrl = process.env.NEXT_PUBLIC_DEVELOP_WS_BASE_URL || ''; // 개발용
+		const baseUrl = process.env.NEXT_PUBLIC_WS_BASE_URL || '';
+		// const baseUrl = process.env.NEXT_PUBLIC_DEVELOP_WS_BASE_URL || ''; // 개발용
 		client.current = new StompJs.Client({
 			webSocketFactory: () => new SockJS(baseUrl),
 			connectHeaders: {
@@ -115,11 +113,6 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 	}, []);
 
 	useEffect(() => {
-		if (!localStorage.getItem('accessToken')) {
-			console.log('토큰 없음 false');
-			return;
-		}
-
 		if (!currentLocation) {
 			getCurrentLocation();
 		}
@@ -136,10 +129,7 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 			return;
 		}
 
-		console.log('isSongShare true? ', isSongShare);
-		console.log('currentLocation', currentLocation);
-		if (isSongShare && currentLocation) {
-			console.log('공유 ON');
+		if (currentLocation) {
 			if (!intervalId) {
 				console.log('getMarkerList!');
 				getMarkerList();
