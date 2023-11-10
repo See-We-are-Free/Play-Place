@@ -1,3 +1,7 @@
+export interface CustomEventData {
+	detail: { data: null };
+}
+
 declare global {
 	interface Window {
 		AndMap: {
@@ -9,5 +13,6 @@ declare global {
 			openCamera: () => void;
 			sendData: () => string;
 		};
+		openChatbot: CustomEvent<>;
 	}
 }
