@@ -23,7 +23,7 @@ export const HEADER_LIST: HeaderListType = {
 	playlist: '재생목록',
 	search: '검색',
 	signup: '회원가입',
-	chatbot: '플플이',
+	chatbot: '플로디',
 };
 
 export const MY_MENUS: HeaderListType = {

@@ -62,6 +62,7 @@ const GlobalStyles = createGlobalStyle`
         --zindex-fixed: 1030;
         --zindex-modal-backdrop: 1050;
         --zindex-modal: 1055;
+        --zindex-chatbot-modal: 1060;
         --zindex-popover: 1070;
         --zindex-tooltip: 1080;
         --zindex-toast: 1090;
