@@ -40,6 +40,9 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 
 import kr.co.playplace.utils.SetWebView;
@@ -64,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
     private ShakeDetector mShakeDetector;
     private long backBtnTime = 0;
     private static final String TAG = "permission";
-        private static final String BASE_URL = "https://k9c109.p.ssafy.io/pp";
-//    private static final String BASE_URL = "http://192.168.137.1:3000/pp";
+//    private static final String BASE_URL = "https://k9c109.p.ssafy.io/pp";
+    private static final String BASE_URL = "http://192.168.137.1:3000/pp";
 
 
     /* Activity 시작점 */
@@ -79,11 +82,10 @@ public class MainActivity extends AppCompatActivity {
         SetWebView.setWebView(webView);
         webView.setWebViewClient(new MyWebViewClient());
 
-
         /* 흔들기(가속도계) 관련 설정 */
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mShakeDetector = new ShakeDetector();
+        mShakeDetector = new ShakeDetector(webView);
         mShakeDetector.setOnShakeListener((count) -> {
             Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
             // 1초 진동
@@ -92,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 vibrator.vibrate(200);
             }
-            webView.loadUrl(BASE_URL + "/chatbot");
         });
 
 
@@ -139,9 +140,19 @@ public class MainActivity extends AppCompatActivity {
         @JavascriptInterface
         public String getLastKnownLocation() {
             if (mLastLocation != null) {
-                String json = "{\"lat\" : " + mLastLocation.getLatitude() + ", \"lng\" : " + mLastLocation.getLongitude() + " }";
-                Log.i(TAG, json);
-                return json;
+                try {
+                    JSONObject locationJson = new JSONObject();
+                    locationJson.put("lat", mLastLocation.getLatitude());
+                    locationJson.put("lng", mLastLocation.getLongitude());
+                    String jsonString = locationJson.toString();
+
+                    Log.i(TAG, jsonString);
+                    return jsonString;
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    // 또는 다른 예외 처리 방법을 선택
+                }
             }
             return "";
         }

@@ -4,14 +4,20 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
+import android.webkit.WebView;
 
 public class ShakeDetector implements SensorEventListener {
-    private static final float SHAKE_THRESHOLD_GRAVITY = 5F; // 흔들림 감지 기준힘
+    private static final float SHAKE_THRESHOLD_GRAVITY = 4F; // 흔들림 감지 기준힘
     private static final int SHAKE_COUNT_RESET_TIME_MS = 1500; // 흔들림 카운트 초기화 밀리초
     private OhShakeListener mListener;
     private long mShakeTimestamp;
     private int mShakeCount; // 흔들림 카운트
+    private final WebView webView;
 
+    public ShakeDetector (WebView webView) {
+        this.webView = webView;
+    }
     public void setOnShakeListener(OhShakeListener listener) {
         this.mListener = listener;
     }
@@ -34,7 +40,7 @@ public class ShakeDetector implements SensorEventListener {
             float gY = y / SensorManager.GRAVITY_EARTH;
             float gZ = z / SensorManager.GRAVITY_EARTH;
 
-            float gForce = (float) Math.sqrt(gX * gX + gY * gY + gZ * gZ); // 중력가속도를 포함하는 물체가 받는 힘
+            float gForce = (float) Math.sqrt(gX * gX + gY * gY + gZ * gZ);
 
             if (gForce > SHAKE_THRESHOLD_GRAVITY) {
                 long now = System.currentTimeMillis();
@@ -47,7 +53,9 @@ public class ShakeDetector implements SensorEventListener {
                 if (mShakeCount >= 2) {
                     mListener.onShake(mShakeCount);
                     mShakeCount = 0; // 초기화
+                    webView.evaluateJavascript("window.dispatchEvent(openChatbot)", (e) -> Log.i("permission", "수신"));
                 }
+
                 mShakeCount++;
                 mShakeTimestamp = now;
             }
