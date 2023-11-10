@@ -11,8 +11,8 @@ function UserInfoProvider({ children }: { children: ReactNode }) {
 	const [user, setUser] = useState<UserInfo>({
 		nickname: '',
 		profileImg: 0,
-		isPush: false,
-		isShake: false,
+		push: false,
+		shake: false,
 	});
 	const [isSongShare, setIsSongShare] = useState<boolean>(false);
 

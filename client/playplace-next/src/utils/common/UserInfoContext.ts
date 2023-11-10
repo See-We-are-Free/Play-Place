@@ -12,8 +12,8 @@ const UserInfoContext = React.createContext<UserInfoContextType>({
 	user: {
 		nickname: '',
 		profileImg: 0,
-		isPush: false,
-		isShake: false,
+		push: false,
+		shake: false,
 	},
 	setUser: () => {},
 	isSongShare: false,
