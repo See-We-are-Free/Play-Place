@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 interface ButtonProps {
-	$isActive: boolean;
+	$isActive: boolean | null;
 }
 
 const ButtonStyles = {
@@ -43,5 +43,5 @@ export const Button = styled.button<ButtonProps>`
 		transition: all 0.2s;
 	}
 
-	${({ $isActive }) => ButtonStyles[`${$isActive}`]}
+	${({ $isActive }) => $isActive && ButtonStyles[`${$isActive}`]}
 `;
