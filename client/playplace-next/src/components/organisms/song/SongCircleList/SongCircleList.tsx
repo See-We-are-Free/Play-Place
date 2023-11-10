@@ -1,12 +1,12 @@
 import SongCircleItems from '@/components/molecules/song/SongCircleItems/SongCircleItems';
 import { WheelEvent, useRef } from 'react';
 import Text from '@/components/atoms/Text/Text';
-import { AreaSong } from '@/types/songs';
+import { AreaSongList } from '@/types/songs';
 import SongSubtitle from '@/components/molecules/song/SongSubtitle/SongSubtitle';
 import SongCircleListContainer, { SongCircleListContent, SongCircleListInfo, SongCircleListScroll } from './style';
 
 interface SongCircleListProps {
-	locationSongList: AreaSong;
+	locationSongList: AreaSongList;
 }
 
 function SongCircleList(props: SongCircleListProps) {
