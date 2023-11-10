@@ -8,6 +8,7 @@ import ChatIcon from '@root/public/assets/icons/Chat.svg';
 import HeartIcon from '@root/public/assets/icons/HeartOnCustomColor.svg';
 import SettingIcon from '@root/public/assets/icons/Setting.svg';
 import { MY_MENUS } from '@/constants/common';
+import { useRouter } from 'next/navigation';
 import {
 	BackgroundShadow,
 	ConentContaner,
@@ -28,9 +29,16 @@ interface MypageViewProps {
 function MypageView(props: MypageViewProps) {
 	const { $isMyMenuOpen, setIsMyMenuOpen } = props;
 	const [user] = useRecoilState(userInfoState);
-
+	const router = useRouter();
 	const handleMenu = (menu: string) => {
 		console.log('선택한 메뉴', menu);
+		if (menu === 'profile') {
+			router.push('/info');
+		} else if (menu === 'like') {
+			router.push('/like');
+		} else if (menu === 'setting') {
+			router.push('/setting');
+		}
 	};
 
 	useEffect(() => {
@@ -51,7 +59,7 @@ function MypageView(props: MypageViewProps) {
 				<ConentContaner>
 					<MypageHeader>
 						<Greeting>
-							<div>{`'${user && user.nickname}' 님, 환영합니다.`}</div>
+							<div>{`'${user.nickname}' 님, 환영합니다.`}</div>
 							<div>오늘도 좋은 하루 되세요.</div>
 						</Greeting>
 						<Profile type="button" onClick={() => handleMenu('profile')}>
