@@ -82,7 +82,7 @@ function PlayMaps() {
 
 	const callAndroidLocation = () => {
 		const data = JSON.parse(window.AndMap.getLastKnownLocation());
-		// console.log('callAndroidLocation 위치 데이터 갱신 :: ', JSON.stringify(data));
+		console.log('callAndroidLocation 위치 데이터 갱신 :: ', JSON.stringify(data));
 
 		if (window.AndMap) {
 			setCenter(data);
