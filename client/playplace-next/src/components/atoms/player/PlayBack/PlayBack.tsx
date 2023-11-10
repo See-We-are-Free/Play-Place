@@ -40,13 +40,12 @@ function PlayBack() {
 				lon: location.lng,
 			};
 
-			console.log(JSON.stringify(body));
 			const response = await saveSongRecordApi(body);
 			if (response.status === 200) {
 				CustomToast(ToastStyles.success, '재생 정보가 전송되었습니다.');
 			}
 		} catch (error) {
-			console.error(JSON.stringify(error));
+			console.log(error);
 		}
 	};
 

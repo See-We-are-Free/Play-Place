@@ -12,6 +12,7 @@ import { getUserInfoApi } from '@/utils/api/auth';
 import CustomToast from '@/components/atoms/CustomToast/CustomToast';
 import { ToastStyles } from '@/types/styles.d';
 import { useRouter } from 'next/navigation';
+import useLocalStorage from '@/hooks/useLocalStorage';
 import { BackgroundRound, BackgroundContainer, EmojiWrapper, RadarShareOnContainer, UserContainer } from './style';
 import MarkerDetailInfo from '../MarkerDetailInfo/MarkerDetailInfo';
 
@@ -24,6 +25,7 @@ function RadarShareOn() {
 	const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
 	const [detailItem, setDetailItem] = useState<IAroundPeople | null>(null);
 	const SongMarkerListMemoized = memo(SongMarkerList);
+	const localStorage = useLocalStorage();
 
 	const handleMarkerInfoOpen = (item: IAroundPeople) => {
 		console.log('handleMarkerInfoOpen', item);
@@ -32,13 +34,17 @@ function RadarShareOn() {
 	};
 
 	const getUserInfo = useCallback(async () => {
-		const response = await getUserInfoApi();
-		if (response.status === 200) {
-			console.log('getUserInfo', response);
-			setUser(response.data.data);
-		} else {
-			CustomToast(ToastStyles.error, '로그인이 필요한 서비스입니다.');
-			router.push('/login');
+		try {
+			const response = await getUserInfoApi();
+			if (response.status === 200) {
+				console.log('getUserInfo', response);
+				setUser(response.data.data);
+			} else {
+				CustomToast(ToastStyles.error, '로그인이 필요한 서비스입니다.');
+				router.push('/login');
+			}
+		} catch (error) {
+			console.error(error);
 		}
 	}, [router, setUser]);
 
@@ -55,10 +61,10 @@ function RadarShareOn() {
 	}, [markerList]);
 
 	useEffect(() => {
-		if (!user) {
+		if (!user && localStorage?.getItem('accessToken')) {
 			getUserInfo();
 		}
-	});
+	}, [user]);
 
 	return (
 		<>
