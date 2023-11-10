@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import SongCircleList from '@/components/organisms/song/SongCircleList/SongCircleList';
 import SongSquareList from '@/components/organisms/song/SongSquareList/SongSquareList';
 import SongRectList from '@/components/organisms/song/SongRectList/SongRectList';
@@ -6,6 +6,7 @@ import HomeTemplate from '@/components/templates/HomeTemplate/HomeTemplate';
 import { postLocateSongsApi, postTimezoneSongApi, postVillageApi, postWeatherSongApi } from '@/utils/api/songs';
 import { AreaSongList, TimezoneSongList, Village, WeatherSongList } from '@/types/songs';
 import { ILocation } from '@/types/maps';
+import UserInfoContext from '@/utils/common/UserInfoContext';
 
 interface IHomeProps {
 	setVillage: React.Dispatch<React.SetStateAction<Village>>;
@@ -13,11 +14,9 @@ interface IHomeProps {
 
 function Home(props: IHomeProps) {
 	const { setVillage } = props;
+	const { getLocation } = useContext(UserInfoContext);
 
-	const [present, setPresent] = useState<ILocation>({
-		lat: 0,
-		lng: 0,
-	});
+	const [present, setPresent] = useState<ILocation | null>(null);
 
 	const [locateData, setLocateData] = useState<AreaSongList>({
 		songs: [],
@@ -32,6 +31,10 @@ function Home(props: IHomeProps) {
 	});
 
 	const getLocate = async () => {
+		if (!present) {
+			return;
+		}
+
 		try {
 			const response = await postLocateSongsApi(present);
 			if (response.status === 200) {
@@ -44,6 +47,10 @@ function Home(props: IHomeProps) {
 	};
 
 	const getWeather = async () => {
+		if (!present) {
+			return;
+		}
+
 		try {
 			const response = await postWeatherSongApi(present);
 			if (response.status === 200) {
@@ -70,6 +77,10 @@ function Home(props: IHomeProps) {
 	};
 
 	const getVillage = async () => {
+		if (!present) {
+			return;
+		}
+
 		try {
 			const response = await postVillageApi(present);
 			if (response.status === 200) {
@@ -82,15 +93,21 @@ function Home(props: IHomeProps) {
 	};
 
 	useEffect(() => {
-		if (window && window.AndMap) {
-			const location: { lat: number; lng: number } = JSON.parse(window.AndMap.getLastKnownLocation());
-			setPresent(location);
+		const location = getLocation;
+		console.log('getLocation', location);
+		setPresent(location);
+	}, [getLocation]);
+
+	useEffect(() => {
+		if (!present) {
+			return;
 		}
+
 		getVillage();
 		getLocate();
 		getWeather();
 		getTime();
-	}, []);
+	}, [present]);
 
 	return (
 		<HomeTemplate>

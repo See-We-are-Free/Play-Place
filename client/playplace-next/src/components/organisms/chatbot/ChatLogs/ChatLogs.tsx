@@ -18,7 +18,7 @@ function ChatLogs() {
 			const response = await getChatLogsApi();
 			console.log(response);
 			if (response.status === 200) {
-				setChatLogs(response.data.chatLogs);
+				setChatLogs(response.data);
 			}
 		} catch (error) {
 			console.error(error);

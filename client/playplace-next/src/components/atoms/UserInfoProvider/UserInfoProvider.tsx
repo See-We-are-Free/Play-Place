@@ -64,8 +64,8 @@ function UserInfoProvider({ children }: { children: ReactNode }) {
 	 * @return lat: number, lng: number
 	 */
 	const getLocation: () => ILocation = useMemo(() => {
-		if (window && window.AndMap) {
-			console.log('앱 입니다.');
+		if (window.AndMap) {
+			console.log('앱입니다.');
 			return JSON.parse(window.AndMap.getLastKnownLocation());
 		}
 
