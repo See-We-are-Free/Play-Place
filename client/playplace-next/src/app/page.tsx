@@ -22,7 +22,7 @@ export default function HomePage() {
 	};
 
 	useEffect(() => {
-		if (window.AndMap) {
+		if (window && window.AndMap) {
 			window.AndMap.successLocate();
 		}
 	}, []);
