@@ -5,7 +5,7 @@ import SongRectList from '@/components/organisms/song/SongRectList/SongRectList'
 import HomeTemplate from '@/components/templates/HomeTemplate/HomeTemplate';
 import { postLocateSongsApi, postTimezoneSongApi, postVillageApi, postWeatherSongApi } from '@/utils/api/songs';
 import { AreaSongList, TimezoneSongList, Village, WeatherSongList } from '@/types/songs';
-import { MapsCenter } from '@/types/maps';
+import { ILocation } from '@/types/maps';
 
 interface IHomeProps {
 	setVillage: React.Dispatch<React.SetStateAction<Village>>;
@@ -14,7 +14,7 @@ interface IHomeProps {
 function Home(props: IHomeProps) {
 	const { setVillage } = props;
 
-	const [present, setPresent] = useState<MapsCenter>({
+	const [present, setPresent] = useState<ILocation>({
 		lat: 0,
 		lng: 0,
 	});

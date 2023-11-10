@@ -1,4 +1,4 @@
-export interface MapsCenter {
+export interface ILocation {
 	lat: number;
 	lng: number;
 }

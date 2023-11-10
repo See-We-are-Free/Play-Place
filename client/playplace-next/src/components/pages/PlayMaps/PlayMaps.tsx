@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { GoogleMap, useJsApiLoader, Circle, MarkerF, MarkerClustererF } from '@react-google-maps/api';
-import { LandMarkInfo, MapsCenter } from '@/types/maps';
+import { LandMarkInfo, ILocation } from '@/types/maps';
 import LocateButton from '@/components/atoms/LocateButton/LocateButton';
 import getLandmarksApi, { getLandmarkDetailApi } from '@/utils/api/landmarks';
 import clusterOptions, { CalDistance } from '@/constants/map';
@@ -15,13 +15,13 @@ function PlayMaps() {
 	const [map, setMap] = useState<google.maps.Map | null>(null);
 	// 현재 위치
 
-	const [center, setCenter] = useState<MapsCenter>({
+	const [center, setCenter] = useState<ILocation>({
 		lat: 0,
 		lng: 0,
 	});
 
 	// 지도 기준 현 위치
-	const [mapCenter, setMapCenter] = useState<MapsCenter>({
+	const [mapCenter, setMapCenter] = useState<ILocation>({
 		lat: center.lat,
 		lng: center.lng,
 	});
