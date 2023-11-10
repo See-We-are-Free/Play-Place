@@ -2,16 +2,21 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { UserInfo } from '@/types/auth';
 
 export interface UserInfoContextType {
-	user: UserInfo | null;
-	setUser: Dispatch<SetStateAction<UserInfo | null>>;
-	isSongShare: boolean | null;
-	setIsSongShare: Dispatch<SetStateAction<boolean | null>>;
+	user: UserInfo;
+	setUser: Dispatch<SetStateAction<UserInfo>>;
+	isSongShare: boolean;
+	setIsSongShare: Dispatch<SetStateAction<boolean>>;
 }
 
 const UserInfoContext = React.createContext<UserInfoContextType>({
-	user: null,
+	user: {
+		nickname: '',
+		profileImg: 0,
+		isPush: false,
+		isShake: false,
+	},
 	setUser: () => {},
-	isSongShare: null,
+	isSongShare: false,
 	setIsSongShare: () => {},
 });
 

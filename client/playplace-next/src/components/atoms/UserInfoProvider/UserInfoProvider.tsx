@@ -8,8 +8,13 @@ import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 function UserInfoProvider({ children }: { children: ReactNode }) {
 	const router = useRouter();
 	const pathname = usePathname();
-	const [user, setUser] = useState<UserInfo | null>(null);
-	const [isSongShare, setIsSongShare] = useState<boolean | null>(null);
+	const [user, setUser] = useState<UserInfo>({
+		nickname: '',
+		profileImg: 0,
+		isPush: false,
+		isShake: false,
+	});
+	const [isSongShare, setIsSongShare] = useState<boolean>(false);
 
 	/**
 	 * 로그인(또는 회원가입) 페이지인지 확인하는 함수
@@ -23,7 +28,7 @@ function UserInfoProvider({ children }: { children: ReactNode }) {
 	}, [pathname]);
 
 	/**
-	 * 로그인 상태인지 확인하는 함수
+	 * 로그인 상태를 확인하는 함수
 	 * @return 로그인 상태라면 true, 아닐 경우 false 반환
 	 */
 	const loginCheck = useCallback(() => {
@@ -34,8 +39,7 @@ function UserInfoProvider({ children }: { children: ReactNode }) {
 	}, []);
 
 	/**
-	 * 사용자 정보를 가져오는 함수
-	 * return UserInfo
+	 * 사용자 정보를 저장하는 함수
 	 */
 	const getUserInfo = useCallback(async () => {
 		const response = await getUserInfoApi();
@@ -44,6 +48,9 @@ function UserInfoProvider({ children }: { children: ReactNode }) {
 		}
 	}, []);
 
+	/**
+	 * 플레이더 공유 상태를 저장하는 함수
+	 */
 	const getSongShareInfo = useCallback(async () => {
 		const response = await getSongShareInfoApi();
 		if (response.status === 200) {
@@ -62,7 +69,7 @@ function UserInfoProvider({ children }: { children: ReactNode }) {
 			return;
 		}
 
-		if (!user) {
+		if (user.nickname === '') {
 			getUserInfo();
 			getSongShareInfo();
 		} else {
