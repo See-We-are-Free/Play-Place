@@ -1,11 +1,13 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { UserInfo } from '@/types/auth';
+import { ILocation } from '@/types/maps';
 
 export interface UserInfoContextType {
 	user: UserInfo;
 	setUser: Dispatch<SetStateAction<UserInfo>>;
 	isSongShare: boolean;
 	setIsSongShare: Dispatch<SetStateAction<boolean>>;
+	getLocation: () => ILocation;
 }
 
 const UserInfoContext = React.createContext<UserInfoContextType>({
@@ -18,6 +20,12 @@ const UserInfoContext = React.createContext<UserInfoContextType>({
 	setUser: () => {},
 	isSongShare: false,
 	setIsSongShare: () => {},
+	getLocation: () => {
+		return {
+			lat: 35.205534,
+			lng: 126.811585,
+		};
+	},
 });
 
 export default UserInfoContext;

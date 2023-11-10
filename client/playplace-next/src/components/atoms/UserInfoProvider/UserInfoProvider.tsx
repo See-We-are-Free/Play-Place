@@ -1,4 +1,5 @@
 import { UserInfo } from '@/types/auth';
+import { ILocation } from '@/types/maps';
 import { getUserInfoApi } from '@/utils/api/auth';
 import { getSongShareInfoApi } from '@/utils/api/radar';
 import UserInfoContext, { UserInfoContextType } from '@/utils/common/UserInfoContext';
@@ -58,6 +59,27 @@ function UserInfoProvider({ children }: { children: ReactNode }) {
 		}
 	}, []);
 
+	/**
+	 * 현재 위치를 반환하는 함수
+	 * @return lat: number, lng: number
+	 */
+	const getLocation: () => ILocation = useMemo(() => {
+		if (window.AndMap) {
+			console.log('앱 입니다.');
+			return JSON.parse(window.AndMap.getLastKnownLocation());
+		}
+
+		console.log('앱이 아닙니다. 기본값은 삼성전자 광주사업장 위치입니다.', {
+			lat: 35.205534,
+			lng: 126.811585,
+		});
+
+		return {
+			lat: 35.205534,
+			lng: 126.811585,
+		};
+	}, []);
+
 	useEffect(() => {
 		if (loginPathCheck()) {
 			localStorage.removeItem('accessToken');
@@ -86,6 +108,7 @@ function UserInfoProvider({ children }: { children: ReactNode }) {
 			setUser,
 			isSongShare,
 			setIsSongShare,
+			getLocation,
 		};
 	}, [isSongShare, user]);
 
