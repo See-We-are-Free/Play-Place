@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -42,6 +43,8 @@ public class SecurityConfig {
                 .authorizeRequests() // 요청에 대한 인증 설정
 //                .antMatchers("/**").permitAll()
                 .antMatchers("/api/v1/auth/**").permitAll() // 토큰 발급을 위한 경로는 모두 허용
+                .antMatchers(HttpMethod.POST, "/api/v1/users").permitAll() // POST 요청은 허용
+                .antMatchers("/api/v1/users/**").authenticated() // /api/v1/users/** 경로로 들어오는 모든 요청은 인증이 필요함
                 .antMatchers("/ws/**").permitAll()
                 .anyRequest().authenticated() // 그 외의 모든 요청은 인증이 필요하다.
                 .and()
