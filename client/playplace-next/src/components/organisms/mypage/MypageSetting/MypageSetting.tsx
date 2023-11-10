@@ -1,30 +1,31 @@
 import MypageToggle from '@/components/molecules/MypageToggle/MypageToggle';
 import ContentLayout from '@/components/templates/layout/ContentLayout/ContentLayout';
 import { ContentLayoutSizes, ToastStyles } from '@/types/styles.d';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Text from '@/components/atoms/Text/Text';
 import { DeleteUserApi, logoutUserApi, patchPushApi, patchShakeApi } from '@/utils/api/auth';
 import { useRouter } from 'next/navigation';
 import CustomToast from '@/components/atoms/CustomToast/CustomToast';
-import { useRecoilState } from 'recoil';
-import userInfoState from '@/recoil/user';
+import UserInfoContext from '@/utils/common/UserInfoContext';
 import MypageSettingContainer, { MypagetSettingText } from './style';
 
 function MypageSetting() {
-	const [user] = useRecoilState(userInfoState);
-	const [push, setPush] = useState<boolean>(user.isPush);
-	const [shake, setShake] = useState<boolean>(user.isShake);
 	const router = useRouter();
-
-	const functionApprove: { [key: number]: string } = { 1: '동의', 0: '미동의' };
+	const { user, setUser } = useContext(UserInfoContext);
+	const [push, setPush] = useState<boolean>(false);
+	const [shake, setShake] = useState<boolean>(false);
 
 	const handlePush = async () => {
 		try {
 			const response = await patchPushApi();
 			if (response.status === 200) {
-				console.log(response);
 				setPush(!push);
-				CustomToast(ToastStyles.success, `푸시알림 ${functionApprove[response.data.data]} 하셨습니다`);
+				const newUser = {
+					...user,
+					push: !push,
+				};
+				setUser(newUser);
+				CustomToast(ToastStyles.noTabbarSuccess, `푸시알림 ${!push ? '동의' : '비동의'}하셨습니다`);
 			}
 		} catch (error) {
 			console.error(error);
@@ -36,7 +37,12 @@ function MypageSetting() {
 			const response = await patchShakeApi();
 			if (response.status === 200) {
 				setShake(!shake);
-				CustomToast(ToastStyles.success, `흔들기 ${functionApprove[response.data.data]} 하셨습니다`);
+				const newUser = {
+					...user,
+					shake: !shake,
+				};
+				setUser(newUser);
+				CustomToast(ToastStyles.noTabbarSuccess, `흔들기 ${!shake ? '동의' : '비동의'}하셨습니다`);
 			}
 		} catch (error) {
 			console.error(error);
@@ -59,15 +65,19 @@ function MypageSetting() {
 		try {
 			const response = await logoutUserApi();
 			if (response.status === 200) {
-				console.log(response);
-				router.push('/login');
 				localStorage.removeItem('accessToken');
-				CustomToast(ToastStyles.success, `${user.nickname}님 감사합니다`);
+				CustomToast(ToastStyles.success, `${user.nickname}님 감사합니다.`);
+				router.push('/login');
 			}
 		} catch (error) {
 			console.error(error);
 		}
 	};
+
+	useEffect(() => {
+		setPush(user.push);
+		setShake(user.shake);
+	}, [user.push, user.shake]);
 
 	return (
 		<ContentLayout size={ContentLayoutSizes.md}>

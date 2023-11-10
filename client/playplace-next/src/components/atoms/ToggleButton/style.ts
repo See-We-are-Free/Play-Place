@@ -43,5 +43,5 @@ export const Button = styled.button<ButtonProps>`
 		transition: all 0.2s;
 	}
 
-	${({ $isActive }) => $isActive && ButtonStyles[`${$isActive}`]}
+	${({ $isActive }) => $isActive !== null && ButtonStyles[`${$isActive}`]}
 `;
