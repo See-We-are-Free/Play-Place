@@ -39,6 +39,7 @@ function ChatLogs() {
 	// 	}
 	// }, [cameraResponse]);
 	*/
+
 	const fetchChatLogs = async () => {
 		try {
 			const response = await getChatLogsApi();
@@ -64,12 +65,13 @@ function ChatLogs() {
 		window.takePicture = new CustomEvent('takePicture');
 		window.addEventListener('takePicture', handleTakePicture);
 
-		return () => window.removeEventListener('openChatbot', handleTakePicture);
+		return () => window.removeEventListener('takePicture', handleTakePicture);
 	}, [chatLogs]);
 
 	useEffect(() => {
 		fetchChatLogs();
 	}, []);
+
 	return (
 		<ChatLogsContainer>
 			{/* 기존 채팅 로그 */}
