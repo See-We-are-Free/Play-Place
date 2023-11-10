@@ -55,8 +55,10 @@ export default function HomePage() {
 	);
 
 	useEffect(() => {
-		if (!user && localStorage?.getItem('accessToken')) {
+		if (user.nickname === '') {
 			getUserInfo();
+		} else {
+			console.log('user', user);
 		}
 	}, [user]);
 
