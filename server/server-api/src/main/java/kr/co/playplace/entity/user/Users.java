@@ -67,4 +67,8 @@ public class Users extends TimeBaseEntity {
     public void changeProfileImg(int numImg) {
         this.profileImg = numImg;
     }
+
+    public void changeNickname(String nickname){
+        this.nickname = nickname;
+    }
 }
