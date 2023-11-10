@@ -15,3 +15,12 @@ export interface JoinInfoType {
 	nickname: string;
 	profileImg: number;
 }
+
+export interface FixInfoApiParams {
+	body: FixInfoType;
+}
+
+export interface FixInfoType {
+	numImg: number;
+	nickname: string;
+}
