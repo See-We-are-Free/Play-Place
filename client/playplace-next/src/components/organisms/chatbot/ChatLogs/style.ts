@@ -5,6 +5,7 @@ const ChatLogsContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
+	overflow-y: scroll;
 
 	#date {
 		text-align: center;
