@@ -81,20 +81,25 @@ function UserInfoProvider({ children }: { children: ReactNode }) {
 	}, []);
 
 	useEffect(() => {
-		if (loginPathCheck()) {
-			localStorage.removeItem('accessToken');
-			return;
-		}
+		// if (loginPathCheck()) {
+		// 	localStorage.removeItem('accessToken');
+		// 	return;
+		// }
 
-		if (!loginCheck()) {
+		// if (!loginCheck()) {
+		// 	router.push('/login');
+		// 	return;
+		// }
+		if (!localStorage.getItem('accessToken')) {
 			router.push('/login');
-			return;
 		}
 
-		if (user.nickname === '') {
+		if (localStorage.getItem('accessToken') && user.nickname === '') {
 			getUserInfo();
 			getSongShareInfo();
-		} else {
+		}
+
+		if (user.nickname !== '') {
 			console.log('유저 정보 ==============');
 			console.log('accessToken', localStorage.getItem('accessToken'));
 			console.log('userInfo', user);
