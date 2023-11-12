@@ -63,7 +63,11 @@ function UserInfoProvider({ children }: { children: ReactNode }) {
 	 * @return lat: number, lng: number
 	 */
 	const getLocation = () => {
-		if (window && window.AndMap) {
+		console.log('get location');
+	};
+
+	/*
+if (typeof window !== 'undefined' && window.AndMap) {
 			const data = window.AndMap.getLastKnownLocation();
 			if (data) return JSON.parse(data);
 			return {
@@ -81,8 +85,8 @@ function UserInfoProvider({ children }: { children: ReactNode }) {
 			lat: 35.205534,
 			lng: 126.811585,
 		};
-	};
 
+	 */
 	useEffect(() => {
 		// if (loginPathCheck()) {
 		// 	localStorage.removeItem('accessToken');
