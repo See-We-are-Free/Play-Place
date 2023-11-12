@@ -96,22 +96,14 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 
 	const getCurrentLocation = useCallback(() => {
 		if (window.AndMap) {
-			const location: { lat: number; lng: number } = JSON.parse(window.AndMap.getLastKnownLocation());
-			console.log(location);
-
-			setCurrentLocation({
-				latitude: location.lat,
-				longitude: location.lng,
-			});
-		} else {
-			navigator.geolocation.getCurrentPosition((position) => {
-				const location = {
-					longitude: position.coords.longitude,
-					latitude: position.coords.latitude,
-				};
-				console.log('현재 위치', location);
-				setCurrentLocation(location);
-			}); // 개발용
+			const andLocationData = window.AndMap.getLastKnownLocation();
+			if (andLocationData) {
+				const location = JSON.parse(andLocationData);
+				setCurrentLocation({
+					latitude: location.lat,
+					longitude: location.lng,
+				});
+			}
 		}
 	}, []);
 
