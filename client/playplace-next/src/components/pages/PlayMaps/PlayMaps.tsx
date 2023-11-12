@@ -167,7 +167,6 @@ function PlayMaps() {
 			const idleListener = google.maps.event.addListener(map, 'idle', onMapIdle);
 			callAndroidLocation();
 			locateUser();
-			callAndroidLocation();
 
 			return () => {
 				google.maps.event.removeListener(idleListener);
