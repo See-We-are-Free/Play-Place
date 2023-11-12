@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PPChat from '@/components/molecules/chatbot/PPChat/PPChat';
 import UserChat from '@/components/molecules/chatbot/UserChat/UserChat';
-import { getChatLogsApi } from '@/utils/api/chatbot';
+// import { getChatLogsApi } from '@/utils/api/chatbot';
 import { ChatLogType } from '@/types/chatbot';
 import ChatLog from '@/components/molecules/chatbot/ChatLog/ChatLog';
 import Text from '@/components/atoms/Text/Text';
@@ -10,7 +10,7 @@ import { dummyChatLogs } from '@/constants/dummy';
 import ChatLogsContainer from './style';
 
 function ChatLogs() {
-	const [chatLogs, setChatLogs] = useState<ChatLogType[]>([]);
+	const [chatLogs] = useState<ChatLogType[]>([]);
 	const chatContainerRef = useRef<HTMLDivElement | null>(null);
 	const [imgSrc, setImgSrc] = useState('');
 

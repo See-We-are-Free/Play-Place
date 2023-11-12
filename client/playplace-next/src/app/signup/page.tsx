@@ -24,8 +24,8 @@ function SignUp() {
 				setEmail(params.get('email'));
 				setGoogleToken(params.get('googleToken'));
 			} else {
-				CustomToast(ToastStyles.error, '잘못된 접근입니다. 홈으로 이동합니다.');
-				router.push('/');
+				CustomToast(ToastStyles.noTabbarError, '잘못된 접근입니다. 로그인 페이지로 이동합니다.');
+				router.push('/login');
 			}
 		}
 	}, [email, googleToken, params, router]);

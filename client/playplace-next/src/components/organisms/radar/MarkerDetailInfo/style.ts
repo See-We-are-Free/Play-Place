@@ -16,6 +16,7 @@ export const MarkerDetailInfoHeader = styled.div`
 
 	span:last-child {
 		font-size: 16px;
+		color: var(--white-500);
 	}
 `;
 

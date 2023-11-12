@@ -1,46 +1,52 @@
-import React, { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import * as StompJs from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { CurrentLocation, IAroundPeople } from '@/types/radar';
 import StompClientContext, { StompClientContextType } from '@/utils/common/StompClientContext';
-import songShareState from '@/recoil/radar';
-import { useRecoilState } from 'recoil';
+import UserInfoContext from '@/utils/common/UserInfoContext';
 
 function StompClientProvider({ children }: { children: ReactNode }) {
-	const [isSongShare] = useRecoilState(songShareState);
+	const { isSongShare } = useContext(UserInfoContext);
 	const client = useRef<StompJs.Client | null>(null);
 	const [data, setData] = useState<IAroundPeople[] | null>(null);
 	const [currentLocation, setCurrentLocation] = useState<CurrentLocation | null>(null);
 	const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
 
 	const subscribe = useCallback(() => {
-		if (client.current?.active) {
-			client.current.subscribe('/topic/location/1', ({ body }) => {
-				console.log('구독 ==========');
+		if (!client.current?.active) {
+			console.log('연결 없음, 구독을 시도할 수 없음');
+			return;
+		}
+
+		try {
+			console.log('구독 ========== /user/queue/location');
+			client.current.subscribe('/user/queue/location', ({ body }) => {
 				const parsedBody: IAroundPeople[] = JSON.parse(body);
+				console.log('Before parsedBody', data);
+				console.log('After parsedBody', parsedBody);
 				if (!data || parsedBody.some((pb) => !data.some((d) => d.userId === pb.userId))) {
 					setData(parsedBody);
 				} else {
 					console.log('변경된 값이 없습니다.');
 				}
 			});
+		} catch (err) {
+			console.error(err);
 		}
 	}, [data]);
 
 	const publish = useCallback(async (latitude: number, longitude: number) => {
-		if (!client || !client.current || !client.current?.active) {
+		if (!client.current?.active) {
 			console.log('연결 없음, 발행을 시도할 수 없음');
 			return;
 		}
 
 		try {
-			console.log('발행 ==========');
-			console.log('active', client.current.active);
-			console.log('message', `{ "latitude": ${latitude}, "longitude": ${longitude} }`);
+			console.log('발행 ========== /pub/location');
+			console.log(`위치 : { "latitude": ${latitude}, "longitude": ${longitude} }`);
 			client.current.publish({
 				destination: '/pub/location',
 				body: `{ "latitude": ${latitude}, "longitude": ${longitude} }`,
-				// body: `{ "latitude": 35.191318, "longitude": 126.823577 }`, // 개발용
 			});
 		} catch (error) {
 			console.error('발행 중 오류 발생:', error);
@@ -50,8 +56,10 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 
 	const connect = useCallback(() => {
 		console.log('연결 시작');
-		const baseUrl = process.env.NEXT_PUBLIC_WS_BASE_URL || '';
-		// const baseUrl = process.env.NEXT_PUBLIC_DEVELOP_WS_BASE_URL || ''; // 개발용
+		let baseUrl = process.env.NEXT_PUBLIC_DEVELOP_WS_BASE_URL || ''; // 개발용
+		if (window && window.AndMap) {
+			baseUrl = process.env.NEXT_PUBLIC_WS_BASE_URL || '';
+		}
 		client.current = new StompJs.Client({
 			webSocketFactory: () => new SockJS(baseUrl),
 			connectHeaders: {
@@ -95,22 +103,27 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 				latitude: location.lat,
 				longitude: location.lng,
 			});
+		} else {
+			navigator.geolocation.getCurrentPosition((position) => {
+				const location = {
+					longitude: position.coords.longitude,
+					latitude: position.coords.latitude,
+				};
+				console.log('현재 위치', location);
+				setCurrentLocation(location);
+			}); // 개발용
 		}
 	}, []);
 
 	useEffect(() => {
-		if (!localStorage.getItem('accessToken')) {
-			console.log('토큰 없음 false');
+		if (!currentLocation) {
+			getCurrentLocation();
 		}
-
-		// if (!currentLocation) {
-		// 	getCurrentLocation();
-		// }
 	}, [currentLocation, getCurrentLocation]);
 
 	useEffect(() => {
 		if (!isSongShare) {
-			console.log('공유 중지 상태');
+			console.log('공유 OFF');
 			if (intervalId) {
 				console.log('인터벌 클리어');
 				clearInterval(intervalId);

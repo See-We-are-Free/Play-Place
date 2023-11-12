@@ -1,4 +1,5 @@
 import {
+	HomeApiBody,
 	SaveNowPlaySongApiBody,
 	SaveSongLikeToggleApiBody,
 	SaveSongRecordApiBody,
@@ -65,5 +66,25 @@ export const saveSongLikeToggleApi = (body: SaveSongLikeToggleApiBody) => {
 
 export const searchSongApi = (searchWord: string) => {
 	const response = http.get(`/songs/search/${searchWord}`);
+	return response;
+};
+
+export const postLocateSongsApi = (body: HomeApiBody) => {
+	const response = http.post('/home/area', body);
+	return response;
+};
+
+export const postWeatherSongApi = (body: HomeApiBody) => {
+	const response = http.post('/home/weather', body);
+	return response;
+};
+
+export const postTimezoneSongApi = () => {
+	const response = http.post('/home/timezone');
+	return response;
+};
+
+export const postVillageApi = (body: HomeApiBody) => {
+	const response = http.post('/home/village', body);
 	return response;
 };

@@ -3,7 +3,7 @@
 import { Button, ToggleButtonWrapper } from './style';
 
 interface ToggleButtonProps {
-	isActive: boolean;
+	isActive: boolean | null;
 	handleActive: () => void;
 }
 

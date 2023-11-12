@@ -1,11 +1,11 @@
 import http from './http';
 
-export const getSongShareInfo = async () => {
+export const getSongShareInfoApi = async () => {
 	const response = await http.get('/radar/activate');
 	return response;
 };
 
-export const setSongShareState = () => {
+export const setSongShareStateApi = () => {
 	const response = http.patch('/radar');
 	return response;
 };

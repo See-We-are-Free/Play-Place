@@ -36,4 +36,10 @@ export interface AddSongLandmarkApiBody {
 	playTime: number;
 	title: string;
 }
+
+export interface HomeApiBody {
+	lat: number;
+	lng: number;
+}
+
 //
