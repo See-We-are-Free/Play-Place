@@ -165,6 +165,7 @@ function PlayMaps() {
 	useEffect(() => {
 		if (map) {
 			const idleListener = google.maps.event.addListener(map, 'idle', onMapIdle);
+			callAndroidLocation();
 			locateUser();
 			callAndroidLocation();
 
