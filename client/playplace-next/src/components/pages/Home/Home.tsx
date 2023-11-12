@@ -86,7 +86,11 @@ function Home(props: IHomeProps) {
 			const data = window.AndMap.getLastKnownLocation();
 			if (data) {
 				const location = JSON.parse(data);
-				setPresent(location);
+				const newPresent: HomeApiBody = {
+					lat: location.lat,
+					lon: location.lng,
+				};
+				setPresent(newPresent);
 			}
 		}
 		getVillage();
