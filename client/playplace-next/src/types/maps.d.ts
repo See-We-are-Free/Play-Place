@@ -10,3 +10,19 @@ export interface LandMarkInfo {
 	longitude: number;
 	representativeImg: string | null;
 }
+
+declare global {
+	interface Window {
+		AndMap: {
+			getLastKnownLocation: () => string;
+			successLocate: () => void;
+		};
+		AndCamera: {
+			successCamera: () => void;
+			openCamera: () => void;
+			sendData: () => string;
+		};
+		openChatbot: CustomEvent<>;
+		takePicture: CustomEvent<>;
+	}
+}
