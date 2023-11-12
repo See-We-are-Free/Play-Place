@@ -5,7 +5,7 @@ import SongRectList from '@/components/organisms/song/SongRectList/SongRectList'
 import HomeTemplate from '@/components/templates/HomeTemplate/HomeTemplate';
 import { postLocateSongsApi, postTimezoneSongApi, postVillageApi, postWeatherSongApi } from '@/utils/api/songs';
 import { AreaSongList, TimezoneSongList, Village, WeatherSongList } from '@/types/songs';
-import { ILocation } from '@/types/maps';
+import { HomeApiBody } from '@/types/api';
 
 interface IHomeProps {
 	setVillage: React.Dispatch<React.SetStateAction<Village>>;
@@ -14,9 +14,9 @@ interface IHomeProps {
 function Home(props: IHomeProps) {
 	const { setVillage } = props;
 
-	const [present, setPresent] = useState<ILocation>({
-		lat: 0,
-		lng: 0,
+	const [present, setPresent] = useState<HomeApiBody>({
+		lat: 35.205534,
+		lon: 126.811585,
 	});
 
 	const [locateData, setLocateData] = useState<AreaSongList>({
@@ -82,7 +82,7 @@ function Home(props: IHomeProps) {
 	};
 
 	useEffect(() => {
-		if (window && window.AndMap) {
+		if (typeof window !== 'undefined' && window.AndMap) {
 			const data = window.AndMap.getLastKnownLocation();
 			if (data) {
 				const location = JSON.parse(data);
