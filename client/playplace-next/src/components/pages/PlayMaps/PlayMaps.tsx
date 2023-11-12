@@ -14,7 +14,7 @@ function PlayMaps() {
 	// 구글 맵
 	const [map, setMap] = useState<google.maps.Map | null>(null);
 	// 현재 위치
-
+	const [test, setTest] = useState<boolean>(false);
 	const [center, setCenter] = useState<ILocation>({
 		lat: 0,
 		lng: 0,
@@ -195,6 +195,12 @@ function PlayMaps() {
 		center,
 	};
 
+	useEffect(() => {
+		if (test === false) {
+			locateUser();
+			setTest(true);
+		}
+	}, []);
 	return (
 		<>
 			{center && landMarks && isLoaded && (
