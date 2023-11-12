@@ -2,11 +2,12 @@ import { UserInfo } from '@/types/auth';
 import { getUserInfoApi } from '@/utils/api/auth';
 import { getSongShareInfoApi } from '@/utils/api/radar';
 import UserInfoContext, { UserInfoContextType } from '@/utils/common/UserInfoContext';
-import { usePathname, useRouter } from 'next/navigation';
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 
 function UserInfoProvider({ children }: { children: ReactNode }) {
 	const router = useRouter();
+	const params = useSearchParams();
 	const pathname = usePathname();
 	const [user, setUser] = useState<UserInfo>({
 		nickname: '',
@@ -93,11 +94,16 @@ function UserInfoProvider({ children }: { children: ReactNode }) {
 		// 	router.push('/login');
 		// 	return;
 		// }
-		if (!localStorage.getItem('accessToken')) {
-			router.push('/login');
-		}
+		// /////////////////////////////////
 
-		if (localStorage.getItem('accessToken') && user.nickname === '') {
+		if (params.get('accessToken')) {
+			localStorage.setItem('accessToken', params.get('accessToken') || '');
+			router.push('/');
+		} else if (pathname === '/signup') {
+			console.log('회원가입');
+		} else if (!localStorage.getItem('accessToken')) {
+			router.push('/login');
+		} else if (localStorage.getItem('accessToken') && user.nickname === '') {
 			getUserInfo();
 			getSongShareInfo();
 		}
