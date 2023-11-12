@@ -154,7 +154,6 @@ function PlayMaps() {
 
 	useEffect(() => {
 		getLandmarks();
-		callAndroidLocation();
 		// 사용자의 위치 권한을 체크하고, 현재 위치를 가져와 center 상태를 업데이트합니다.
 		const locationInterval = setInterval(callAndroidLocation, 500);
 
@@ -167,6 +166,8 @@ function PlayMaps() {
 		if (map) {
 			const idleListener = google.maps.event.addListener(map, 'idle', onMapIdle);
 			locateUser();
+			callAndroidLocation();
+
 			return () => {
 				google.maps.event.removeListener(idleListener);
 			};
