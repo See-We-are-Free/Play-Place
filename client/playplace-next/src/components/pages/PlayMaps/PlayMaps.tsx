@@ -82,11 +82,11 @@ function PlayMaps() {
 
 	const callAndroidLocation = () => {
 		if (typeof window !== undefined && window) {
-			const data = JSON.parse(window.AndMap.getLastKnownLocation());
-			console.log('callAndroidLocation 위치 데이터 갱신 :: ', JSON.stringify(data));
+			const data = window.AndMap.getLastKnownLocation();
 
 			if (window.AndMap) {
-				setCenter(data);
+				const location = JSON.parse(data);
+				setCenter(location);
 			}
 		}
 	};

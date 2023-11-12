@@ -83,8 +83,11 @@ function Home(props: IHomeProps) {
 
 	useEffect(() => {
 		if (window && window.AndMap) {
-			const location: { lat: number; lng: number } = JSON.parse(window.AndMap.getLastKnownLocation());
-			setPresent(location);
+			const data = window.AndMap.getLastKnownLocation();
+			if (data) {
+				const location = JSON.parse(data);
+				setPresent(location);
+			}
 		}
 		getVillage();
 		getLocate();
