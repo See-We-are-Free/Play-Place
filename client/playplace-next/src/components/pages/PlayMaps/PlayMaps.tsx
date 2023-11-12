@@ -81,7 +81,7 @@ function PlayMaps() {
 	}, [map]);
 
 	const callAndroidLocation = () => {
-		if (window) {
+		if (typeof window !== undefined && window) {
 			const data = JSON.parse(window.AndMap.getLastKnownLocation());
 			console.log('callAndroidLocation 위치 데이터 갱신 :: ', JSON.stringify(data));
 
