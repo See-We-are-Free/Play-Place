@@ -84,7 +84,7 @@ function PlayMaps() {
 		if (typeof window !== undefined && window) {
 			const data = window.AndMap.getLastKnownLocation();
 
-			if (window.AndMap) {
+			if (data) {
 				const location = JSON.parse(data);
 				setCenter(location);
 			}
