@@ -39,7 +39,7 @@ function SongGroup(props: ISongGroupProps) {
 	const [toggle, setToggle] = useToggle(false);
 
 	const removeSongGroup = async () => {
-		if (!window.confirm(`'${groupName}' 그룹 재생목록을 삭제하시겠습니까?`)) return;
+		// 승현TODO : '${groupName}' 그룹 재생목록을 삭제하시겠습니까?
 
 		try {
 			const response = await deleteGroupFromPlayListApi(userLandmarkGroupId);
