@@ -17,7 +17,7 @@ declare global {
 			cofirmTest: (title: string, message: string) => void;
 		};
 		openChatbot: CustomEvent<>;
-		takePicture: CustomEvent<>;
+		getImageData: CustomEvent<>;
 		confirmCallback: (result: boolean) => void;
 	}
 }

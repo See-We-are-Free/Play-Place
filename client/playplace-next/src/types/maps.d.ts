@@ -27,6 +27,6 @@ declare global {
 		};
 		confirmCallback: (result: boolean) => void;
 		openChatbot: CustomEvent<>;
-		takePicture: CustomEvent<>;
+		getImageData: CustomEvent<>;
 	}
 }

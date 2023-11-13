@@ -53,7 +53,7 @@ public class ShakeDetector implements SensorEventListener {
                 if (mShakeCount >= 2) {
                     mListener.onShake(mShakeCount);
                     mShakeCount = 0; // 초기화
-                    webView.evaluateJavascript("window.dispatchEvent(openChatbot)", (e) -> Log.i("permission", "수신"));
+                    webView.evaluateJavascript("window.dispatchEvent(openChatbot)", (e) -> Log.i("permission", "흔들기 감지"));
                 }
 
                 mShakeCount++;
