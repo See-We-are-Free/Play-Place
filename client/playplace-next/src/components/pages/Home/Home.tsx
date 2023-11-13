@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import SongCircleList from '@/components/organisms/song/SongCircleList/SongCircleList';
 import SongSquareList from '@/components/organisms/song/SongSquareList/SongSquareList';
 import SongRectList from '@/components/organisms/song/SongRectList/SongRectList';
@@ -13,7 +13,6 @@ interface IHomeProps {
 
 function Home(props: IHomeProps) {
 	const { setVillage } = props;
-	const { getLocation } = useContext(UserInfoContext);
 
 	const [present, setPresent] = useState<HomeApiBody>({
 		lat: 35.205534,
