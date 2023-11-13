@@ -14,9 +14,10 @@ import GroupSongListItemMore from '../GroupSongListItemMore/GroupSongListItemMor
 
 interface IGroupSongListItemProps {
 	song: Song;
+	isSearch: boolean;
 }
 function GroupSongListItem(props: IGroupSongListItemProps) {
-	const { song } = props;
+	const { song, isSearch } = props;
 	const [nowPlaySong, setNowPlaySong] = useRecoilState(nowPlaySongState);
 	const [, setIsNowPlay] = useRecoilState(isNowPlayState);
 	const [playback] = useRecoilState(playbackState);
@@ -73,7 +74,7 @@ function GroupSongListItem(props: IGroupSongListItemProps) {
 
 				{/* More BottomSheet */}
 				<CustomBottomSheet open={isOpenSheet} setOpen={toggleIsOpenSheet}>
-					<GroupSongListItemMore song={song} closeSheet={toggleIsOpenSheet} />
+					<GroupSongListItemMore song={song} closeSheet={toggleIsOpenSheet} fromSearch={isSearch} />
 				</CustomBottomSheet>
 			</div>
 		</GroupSongListItemContainer>

@@ -19,11 +19,12 @@ import GroupSongListItemMoreContainer from './style';
 
 interface IGroupSongListItemMoreProps {
 	song: Song;
+	fromSearch: boolean;
 	closeSheet?: () => void;
 }
 
 function GroupSongListItemMore(props: IGroupSongListItemMoreProps) {
-	const { song, closeSheet = () => {} } = props;
+	const { song, closeSheet = () => {}, fromSearch } = props;
 	const { fetchData } = useFetchPlaylist();
 	const { playNextSong } = usePlayer();
 	const { isLike, toggleLike } = useSongLike();
@@ -76,10 +77,12 @@ function GroupSongListItemMore(props: IGroupSongListItemMoreProps) {
 					<IconButton Icon={isLike ? <HeartOn /> : <HeartOff />} color="white100" size="s" />
 					<Text text="좋아요" fontSize={16} />
 				</li>
-				<li role="presentation" onClick={removeSong}>
-					<IconButton Icon={<TrashBox />} color="white100" size="s" />
-					<Text text="재생목록에서 삭제" fontSize={16} />
-				</li>
+				{fromSearch && (
+					<li role="presentation" onClick={removeSong}>
+						<IconButton Icon={<TrashBox />} color="white100" size="s" />
+						<Text text="재생목록에서 삭제" fontSize={16} />
+					</li>
+				)}
 				<li role="presentation" onClick={shareSong}>
 					<IconButton Icon={<Share />} color="white100" size="s" />
 					<Text text="공유하기" fontSize={14} />
