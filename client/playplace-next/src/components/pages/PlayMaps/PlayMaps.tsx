@@ -61,6 +61,7 @@ function PlayMaps() {
 	const onUnmount = useCallback(function callback() {
 		// 컴포넌트가 언마운트될때 호출 map 상태 변수를 null로 설정하여 초기화
 		setMap(null);
+		setTest(false);
 	}, []);
 
 	const onLoad = useCallback(async function callback(loadMap: google.maps.Map) {
@@ -198,12 +199,11 @@ function PlayMaps() {
 	useEffect(() => {
 		if (test === false) {
 			locateUser();
-			setTest(true);
 		}
 	}, []);
 	return (
 		<>
-			{center && landMarks && isLoaded && (
+			{center && landMarks && isLoaded && test && (
 				<div style={{ position: 'relative', ...containerStyle }}>
 					<LocateButton onLocateClick={locateUser} />
 					<GoogleMap
