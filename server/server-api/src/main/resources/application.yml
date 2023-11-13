@@ -25,6 +25,10 @@ spring:
       multipart:
         max-file-size: 10MB
         max-request-size: 10MB
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db.mysql/Song.sql
 
 cloud:
   aws:
