@@ -111,25 +111,6 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 		client.current?.deactivate();
 	}, []);
 
-	const getMarkerList = useCallback(async () => {
-		if (currentLocation) {
-			publish(currentLocation.lat, currentLocation.lng);
-		}
-	}, [currentLocation, publish]);
-
-	// const getCurrentLocation = useCallback(() => {
-	// 	if (window.AndMap) {
-	// 		const andLocationData = window.AndMap.getLastKnownLocation();
-	// 		if (andLocationData) {
-	// 			const location = JSON.parse(andLocationData);
-	// 			setCurrentLocation({
-	// 				latitude: location.lat,
-	// 				longitude: location.lng,
-	// 			});
-	// 		}
-	// 	}
-	// }, []);
-
 	const getCurrentLocation = useCallback(async (setStateCallback: Dispatch<SetStateAction<ILocation | null>>) => {
 		if (window.AndMap) {
 			const appLocation = window.AndMap.getLastKnownLocation();
@@ -159,6 +140,12 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 			},
 		);
 	}, []);
+
+	const getMarkerList = useCallback(async () => {
+		if (currentLocation) {
+			publish(currentLocation.lat, currentLocation.lng);
+		}
+	}, [currentLocation, publish]);
 
 	useEffect(() => {
 		if (!currentLocation) {
@@ -198,8 +185,7 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 				setIntervalId(null);
 			}
 		};
-		// TODO : 희선 interval 무한 루프
-	}, [currentLocation, getCurrentLocation, getMarkerList, isSongShare]);
+	}, [isSongShare]);
 
 	useEffect(() => {
 		if (isSongShare) {
