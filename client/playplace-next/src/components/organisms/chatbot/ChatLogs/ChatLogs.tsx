@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React, { useEffect, useRef, useState } from 'react';
 import PPChat from '@/components/molecules/chatbot/PPChat/PPChat';
 import UserChat from '@/components/molecules/chatbot/UserChat/UserChat';
@@ -6,36 +7,45 @@ import { ChatLogType } from '@/types/chatbot';
 import ChatLog from '@/components/molecules/chatbot/ChatLog/ChatLog';
 import Text from '@/components/atoms/Text/Text';
 import moment from 'moment';
-import { dummyChatLogs } from '@/constants/dummy';
 import { Song } from '@/types/songs';
 import ChatLogsContainer from './style';
 
 function ChatLogs() {
-	const [chatLogs, setChatLogs] = useState<ChatLogType[]>([]);
 	const chatContainerRef = useRef<HTMLDivElement | null>(null);
+	const [chatLogs, setChatLogs] = useState<ChatLogType[]>([]);
 	const [recommendSongs, setRecommendSongs] = useState<Song[]>([]);
+	const [message, setMessage] = useState('');
 	const [loading, setLoading] = useState(true);
 	const [imgSrc, setImgSrc] = useState('');
-	const [message, setMessage] = useState('');
+	const [isDone, setIsDone] = useState(false);
+
+	const fetchChatLogs = async () => {
+		try {
+			const response = await getChatLogsApi();
+			console.log(JSON.stringify(response));
+			if (response.status === 200) {
+				setChatLogs(response.data.data);
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	const getRecommendSongs = async () => {
 		try {
+			setLoading(true);
 			if (imgSrc) {
-				// Base64 문자열에서 "data:image/png;base64," 부분을 제거합니다.
 				const base64WithoutHeader = imgSrc.split(',')[1];
 
-				// Base64 문자열을 Blob으로 디코딩합니다.
 				const blob = atob(base64WithoutHeader);
 				const arrayBuffer = new ArrayBuffer(blob.length);
 				const view = new Uint8Array(arrayBuffer);
+
 				for (let i = 0; i < blob.length; i += 1) {
 					view[i] = blob.charCodeAt(i);
 				}
 
-				// Blob을 생성합니다.
 				const blobObject = new Blob([arrayBuffer], { type: 'image/png' });
-
-				// Blob 객체를 사용하여 File 객체를 생성합니다.
 				const file = new File([blobObject], 'image.png', { type: 'image/png' });
 
 				const formData = new FormData();
@@ -45,27 +55,24 @@ function ChatLogs() {
 				if (response.status === 200) {
 					setMessage(response.data.data.comment);
 					setRecommendSongs(response.data.data.songs);
+					fetchChatLogs();
 					setLoading(false);
+					setIsDone(false);
+					setImgSrc('');
 				}
-				console.log(JSON.stringify(response));
 			}
 		} catch (error) {
 			setLoading(false);
-			console.error(error);
+			console.error(JSON.stringify(error));
 		}
 	};
 
-	const fetchChatLogs = async () => {
-		try {
-			const response = await getChatLogsApi();
-			setChatLogs(dummyChatLogs);
-			if (response.status === 200) {
-				setChatLogs(response.data);
-			}
-		} catch (error) {
-			console.error(error);
+	useEffect(() => {
+		if (imgSrc) {
+			console.log('이미지 분석요청 시작');
+			getRecommendSongs();
 		}
-	};
+	}, [imgSrc]);
 
 	useEffect(() => {
 		fetchChatLogs();
@@ -73,6 +80,7 @@ function ChatLogs() {
 		const handleGetImageData = async () => {
 			const response = window.AndCamera.sendData();
 			setImgSrc(`data:image/png;base64,${response}`);
+			getRecommendSongs();
 		};
 
 		window.getImageData = new CustomEvent('getImageData');
@@ -84,17 +92,25 @@ function ChatLogs() {
 	return (
 		<ChatLogsContainer>
 			{/* 기존 채팅 로그 */}
-			{chatLogs.length ? chatLogs.map((el) => <ChatLog key={el.id} chatLog={el} />) : <></>}
+			{chatLogs.length ? chatLogs.map((el, idx) => <ChatLog key={idx} chatLog={el} />) : <></>}
 			{/* 현재 진행중인 로그 */}
 			<div id="chatting" ref={chatContainerRef}>
 				<Text id="date" text={moment(new Date()).format('YYYY-MM-DD')} />
-				<button type="button" onClick={getRecommendSongs}>
-					{' '}
-					크릭해바
-				</button>
-				<PPChat message="안녕하세요! 사진을 찍어주시면 적당한 노래를 추천해드릴게요!" isloading={false} />
-				{imgSrc ? <UserChat imgSrc={imgSrc} /> : <></>}
-				<PPChat message={message} isloading={loading} recommendedSongs={recommendSongs} />
+				{isDone ? (
+					<></>
+				) : (
+					<>
+						<PPChat message="안녕, 나는 플로디야. 사진을 찍어주면 어울리는 음악를 추천해줄게!" isloading={false} />
+						{imgSrc ? (
+							<>
+								<UserChat imgSrc={imgSrc} />
+								<PPChat message={message} isloading={loading} recommendedSongs={recommendSongs} />
+							</>
+						) : (
+							<></>
+						)}
+					</>
+				)}
 			</div>
 		</ChatLogsContainer>
 	);

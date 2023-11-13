@@ -198,7 +198,8 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 				setIntervalId(null);
 			}
 		};
-	}, [currentLocation, getCurrentLocation, getMarkerList, intervalId, isSongShare]);
+		// TODO : 희선 interval 무한 루프
+	}, [currentLocation, getCurrentLocation, getMarkerList, isSongShare]);
 
 	useEffect(() => {
 		if (isSongShare) {
