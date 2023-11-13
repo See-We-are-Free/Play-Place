@@ -28,7 +28,7 @@ function PlayMaps() {
 	// 랜드마크 100m 정보에 따른 boolean값
 	const [isDistance, setIsDistance] = useState<boolean>(false);
 	// 랜드마크 상세정보
-
+	const [start, setStart] = useState<boolean>(false);
 	// 랜드마크를 눌렀을 때
 	const [choose, setChoose] = useState<boolean>(false);
 
@@ -71,10 +71,11 @@ function PlayMaps() {
 	const onUnmount = useCallback(function callback() {
 		// 컴포넌트가 언마운트될때 호출 map 상태 변수를 null로 설정하여 초기화
 		setMap(null);
+		setStart(false);
 	}, []);
 
 	const onLoad = useCallback(async function callback(loadMap: google.maps.Map) {
-		// const svgResponse = await fetch(Location);
+		setStart(true);
 		setMap(loadMap);
 	}, []);
 
@@ -153,7 +154,7 @@ function PlayMaps() {
 		}
 
 		// 사용자의 위치 권한을 체크하고, 현재 위치를 가져와 center 상태를 업데이트합니다.
-		if (map) {
+		if (map && start) {
 			locateUser();
 		}
 	}, []);
