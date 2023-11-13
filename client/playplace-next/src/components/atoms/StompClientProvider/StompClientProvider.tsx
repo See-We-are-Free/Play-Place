@@ -1,15 +1,26 @@
-import React, { ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+	Dispatch,
+	ReactNode,
+	SetStateAction,
+	useCallback,
+	useContext,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from 'react';
 import * as StompJs from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-import { CurrentLocation, IAroundPeople } from '@/types/radar';
+import { IAroundPeople } from '@/types/radar';
 import StompClientContext, { StompClientContextType } from '@/utils/common/StompClientContext';
 import UserInfoContext from '@/utils/common/UserInfoContext';
+import { ILocation } from '@/types/maps';
 
 function StompClientProvider({ children }: { children: ReactNode }) {
 	const { isSongShare } = useContext(UserInfoContext);
 	const client = useRef<StompJs.Client | null>(null);
 	const [data, setData] = useState<IAroundPeople[] | null>(null);
-	const [currentLocation, setCurrentLocation] = useState<CurrentLocation | null>(null);
+	const [currentLocation, setCurrentLocation] = useState<ILocation | null>(null);
 	const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
 
 	const subscribe = useCallback(() => {
@@ -24,7 +35,14 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 				const parsedBody: IAroundPeople[] = JSON.parse(body);
 				console.log('Before parsedBody', data);
 				console.log('After parsedBody', parsedBody);
-				if (!data || parsedBody.some((pb) => !data.some((d) => d.userId === pb.userId))) {
+				if (
+					!data ||
+					parsedBody.some(
+						(pb) =>
+							!data.some((d) => d.userId === pb.userId) ||
+							data.some((d) => d.userId === pb.userId && d.youtubeId !== pb.youtubeId),
+					)
+				) {
 					setData(parsedBody);
 				} else {
 					console.log('변경된 값이 없습니다.');
@@ -56,10 +74,9 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 
 	const connect = useCallback(() => {
 		console.log('연결 시작');
-		let baseUrl = process.env.NEXT_PUBLIC_DEVELOP_WS_BASE_URL || ''; // 개발용
-		if (typeof window !== 'undefined' && window.AndMap) {
-			baseUrl = process.env.NEXT_PUBLIC_WS_BASE_URL || '';
-		}
+		const baseUrl = process.env.NEXT_PUBLIC_WS_BASE_URL || '';
+		// let baseUrl = process.env.NEXT_PUBLIC_DEVELOP_WS_BASE_URL || ''; // 개발용
+
 		client.current = new StompJs.Client({
 			webSocketFactory: () => new SockJS(baseUrl),
 			connectHeaders: {
@@ -90,26 +107,49 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 
 	const getMarkerList = useCallback(async () => {
 		if (currentLocation) {
-			publish(currentLocation.latitude, currentLocation.longitude);
+			publish(currentLocation.lat, currentLocation.lng);
 		}
 	}, [currentLocation, publish]);
 
-	const getCurrentLocation = useCallback(() => {
+	// const getCurrentLocation = useCallback(() => {
+	// 	if (window.AndMap) {
+	// 		const andLocationData = window.AndMap.getLastKnownLocation();
+	// 		if (andLocationData) {
+	// 			const location = JSON.parse(andLocationData);
+	// 			setCurrentLocation({
+	// 				latitude: location.lat,
+	// 				longitude: location.lng,
+	// 			});
+	// 		}
+	// 	}
+	// }, []);
+
+	const getCurrentLocation = useCallback((setStateCallback: Dispatch<SetStateAction<ILocation | null>>) => {
 		if (window.AndMap) {
-			const andLocationData = window.AndMap.getLastKnownLocation();
-			if (andLocationData) {
-				const location = JSON.parse(andLocationData);
-				setCurrentLocation({
-					latitude: location.lat,
-					longitude: location.lng,
-				});
-			}
+			console.log('앱이 아닙니다. 기본값은 삼성전자 광주사업장 위치입니다.');
+			setStateCallback({ lat: 35.205534, lng: 126.811585 });
+			return;
 		}
+
+		navigator.geolocation.getCurrentPosition(
+			(position) => {
+				if (setStateCallback) {
+					setStateCallback({
+						lat: position.coords.latitude,
+						lng: position.coords.longitude,
+					});
+				}
+			},
+			(error) => {
+				console.error('위치 정보를 가져오는 데 실패했습니다.', error);
+				setStateCallback({ lat: 35.205534, lng: 126.811585 }); // 기본 위치 설정
+			},
+		);
 	}, []);
 
 	useEffect(() => {
 		if (!currentLocation) {
-			getCurrentLocation();
+			getCurrentLocation(setCurrentLocation);
 		}
 	}, [currentLocation, getCurrentLocation]);
 
@@ -124,17 +164,15 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 			return;
 		}
 
-		if (currentLocation) {
-			if (!intervalId) {
-				console.log('getMarkerList!');
-				getMarkerList();
-				setIntervalId(
-					setInterval(() => {
-						console.log('인터벌 getMarkerList!');
-						getMarkerList();
-					}, 30000),
-				);
-			}
+		if (isSongShare && !intervalId) {
+			console.log('getMarkerList!');
+			getMarkerList();
+			setIntervalId(
+				setInterval(() => {
+					console.log('인터벌 getMarkerList!');
+					getMarkerList();
+				}, 10000), // 임시 개발용
+			);
 		}
 
 		// eslint-disable-next-line consistent-return
