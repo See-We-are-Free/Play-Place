@@ -11,7 +11,7 @@ import org.springframework.data.redis.core.RedisHash;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@RedisHash(value = "user_location", timeToLive =  30)
+@RedisHash(value = "user_location", timeToLive =  10)
 public class UserLocation {
     @Id
     private Long id;
