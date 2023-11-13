@@ -173,7 +173,7 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 					console.log('인터벌 getMarkerList!');
 					getCurrentLocation(setCurrentLocation);
 					getMarkerList();
-				}, 30000), // 임시 개발용 10000
+				}, 10000),
 			);
 		}
 
