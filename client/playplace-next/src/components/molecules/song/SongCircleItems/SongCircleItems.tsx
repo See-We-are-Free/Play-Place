@@ -1,7 +1,7 @@
 import React from 'react';
 import { CircleSequenceStyles } from '@/types/styles.d';
 import RoundPlay from '@root/public/assets/icons/RoundPlay.svg';
-import HypeBoy from '@root/public/assets/images/hypeBoy.jpg';
+import DefaultThumbnail from '@root/public/assets/images/thumbnail.png';
 import SongCircleItemsContainer, { SongCircleButton, CircleImage, SongInnerCircle } from './style';
 
 interface ISongCircleItemsProps {
@@ -17,7 +17,7 @@ function SongCircleItems(props: ISongCircleItemsProps) {
 
 	return (
 		<SongCircleItemsContainer>
-			<CircleImage src={HypeBoy || imgSrc} alt="" />
+			<CircleImage src={imgSrc || DefaultThumbnail} alt="" />
 			<SongInnerCircle $roundSequence={CircleSequenceStyles.one} />
 			<SongInnerCircle $roundSequence={CircleSequenceStyles.two} />
 			<SongInnerCircle $roundSequence={CircleSequenceStyles.three} />
