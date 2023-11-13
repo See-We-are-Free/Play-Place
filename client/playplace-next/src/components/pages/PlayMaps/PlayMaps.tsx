@@ -80,7 +80,6 @@ function PlayMaps() {
 	const onLoad = useCallback(async function callback(loadMap: google.maps.Map) {
 		// const svgResponse = await fetch(Location);
 		setMap(loadMap);
-		locateUser();
 	}, []);
 
 	const onMapIdle = useCallback(() => {
@@ -172,6 +171,13 @@ function PlayMaps() {
 		}
 		return undefined;
 	}, [map, onMapIdle]);
+
+	useEffect(() => {
+		setMapCenter({
+			lat: center.lat,
+			lng: center.lng,
+		});
+	}, []);
 
 	// 현재위치 표시
 	const circleRangeOptions = {
