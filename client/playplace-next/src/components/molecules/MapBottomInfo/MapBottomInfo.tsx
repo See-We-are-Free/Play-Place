@@ -38,7 +38,7 @@ function MapBottomInfo(props: IMapBottomInfoProps) {
 	};
 
 	const confirmLandmarkGroup = () => {
-		if (typeof window !== 'undefined' && window.AndAlert) {
+		if (typeof window !== undefined && window.AndAlert) {
 			window.AndAlert.cofirmTest('재생목록', `${landMarkTitle} 그룹을 내 재생목록에 추가하시겠어요?`);
 			setConfirm(true);
 		}

@@ -1,10 +1,10 @@
-import MapBottomInfo from '@/components/molecules/MapBottomInfo/MapBottomInfo';
 import ContentLayout from '@/components/templates/layout/ContentLayout/ContentLayout';
 import { Song } from '@/types/songs';
 import React, { useState } from 'react';
 import SearchList from '@/components/molecules/search/SearchList/SearchList';
 import { ContentLayoutSizes } from '@/types/styles.d';
 // import SearchSongs from '@/components/pages/SearchSongs/SearchSongs';
+import MapBottomInfo from '@/components/molecules/MapBottomInfo/MapBottomInfo';
 import MapBottomSheetHR, { MapBottomResult, MapBottomResultText } from './style';
 import LandMarkSearch from '../LandMarkSearch/LandMarkSearch';
 
