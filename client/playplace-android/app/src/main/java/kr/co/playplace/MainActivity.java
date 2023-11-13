@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -22,6 +23,7 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
+import android.webkit.JsResult;
 import android.webkit.WebView;
 import android.widget.Toast;
 
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private ShakeDetector mShakeDetector;
     private long backBtnTime = 0;
     private static final String TAG = "permission";
-        private static final String BASE_URL = "https://k9c109.p.ssafy.io/pp";
+    private static final String BASE_URL = "https://k9c109.p.ssafy.io/pp/login";
 //    private static final String BASE_URL = "http://192.168.137.1:3000/pp";
 
 
@@ -111,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         /* 자바스크립트(Next)로 전달 */
         webView.addJavascriptInterface(new MapInterface(), "AndMap");
         webView.addJavascriptInterface(new CameraInterface(), "AndCamera");
-
+        webView.addJavascriptInterface(new AlertInterface(), "AndAlert");
         /* 웹뷰에 페이지 요청 */
         webView.loadUrl(BASE_URL);
     }
@@ -190,6 +192,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public class AlertInterface {
+        @JavascriptInterface
+        public void cofirmTest(String title, String message) {
+            new AlertDialog.Builder(webView.getContext())
+                    .setTitle(title)
+                    .setMessage(message)
+                    .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            webView.post(() -> webView.evaluateJavascript("javascript:confirmCallback(true)", null));
+                        }
+                    })
+                    .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            webView.post(() -> webView.evaluateJavascript("javascript:confirmCallback(false)", null));
+                        }
+                    })
+                    .setCancelable(false)
+                    .create()
+                    .show();
+        }
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -362,4 +385,5 @@ public class MainActivity extends AppCompatActivity {
         mSensorManager.unregisterListener(mShakeDetector);
         super.onPause();
     }
+
 }
