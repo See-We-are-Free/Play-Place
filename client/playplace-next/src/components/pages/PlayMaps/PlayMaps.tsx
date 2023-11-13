@@ -14,10 +14,10 @@ function PlayMaps() {
 	// 구글 맵
 	const [map, setMap] = useState<google.maps.Map | null>(null);
 	// 현재 위치
-	const [center, setCenter] = useState<ILocation>({ lat: 35.205534, lng: 126.811585 });
+	const [center, setCenter] = useState<ILocation>({ lat: 0, lng: 0 });
 
 	// 지도 기준 현 위치
-	const [mapCenter, setMapCenter] = useState<ILocation>({ lat: 35.205534, lng: 126.811585 });
+	const [mapCenter, setMapCenter] = useState<ILocation>({ lat: 0, lng: 0 });
 
 	const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
 
@@ -171,7 +171,7 @@ function PlayMaps() {
 
 	useEffect(() => {
 		if (!intervalId) {
-			setIntervalId(setInterval(callAndroidLocation, 10000));
+			setIntervalId(setInterval(callAndroidLocation, 500));
 		}
 
 		return () => {
