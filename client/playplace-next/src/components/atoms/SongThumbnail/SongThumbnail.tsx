@@ -14,7 +14,14 @@ function SongThumbnail(props: ISongThumbnailProps) {
 
 	return (
 		<SongThumbnailWrapper $width={$width} $height={$height} $isFullSize={$isFullSize}>
-			<SongThumbnailImage src={src || thumbnail} alt={alt} width={$width} height={$height} />
+			<SongThumbnailImage
+				src={src || thumbnail}
+				alt={alt}
+				width={$width}
+				height={$height}
+				placeholder="blur"
+				blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mO8+x8AAr8B3gzOjaQAAAAASUVORK5CYII="
+			/>
 		</SongThumbnailWrapper>
 	);
 }

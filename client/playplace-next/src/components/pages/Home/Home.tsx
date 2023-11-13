@@ -103,11 +103,14 @@ function Home(props: IHomeProps) {
 				setPresent(newPresent);
 				setIsLoading(true);
 			}
+		} else if (!present) {
+			setPresent({ lat: 35.205534, lon: 126.811585 }); // 기본 위치 설정
+			setIsLoading(true);
 		}
 	}, [present]);
 
 	useEffect(() => {
-		if (isLoading) {
+		if (isLoading && present) {
 			getVillage();
 			getLocate();
 			getWeather();

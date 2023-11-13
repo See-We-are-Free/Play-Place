@@ -17,7 +17,14 @@ function SongCircleItems(props: ISongCircleItemsProps) {
 
 	return (
 		<SongCircleItemsContainer>
-			<CircleImage src={imgSrc || DefaultThumbnail} alt="" />
+			<CircleImage
+				src={imgSrc || DefaultThumbnail}
+				alt="앨범 커버"
+				width="100"
+				placeholder="blur"
+				blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mO8+x8AAr8B3gzOjaQAAAAASUVORK5CYII="
+				height="100"
+			/>
 			<SongInnerCircle $roundSequence={CircleSequenceStyles.one} />
 			<SongInnerCircle $roundSequence={CircleSequenceStyles.two} />
 			<SongInnerCircle $roundSequence={CircleSequenceStyles.three} />
