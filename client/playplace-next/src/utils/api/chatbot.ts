@@ -7,6 +7,6 @@ export const getChatLogsApi = async () => {
 
 // TODO : 임시 api
 export const getRecommendResultApi = async () => {
-	const response = await http.post('/chatbot/recommend');
+	const response = await http.post('/chatbots/recommend');
 	return response;
 };

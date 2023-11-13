@@ -85,17 +85,6 @@ function UserInfoProvider({ children }: { children: ReactNode }) {
 	};
 
 	useEffect(() => {
-		// if (loginPathCheck()) {
-		// 	localStorage.removeItem('accessToken');
-		// 	return;
-		// }
-
-		// if (!loginCheck()) {
-		// 	router.push('/login');
-		// 	return;
-		// }
-		// /////////////////////////////////
-
 		if (params.get('accessToken')) {
 			localStorage.setItem('accessToken', params.get('accessToken') || '');
 			router.push('/');
@@ -114,7 +103,7 @@ function UserInfoProvider({ children }: { children: ReactNode }) {
 			console.log('userInfo', user);
 			console.log('isSongShare', isSongShare);
 		}
-	}, [getSongShareInfo, getUserInfo, isSongShare, loginCheck, loginPathCheck, router, user]);
+	}, [getSongShareInfo, getUserInfo, isSongShare, loginCheck, loginPathCheck, params, pathname, router, user]);
 
 	const value: UserInfoContextType = useMemo(() => {
 		return {

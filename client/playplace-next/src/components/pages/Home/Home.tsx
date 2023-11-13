@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import SongCircleList from '@/components/organisms/song/SongCircleList/SongCircleList';
 import SongSquareList from '@/components/organisms/song/SongSquareList/SongSquareList';
 import SongRectList from '@/components/organisms/song/SongRectList/SongRectList';
@@ -13,6 +13,7 @@ interface IHomeProps {
 
 function Home(props: IHomeProps) {
 	const { setVillage } = props;
+	const { getLocation } = useContext(UserInfoContext);
 
 	const [present, setPresent] = useState<HomeApiBody>({
 		lat: 35.205534,
@@ -32,6 +33,10 @@ function Home(props: IHomeProps) {
 	});
 
 	const getLocate = async () => {
+		if (!present) {
+			return;
+		}
+
 		try {
 			const response = await postLocateSongsApi(present);
 			if (response.status === 200) {
@@ -44,6 +49,10 @@ function Home(props: IHomeProps) {
 	};
 
 	const getWeather = async () => {
+		if (!present) {
+			return;
+		}
+
 		try {
 			const response = await postWeatherSongApi(present);
 			if (response.status === 200) {
@@ -70,6 +79,10 @@ function Home(props: IHomeProps) {
 	};
 
 	const getVillage = async () => {
+		if (!present) {
+			return;
+		}
+
 		try {
 			const response = await postVillageApi(present);
 			if (response.status === 200) {
@@ -93,11 +106,12 @@ function Home(props: IHomeProps) {
 				setPresent(newPresent);
 			}
 		}
+
 		getVillage();
 		getLocate();
 		getWeather();
 		getTime();
-	}, []);
+	}, [present]);
 
 	return (
 		<HomeTemplate>
