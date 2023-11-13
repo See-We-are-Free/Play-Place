@@ -28,7 +28,7 @@ spring:
   sql:
     init:
       mode: always
-      schema-locations: classpath:db.mysql/Song.sql
+      schema-locations: classpath:db.mysql/song.sql
 
 cloud:
   aws:
