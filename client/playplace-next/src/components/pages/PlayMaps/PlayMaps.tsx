@@ -202,7 +202,7 @@ function PlayMaps() {
 
 	return (
 		<>
-			{center && landMarks && isLoaded && (
+			{center && landMarks && isLoaded && mapCenter && (
 				<div style={{ position: 'relative', ...containerStyle }}>
 					<LocateButton onLocateClick={locateUser} />
 					<GoogleMap
