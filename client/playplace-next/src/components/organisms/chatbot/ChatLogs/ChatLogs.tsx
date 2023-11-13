@@ -6,7 +6,6 @@ import { ChatLogType } from '@/types/chatbot';
 import ChatLog from '@/components/molecules/chatbot/ChatLog/ChatLog';
 import Text from '@/components/atoms/Text/Text';
 import moment from 'moment';
-import { dummyChatLogs } from '@/constants/dummy';
 import { Song } from '@/types/songs';
 import ChatLogsContainer from './style';
 
@@ -58,7 +57,6 @@ function ChatLogs() {
 	const fetchChatLogs = async () => {
 		try {
 			const response = await getChatLogsApi();
-			setChatLogs(dummyChatLogs);
 			if (response.status === 200) {
 				setChatLogs(response.data);
 			}
