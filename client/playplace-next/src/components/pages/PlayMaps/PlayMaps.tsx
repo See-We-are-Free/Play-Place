@@ -14,7 +14,6 @@ function PlayMaps() {
 	// 구글 맵
 	const [map, setMap] = useState<google.maps.Map | null>(null);
 	// 현재 위치
-	const [test, setTest] = useState<boolean>(false);
 	const [center, setCenter] = useState<ILocation>({
 		lat: 0,
 		lng: 0,
@@ -52,6 +51,21 @@ function PlayMaps() {
 	// google api 키
 	const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS || '';
 
+	// 현재 위치로 이동
+	const locateUser = useCallback(() => {
+		if (center.lat && center.lng) {
+			const newLocation = {
+				lat: center.lat,
+				lng: center.lng,
+			};
+			setMapCenter(newLocation);
+			if (map) {
+				map.panTo(newLocation);
+				map.setZoom(18);
+			}
+		}
+	}, [center.lat, center.lng, map]);
+
 	// map 로딩
 	const { isLoaded } = useJsApiLoader({
 		id: 'google-map-script',
@@ -61,12 +75,12 @@ function PlayMaps() {
 	const onUnmount = useCallback(function callback() {
 		// 컴포넌트가 언마운트될때 호출 map 상태 변수를 null로 설정하여 초기화
 		setMap(null);
-		setTest(false);
 	}, []);
 
 	const onLoad = useCallback(async function callback(loadMap: google.maps.Map) {
 		// const svgResponse = await fetch(Location);
 		setMap(loadMap);
+		locateUser();
 	}, []);
 
 	const onMapIdle = useCallback(() => {
@@ -91,21 +105,6 @@ function PlayMaps() {
 			}
 		}
 	};
-
-	// 현재 위치로 이동
-	const locateUser = useCallback(() => {
-		if (center.lat && center.lng) {
-			const newLocation = {
-				lat: center.lat,
-				lng: center.lng,
-			};
-			setMapCenter(newLocation);
-			if (map) {
-				map.panTo(newLocation);
-				map.setZoom(18);
-			}
-		}
-	}, [center.lat, center.lng, map]);
 
 	const getLandmarks = async () => {
 		try {
@@ -166,7 +165,6 @@ function PlayMaps() {
 	useEffect(() => {
 		if (map) {
 			const idleListener = google.maps.event.addListener(map, 'idle', onMapIdle);
-			locateUser();
 
 			return () => {
 				google.maps.event.removeListener(idleListener);
@@ -196,14 +194,9 @@ function PlayMaps() {
 		center,
 	};
 
-	useEffect(() => {
-		if (test === false) {
-			locateUser();
-		}
-	}, []);
 	return (
 		<>
-			{center && landMarks && isLoaded && test && (
+			{center && landMarks && isLoaded && (
 				<div style={{ position: 'relative', ...containerStyle }}>
 					<LocateButton onLocateClick={locateUser} />
 					<GoogleMap
