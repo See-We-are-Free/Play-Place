@@ -2,6 +2,7 @@ import React from 'react';
 import { Song } from '@/types/songs';
 import Logo from '@root/public/assets/icons/Logo.svg';
 import LoadingLottie from '@/components/atoms/LoadingLottie/LoadingLottie';
+import usePlayer from '@/hooks/player/usePlayer';
 import PPChatContainer from './style';
 import SearchItems from '../../search/SearchItems/SearchItems';
 
@@ -14,10 +15,7 @@ interface IPPChatProps {
 
 function PPChat(props: IPPChatProps) {
 	const { ref = null, message = '', recommendedSongs = [], isloading = true } = props;
-
-	const handleButtonClick = () => {
-		// 노래 임시 재생 로직 추가
-	};
+	const { playNewSong } = usePlayer();
 
 	return (
 		<PPChatContainer ref={ref}>
@@ -34,7 +32,7 @@ function PPChat(props: IPPChatProps) {
 					{recommendedSongs.length ? (
 						<div id="recommended-songs">
 							{recommendedSongs.map((el) => (
-								<SearchItems searchItem={el} key={el.youtubeId} handleButtonClick={handleButtonClick} />
+								<SearchItems searchItem={el} key={el.youtubeId} handleButtonClick={() => playNewSong(el)} />
 							))}
 						</div>
 					) : (

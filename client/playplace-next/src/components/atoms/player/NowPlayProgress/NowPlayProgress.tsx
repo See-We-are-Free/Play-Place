@@ -30,7 +30,7 @@ function NowPlayProgress() {
 	useEffect(() => {
 		setPlaytime(playback?.getCurrentTime() || 0);
 		const i = setInterval(() => {
-			if (isMouseUp) setPlaytime(playback.getCurrentTime().toFixed());
+			if (isMouseUp) setPlaytime(playback?.getCurrentTime().toFixed());
 		}, 1000);
 		return () => clearInterval(i);
 	}, [playback]);
