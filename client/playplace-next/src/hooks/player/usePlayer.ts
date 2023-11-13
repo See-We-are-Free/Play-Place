@@ -1,7 +1,13 @@
 import { isNowPlayState, nowPlaySongState, playQueueState, playbackState } from '@/recoil/play';
+import { Song } from '@/types/songs';
+import { saveSongToPlaylistApi } from '@/utils/api/songs';
 import { useRecoilState } from 'recoil';
+import CustomToast from '@/components/atoms/CustomToast/CustomToast';
+import { ToastStyles } from '@/types/styles.d';
+import useFetchPlaylist from './useFetchPlaylist';
 
 const usePlayer = () => {
+	const { fetchData } = useFetchPlaylist();
 	const [playback] = useRecoilState(playbackState);
 	const [nowPlaySong, setNowPlaySong] = useRecoilState(nowPlaySongState);
 	const [, setIsNowPlay] = useRecoilState(isNowPlayState);
@@ -57,7 +63,41 @@ const usePlayer = () => {
 		playback.pauseVideo();
 	};
 
-	return { playNextSong, playPreviousSong, playSong, pauseSong };
+	// 검색 결과 노래 재생시
+	const playNewSong = async (song: Song, landmarkId?: number) => {
+		const newSong: Song = {
+			title: song.title,
+			youtubeId: song.youtubeId,
+			albumImg: song.albumImg,
+			artist: song.artist,
+			playTime: -1, // 이 값을 바꾸고싶어.
+			songId: -1,
+		};
+
+		console.log('newSong :: ', JSON.stringify(newSong));
+		setNowPlaySong(newSong);
+		setIsNowPlay(true);
+
+		try {
+			const response = await saveSongToPlaylistApi(newSong);
+			if (response.status === 200) {
+				setNowPlaySong((state) => {
+					if (state) return { basicSongId: response.data.playListSongId, ...state };
+					return state;
+				});
+				fetchData();
+				if (landmarkId) {
+					CustomToast(ToastStyles.noTabbarSuccess, '1곡이 음악 재생목록에 담겼어요.');
+				} else {
+					CustomToast(ToastStyles.success, '1곡이 음악 재생목록에 담겼어요.');
+				}
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	return { playNextSong, playPreviousSong, playSong, pauseSong, playNewSong };
 };
 
 export default usePlayer;
