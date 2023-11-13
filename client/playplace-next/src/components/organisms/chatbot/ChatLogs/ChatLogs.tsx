@@ -79,7 +79,7 @@ function ChatLogs() {
 			{/* 현재 진행중인 로그 */}
 			<div id="chatting" ref={chatContainerRef}>
 				<Text id="date" text={moment(new Date()).format('YYYY-MM-DD')} />
-				<PPChat message="안녕하세요 플플! 사진을 찍어주시면 적당한 노래를 추천해드릴게요!" />
+				<PPChat message="안녕하세요 플플! 사진을 찍어주시면 적당한 음악를 추천해드릴게요!" />
 				<UserChat imgSrc={imgSrc} />
 				<span>{imgSrc}</span>
 			</div>

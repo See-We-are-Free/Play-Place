@@ -31,7 +31,7 @@ function MypageLike() {
 			{likeSong.map((s) => (
 				<ContentLayout $margin="10px 0px" size={ContentLayoutSizes.sm} key={s.songId}>
 					<MypageLikeItemsContainer>
-						<GroupSongListItem song={s} key={s.songId} />
+						<GroupSongListItem song={s} key={s.songId} isSearch={false} />
 					</MypageLikeItemsContainer>
 				</ContentLayout>
 			))}

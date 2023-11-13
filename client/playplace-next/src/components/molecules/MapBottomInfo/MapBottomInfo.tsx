@@ -45,6 +45,7 @@ function MapBottomInfo(props: IMapBottomInfoProps) {
 			if (response.status === 200) {
 				fetchData();
 				setPlayModal('playlist');
+				CustomToast(ToastStyles.success, `랜드마크 재생목록에 ${landMarkTitle} 이/가 추가 됐습니다.`);
 			}
 		} catch (error) {
 			console.error(error);
