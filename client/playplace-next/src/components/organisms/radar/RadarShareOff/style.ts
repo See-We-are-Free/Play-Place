@@ -7,6 +7,10 @@ const TextContainer = styled.div`
 
 	p {
 		margin: 0 auto;
+
+		&:nth-child(2) {
+			margin-bottom: 10px;
+		}
 	}
 `;
 

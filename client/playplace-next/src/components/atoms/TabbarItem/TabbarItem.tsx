@@ -17,6 +17,7 @@ function TabbarItem(props: ITabbarItemProps) {
 	const router = useRouter();
 
 	const handleClick = () => {
+		console.log(title);
 		router.push(path);
 	};
 

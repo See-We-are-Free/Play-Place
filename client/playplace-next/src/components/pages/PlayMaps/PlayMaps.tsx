@@ -14,17 +14,12 @@ function PlayMaps() {
 	// 구글 맵
 	const [map, setMap] = useState<google.maps.Map | null>(null);
 	// 현재 위치
-	const [test, setTest] = useState<boolean>(false);
-	const [center, setCenter] = useState<ILocation>({
-		lat: 0,
-		lng: 0,
-	});
+	const [center, setCenter] = useState<ILocation>({ lat: 0, lng: 0 });
 
 	// 지도 기준 현 위치
-	const [mapCenter, setMapCenter] = useState<ILocation>({
-		lat: center.lat,
-		lng: center.lng,
-	});
+	const [mapCenter, setMapCenter] = useState<ILocation>({ lat: 0, lng: 0 });
+
+	const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
 
 	// 바텀시트를 여는 state
 	const [open, setOpen] = useState<boolean>(false);
@@ -51,6 +46,21 @@ function PlayMaps() {
 
 	// google api 키
 	const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS || '';
+
+	// 현재 위치로 이동
+	const locateUser = useCallback(() => {
+		if (center.lat && center.lng) {
+			const newLocation = {
+				lat: center.lat,
+				lng: center.lng,
+			};
+			setMapCenter(newLocation);
+			if (map) {
+				map.panTo(newLocation);
+				map.setZoom(18);
+			}
+		}
+	}, [center.lat, center.lng, map]);
 
 	// map 로딩
 	const { isLoaded } = useJsApiLoader({
@@ -81,7 +91,7 @@ function PlayMaps() {
 	}, [map]);
 
 	const callAndroidLocation = () => {
-		if (typeof window !== undefined && window) {
+		if (typeof window !== undefined && window.AndMap) {
 			const data = window.AndMap.getLastKnownLocation();
 
 			if (data) {
@@ -90,21 +100,6 @@ function PlayMaps() {
 			}
 		}
 	};
-
-	// 현재 위치로 이동
-	const locateUser = useCallback(() => {
-		if (center.lat && center.lng) {
-			const newLocation = {
-				lat: center.lat,
-				lng: center.lng,
-			};
-			setMapCenter(newLocation);
-			if (map) {
-				map.panTo(newLocation);
-				map.setZoom(18);
-			}
-		}
-	}, [center.lat, center.lng, map]);
 
 	const getLandmarks = async () => {
 		try {
@@ -153,19 +148,19 @@ function PlayMaps() {
 	}, [choose, detailLandmark.landmarkId]);
 
 	useEffect(() => {
-		getLandmarks();
-		// 사용자의 위치 권한을 체크하고, 현재 위치를 가져와 center 상태를 업데이트합니다.
-		const locationInterval = setInterval(callAndroidLocation, 500);
+		if (landMarkList.length === 0) {
+			getLandmarks();
+		}
 
-		return () => {
-			clearInterval(locationInterval);
-		};
+		// 사용자의 위치 권한을 체크하고, 현재 위치를 가져와 center 상태를 업데이트합니다.
+		if (map) {
+			locateUser();
+		}
 	}, []);
 
 	useEffect(() => {
 		if (map) {
 			const idleListener = google.maps.event.addListener(map, 'idle', onMapIdle);
-			locateUser();
 
 			return () => {
 				google.maps.event.removeListener(idleListener);
@@ -173,6 +168,18 @@ function PlayMaps() {
 		}
 		return undefined;
 	}, [map, onMapIdle]);
+
+	useEffect(() => {
+		if (!intervalId) {
+			setIntervalId(setInterval(callAndroidLocation, 500));
+		}
+
+		return () => {
+			if (intervalId) {
+				clearInterval(intervalId);
+			}
+		};
+	}, [intervalId]);
 
 	// 현재위치 표시
 	const circleRangeOptions = {
@@ -195,15 +202,9 @@ function PlayMaps() {
 		center,
 	};
 
-	useEffect(() => {
-		if (test === false) {
-			locateUser();
-			setTest(true);
-		}
-	}, []);
 	return (
 		<>
-			{center && landMarks && isLoaded && (
+			{center && mapCenter && landMarks && isLoaded && (
 				<div style={{ position: 'relative', ...containerStyle }}>
 					<LocateButton onLocateClick={locateUser} />
 					<GoogleMap

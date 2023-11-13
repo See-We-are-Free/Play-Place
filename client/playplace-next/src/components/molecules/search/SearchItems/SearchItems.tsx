@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SongThumbnail from '@/components/atoms/SongThumbnail/SongThumbnail';
 import Text from '@/components/atoms/Text/Text';
 import { Song } from '@/types/songs';
@@ -26,6 +26,15 @@ interface ISearchItemsProps {
 function SearchItems(props: ISearchItemsProps) {
 	const { searchItem, handleButtonClick, landmarkId, moveLandmark } = props;
 	const { artist, title, albumImg, youtubeId } = searchItem;
+
+	const [confirm, setConfirm] = useState<boolean>(false);
+
+	const confirmLandmark = () => {
+		if (typeof window !== 'undefined' && window.AndAlert) {
+			window.AndAlert.cofirmTest('재생목록', `${title}을 랜드마크에 등록하시겠어요?`);
+			setConfirm(true);
+		}
+	};
 
 	const addLandmarkSong = async () => {
 		// 승현TODO : '${groupName}''${title}'을 랜드마크에 등록하시겠어요?`
@@ -59,6 +68,22 @@ function SearchItems(props: ISearchItemsProps) {
 			}
 		}
 	};
+
+	useEffect(() => {
+		if (typeof window !== undefined && confirm === true) {
+			window.confirmCallback = function (result: boolean) {
+				console.log(result); // true 또는 false
+				if (result === false) {
+					CustomToast(ToastStyles.success, `랜드마크 음악 추가 취소`);
+				} else {
+					addLandmarkSong();
+				}
+			};
+		}
+
+		setConfirm(false);
+	}, [confirm]);
+
 	return (
 		<SearchItemsContainer>
 			<SearchItemsContent>
@@ -73,7 +98,7 @@ function SearchItems(props: ISearchItemsProps) {
 					<Play />
 				</SearchItemsButton>
 				{landmarkId && (
-					<SearchItemsButton onClick={addLandmarkSong}>
+					<SearchItemsButton onClick={confirmLandmark}>
 						<Plus />
 					</SearchItemsButton>
 				)}

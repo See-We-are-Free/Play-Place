@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Text from '@/components/atoms/Text/Text';
 import ListPlus from '@root/public/assets/icons/ListPlus.svg';
 import Button from '@/components/atoms/Button/Button';
@@ -27,6 +27,7 @@ function MapBottomInfo(props: IMapBottomInfoProps) {
 	const { landMarkTitle, songVolume, setOpen, isDistance, landmarkId } = props;
 	const { fetchData } = useFetchPlaylist();
 	const [, setPlayModal] = useRecoilState(playModalState);
+	const [confirm, setConfirm] = useState<boolean>(false);
 
 	const searchOpen = () => {
 		if (isDistance === true) {
@@ -36,8 +37,14 @@ function MapBottomInfo(props: IMapBottomInfoProps) {
 		}
 	};
 
+	const confirmLandmarkGroup = () => {
+		if (typeof window !== undefined && window.AndAlert) {
+			window.AndAlert.cofirmTest('재생목록', `${landMarkTitle} 그룹을 내 재생목록에 추가하시겠어요?`);
+			setConfirm(true);
+		}
+	};
+
 	const addGroupToPlaylist = async () => {
-		// `${landMarkTitle} 그룹을 내 재생목록에 추가하시겠어요?`
 		try {
 			const response = await addGroupToPlaylistApi(landmarkId);
 
@@ -45,11 +52,26 @@ function MapBottomInfo(props: IMapBottomInfoProps) {
 			if (response.status === 200) {
 				fetchData();
 				setPlayModal('playlist');
+				CustomToast(ToastStyles.success, `랜드마크 재생목록에 ${landMarkTitle} 이/가 추가 됐습니다.`);
 			}
 		} catch (error) {
 			console.error(error);
 		}
 	};
+
+	useEffect(() => {
+		if (typeof window !== undefined && confirm === true) {
+			window.confirmCallback = function (result: boolean) {
+				if (result === false) {
+					CustomToast(ToastStyles.success, `랜드마크 재생목록 추가 취소`);
+				} else {
+					addGroupToPlaylist();
+				}
+			};
+		}
+
+		setConfirm(false);
+	}, [confirm]);
 
 	return (
 		<MapBottomInfoContainer>
@@ -58,7 +80,7 @@ function MapBottomInfo(props: IMapBottomInfoProps) {
 					<Text text={landMarkTitle} color="default" fontSize={20} $overflowHidden={false} />
 					<Text text={`${songVolume} / 99`} color="gray" fontSize={12} />
 				</MapBottomInfoLandmarkInfo>
-				<MapBottomInfoIcon type="button" onClick={addGroupToPlaylist}>
+				<MapBottomInfoIcon type="button" onClick={confirmLandmarkGroup}>
 					<ListPlus />
 				</MapBottomInfoIcon>
 			</MapBottomInfoTitle>

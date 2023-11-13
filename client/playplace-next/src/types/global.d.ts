@@ -13,7 +13,11 @@ declare global {
 			openCamera: () => void;
 			sendData: () => string;
 		};
+		AndAlert: {
+			cofirmTest: (title: string, message: string) => void;
+		};
 		openChatbot: CustomEvent<>;
 		getImageData: CustomEvent<>;
+		confirmCallback: (result: boolean) => void;
 	}
 }

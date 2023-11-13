@@ -70,6 +70,7 @@ const GlobalStyles = createGlobalStyle`
         --zindex-bottomsheet: 1100;
         --zindex-mypage-background: 1111;
         --zindex-mypage-content: 1113;
+        --zindex-loader-spinner: 1114;
     }
 
     body{

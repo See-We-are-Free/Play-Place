@@ -39,8 +39,14 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 					!data ||
 					parsedBody.some(
 						(pb) =>
+							// data에 pb.userId가 없거나, userId가 같지만 youtubeId가 다른 경우를 확인
 							!data.some((d) => d.userId === pb.userId) ||
 							data.some((d) => d.userId === pb.userId && d.youtubeId !== pb.youtubeId),
+					) ||
+					data.some(
+						(d) =>
+							// data에 있는 각 userId가 parsedBody에 없는 경우를 확인
+							!parsedBody.some((pb) => pb.userId === d.userId),
 					)
 				) {
 					setData(parsedBody);
@@ -75,7 +81,7 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 	const connect = useCallback(() => {
 		console.log('연결 시작');
 		const baseUrl = process.env.NEXT_PUBLIC_WS_BASE_URL || '';
-		// let baseUrl = process.env.NEXT_PUBLIC_DEVELOP_WS_BASE_URL || ''; // 개발용
+		// const baseUrl = process.env.NEXT_PUBLIC_DEVELOP_WS_BASE_URL || ''; // 개발용
 
 		client.current = new StompJs.Client({
 			webSocketFactory: () => new SockJS(baseUrl),
@@ -124,10 +130,17 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 	// 	}
 	// }, []);
 
-	const getCurrentLocation = useCallback((setStateCallback: Dispatch<SetStateAction<ILocation | null>>) => {
+	const getCurrentLocation = useCallback(async (setStateCallback: Dispatch<SetStateAction<ILocation | null>>) => {
 		if (window.AndMap) {
-			console.log('앱이 아닙니다. 기본값은 삼성전자 광주사업장 위치입니다.');
-			setStateCallback({ lat: 35.205534, lng: 126.811585 });
+			const appLocation = window.AndMap.getLastKnownLocation();
+			if (appLocation) {
+				const location = JSON.parse(appLocation);
+				const newLocation: ILocation = {
+					lat: location.lat,
+					lng: location.lng,
+				};
+				setStateCallback(newLocation);
+			}
 			return;
 		}
 
@@ -166,12 +179,14 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 
 		if (isSongShare && !intervalId) {
 			console.log('getMarkerList!');
+			getCurrentLocation(setCurrentLocation);
 			getMarkerList();
 			setIntervalId(
 				setInterval(() => {
 					console.log('인터벌 getMarkerList!');
+					getCurrentLocation(setCurrentLocation);
 					getMarkerList();
-				}, 10000), // 임시 개발용
+				}, 30000), // 임시 개발용 10000
 			);
 		}
 
@@ -183,7 +198,7 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 				setIntervalId(null);
 			}
 		};
-	}, [currentLocation, getMarkerList, intervalId, isSongShare]);
+	}, [currentLocation, getCurrentLocation, getMarkerList, intervalId, isSongShare]);
 
 	useEffect(() => {
 		if (isSongShare) {

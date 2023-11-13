@@ -14,10 +14,8 @@ interface IHomeProps {
 function Home(props: IHomeProps) {
 	const { setVillage } = props;
 
-	const [present, setPresent] = useState<HomeApiBody>({
-		lat: 35.205534,
-		lon: 126.811585,
-	});
+	const [present, setPresent] = useState<HomeApiBody | null>(null);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const [locateData, setLocateData] = useState<AreaSongList>({
 		songs: [],
@@ -32,6 +30,10 @@ function Home(props: IHomeProps) {
 	});
 
 	const getLocate = async () => {
+		if (!present) {
+			return;
+		}
+
 		try {
 			const response = await postLocateSongsApi(present);
 			if (response.status === 200) {
@@ -44,6 +46,10 @@ function Home(props: IHomeProps) {
 	};
 
 	const getWeather = async () => {
+		if (!present) {
+			return;
+		}
+
 		try {
 			const response = await postWeatherSongApi(present);
 			if (response.status === 200) {
@@ -70,6 +76,10 @@ function Home(props: IHomeProps) {
 	};
 
 	const getVillage = async () => {
+		if (!present) {
+			return;
+		}
+
 		try {
 			const response = await postVillageApi(present);
 			if (response.status === 200) {
@@ -82,7 +92,7 @@ function Home(props: IHomeProps) {
 	};
 
 	useEffect(() => {
-		if (typeof window !== 'undefined' && window.AndMap) {
+		if (typeof window !== 'undefined' && window.AndMap && !present) {
 			const data = window.AndMap.getLastKnownLocation();
 			if (data) {
 				const location = JSON.parse(data);
@@ -91,13 +101,20 @@ function Home(props: IHomeProps) {
 					lon: location.lng,
 				};
 				setPresent(newPresent);
+				setIsLoading(true);
 			}
 		}
-		getVillage();
-		getLocate();
-		getWeather();
-		getTime();
-	}, []);
+	}, [present]);
+
+	useEffect(() => {
+		if (isLoading) {
+			getVillage();
+			getLocate();
+			getWeather();
+			getTime();
+			setIsLoading(false);
+		}
+	}, [isLoading]);
 
 	return (
 		<HomeTemplate>

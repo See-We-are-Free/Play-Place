@@ -11,7 +11,7 @@ import UserInfoContext from '@/utils/common/UserInfoContext';
 import NicknameContainer from '../../JoinInfo/style';
 
 function MypageModify() {
-	const { user } = useContext(UserInfoContext);
+	const { user, setUser } = useContext(UserInfoContext);
 	const router = useRouter();
 	const [profileImg, setProfileImg] = useState<number>(0);
 	const [nickname, setNickname] = useState<string>('');
@@ -36,6 +36,12 @@ function MypageModify() {
 
 				if (response.status === 200) {
 					console.log(response);
+					const newUser = {
+						...user,
+						profileImg,
+						nickname,
+					};
+					setUser(newUser);
 					CustomToast(ToastStyles.success, `${nickname} 으로 수정됬습니다`);
 					router.push('/');
 				}

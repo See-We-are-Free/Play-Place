@@ -15,6 +15,7 @@ function GroupSongList(props: IGroupSongListProps) {
 				<GroupSongListItem
 					key={isBasicGroup ? `${(s as BasicSong).basicSongId}b` : `${(s as LandmarkSong).landmarkSongId}l`}
 					song={s}
+					isSearch
 				/>
 			))}
 		</GroupSongListContainer>
