@@ -12,9 +12,9 @@ function ChatLog(props: IChatLogProps) {
 	const { chatLog } = props;
 	return (
 		<ChatLogContainer>
-			<Text id="date" text={chatLog.date} />
-			<UserChat imgSrc={chatLog.picture} />
-			<PPChat message={chatLog.resultText} recommendedSongs={chatLog.resultSongs} />
+			<Text id="date" text={chatLog.answerDate} />
+			<UserChat imgSrc={chatLog.imgUrl} />
+			<PPChat message={chatLog.comment} recommendedSongs={chatLog.songs} isloading={false} />
 		</ChatLogContainer>
 	);
 }
