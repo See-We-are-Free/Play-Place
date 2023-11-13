@@ -154,6 +154,9 @@ function PlayMaps() {
 	useEffect(() => {
 		getLandmarks();
 		// 사용자의 위치 권한을 체크하고, 현재 위치를 가져와 center 상태를 업데이트합니다.
+		if (map) {
+			locateUser();
+		}
 		const locationInterval = setInterval(callAndroidLocation, 500);
 
 		return () => {
@@ -171,13 +174,6 @@ function PlayMaps() {
 		}
 		return undefined;
 	}, [map, onMapIdle]);
-
-	useEffect(() => {
-		setMapCenter({
-			lat: center.lat,
-			lng: center.lng,
-		});
-	}, []);
 
 	// 현재위치 표시
 	const circleRangeOptions = {
