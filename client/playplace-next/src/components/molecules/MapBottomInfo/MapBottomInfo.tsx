@@ -37,18 +37,17 @@ function MapBottomInfo(props: IMapBottomInfoProps) {
 	};
 
 	const addGroupToPlaylist = async () => {
-		if (window.confirm(`${landMarkTitle} 그룹을 내 재생목록에 추가하시겠어요?`)) {
-			try {
-				const response = await addGroupToPlaylistApi(landmarkId);
+		// `${landMarkTitle} 그룹을 내 재생목록에 추가하시겠어요?`
+		try {
+			const response = await addGroupToPlaylistApi(landmarkId);
 
-				console.log('addGroupToPlaylistApi :: ', response);
-				if (response.status === 200) {
-					fetchData();
-					setPlayModal('playlist');
-				}
-			} catch (error) {
-				console.error(error);
+			console.log('addGroupToPlaylistApi :: ', response);
+			if (response.status === 200) {
+				fetchData();
+				setPlayModal('playlist');
 			}
+		} catch (error) {
+			console.error(error);
 		}
 	};
 
