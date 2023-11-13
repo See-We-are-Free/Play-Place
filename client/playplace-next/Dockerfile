@@ -14,7 +14,7 @@ WORKDIR /app
 # 의존성 패키지 설치
 COPY package.json package-lock.json ./
 
-RUN npm ci
+RUN npm ci --force
 
 FROM base AS builder
 
