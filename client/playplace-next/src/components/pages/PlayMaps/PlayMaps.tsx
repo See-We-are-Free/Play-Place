@@ -21,8 +21,8 @@ function PlayMaps() {
 
 	// 지도 기준 현 위치
 	const [mapCenter, setMapCenter] = useState<ILocation>({
-		lat: center.lat,
-		lng: center.lng,
+		lat: 0,
+		lng: 0,
 	});
 
 	// 바텀시트를 여는 state
@@ -202,7 +202,7 @@ function PlayMaps() {
 
 	return (
 		<>
-			{center && landMarks && isLoaded && mapCenter && (
+			{center && mapCenter && landMarks && isLoaded && (
 				<div style={{ position: 'relative', ...containerStyle }}>
 					<LocateButton onLocateClick={locateUser} />
 					<GoogleMap
