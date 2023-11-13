@@ -113,7 +113,7 @@ function PlayBack() {
 	};
 
 	const onPlay: YouTubeProps['onPlay'] = async (event) => {
-		setTimeout(saveSongRecord, 3000);
+		setTimeout(saveSongRecord, 10000);
 		setPlayback(event.target);
 		setIsNowPlay(true);
 
