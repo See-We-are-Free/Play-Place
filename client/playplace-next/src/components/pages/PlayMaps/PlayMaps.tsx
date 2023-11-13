@@ -17,7 +17,7 @@ function PlayMaps() {
 	const [center, setCenter] = useState<ILocation>({ lat: 0, lng: 0 });
 
 	// 지도 기준 현 위치
-	const [mapCenter, setMapCenter] = useState<ILocation | null>(null);
+	const [mapCenter, setMapCenter] = useState<ILocation>({ lat: 0, lng: 0 });
 
 	const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
 
@@ -74,6 +74,9 @@ function PlayMaps() {
 	}, []);
 
 	const onLoad = useCallback(async function callback(loadMap: google.maps.Map) {
+		if (loadMap) {
+			locateUser();
+		}
 		setMap(loadMap);
 	}, []);
 
@@ -152,9 +155,9 @@ function PlayMaps() {
 		}
 
 		// 사용자의 위치 권한을 체크하고, 현재 위치를 가져와 center 상태를 업데이트합니다.
-		if (map && mapCenter === null) {
-			locateUser();
-		}
+		// if (map && mapCenter === null) {
+		// 	locateUser();
+		// }
 	}, []);
 
 	useEffect(() => {
@@ -203,7 +206,7 @@ function PlayMaps() {
 
 	return (
 		<>
-			{center && mapCenter && landMarks && isLoaded && (
+			{center && landMarks && isLoaded && (
 				<div style={{ position: 'relative', ...containerStyle }}>
 					<LocateButton onLocateClick={locateUser} />
 					<GoogleMap
