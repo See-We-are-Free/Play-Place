@@ -1,12 +1,10 @@
 import { Song } from './songs';
 
 export interface ChatLogType {
-	id: number;
-	date: string;
-	time: string;
-	picture: string;
-	resultText: string;
-	resultSongs: Song[];
+	answerDate: string;
+	imgUrl: string;
+	comment: string;
+	songs: Song[];
 }
 
 export type GetRecommendResultApiBody = FormData;

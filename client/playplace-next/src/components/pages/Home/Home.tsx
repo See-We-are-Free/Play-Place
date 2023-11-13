@@ -117,11 +117,15 @@ function Home(props: IHomeProps) {
 	}, [isLoading]);
 
 	return (
-		<HomeTemplate>
-			<SongCircleList locationSongList={locateData} />
-			<SongSquareList weatherSongList={weatehrData} />
-			<SongRectList timeZoneSongList={timeData} />
-		</HomeTemplate>
+		<>
+			{!isLoading && (
+				<HomeTemplate>
+					<SongCircleList locationSongList={locateData} />
+					<SongSquareList weatherSongList={weatehrData} />
+					<SongRectList timeZoneSongList={timeData} />
+				</HomeTemplate>
+			)}
+		</>
 	);
 }
 

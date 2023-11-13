@@ -74,9 +74,6 @@ function PlayMaps() {
 	}, []);
 
 	const onLoad = useCallback(async function callback(loadMap: google.maps.Map) {
-		// if (loadMap) {
-		// 	locateUser();
-		// }
 		if (typeof window !== undefined && window.AndMap) {
 			const data = window.AndMap.getLastKnownLocation();
 
@@ -162,10 +159,34 @@ function PlayMaps() {
 			getLandmarks();
 		}
 
-		// 사용자의 위치 권한을 체크하고, 현재 위치를 가져와 center 상태를 업데이트합니다.
-		// if (map && mapCenter === null) {
-		// 	locateUser();
-		// }
+		const handleAddLandmarkSong = (event: Event) => {
+			// event를 CustomEvent로 캐스팅하고 detail 속성에 접근합니다.
+			const customEvent = event as CustomEvent<{ landmarkId: number }>;
+			const { landmarkId } = customEvent.detail;
+			detailLandMarkTest(landmarkId);
+			console.log(1);
+		};
+
+		window.addEventListener('addLandmarkSong', handleAddLandmarkSong);
+
+		// 컴포넌트 언마운트 시 이벤트 리스너 제거
+		return () => {
+			window.removeEventListener('addLandmarkSong', handleAddLandmarkSong);
+			console.log(2);
+		};
+
+		// const handleAddLandmarkSong = (event: { detail: { landmarkId: number } }) => {
+		// 	// event.detail에 포함된 landmarkId를 사용
+		// 	const { landmarkId } = event.detail;
+		// 	detailLandMarkTest(landmarkId);
+		// };
+
+		// window.addEventListener('addLandmarkSong', handleAddLandmarkSong);
+
+		// // 컴포넌트 언마운트 시 이벤트 리스너 제거
+		// return () => {
+		// 	window.removeEventListener('addLandmarkSong', handleAddLandmarkSong);
+		// };
 	}, []);
 
 	useEffect(() => {

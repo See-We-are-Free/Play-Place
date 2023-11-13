@@ -53,6 +53,12 @@ function SearchItems(props: ISearchItemsProps) {
 				const response = await postLandmarkAddSong(song);
 				if (response.status === 200) {
 					CustomToast(ToastStyles.success, `랜드마크에 1곡이 등록되었습니다.`);
+					const customEvent = new CustomEvent('addLandmarkSong', {
+						detail: {
+							landmarkId,
+						},
+					});
+					window.dispatchEvent(customEvent);
 				}
 			} catch (error) {
 				if (error instanceof AxiosError) {
