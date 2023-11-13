@@ -9,6 +9,8 @@ export interface ChatLogType {
 	resultSongs: Song[];
 }
 
+export type GetRecommendResultApiBody = FormData;
+
 export type ChatbotModalType = boolean;
 
 export interface CustomEventData {

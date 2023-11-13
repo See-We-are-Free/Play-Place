@@ -15,6 +15,10 @@ const PPChatContainer = styled.div`
 		border-radius: var(--radius-l);
 	}
 
+	#loading {
+		background: var(--primary-grandiant-sub-puple);
+		border-radius: var(--radius-s);
+	}
 	#message {
 		max-width: 70%;
 		display: flex;

@@ -14,6 +14,6 @@ declare global {
 			sendData: () => string;
 		};
 		openChatbot: CustomEvent<>;
-		takePicture: CustomEvent<>;
+		getImageData: CustomEvent<>;
 	}
 }
