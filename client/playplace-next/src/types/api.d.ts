@@ -39,7 +39,7 @@ export interface AddSongLandmarkApiBody {
 
 export interface HomeApiBody {
 	lat: number;
-	lng: number;
+	lon: number;
 }
 
 //

@@ -28,7 +28,8 @@ function SearchItems(props: ISearchItemsProps) {
 	const { artist, title, albumImg, youtubeId } = searchItem;
 
 	const addLandmarkSong = async () => {
-		if (!window.confirm(`'${title}'을 랜드마크에 등록하시겠어요?`)) return;
+		// 승현TODO : '${groupName}''${title}'을 랜드마크에 등록하시겠어요?`
+
 		if (landmarkId) {
 			const song: AddSongLandmarkApiBody = {
 				artist,

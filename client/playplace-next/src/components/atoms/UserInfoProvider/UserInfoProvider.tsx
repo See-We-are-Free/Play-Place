@@ -1,13 +1,13 @@
 import { UserInfo } from '@/types/auth';
-import { ILocation } from '@/types/maps';
 import { getUserInfoApi } from '@/utils/api/auth';
 import { getSongShareInfoApi } from '@/utils/api/radar';
 import UserInfoContext, { UserInfoContextType } from '@/utils/common/UserInfoContext';
-import { usePathname, useRouter } from 'next/navigation';
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 
 function UserInfoProvider({ children }: { children: ReactNode }) {
 	const router = useRouter();
+	const params = useSearchParams();
 	const pathname = usePathname();
 	const [user, setUser] = useState<UserInfo>({
 		nickname: '',
@@ -63,10 +63,14 @@ function UserInfoProvider({ children }: { children: ReactNode }) {
 	 * 현재 위치를 반환하는 함수
 	 * @return lat: number, lng: number
 	 */
-	const getLocation: () => ILocation = useMemo(() => {
-		if (window.AndMap) {
-			console.log('앱입니다.');
-			return JSON.parse(window.AndMap.getLastKnownLocation());
+	const getLocation = () => {
+		if (typeof window !== 'undefined' && window.AndMap) {
+			const data = window.AndMap.getLastKnownLocation();
+			if (data) return JSON.parse(data);
+			return {
+				lat: 35.205534,
+				lng: 126.811585,
+			};
 		}
 
 		console.log('앱이 아닙니다. 기본값은 삼성전자 광주사업장 위치입니다.', {
@@ -78,29 +82,28 @@ function UserInfoProvider({ children }: { children: ReactNode }) {
 			lat: 35.205534,
 			lng: 126.811585,
 		};
-	}, []);
+	};
 
 	useEffect(() => {
-		if (loginPathCheck()) {
-			localStorage.removeItem('accessToken');
-			return;
-		}
-
-		if (!loginCheck()) {
+		if (params.get('accessToken')) {
+			localStorage.setItem('accessToken', params.get('accessToken') || '');
+			router.push('/');
+		} else if (pathname === '/signup') {
+			console.log('회원가입');
+		} else if (!localStorage.getItem('accessToken')) {
 			router.push('/login');
-			return;
-		}
-
-		if (user.nickname === '') {
+		} else if (localStorage.getItem('accessToken') && user.nickname === '') {
 			getUserInfo();
 			getSongShareInfo();
-		} else {
+		}
+
+		if (user.nickname !== '') {
 			console.log('유저 정보 ==============');
 			console.log('accessToken', localStorage.getItem('accessToken'));
 			console.log('userInfo', user);
 			console.log('isSongShare', isSongShare);
 		}
-	}, [getSongShareInfo, getUserInfo, isSongShare, loginCheck, loginPathCheck, router, user]);
+	}, [getSongShareInfo, getUserInfo, isSongShare, loginCheck, loginPathCheck, params, pathname, router, user]);
 
 	const value: UserInfoContextType = useMemo(() => {
 		return {
