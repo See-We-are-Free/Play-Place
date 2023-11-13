@@ -2,9 +2,11 @@
 
 import Logo from '@/components/atoms/Logo/Logo';
 import Button from '@/components/atoms/Button/Button';
-import { ButtonStyles, ContentLayoutSizes } from '@/types/styles.d';
+import { ButtonStyles, ContentLayoutSizes, ToastStyles } from '@/types/styles.d';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
+import CustomToast from '@/components/atoms/CustomToast/CustomToast';
+import { getUserInfoApi } from '@/utils/api/auth';
 import ContentLayout from '../layout/ContentLayout/ContentLayout';
 import LoginContainer from './style';
 
@@ -23,17 +25,23 @@ function LoginTemplate() {
 	};
 
 	useEffect(() => {
-		if (localStorage.getItem('accessToken')) {
-			localStorage.removeItem('accessToken');
-		}
+		const checkLoginStatus = async () => {
+			if (params.get('accessToken')) {
+				console.log('accessToken', params.get('accessToken'));
+				localStorage.setItem('accessToken', params.get('accessToken') || '');
+				router.push('/');
+			} else if (localStorage.getItem('accessToken')) {
+				const loggedIn = await getUserInfoApi();
+				if (loggedIn.status === 200) {
+					router.push('/');
+				} else {
+					CustomToast(ToastStyles.error, '세션이 만료되었습니다. 로그인이 필요한 서비스입니다.');
+					localStorage.removeItem('accessToken');
+				}
+			}
+		};
 
-		if (params.get('accessToken')) {
-			// TODOS: 토큰 저장
-			console.log('accessToken', params.get('accessToken'));
-			// alert('가입된 회원입니다. 메인 페이지로 이동합니다.');
-			localStorage.setItem('accessToken', params.get('accessToken') || '');
-			router.push('/');
-		}
+		checkLoginStatus();
 	}, [params, router]);
 
 	return (

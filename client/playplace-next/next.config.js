@@ -10,7 +10,7 @@ const nextConfig = {
 	},
 	reactStrictMode: false,
 	images: {
-		domains: ['i.ytimg.com', 'image.bugsm.co.kr'],
+		domains: ['i.ytimg.com', 'image.bugsm.co.kr', `playplacebucket.s3.ap-northeast-2.amazonaws.com`],
 	},
 	webpack: (config) => {
 		config.module.rules.push({
