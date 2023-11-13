@@ -73,6 +73,11 @@ export const Profile = styled.button`
 		height: 30px;
 	}
 
+	& > div {
+		font-size: 14px;
+		text-align: left;
+	}
+
 	svg {
 		width: 14px;
 		height: 14px;
