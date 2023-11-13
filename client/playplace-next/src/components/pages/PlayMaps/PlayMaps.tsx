@@ -74,8 +74,16 @@ function PlayMaps() {
 	}, []);
 
 	const onLoad = useCallback(async function callback(loadMap: google.maps.Map) {
-		if (loadMap) {
-			locateUser();
+		// if (loadMap) {
+		// 	locateUser();
+		// }
+		if (typeof window !== undefined && window.AndMap) {
+			const data = window.AndMap.getLastKnownLocation();
+
+			if (data) {
+				const location = JSON.parse(data);
+				setMapCenter(location);
+			}
 		}
 		setMap(loadMap);
 	}, []);
