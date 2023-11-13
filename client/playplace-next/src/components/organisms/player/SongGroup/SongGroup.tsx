@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PlayGroup from '@root/public/assets/icons/PlayGroup.svg';
 import Down from '@root/public/assets/icons/Down.svg';
 import TrashBox from '@root/public/assets/icons/TrashBox.svg';
@@ -37,9 +37,17 @@ function SongGroup(props: ISongGroupProps) {
 	const [playQueue] = useRecoilState(playQueueState);
 	const { fetchData } = useFetchPlaylist();
 	const [toggle, setToggle] = useToggle(false);
+	const [confirm, setConfirm] = useState<boolean>(false);
+
+	const confirmRemove = () => {
+		if (typeof window !== 'undefined' && window.AndAlert) {
+			window.AndAlert.cofirmTest('PlayMap', `${groupName} 그룹 재생목록을 삭제하시겠습니까?`);
+			setConfirm(true);
+		}
+	};
 
 	const removeSongGroup = async () => {
-		if (!window.confirm(`'${groupName}' 그룹 재생목록을 삭제하시겠습니까?`)) return;
+		// 승현TODO : '${groupName}' 그룹 재생목록을 삭제하시겠습니까?
 
 		try {
 			const response = await deleteGroupFromPlayListApi(userLandmarkGroupId);
@@ -56,6 +64,21 @@ function SongGroup(props: ISongGroupProps) {
 			console.error(error);
 		}
 	};
+
+	useEffect(() => {
+		if (typeof window !== undefined && confirm === true) {
+			window.confirmCallback = function (result: boolean) {
+				console.log(result); // true 또는 false
+				if (result === false) {
+					CustomToast(ToastStyles.success, `랜드마크 그룹 삭제 취소`);
+				} else {
+					removeSongGroup();
+				}
+			};
+		}
+
+		setConfirm(false);
+	}, [confirm]);
 
 	useEffect(() => {
 		const foldAll = () => {
@@ -76,7 +99,7 @@ function SongGroup(props: ISongGroupProps) {
 				<div id="group-control">
 					<IconButton Icon={<PlayGroup />} color="black300" onClick={() => alert('play group')} size="s" />
 					<IconButton id="fold-btn" Icon={<Down />} color="black300" onClick={setToggle} size="s" />
-					{editMode ? <IconButton Icon={<TrashBox />} color="danger" onClick={removeSongGroup} size="s" /> : <></>}
+					{editMode ? <IconButton Icon={<TrashBox />} color="danger" onClick={confirmRemove} size="s" /> : <></>}
 				</div>
 			</div>
 			<div id="group-songs">

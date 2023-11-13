@@ -177,7 +177,6 @@ public class MainActivity extends AppCompatActivity {
         @JavascriptInterface
         public String sendData() {
             if (imageBitmap != null) {
-                webView.loadUrl(BASE_URL + "/search");
                 return encodeToBase64(imageBitmap);
             }
             return null;

@@ -39,7 +39,7 @@ function MapBottomSheet(props: IMapBottomSheetProps) {
 					{landMarkList.length ? (
 						<SearchList searchList={landMarkList} />
 					) : (
-						<MapBottomResultText>랜드마크 노래를 추가해보세요!</MapBottomResultText>
+						<MapBottomResultText>랜드마크 음악을 추가해보세요!</MapBottomResultText>
 					)}
 				</MapBottomResult>
 			</ContentLayout>

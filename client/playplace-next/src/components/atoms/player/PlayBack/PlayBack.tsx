@@ -29,18 +29,22 @@ function PlayBack() {
 
 	const saveSongRecord = async () => {
 		try {
-			const location: { lat: number; lng: number } = JSON.parse(window.AndMap.getLastKnownLocation());
+			const data = window.AndMap.getLastKnownLocation();
 
-			if (!nowPlaySong || nowPlaySong.songId === -1) return;
-			const body: SaveSongRecordApiBody = {
-				songId: nowPlaySong?.songId,
-				lat: location.lat,
-				lon: location.lng,
-			};
+			if (data) {
+				const location = JSON.parse(data);
 
-			const response = await saveSongRecordApi(body);
-			if (response.status === 200) {
-				console.log('saveSongRecordApi :: 재생 정보가 전송되었습니다.');
+				if (!nowPlaySong || nowPlaySong.songId === -1) return;
+				const body: SaveSongRecordApiBody = {
+					songId: nowPlaySong?.songId,
+					lat: location.lat,
+					lon: location.lng,
+				};
+
+				const response = await saveSongRecordApi(body);
+				if (response.status === 200) {
+					console.log('saveSongRecordApi :: 재생 정보가 전송되었습니다.');
+				}
 			}
 		} catch (error) {
 			console.log(error);

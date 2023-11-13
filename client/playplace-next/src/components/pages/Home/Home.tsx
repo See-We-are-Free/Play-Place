@@ -5,7 +5,7 @@ import SongRectList from '@/components/organisms/song/SongRectList/SongRectList'
 import HomeTemplate from '@/components/templates/HomeTemplate/HomeTemplate';
 import { postLocateSongsApi, postTimezoneSongApi, postVillageApi, postWeatherSongApi } from '@/utils/api/songs';
 import { AreaSongList, TimezoneSongList, Village, WeatherSongList } from '@/types/songs';
-import { ILocation } from '@/types/maps';
+import { HomeApiBody } from '@/types/api';
 
 interface IHomeProps {
 	setVillage: React.Dispatch<React.SetStateAction<Village>>;
@@ -14,9 +14,9 @@ interface IHomeProps {
 function Home(props: IHomeProps) {
 	const { setVillage } = props;
 
-	const [present, setPresent] = useState<ILocation>({
-		lat: 0,
-		lng: 0,
+	const [present, setPresent] = useState<HomeApiBody>({
+		lat: 35.205534,
+		lon: 126.811585,
 	});
 
 	const [locateData, setLocateData] = useState<AreaSongList>({
@@ -32,6 +32,10 @@ function Home(props: IHomeProps) {
 	});
 
 	const getLocate = async () => {
+		if (!present) {
+			return;
+		}
+
 		try {
 			const response = await postLocateSongsApi(present);
 			if (response.status === 200) {
@@ -44,6 +48,10 @@ function Home(props: IHomeProps) {
 	};
 
 	const getWeather = async () => {
+		if (!present) {
+			return;
+		}
+
 		try {
 			const response = await postWeatherSongApi(present);
 			if (response.status === 200) {
@@ -70,6 +78,10 @@ function Home(props: IHomeProps) {
 	};
 
 	const getVillage = async () => {
+		if (!present) {
+			return;
+		}
+
 		try {
 			const response = await postVillageApi(present);
 			if (response.status === 200) {
@@ -82,15 +94,23 @@ function Home(props: IHomeProps) {
 	};
 
 	useEffect(() => {
-		if (window.AndMap) {
-			const location: { lat: number; lng: number } = JSON.parse(window.AndMap.getLastKnownLocation());
-			setPresent(location);
+		if (typeof window !== 'undefined' && window.AndMap) {
+			const data = window.AndMap.getLastKnownLocation();
+			if (data) {
+				const location = JSON.parse(data);
+				const newPresent: HomeApiBody = {
+					lat: location.lat,
+					lon: location.lng,
+				};
+				setPresent(newPresent);
+			}
 		}
+
 		getVillage();
 		getLocate();
 		getWeather();
 		getTime();
-	}, []);
+	}, [present]);
 
 	return (
 		<HomeTemplate>

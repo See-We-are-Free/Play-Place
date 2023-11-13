@@ -14,7 +14,6 @@ function PlayMaps() {
 	// 구글 맵
 	const [map, setMap] = useState<google.maps.Map | null>(null);
 	// 현재 위치
-
 	const [center, setCenter] = useState<ILocation>({
 		lat: 0,
 		lng: 0,
@@ -22,8 +21,8 @@ function PlayMaps() {
 
 	// 지도 기준 현 위치
 	const [mapCenter, setMapCenter] = useState<ILocation>({
-		lat: center.lat,
-		lng: center.lng,
+		lat: 0,
+		lng: 0,
 	});
 
 	// 바텀시트를 여는 state
@@ -51,6 +50,21 @@ function PlayMaps() {
 
 	// google api 키
 	const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS || '';
+
+	// 현재 위치로 이동
+	const locateUser = useCallback(() => {
+		if (center.lat && center.lng) {
+			const newLocation = {
+				lat: center.lat,
+				lng: center.lng,
+			};
+			setMapCenter(newLocation);
+			if (map) {
+				map.panTo(newLocation);
+				map.setZoom(18);
+			}
+		}
+	}, [center.lat, center.lng, map]);
 
 	// map 로딩
 	const { isLoaded } = useJsApiLoader({
@@ -81,28 +95,15 @@ function PlayMaps() {
 	}, [map]);
 
 	const callAndroidLocation = () => {
-		const data = JSON.parse(window.AndMap.getLastKnownLocation());
-		console.log('callAndroidLocation 위치 데이터 갱신 :: ', JSON.stringify(data));
+		if (typeof window !== undefined && window) {
+			const data = window.AndMap.getLastKnownLocation();
 
-		if (window.AndMap) {
-			setCenter(data);
-		}
-	};
-
-	// 현재 위치로 이동
-	const locateUser = useCallback(() => {
-		if (center.lat && center.lng) {
-			const newLocation = {
-				lat: center.lat,
-				lng: center.lng,
-			};
-			setMapCenter(newLocation);
-			if (map) {
-				map.panTo(newLocation);
-				map.setZoom(18);
+			if (data) {
+				const location = JSON.parse(data);
+				setCenter(location);
 			}
 		}
-	}, [center.lat, center.lng, map]);
+	};
 
 	const getLandmarks = async () => {
 		try {
@@ -153,6 +154,9 @@ function PlayMaps() {
 	useEffect(() => {
 		getLandmarks();
 		// 사용자의 위치 권한을 체크하고, 현재 위치를 가져와 center 상태를 업데이트합니다.
+		if (map) {
+			locateUser();
+		}
 		const locationInterval = setInterval(callAndroidLocation, 500);
 
 		return () => {
@@ -163,7 +167,7 @@ function PlayMaps() {
 	useEffect(() => {
 		if (map) {
 			const idleListener = google.maps.event.addListener(map, 'idle', onMapIdle);
-			locateUser();
+
 			return () => {
 				google.maps.event.removeListener(idleListener);
 			};
@@ -194,7 +198,7 @@ function PlayMaps() {
 
 	return (
 		<>
-			{center && landMarks && isLoaded && (
+			{center && mapCenter && landMarks && isLoaded && (
 				<div style={{ position: 'relative', ...containerStyle }}>
 					<LocateButton onLocateClick={locateUser} />
 					<GoogleMap

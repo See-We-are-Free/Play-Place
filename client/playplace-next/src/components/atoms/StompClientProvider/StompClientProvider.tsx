@@ -1,15 +1,26 @@
-import React, { ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+	Dispatch,
+	ReactNode,
+	SetStateAction,
+	useCallback,
+	useContext,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from 'react';
 import * as StompJs from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-import { CurrentLocation, IAroundPeople } from '@/types/radar';
+import { IAroundPeople } from '@/types/radar';
 import StompClientContext, { StompClientContextType } from '@/utils/common/StompClientContext';
 import UserInfoContext from '@/utils/common/UserInfoContext';
+import { ILocation } from '@/types/maps';
 
 function StompClientProvider({ children }: { children: ReactNode }) {
 	const { isSongShare } = useContext(UserInfoContext);
 	const client = useRef<StompJs.Client | null>(null);
 	const [data, setData] = useState<IAroundPeople[] | null>(null);
-	const [currentLocation, setCurrentLocation] = useState<CurrentLocation | null>(null);
+	const [currentLocation, setCurrentLocation] = useState<ILocation | null>(null);
 	const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
 
 	const subscribe = useCallback(() => {
@@ -24,7 +35,20 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 				const parsedBody: IAroundPeople[] = JSON.parse(body);
 				console.log('Before parsedBody', data);
 				console.log('After parsedBody', parsedBody);
-				if (!data || parsedBody.some((pb) => !data.some((d) => d.userId === pb.userId))) {
+				if (
+					!data ||
+					parsedBody.some(
+						(pb) =>
+							// data에 pb.userId가 없거나, userId가 같지만 youtubeId가 다른 경우를 확인
+							!data.some((d) => d.userId === pb.userId) ||
+							data.some((d) => d.userId === pb.userId && d.youtubeId !== pb.youtubeId),
+					) ||
+					data.some(
+						(d) =>
+							// data에 있는 각 userId가 parsedBody에 없는 경우를 확인
+							!parsedBody.some((pb) => pb.userId === d.userId),
+					)
+				) {
 					setData(parsedBody);
 				} else {
 					console.log('변경된 값이 없습니다.');
@@ -56,10 +80,9 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 
 	const connect = useCallback(() => {
 		console.log('연결 시작');
-		let baseUrl = process.env.NEXT_PUBLIC_DEVELOP_WS_BASE_URL || ''; // 개발용
-		if (window.AndMap) {
-			baseUrl = process.env.NEXT_PUBLIC_WS_BASE_URL || '';
-		}
+		const baseUrl = process.env.NEXT_PUBLIC_WS_BASE_URL || '';
+		// const baseUrl = process.env.NEXT_PUBLIC_DEVELOP_WS_BASE_URL || ''; // 개발용
+
 		client.current = new StompJs.Client({
 			webSocketFactory: () => new SockJS(baseUrl),
 			connectHeaders: {
@@ -90,34 +113,56 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 
 	const getMarkerList = useCallback(async () => {
 		if (currentLocation) {
-			publish(currentLocation.latitude, currentLocation.longitude);
+			publish(currentLocation.lat, currentLocation.lng);
 		}
 	}, [currentLocation, publish]);
 
-	const getCurrentLocation = useCallback(() => {
-		if (window.AndMap) {
-			const location: { lat: number; lng: number } = JSON.parse(window.AndMap.getLastKnownLocation());
-			console.log(location);
+	// const getCurrentLocation = useCallback(() => {
+	// 	if (window.AndMap) {
+	// 		const andLocationData = window.AndMap.getLastKnownLocation();
+	// 		if (andLocationData) {
+	// 			const location = JSON.parse(andLocationData);
+	// 			setCurrentLocation({
+	// 				latitude: location.lat,
+	// 				longitude: location.lng,
+	// 			});
+	// 		}
+	// 	}
+	// }, []);
 
-			setCurrentLocation({
-				latitude: location.lat,
-				longitude: location.lng,
-			});
-		} else {
-			navigator.geolocation.getCurrentPosition((position) => {
-				const location = {
-					longitude: position.coords.longitude,
-					latitude: position.coords.latitude,
+	const getCurrentLocation = useCallback(async (setStateCallback: Dispatch<SetStateAction<ILocation | null>>) => {
+		if (window.AndMap) {
+			const appLocation = window.AndMap.getLastKnownLocation();
+			if (appLocation) {
+				const location = JSON.parse(appLocation);
+				const newLocation: ILocation = {
+					lat: location.lat,
+					lng: location.lng,
 				};
-				console.log('현재 위치', location);
-				setCurrentLocation(location);
-			}); // 개발용
+				setStateCallback(newLocation);
+			}
+			return;
 		}
+
+		navigator.geolocation.getCurrentPosition(
+			(position) => {
+				if (setStateCallback) {
+					setStateCallback({
+						lat: position.coords.latitude,
+						lng: position.coords.longitude,
+					});
+				}
+			},
+			(error) => {
+				console.error('위치 정보를 가져오는 데 실패했습니다.', error);
+				setStateCallback({ lat: 35.205534, lng: 126.811585 }); // 기본 위치 설정
+			},
+		);
 	}, []);
 
 	useEffect(() => {
 		if (!currentLocation) {
-			getCurrentLocation();
+			getCurrentLocation(setCurrentLocation);
 		}
 	}, [currentLocation, getCurrentLocation]);
 
@@ -132,17 +177,17 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 			return;
 		}
 
-		if (currentLocation) {
-			if (!intervalId) {
-				console.log('getMarkerList!');
-				getMarkerList();
-				setIntervalId(
-					setInterval(() => {
-						console.log('인터벌 getMarkerList!');
-						getMarkerList();
-					}, 30000),
-				);
-			}
+		if (isSongShare && !intervalId) {
+			console.log('getMarkerList!');
+			getCurrentLocation(setCurrentLocation);
+			getMarkerList();
+			setIntervalId(
+				setInterval(() => {
+					console.log('인터벌 getMarkerList!');
+					getCurrentLocation(setCurrentLocation);
+					getMarkerList();
+				}, 30000), // 임시 개발용 10000
+			);
 		}
 
 		// eslint-disable-next-line consistent-return
@@ -153,7 +198,7 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 				setIntervalId(null);
 			}
 		};
-	}, [currentLocation, getMarkerList, intervalId, isSongShare]);
+	}, [currentLocation, getCurrentLocation, getMarkerList, intervalId, isSongShare]);
 
 	useEffect(() => {
 		if (isSongShare) {

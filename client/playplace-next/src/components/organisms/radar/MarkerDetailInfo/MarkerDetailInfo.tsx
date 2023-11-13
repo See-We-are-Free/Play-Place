@@ -34,7 +34,7 @@ function MarkerDetailInfo(props: MarkerDetailInfoProps) {
 					<MarkerDetailInfoHeader>
 						<SongPlayWave />
 						<NicknameWrapper>{item.nickname}</NicknameWrapper>
-						<span>님이 현재 듣고 있는 노래</span>
+						<span>님이 현재 듣고 있는 음악</span>
 					</MarkerDetailInfoHeader>
 					<MarkerDetailInfoBody>
 						<BodyLeft>
