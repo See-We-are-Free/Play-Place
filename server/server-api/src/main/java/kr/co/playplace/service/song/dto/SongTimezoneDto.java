@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
 
 @Getter
@@ -26,8 +27,9 @@ public class SongTimezoneDto {
     private String artist;
     private String albumImg;
     private long playTime;
+    @Indexed
     private Timezone timezone;
-    private int count;
+    private Long count;
 
     public static SongTimezoneDto of(SongTimeStats songTimeStats){
         return SongTimezoneDto.builder()

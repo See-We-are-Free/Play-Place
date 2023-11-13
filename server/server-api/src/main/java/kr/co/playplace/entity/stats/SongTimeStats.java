@@ -23,7 +23,7 @@ public class SongTimeStats extends TimeBaseEntity {
     private Song song;
 
     private Timezone timezone;
-    private int count;
+    private Long count;
 //    private int dawnCount;
 //    private int morningCount;
 //    private int dayCount;
