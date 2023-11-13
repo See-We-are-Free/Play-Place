@@ -27,13 +27,13 @@ public class Users extends TimeBaseEntity {
     @ColumnDefault("0")
     private int isRemoved;
 
-    @ColumnDefault("1")
+    @ColumnDefault("0")
     private int isPush;
 
-    @ColumnDefault("1")
+    @ColumnDefault("0")
     private int isShake;
 
-    @ColumnDefault("1")
+    @ColumnDefault("0")
     private int isRadar;
 
     private String role;
