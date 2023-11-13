@@ -27,6 +27,6 @@ public class UserQueryService {
     }
 
     public boolean findUserIsRadar(long userId) {
-        return userRepository.existsByIdAndIsRadar(userId, 0);
+        return userRepository.existsByIdAndIsRadar(userId, 1);
     }
 }

@@ -20,8 +20,8 @@ public class FindUserInfoResponse {
         this.nickname = nickname;
         this.profileImg = profileImg;
         this.email = email;
-        this.isPush = isPush == 0? true : false;
-        this.isShake = isShake == 0? true : false;
+        this.isPush = isPush == 0? false : true;
+        this.isShake = isShake == 0? false : true;
     }
 
     public static FindUserInfoResponse of(Users user) {
