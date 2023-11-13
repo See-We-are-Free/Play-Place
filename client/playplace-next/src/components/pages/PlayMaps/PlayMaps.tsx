@@ -159,15 +159,34 @@ function PlayMaps() {
 			getLandmarks();
 		}
 
-		const tempId = 0;
-		window.addEventListener('addLandmarkSong', () => {
-			detailLandMarkTest(tempId);
-		});
+		const handleAddLandmarkSong = (event: Event) => {
+			// event를 CustomEvent로 캐스팅하고 detail 속성에 접근합니다.
+			const customEvent = event as CustomEvent<{ landmarkId: number }>;
+			const { landmarkId } = customEvent.detail;
+			detailLandMarkTest(landmarkId);
+			console.log(1);
+		};
 
-		return () =>
-			window.removeEventListener('addLandmarkSong', () => {
-				detailLandMarkTest(tempId);
-			});
+		window.addEventListener('addLandmarkSong', handleAddLandmarkSong);
+
+		// 컴포넌트 언마운트 시 이벤트 리스너 제거
+		return () => {
+			window.removeEventListener('addLandmarkSong', handleAddLandmarkSong);
+			console.log(2);
+		};
+
+		// const handleAddLandmarkSong = (event: { detail: { landmarkId: number } }) => {
+		// 	// event.detail에 포함된 landmarkId를 사용
+		// 	const { landmarkId } = event.detail;
+		// 	detailLandMarkTest(landmarkId);
+		// };
+
+		// window.addEventListener('addLandmarkSong', handleAddLandmarkSong);
+
+		// // 컴포넌트 언마운트 시 이벤트 리스너 제거
+		// return () => {
+		// 	window.removeEventListener('addLandmarkSong', handleAddLandmarkSong);
+		// };
 	}, []);
 
 	useEffect(() => {
