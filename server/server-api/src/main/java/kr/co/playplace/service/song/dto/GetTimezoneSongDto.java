@@ -5,20 +5,18 @@ import kr.co.playplace.entity.Weather;
 import kr.co.playplace.entity.song.Song;
 import kr.co.playplace.entity.stats.SongTimeStats;
 import kr.co.playplace.entity.stats.SongWeatherStats;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Builder
 @ToString
 @AllArgsConstructor
+@NoArgsConstructor
 public class GetTimezoneSongDto {
 
     private Song song;
     private Timezone timezone;
-    private int count;
+    private Long count;
 
     public SongTimeStats toEntity(){
         return SongTimeStats.builder()

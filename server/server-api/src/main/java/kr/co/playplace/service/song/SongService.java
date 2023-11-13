@@ -249,10 +249,11 @@ public class SongService {
     public void getAreaStatistics(){
         List<GetAreaSongDto> getAreaSongDtoList = songQueryRepository.findSongsWithArea();
         getAreaSongDtoList = getAreaSongDtoList.stream().sorted(Comparator.comparing(GetAreaSongDto::getCount).reversed()).collect(Collectors.toList()); // count로 정렬
-        for(int i=0; i<10; i++){
-            if(getAreaSongDtoList.size() <= i) return; // list의 개수가 10개보다 적으면 종료
+        for(GetAreaSongDto getAreaSongDto : getAreaSongDtoList){
+//            for(int i = 0; i < 10; i++){
+//            if(getAreaSongDtoList.size() <= i) return; // list의 개수가 10개보다 적으면 종료
             // mysql에 저장
-            SongAreaStats songAreaStats = getAreaSongDtoList.get(i).toEntity();
+            SongAreaStats songAreaStats = getAreaSongDto.toEntity();
             songAreaStatsRepository.save(songAreaStats);
             // redis에 저장
             SongAreaDto songAreaDto = SongAreaDto.of(songAreaStats);

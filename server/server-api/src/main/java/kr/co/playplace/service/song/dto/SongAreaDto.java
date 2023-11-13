@@ -4,6 +4,7 @@ import kr.co.playplace.entity.stats.SongAreaStats;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
 @Getter
 @Builder
@@ -22,6 +23,7 @@ public class SongAreaDto {
     private String albumImg;
     private long playTime;
     private String villageName;
+    @Indexed
     private int villageCode;
 
     public static SongAreaDto of(SongAreaStats songAreaStats){
