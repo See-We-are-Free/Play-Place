@@ -69,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
     private ShakeDetector mShakeDetector;
     private long backBtnTime = 0;
     private static final String TAG = "permission";
-    private static final String BASE_URL = "https://k9c109.p.ssafy.io/pp/login";
-//    private static final String BASE_URL = "http://192.168.137.1:3000/pp";
+   private static final String BASE_URL = "https://k9c109.p.ssafy.io/pp/login";
+    // private static final String BASE_URL = "http://172.30.1.67:3000/pp";
 
 
     /* Activity 시작점 */
@@ -233,6 +233,8 @@ public class MainActivity extends AppCompatActivity {
             Bundle extras = data.getExtras();
             assert extras != null;
             imageBitmap = (Bitmap) extras.get("data");
+            webView.evaluateJavascript("window.dispatchEvent(getImageData)", (e) -> Log.i("permission", "사진 촬영 완료"));
+
         }
     }
 
