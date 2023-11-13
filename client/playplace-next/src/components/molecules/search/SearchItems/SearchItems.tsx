@@ -31,7 +31,7 @@ function SearchItems(props: ISearchItemsProps) {
 
 	const confirmLandmark = () => {
 		if (typeof window !== 'undefined' && window.AndAlert) {
-			window.AndAlert.cofirmTest('PlayMap', `${title}을 랜드마크에 등록하시겠어요?`);
+			window.AndAlert.cofirmTest('재생목록', `${title}을 랜드마크에 등록하시겠어요?`);
 			setConfirm(true);
 		}
 	};
