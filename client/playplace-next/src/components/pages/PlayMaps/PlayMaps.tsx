@@ -14,16 +14,12 @@ function PlayMaps() {
 	// 구글 맵
 	const [map, setMap] = useState<google.maps.Map | null>(null);
 	// 현재 위치
-	const [center, setCenter] = useState<ILocation>({
-		lat: 0,
-		lng: 0,
-	});
+	const [center, setCenter] = useState<ILocation>({ lat: 35.205534, lng: 126.811585 });
 
 	// 지도 기준 현 위치
-	const [mapCenter, setMapCenter] = useState<ILocation>({
-		lat: 0,
-		lng: 0,
-	});
+	const [mapCenter, setMapCenter] = useState<ILocation>({ lat: 35.205534, lng: 126.811585 });
+
+	const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
 
 	// 바텀시트를 여는 state
 	const [open, setOpen] = useState<boolean>(false);
@@ -95,7 +91,7 @@ function PlayMaps() {
 	}, [map]);
 
 	const callAndroidLocation = () => {
-		if (typeof window !== undefined && window) {
+		if (typeof window !== undefined && window.AndMap) {
 			const data = window.AndMap.getLastKnownLocation();
 
 			if (data) {
@@ -152,16 +148,14 @@ function PlayMaps() {
 	}, [choose, detailLandmark.landmarkId]);
 
 	useEffect(() => {
-		getLandmarks();
+		if (landMarkList.length === 0) {
+			getLandmarks();
+		}
+
 		// 사용자의 위치 권한을 체크하고, 현재 위치를 가져와 center 상태를 업데이트합니다.
 		if (map) {
 			locateUser();
 		}
-		const locationInterval = setInterval(callAndroidLocation, 500);
-
-		return () => {
-			clearInterval(locationInterval);
-		};
 	}, []);
 
 	useEffect(() => {
@@ -174,6 +168,18 @@ function PlayMaps() {
 		}
 		return undefined;
 	}, [map, onMapIdle]);
+
+	useEffect(() => {
+		if (!intervalId) {
+			setIntervalId(setInterval(callAndroidLocation, 10000));
+		}
+
+		return () => {
+			if (intervalId) {
+				clearInterval(intervalId);
+			}
+		};
+	}, [intervalId]);
 
 	// 현재위치 표시
 	const circleRangeOptions = {
