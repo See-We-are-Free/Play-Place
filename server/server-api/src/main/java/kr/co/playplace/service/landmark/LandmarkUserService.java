@@ -37,9 +37,6 @@ public class LandmarkUserService {
         Users user = userRepository.findByOuthId(SecurityUtils.getUserId()).orElseThrow(() -> new BaseException(ErrorCode.NOT_FOUND_USER));
         Landmark landmark = landmarkRepository.findById(landmarkId).orElseThrow(() -> new BaseException(ErrorCode.NOT_FOUND_LANDMARK));
 
-        // TODO: landmarksong이 0개면 추가못함
-        
-
         Optional<UserLandmarkGroup> userLandmarkGroup = userLandmarkGroupRepository.findByUserIdAndLandmarkId(user.getId(), landmarkId);
 
         // 10그룹 이상이면 못넣음
@@ -60,10 +57,10 @@ public class LandmarkUserService {
 
         userLandmarkGroupRepository.save(landmarkGroup);
         // user - landmark song 저장
-        Optional<List<LandmarkSong>> landmarkSongList = landmarkSongRepository.findAllByLandmarkId(landmarkId);
+        List<LandmarkSong> landmarkSongList = landmarkSongRepository.findAllByLandmarkId(landmarkId);
         if (landmarkSongList.isEmpty()) throw new BaseException(ErrorCode.NOT_FOUND_LANDMARK_SONG);
 
-        for (LandmarkSong landmarkSong : landmarkSongList.get()) {
+        for (LandmarkSong landmarkSong : landmarkSongList) {
             UserLandmarkSong userLandmarkSong = UserLandmarkSong.builder()
                     .song(landmarkSong.getSong())
                     .userlandmarkGroup(landmarkGroup)
