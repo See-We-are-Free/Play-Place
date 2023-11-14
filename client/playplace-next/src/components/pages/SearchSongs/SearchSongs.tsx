@@ -9,6 +9,8 @@ import SearchBar from '@/components/molecules/search/SearchBar/SearchBar';
 import SearchTemplate from '@/components/templates/SearchTemplate/SearchTemplate';
 import { searchSongApi } from '@/utils/api/songs';
 import { Song } from '@/types/songs';
+import CustomToast from '@/components/atoms/CustomToast/CustomToast';
+import { ToastStyles } from '@/types/styles.d';
 import { SearSongTitle, SearchSongsList } from './style';
 
 interface ISearchSongsprops {
@@ -22,10 +24,14 @@ function SearchSongs(props: ISearchSongsprops) {
 	const [isLanding, setIsLanding] = useState(true);
 
 	const handleSearch = async (searchText: string) => {
-		const response = await searchSongApi(searchText);
-		if (response.status === 200) {
-			setIsLanding(false);
-			setGetSong(response.data);
+		try {
+			const response = await searchSongApi(searchText);
+			if (response.status === 200) {
+				setIsLanding(false);
+				setGetSong(response.data);
+			}
+		} catch (error) {
+			CustomToast(ToastStyles.error, '음악 검색에 실패했습니다. 잠시 후 다시 시도하세요.');
 		}
 	};
 
