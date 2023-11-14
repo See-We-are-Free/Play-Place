@@ -23,4 +23,10 @@ const NowPlaySongInfoContainer = styled.div`
 	}
 `;
 
+export const NowPlaySongTitle = styled.div`
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+`;
+
 export default NowPlaySongInfoContainer;
