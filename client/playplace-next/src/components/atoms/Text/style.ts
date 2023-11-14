@@ -1,9 +1,10 @@
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 interface ITextWrapperProps {
 	$fontSize: number;
 	$color: 'default' | 'gradientMain' | 'gray' | 'gradientOrange';
 	$overflowHidden?: boolean;
+	$textSlide?: boolean;
 }
 
 const overflowHidden = css`
@@ -32,11 +33,22 @@ const TextStyle = {
 	`,
 };
 
+const slideText = keyframes`
+	0% { transform: translateX(0); }
+	100% { transform: translateX(-100%)}
+`;
+
+const textSlide = css`
+	display: inline-block;
+	animation: ${slideText} 10s linear infinite;
+`;
+
 const TextWrapper = styled.p<ITextWrapperProps>`
 	width: fit-content;
 	font-size: ${({ $fontSize }) => $fontSize}px;
 	${({ $color }) => TextStyle[$color]};
 	${({ $overflowHidden }) => $overflowHidden && overflowHidden}
+	${({ $textSlide }) => $textSlide && textSlide}
 `;
 
 export default TextWrapper;
