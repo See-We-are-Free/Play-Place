@@ -40,8 +40,8 @@ function SongRectList(props: SongRectListProps) {
 						<SongRectItems imgSrc={v.albumImg} />
 						<SongRectListInfoPlay>
 							<SongRectListInfo>
-								<Text text={v.title} color="default" fontSize={14} $textSlide $overflowHidden />
-								<Text text={v.artist} color="gray" fontSize={10} />
+								<Text text={v.title} color="default" fontSize={14} $overflowHidden />
+								<Text text={v.artist} color="gray" fontSize={10} $overflowHidden />
 							</SongRectListInfo>
 							<SongRectListPlay type="button" onClick={() => playNewSong(v)}>
 								<RoundPlay />

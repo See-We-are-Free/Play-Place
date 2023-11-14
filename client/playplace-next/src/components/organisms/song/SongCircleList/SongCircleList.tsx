@@ -28,8 +28,8 @@ function SongCircleList(props: SongCircleListProps) {
 					<SongCircleListContent key={v.youtubeId}>
 						<SongCircleItems imgSrc={v.albumImg} song={v} />
 						<SongCircleListInfo>
-							<Text text={v.title} color="default" fontSize={16} $textSlide $overflowHidden />
-							<Text text={v.artist} color="gray" fontSize={12} />
+							<Text text={v.title} color="default" fontSize={16} $overflowHidden />
+							<Text text={v.artist} color="gray" fontSize={12} $overflowHidden />
 						</SongCircleListInfo>
 					</SongCircleListContent>
 				))}
