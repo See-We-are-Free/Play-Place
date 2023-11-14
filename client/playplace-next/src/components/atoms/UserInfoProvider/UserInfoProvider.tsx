@@ -83,6 +83,8 @@ function UserInfoProvider({ children }: { children: ReactNode }) {
 		if (params.get('accessToken')) {
 			localStorage.setItem('accessToken', params.get('accessToken') || '');
 			router.push('/');
+		} else if (pathname === '/signup') {
+			console.log('회원가입');
 		} else if (!localStorage.getItem('accessToken')) {
 			router.push('/login');
 		} else if (localStorage.getItem('accessToken') && user.nickname === '') {
