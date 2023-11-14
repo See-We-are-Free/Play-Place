@@ -33,8 +33,8 @@ function SongSquareList(props: SongSquareListProps) {
 				{weatherSongList.songs.map((v) => (
 					<SongSquareListContent key={v.youtubeId}>
 						<SongSquareItems imgSrc={v.albumImg || ''} onClick={test} />
-						<Text text={v.title} color="default" fontSize={14} />
-						<Text text={v.artist} color="gray" fontSize={10} />
+						<Text text={v.title} color="default" fontSize={14} $textSlide />
+						<Text text={v.artist} color="gray" fontSize={10} $textSlide />
 					</SongSquareListContent>
 				))}
 			</SongSquareListScroll>
