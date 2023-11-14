@@ -47,7 +47,6 @@ function GroupSongListItemMore(props: IGroupSongListItemMoreProps) {
 
 		try {
 			const response = await deleteSongFromPlayListApi(isLandmark, songId);
-			console.log('deleteSongFromPlayListApi', response);
 			if (response.status === 200) {
 				closeSheet();
 				playNextSong();

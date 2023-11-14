@@ -54,10 +54,6 @@ function JoinAgreement(props: JoinAgreementProps) {
 		setOpenDetail(idx);
 	};
 
-	useEffect(() => {
-		console.log('agreements', agreements);
-	}, [agreements]);
-
 	if (openDetail === 0 || openDetail === 1 || openDetail === 2) {
 		return <AgreementDetail idx={openDetail} handleOpenDeatil={setOpenDetail} />;
 	}

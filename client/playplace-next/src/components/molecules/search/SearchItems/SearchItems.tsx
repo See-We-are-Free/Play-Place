@@ -78,7 +78,6 @@ function SearchItems(props: ISearchItemsProps) {
 	useEffect(() => {
 		if (typeof window !== undefined && confirm === true) {
 			window.confirmCallback = function (result: boolean) {
-				console.log(result); // true 또는 false
 				if (result === false) {
 					CustomToast(ToastStyles.success, `랜드마크 음악 추가 취소`);
 				} else {

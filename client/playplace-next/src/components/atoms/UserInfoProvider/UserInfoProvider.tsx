@@ -73,11 +73,6 @@ function UserInfoProvider({ children }: { children: ReactNode }) {
 			};
 		}
 
-		console.log('앱이 아닙니다. 기본값은 삼성전자 광주사업장 위치입니다.', {
-			lat: 35.205534,
-			lng: 126.811585,
-		});
-
 		return {
 			lat: 35.205534,
 			lng: 126.811585,
@@ -88,8 +83,6 @@ function UserInfoProvider({ children }: { children: ReactNode }) {
 		if (params.get('accessToken')) {
 			localStorage.setItem('accessToken', params.get('accessToken') || '');
 			router.push('/');
-		} else if (pathname === '/signup') {
-			console.log('회원가입');
 		} else if (!localStorage.getItem('accessToken')) {
 			router.push('/login');
 		} else if (localStorage.getItem('accessToken') && user.nickname === '') {
@@ -98,7 +91,7 @@ function UserInfoProvider({ children }: { children: ReactNode }) {
 		}
 
 		if (user.nickname !== '') {
-			console.log('유저 정보 ==============');
+			// TODO :: 최종 배포 후 날릴거
 			console.log('accessToken', localStorage.getItem('accessToken'));
 			console.log('userInfo', user);
 			console.log('isSongShare', isSongShare);

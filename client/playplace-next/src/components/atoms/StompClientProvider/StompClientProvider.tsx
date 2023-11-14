@@ -25,16 +25,16 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 
 	const subscribe = useCallback(() => {
 		if (!client.current?.active) {
-			console.log('연결 없음, 구독을 시도할 수 없음');
+			// console.log('연결 없음, 구독을 시도할 수 없음');
 			return;
 		}
 
 		try {
-			console.log('구독 ========== /user/queue/location');
+			// console.log('구독 ========== /user/queue/location');
 			client.current.subscribe('/user/queue/location', ({ body }) => {
 				const parsedBody: IAroundPeople[] = JSON.parse(body);
-				console.log('Before parsedBody', data);
-				console.log('After parsedBody', parsedBody);
+				// console.log('Before parsedBody', data);
+				// console.log('After parsedBody', parsedBody);
 				if (
 					!data ||
 					parsedBody.some(
@@ -51,7 +51,7 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 				) {
 					setData(parsedBody);
 				} else {
-					console.log('변경된 값이 없습니다.');
+					// console.log('변경된 값이 없습니다.');
 				}
 			});
 		} catch (err) {
@@ -61,25 +61,26 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 
 	const publish = useCallback(async (latitude: number, longitude: number) => {
 		if (!client.current?.active) {
-			console.log('연결 없음, 발행을 시도할 수 없음');
+			// console.log('연결 없음, 발행을 시도할 수 없음');
 			return;
 		}
 
 		try {
-			console.log('발행 ========== /pub/location');
-			console.log(`위치 : { "latitude": ${latitude}, "longitude": ${longitude} }`);
+			// console.log('발행 ========== /pub/location');
+			// console.log(`위치 : { "latitude": ${latitude}, "longitude": ${longitude} }`);
 			client.current.publish({
 				destination: '/pub/location',
 				body: `{ "latitude": ${latitude}, "longitude": ${longitude} }`,
 			});
 		} catch (error) {
-			console.error('발행 중 오류 발생:', error);
-			console.log('client', client);
+			// console.error('발행 중 오류 발생:', error);
+			// console.log('client', client);
+			console.log(error);
 		}
 	}, []);
 
 	const connect = useCallback(() => {
-		console.log('연결 시작');
+		// console.log('연결 시작');
 		const baseUrl = process.env.NEXT_PUBLIC_WS_BASE_URL || '';
 		// const baseUrl = process.env.NEXT_PUBLIC_DEVELOP_WS_BASE_URL || ''; // 개발용
 
@@ -95,7 +96,7 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 			heartbeatIncoming: 4000,
 			heartbeatOutgoing: 4000,
 			onConnect: () => {
-				console.log('연결됨');
+				// console.log('연결됨');
 				subscribe();
 			},
 			onStompError: (frame) => {
@@ -107,7 +108,7 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 	}, [subscribe]);
 
 	const disconnect = useCallback(() => {
-		console.log('연결 해제');
+		// console.log('연결 해제');
 		client.current?.deactivate();
 	}, []);
 
@@ -135,7 +136,7 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 				}
 			},
 			(error) => {
-				console.error('위치 정보를 가져오는 데 실패했습니다.', error);
+				console.error('getCurrentPosition :: 위치 정보를 가져오는 데 실패했습니다.', error);
 				setStateCallback({ lat: 35.205534, lng: 126.811585 }); // 기본 위치 설정
 			},
 		);
@@ -155,9 +156,7 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 
 	useEffect(() => {
 		if (!isSongShare) {
-			console.log('공유 OFF');
 			if (intervalId) {
-				console.log('인터벌 클리어');
 				clearInterval(intervalId);
 				setIntervalId(null);
 			}
@@ -165,12 +164,10 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 		}
 
 		if (isSongShare && !intervalId) {
-			console.log('getMarkerList!');
 			getCurrentLocation(setCurrentLocation);
 			getMarkerList();
 			setIntervalId(
 				setInterval(() => {
-					console.log('인터벌 getMarkerList!');
 					getCurrentLocation(setCurrentLocation);
 					getMarkerList();
 				}, 10000),
@@ -180,7 +177,7 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 		// eslint-disable-next-line consistent-return
 		return () => {
 			if (intervalId) {
-				console.log('리턴 인터벌');
+				// console.log('리턴 인터벌');
 				clearInterval(intervalId);
 				setIntervalId(null);
 			}

@@ -48,7 +48,6 @@ function MapBottomInfo(props: IMapBottomInfoProps) {
 		try {
 			const response = await addGroupToPlaylistApi(landmarkId);
 
-			console.log('addGroupToPlaylistApi :: ', response);
 			if (response.status === 200) {
 				fetchData();
 				setPlayModal('playlist');
@@ -69,7 +68,6 @@ function MapBottomInfo(props: IMapBottomInfoProps) {
 				}
 			};
 		}
-
 		setConfirm(false);
 	}, [confirm]);
 

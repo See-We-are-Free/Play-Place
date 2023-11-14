@@ -17,7 +17,6 @@ export default function HomePage() {
 	});
 
 	const handleMyPageOn = () => {
-		console.log('열려');
 		setIsMyMenuOpen(true);
 	};
 
