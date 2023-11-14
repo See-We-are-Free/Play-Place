@@ -249,7 +249,6 @@ public class SongService {
     public void getAreaStatistics(){
         List<GetAreaSongDto> getAreaSongDtoList = songHistoryRepository.findAreaSong().stream()
                 .map(result -> {
-                    log.debug(result[1] + "");
                     Song song = songRepository.findById(Long.parseLong(result[0] + "")).get();
                     Village village = villageRepository.findById(Integer.parseInt(result[1] + "")).get();
                     Long count = Long.parseLong(result[2] + "");
@@ -297,7 +296,6 @@ public class SongService {
     public void getTimezoneStatistics(){
         List<GetTimezoneSongDto> getTimezoneSongDtoList = songHistoryRepository.findTimeZoneSong().stream()
                 .map(result -> {
-                    log.debug(result[1] + "");
                     Song song = songRepository.findById(Long.parseLong(result[0] + "")).get();
                     Timezone timezone = Timezone.values()[Integer.parseInt(result[1] + "")];
                     Long count = Long.parseLong(result[2] + "");
