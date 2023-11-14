@@ -128,7 +128,7 @@ function PlayBack() {
 
 		try {
 			if (playlistSongId !== -1) {
-				const response = await saveNowPlaySongApi({ isLandmark, playlistSongId });
+				await saveNowPlaySongApi({ isLandmark, playlistSongId });
 			}
 		} catch (error) {
 			console.error(error);
