@@ -12,12 +12,15 @@ const UserChatWrapper = styled.div`
 		border-radius: var(--radius-s);
 		padding: 10px;
 		background: var(--primary-grandiant-sub-orange);
+		aspect-ratio: 1/1;
 
 		p {
 			font-size: 14px;
 		}
+
 		img {
 			width: 200px;
+			height: 200px;
 		}
 	}
 `;
