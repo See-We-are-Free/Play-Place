@@ -3,34 +3,34 @@ import ContentLayout from '@/components/templates/layout/ContentLayout/ContentLa
 import { ContentLayoutSizes, ToastStyles } from '@/types/styles.d';
 import React, { useContext, useEffect, useState } from 'react';
 import Text from '@/components/atoms/Text/Text';
-import { DeleteUserApi, logoutUserApi, patchPushApi, patchShakeApi } from '@/utils/api/auth';
+import { DeleteUserApi, logoutUserApi, patchShakeApi } from '@/utils/api/auth';
 import { useRouter } from 'next/navigation';
 import CustomToast from '@/components/atoms/CustomToast/CustomToast';
 import UserInfoContext from '@/utils/common/UserInfoContext';
-import MypageSettingContainer, { MypagetSettingText } from './style';
+import MypageSettingContainer, { Line, MypagetSettingText } from './style';
 
 function MypageSetting() {
 	const router = useRouter();
 	const { user, setUser } = useContext(UserInfoContext);
-	const [push, setPush] = useState<boolean>(false);
+	// const [push, setPush] = useState<boolean>(false);
 	const [shake, setShake] = useState<boolean>(false);
 
-	const handlePush = async () => {
-		try {
-			const response = await patchPushApi();
-			if (response.status === 200) {
-				setPush(!push);
-				const newUser = {
-					...user,
-					push: !push,
-				};
-				setUser(newUser);
-				CustomToast(ToastStyles.noTabbarSuccess, `푸시알림 ${!push ? '동의' : '비동의'}하셨습니다`);
-			}
-		} catch (error) {
-			console.error(error);
-		}
-	};
+	// const handlePush = async () => {
+	// 	try {
+	// 		const response = await patchPushApi();
+	// 		if (response.status === 200) {
+	// 			setPush(!push);
+	// 			const newUser = {
+	// 				...user,
+	// 				push: !push,
+	// 			};
+	// 			setUser(newUser);
+	// 			CustomToast(ToastStyles.noTabbarSuccess, `푸시알림 ${!push ? '동의' : '비동의'}하셨습니다`);
+	// 		}
+	// 	} catch (error) {
+	// 		console.error(error);
+	// 	}
+	// };
 
 	const handleShake = async () => {
 		try {
@@ -76,15 +76,16 @@ function MypageSetting() {
 	};
 
 	useEffect(() => {
-		setPush(user.push);
+		// setPush(user.push);
 		setShake(user.shake);
-	}, [user.push, user.shake]);
+	}, [user.shake]);
 
 	return (
 		<ContentLayout size={ContentLayoutSizes.md}>
 			<MypageSettingContainer>
-				<MypageToggle functionOnOff={push} handleFunction={handlePush} title="푸시 알림 동의" />
+				{/* <MypageToggle functionOnOff={push} handleFunction={handlePush} title="푸시 알림 동의" /> */}
 				<MypageToggle functionOnOff={shake} handleFunction={handleShake} title="흔들어서 플로디 열기" />
+				<Line />
 				<MypagetSettingText>
 					<Text text="로그아웃" fontSize={14} color="default" onClick={logoutUser} />
 				</MypagetSettingText>

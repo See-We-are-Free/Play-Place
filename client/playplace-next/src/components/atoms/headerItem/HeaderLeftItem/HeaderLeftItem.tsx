@@ -30,9 +30,6 @@ function HeaderLeftItem(props: HeaderLeftItemProps) {
 			<HeaderLeftItemContainer>
 				<LogoIcon />
 				<Title>{location}</Title>
-				<button type="button" onClick={() => router.push('/login')} style={{ color: 'white' }}>
-					[로그인]
-				</button>
 			</HeaderLeftItemContainer>
 		);
 	}

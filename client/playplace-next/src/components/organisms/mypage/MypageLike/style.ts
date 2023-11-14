@@ -6,4 +6,31 @@ const MypageLikeItemsContainer = styled.div`
 	padding: 10px;
 `;
 
+export const EmptyContent = styled.div`
+	text-align: center;
+
+	& > p:first-child {
+		color: var(--white-200);
+		margin-bottom: 10px;
+	}
+	& > p:nth-child(2) {
+		color: var(--white-500);
+		margin-bottom: 20px;
+	}
+	& > button {
+		margin: 0 auto;
+		color: var(--white-500);
+		display: flex;
+		flex-direction: row;
+		gap: 4px;
+		align-items: center;
+
+		& > svg {
+			width: 20px;
+			height: 20px;
+			fill: var(--white-100);
+		}
+	}
+`;
+
 export default MypageLikeItemsContainer;
