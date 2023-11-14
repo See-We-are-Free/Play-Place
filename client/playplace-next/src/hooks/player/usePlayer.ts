@@ -32,39 +32,47 @@ const usePlayer = () => {
 	// 다음 곡 재생
 	const playNextSong = () => {
 		if (!nowPlaySong) return;
+		if (!playback) return;
 		const nowIdx = findnowIdx();
 
 		if (nowIdx !== -1) {
 			setNowPlaySong(playQueue[(nowIdx + 1) % playQueue.length]);
 			setIsNowPlay(true);
-			playback.seekTo(0);
+			playback?.seekTo(0);
 		}
 	};
 
 	// 이전 곡 재생
 	const playPreviousSong = () => {
 		if (!nowPlaySong) return;
+		if (!playback) return;
+
 		const nowIdx = findnowIdx();
 
 		if (nowIdx !== -1) {
 			setNowPlaySong(playQueue[nowIdx === 0 ? playQueue.length - 1 : nowIdx - 1]);
 			setIsNowPlay(true);
-			playback.seekTo(0);
+			playback?.seekTo(0);
 		}
 	};
 
 	// 재생
 	const playSong = () => {
-		playback.playVideo();
+		if (!playback) return;
+
+		playback?.playVideo();
 	};
 
 	// 일시정지
 	const pauseSong = () => {
-		playback.pauseVideo();
+		if (!playback) return;
+
+		playback?.pauseVideo();
 	};
 
 	// 검색 결과 노래 재생시
 	const playNewSong = async (song: Song, landmarkId?: number) => {
+		console.log('songsong :: ', JSON.stringify(song));
 		const newSong: Song = {
 			title: song.title,
 			youtubeId: song.youtubeId,
