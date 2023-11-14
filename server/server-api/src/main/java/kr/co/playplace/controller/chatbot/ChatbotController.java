@@ -29,7 +29,6 @@ public class ChatbotController {
 
     @PostMapping
     public ApiResponse<Object> recommendSongs(@RequestPart("img") MultipartFile img) {
-        log.info("멀티파트 파일이다 임마 {}", img.toString());
         ChatbotMessageDto chatbotMessageDto = visionService.detectLabelFromImage(img);
         ChatbotDto result = openAIService.getResponse(chatbotMessageDto);
         GetRecommendSongsResponse getRecommendSongsResponse = chatbotService.getSongs(chatbotMessageDto.getImgUrl(), result);
