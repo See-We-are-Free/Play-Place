@@ -7,6 +7,14 @@ interface ITextWrapperProps {
 	$textSlide?: boolean;
 }
 
+export const checkTextOverflow = (elementRef: React.RefObject<HTMLElement>) => {
+	if (elementRef.current) {
+		const { scrollWidth, clientWidth } = elementRef.current;
+		return scrollWidth > clientWidth;
+	}
+	return false;
+};
+
 const overflowHidden = css`
 	width: 100%;
 	white-space: nowrap;
@@ -33,14 +41,17 @@ const TextStyle = {
 	`,
 };
 
-const slideText = keyframes`
-	from { transform: translateX(0); }
-	to { transform: translateX(-50%)}
+const textSlideAnimation = keyframes`
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 `;
 
 const textSlide = css`
-	display: inline-block;
-	animation: ${slideText} 10s linear infinite;
+	animation: ${textSlideAnimation} 10s linear infinite;
 `;
 
 const TextWrapper = styled.p<ITextWrapperProps>`
