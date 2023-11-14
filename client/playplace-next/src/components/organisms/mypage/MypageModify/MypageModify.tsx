@@ -25,6 +25,11 @@ function MypageModify() {
 	};
 
 	const ModifyUserInfo = async () => {
+		if (nickname.length === 0 || nickname.length > 10) {
+			CustomToast(ToastStyles.error, '한글 또는 영문 10자 이내로 입력해주세요.');
+			return;
+		}
+
 		if (user.nickname !== nickname || user.profileImg !== profileImg) {
 			try {
 				const response = await patchUserApi({
@@ -58,6 +63,21 @@ function MypageModify() {
 		setNickname(user.nickname);
 	}, [user]);
 
+	const handleKeyboardInputChange = (event: React.KeyboardEvent<HTMLInputElement>) => {
+		const inputValue: string = event.currentTarget.value;
+		setNickname(inputValue);
+	};
+
+	useEffect(() => {
+		const debounceTimeout = setTimeout(() => {
+			setNickname(nickname);
+		}, 300);
+
+		return () => {
+			clearTimeout(debounceTimeout);
+		};
+	}, [nickname, setNickname]);
+
 	return (
 		<>
 			<EmojiList handleSelectEmoji={handleSelectEmoji} profileImg={profileImg} />
@@ -66,10 +86,11 @@ function MypageModify() {
 					<Text text="닉네임" fontSize={16} />
 					<input
 						type="text"
-						onChange={handleInputChange}
 						value={nickname || ''}
 						placeholder="한글 또는 영문 10자 이내"
 						maxLength={10}
+						onChange={handleInputChange}
+						onKeyDown={handleKeyboardInputChange}
 					/>
 				</NicknameContainer>
 			</ContentLayout>

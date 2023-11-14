@@ -3,7 +3,7 @@
 import { JoinInfoType } from '@/types/auth';
 import { joinApi } from '@/utils/api/auth';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@/components/atoms/Button/Button';
 import { ButtonStyles, ToastStyles } from '@/types/styles.d';
 
@@ -27,7 +27,7 @@ function JoinInfo(props: JoinInfoProps) {
 
 	const join = async () => {
 		try {
-			if (email && googleToken && nickname && profileImg !== null) {
+			if (email && googleToken && nickname && nickname.length !== 0 && nickname.length >= 10 && profileImg !== null) {
 				const body: JoinInfoType = {
 					email,
 					googleToken,
@@ -66,6 +66,21 @@ function JoinInfo(props: JoinInfoProps) {
 		setNickname(event.target.value);
 	};
 
+	const handleKeyboardInputChange = (event: React.KeyboardEvent<HTMLInputElement>) => {
+		const inputValue: string = event.currentTarget.value;
+		setNickname(inputValue);
+	};
+
+	useEffect(() => {
+		const debounceTimeout = setTimeout(() => {
+			setNickname(nickname);
+		}, 300);
+
+		return () => {
+			clearTimeout(debounceTimeout);
+		};
+	}, [nickname, setNickname]);
+
 	return (
 		<>
 			<EmojiList handleSelectEmoji={handleSelectEmoji} profileImg={profileImg} />
@@ -74,10 +89,11 @@ function JoinInfo(props: JoinInfoProps) {
 					<Text text="닉네임" fontSize={16} />
 					<input
 						type="text"
-						onChange={handleInputChange}
 						value={nickname || ''}
 						placeholder="한글 또는 영문 10자 이내"
 						maxLength={10}
+						onChange={handleInputChange}
+						onKeyDown={handleKeyboardInputChange}
 					/>
 				</NicknameContainer>
 			</ContentLayout>
