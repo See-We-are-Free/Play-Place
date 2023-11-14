@@ -27,7 +27,7 @@ function JoinInfo(props: JoinInfoProps) {
 
 	const join = async () => {
 		try {
-			if (email && googleToken && nickname && nickname.length !== 0 && nickname.length >= 10 && profileImg !== null) {
+			if (email && googleToken && nickname && nickname.length !== 0 && nickname.length <= 10 && profileImg !== null) {
 				const body: JoinInfoType = {
 					email,
 					googleToken,
