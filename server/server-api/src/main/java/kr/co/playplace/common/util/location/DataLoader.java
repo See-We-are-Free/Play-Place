@@ -178,7 +178,7 @@ public class DataLoader {
     public CommandLineRunner SongHistoryDataLoad(UserRepository userRepository, VillageRepository villageRepository) {
         return args -> {
             long count = userRepository.count();
-            if(count == 0) {
+            if(count != 0) {
                 Users user = new Users("dump", 1, "playplace@gmail.com", 0, 0, 0, "ROLE_ADMIN" );
                 userRepository.save(user);
 
