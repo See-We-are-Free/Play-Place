@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -46,6 +47,7 @@ public class DataLoader {
     private final SongRepository songRepository;
     private final SongHistoryRepository songHistoryRepository;
     private final SongService songService;
+    private final RedisTemplate redisTemplate;
 
     @Bean
     public CommandLineRunner stateLoad() {
@@ -179,10 +181,15 @@ public class DataLoader {
         return args -> {
             long count = userRepository.count();
             if(count == 0) {
+                redisTemplate.getConnectionFactory().getConnection().flushAll();
+
                 Users user = new Users("dump", 1, "playplace@gmail.com", 0, 0, 0, "ROLE_ADMIN" );
                 userRepository.save(user);
 
                 for(int i = 1; i <= 3586; i++) {
+                    if(i % 500 == 0) {
+                        log.debug("insert song history: {}", i);
+                    }
                     Optional<Village> village = villageRepository.findById(i);
                     createRandomSongHistory(user, village.get());
                 }
@@ -190,6 +197,8 @@ public class DataLoader {
                 songService.getAreaStatistics();
                 songService.getTimezoneStatistics();
                 songService.getWeatherStatistics();
+
+                log.debug("insert data done");
             }
         };
     }
