@@ -3,7 +3,7 @@ import { BottomContent } from '@/components/atoms/SongMarkerListItem/style';
 import Image from 'next/image';
 import Play from '@root/public/assets/icons/Play.svg';
 import { IAroundPeople } from '@/types/radar';
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import SongPlayWave from '@root/public/assets/icons/SongPlayWave.svg';
 import ContentLayout from '@/components/templates/layout/ContentLayout/ContentLayout';
 import usePlayer from '@/hooks/player/usePlayer';

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import PlayGroup from '@root/public/assets/icons/PlayGroup.svg';
+// import PlayGroup from '@root/public/assets/icons/PlayGroup.svg';
 import Down from '@root/public/assets/icons/Down.svg';
 import TrashBox from '@root/public/assets/icons/TrashBox.svg';
 import Text from '@/components/atoms/Text/Text';
