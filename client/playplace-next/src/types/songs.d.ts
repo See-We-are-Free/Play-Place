@@ -27,7 +27,7 @@ export interface AreaSong {
 }
 
 export interface AreaSongList {
-	songs: AreaSong[];
+	songs: Song[];
 }
 
 export interface WeatherSongList {

@@ -26,7 +26,7 @@ function SongCircleList(props: SongCircleListProps) {
 			<SongCircleListScroll onWheel={handleScroll} ref={containerRef}>
 				{locationSongList.songs.map((v) => (
 					<SongCircleListContent key={v.youtubeId}>
-						<SongCircleItems imgSrc={v.albumImg} />
+						<SongCircleItems imgSrc={v.albumImg} song={v} />
 						<SongCircleListInfo>
 							<Text text={v.title} color="default" fontSize={16} $textSlide $overflowHidden />
 							<Text text={v.artist} color="gray" fontSize={12} />

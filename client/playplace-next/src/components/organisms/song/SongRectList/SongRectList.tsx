@@ -5,6 +5,7 @@ import { TimezoneSongList } from '@/types/songs';
 import SongRectItems from '@/components/molecules/song/SongRectItems/SongRectItems';
 import Text from '@/components/atoms/Text/Text';
 import RoundPlay from '@root/public/assets/icons/RoundPlay.svg';
+import usePlayer from '@/hooks/player/usePlayer';
 import SongRectListContainer, {
 	SongRectListContent,
 	SongRectListInfo,
@@ -19,6 +20,7 @@ interface SongRectListProps {
 
 function SongRectList(props: SongRectListProps) {
 	const { timeZoneSongList } = props;
+	const { playNewSong } = usePlayer();
 
 	const containerRef = useRef<HTMLUListElement | null>(null);
 
@@ -41,7 +43,7 @@ function SongRectList(props: SongRectListProps) {
 								<Text text={v.title} color="default" fontSize={14} $textSlide $overflowHidden />
 								<Text text={v.artist} color="gray" fontSize={10} />
 							</SongRectListInfo>
-							<SongRectListPlay type="button" onClick={() => {}}>
+							<SongRectListPlay type="button" onClick={() => playNewSong(v)}>
 								<RoundPlay />
 							</SongRectListPlay>
 						</SongRectListInfoPlay>
