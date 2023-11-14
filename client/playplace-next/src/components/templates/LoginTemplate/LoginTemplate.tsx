@@ -18,7 +18,6 @@ function LoginTemplate() {
 	const router = useRouter();
 
 	const login = () => {
-		console.log('로그인', LOGIN_PATH);
 		if (LOGIN_PATH !== '') {
 			router.push(LOGIN_PATH);
 		}
@@ -27,7 +26,6 @@ function LoginTemplate() {
 	useEffect(() => {
 		const checkLoginStatus = async () => {
 			if (params.get('accessToken')) {
-				console.log('accessToken', params.get('accessToken'));
 				localStorage.setItem('accessToken', params.get('accessToken') || '');
 				router.push('/');
 			} else if (localStorage.getItem('accessToken')) {

@@ -51,7 +51,6 @@ function SongGroup(props: ISongGroupProps) {
 
 		try {
 			const response = await deleteGroupFromPlayListApi(userLandmarkGroupId);
-			console.log(response);
 			setNowPlaySong(playQueue[0]);
 
 			if (response.status === 200) {
@@ -68,7 +67,6 @@ function SongGroup(props: ISongGroupProps) {
 	useEffect(() => {
 		if (typeof window !== undefined && confirm === true) {
 			window.confirmCallback = function (result: boolean) {
-				console.log(result); // true 또는 false
 				if (result === false) {
 					CustomToast(ToastStyles.success, `랜드마크 그룹 삭제 취소`);
 				} else {
@@ -97,7 +95,7 @@ function SongGroup(props: ISongGroupProps) {
 					<Text text={`${songs.length} / ${isBasicGroup ? 999 : 99}`} color="gray" />
 				</div>
 				<div id="group-control">
-					<IconButton Icon={<PlayGroup />} color="black300" onClick={() => alert('play group')} size="s" />
+					{/* <IconButton Icon={<PlayGroup />} color="black300" onClick={() => {}} size="s" /> */}
 					<IconButton id="fold-btn" Icon={<Down />} color="black300" onClick={setToggle} size="s" />
 					{editMode ? <IconButton Icon={<TrashBox />} color="danger" onClick={confirmRemove} size="s" /> : <></>}
 				</div>

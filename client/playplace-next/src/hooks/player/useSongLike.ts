@@ -16,7 +16,6 @@ const useSongLike = () => {
 			if (response.status === 200) {
 				setIsLike(response.data.like);
 			}
-			console.log('fetchLikeData :: ', response);
 		} catch (error) {
 			console.log(error);
 		}
@@ -27,8 +26,6 @@ const useSongLike = () => {
 			if (!nowPlaySong) return;
 
 			const response = await saveSongLikeToggleApi({ songId: nowPlaySong.songId, like: !isLike });
-
-			console.log('saveSongLikeToggleApi :: ', response);
 
 			if (response.status === 200) {
 				setIsLike(!isLike);
