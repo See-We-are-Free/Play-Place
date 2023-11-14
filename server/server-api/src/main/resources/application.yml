@@ -27,7 +27,7 @@ spring:
         max-request-size: 10MB
   sql:
     init:
-      mode: never
+      mode: always
       schema-locations: classpath:db.mysql/song.sql
 
 cloud:
