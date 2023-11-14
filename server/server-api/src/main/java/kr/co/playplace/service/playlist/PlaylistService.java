@@ -21,6 +21,9 @@ public class PlaylistService {
     public void deleteMySong(boolean isLandmark, long songId){
         if(isLandmark){ // 사용자 랜드마크 곡에서 삭제
             userLandmarkSongRepository.deleteById(songId);
+
+            // TODO: group에서 song 모두 사라지면 그룹 자체를 삭제
+
         }else{ // 사용자 곡에서 삭제
             userSongRepository.deleteById(songId);
         }

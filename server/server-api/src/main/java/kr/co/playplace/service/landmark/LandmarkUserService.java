@@ -36,14 +36,17 @@ public class LandmarkUserService {
     public Long saveLandmarkPlayListToUserPlayList(Long landmarkId) {
         Users user = userRepository.findByOuthId(SecurityUtils.getUserId()).orElseThrow(() -> new BaseException(ErrorCode.NOT_FOUND_USER));
         Landmark landmark = landmarkRepository.findById(landmarkId).orElseThrow(() -> new BaseException(ErrorCode.NOT_FOUND_LANDMARK));
-        // 이미존재하는 랜드마크 공유 재생목록인지 확인
+
+        // TODO: landmarksong이 0개면 추가못함
+        
+
         Optional<UserLandmarkGroup> userLandmarkGroup = userLandmarkGroupRepository.findByUserIdAndLandmarkId(user.getId(), landmarkId);
 
-        // 10곡 이상이면 못넣음
+        // 10그룹 이상이면 못넣음
         int cnt = userLandmarkGroupRepository.countByUserId(user.getId());
         if (cnt >= 10) throw new BaseException(ErrorCode.INVALID_ADD_LANDMARK_PLAYLIST);
 
-
+        // 이미 존재하는 랜드마크 공유 재생목록인지 확인
         if (userLandmarkGroup.isPresent()) {
             userLandmarkSongRepository.deleteUserLandmarkSongByUserlandmarkGroupId(userLandmarkGroup.get().getId());
             userLandmarkGroupRepository.deleteUserLandmarkGroupByUserIdAndLandmarkId(user.getId(), landmarkId);
