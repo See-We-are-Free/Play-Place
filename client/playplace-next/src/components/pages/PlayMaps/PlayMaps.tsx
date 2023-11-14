@@ -174,19 +174,6 @@ function PlayMaps() {
 			window.removeEventListener('addLandmarkSong', handleAddLandmarkSong);
 			console.log(2);
 		};
-
-		// const handleAddLandmarkSong = (event: { detail: { landmarkId: number } }) => {
-		// 	// event.detail에 포함된 landmarkId를 사용
-		// 	const { landmarkId } = event.detail;
-		// 	detailLandMarkTest(landmarkId);
-		// };
-
-		// window.addEventListener('addLandmarkSong', handleAddLandmarkSong);
-
-		// // 컴포넌트 언마운트 시 이벤트 리스너 제거
-		// return () => {
-		// 	window.removeEventListener('addLandmarkSong', handleAddLandmarkSong);
-		// };
 	}, []);
 
 	useEffect(() => {
