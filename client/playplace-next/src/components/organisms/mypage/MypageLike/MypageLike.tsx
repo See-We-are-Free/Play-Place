@@ -16,7 +16,6 @@ function MypageLike() {
 	const getLikeSong = async () => {
 		try {
 			const response = await getLikeSongApi();
-			console.log(response);
 
 			if (response.status === 200) {
 				setLikeSong(response.data.data);

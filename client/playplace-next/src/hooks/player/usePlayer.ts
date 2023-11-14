@@ -74,7 +74,6 @@ const usePlayer = () => {
 			songId: -1,
 		};
 
-		console.log('newSong :: ', JSON.stringify(newSong));
 		setNowPlaySong(newSong);
 		setIsNowPlay(true);
 

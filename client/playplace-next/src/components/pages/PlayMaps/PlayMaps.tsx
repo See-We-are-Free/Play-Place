@@ -147,7 +147,6 @@ function PlayMaps() {
 
 	// 수정해야함.
 	useEffect(() => {
-		// console.log(detailLandmark);
 		if (choose) {
 			detailLandMarkTest(detailLandmark.landmarkId);
 			setChoose(false);
@@ -164,7 +163,6 @@ function PlayMaps() {
 			const customEvent = event as CustomEvent<{ landmarkId: number }>;
 			const { landmarkId } = customEvent.detail;
 			detailLandMarkTest(landmarkId);
-			console.log(1);
 		};
 
 		window.addEventListener('addLandmarkSong', handleAddLandmarkSong);
@@ -172,7 +170,6 @@ function PlayMaps() {
 		// 컴포넌트 언마운트 시 이벤트 리스너 제거
 		return () => {
 			window.removeEventListener('addLandmarkSong', handleAddLandmarkSong);
-			console.log(2);
 		};
 	}, []);
 

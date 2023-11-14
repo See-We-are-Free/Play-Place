@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import TextWrapper from './style';
 
 interface ITextProps {
@@ -11,19 +11,20 @@ interface ITextProps {
 	$textSlide?: boolean;
 }
 
-function Text(props: ITextProps) {
+const Text = forwardRef<HTMLParagraphElement, ITextProps>((props, ref) => {
 	const {
 		id = '',
 		text,
 		onClick = () => {},
 		color = 'default',
 		fontSize = 12,
-		$overflowHidden = true,
+		$overflowHidden = false,
 		$textSlide = false,
 	} = props;
 
 	return (
 		<TextWrapper
+			ref={ref}
 			id={id}
 			$fontSize={fontSize}
 			$color={color}
@@ -34,6 +35,8 @@ function Text(props: ITextProps) {
 			{text}
 		</TextWrapper>
 	);
-}
+});
+
+Text.displayName = 'Text';
 
 export default Text;

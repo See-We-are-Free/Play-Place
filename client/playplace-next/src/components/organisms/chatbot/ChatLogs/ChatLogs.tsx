@@ -22,7 +22,6 @@ function ChatLogs() {
 	const fetchChatLogs = async () => {
 		try {
 			const response = await getChatLogsApi();
-			console.log(JSON.stringify(response));
 			if (response.status === 200) {
 				setChatLogs(response.data.data);
 			}
@@ -69,7 +68,6 @@ function ChatLogs() {
 
 	useEffect(() => {
 		if (imgSrc) {
-			console.log('이미지 분석요청 시작');
 			getRecommendSongs();
 		}
 	}, [imgSrc]);

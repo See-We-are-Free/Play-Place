@@ -37,7 +37,6 @@ function Home(props: IHomeProps) {
 		try {
 			const response = await postLocateSongsApi(present);
 			if (response.status === 200) {
-				console.log(response.data);
 				setLocateData(response.data);
 			}
 		} catch (error) {
@@ -53,7 +52,6 @@ function Home(props: IHomeProps) {
 		try {
 			const response = await postWeatherSongApi(present);
 			if (response.status === 200) {
-				console.log(response.data);
 				setWeatherData(response.data);
 			}
 		} catch (error) {
@@ -66,9 +64,7 @@ function Home(props: IHomeProps) {
 			const response = await postTimezoneSongApi();
 
 			if (response.status === 200) {
-				console.log(response.data);
 				setTimeData(response.data);
-				console.log(timeData);
 			}
 		} catch (error) {
 			console.error(error);
@@ -83,7 +79,6 @@ function Home(props: IHomeProps) {
 		try {
 			const response = await postVillageApi(present);
 			if (response.status === 200) {
-				console.log(response.data);
 				setVillage(response.data);
 			}
 		} catch (error) {

@@ -23,7 +23,6 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
-import android.webkit.JsResult;
 import android.webkit.WebView;
 import android.widget.Toast;
 
@@ -69,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
     private ShakeDetector mShakeDetector;
     private long backBtnTime = 0;
     private static final String TAG = "permission";
-   private static final String BASE_URL = "https://k9c109.p.ssafy.io/pp/login";
-    // private static final String BASE_URL = "http://172.30.1.67:3000/pp";
+    private static final String BASE_URL = "https://k9c109.p.ssafy.io/pp/login";
+    //  private static final String BASE_URL = "http://192.168.137.1:3000/pp";
 
 
     /* Activity 시작점 */
@@ -148,7 +147,6 @@ public class MainActivity extends AppCompatActivity {
                     locationJson.put("lng", mLastLocation.getLongitude());
                     String jsonString = locationJson.toString();
 
-                    Log.i(TAG, jsonString);
                     return jsonString;
 
                 } catch (JSONException e) {

@@ -40,7 +40,6 @@ function MypageModify() {
 				});
 
 				if (response.status === 200) {
-					console.log(response);
 					const newUser = {
 						...user,
 						profileImg,

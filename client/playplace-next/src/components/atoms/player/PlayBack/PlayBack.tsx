@@ -41,10 +41,7 @@ function PlayBack() {
 					lon: location.lng,
 				};
 
-				const response = await saveSongRecordApi(body);
-				if (response.status === 200) {
-					console.log('saveSongRecordApi :: 재생 정보가 전송되었습니다.');
-				}
+				await saveSongRecordApi(body);
 			}
 		} catch (error) {
 			console.log(error);
@@ -76,7 +73,6 @@ function PlayBack() {
 	const fetchLatestSongData = async () => {
 		try {
 			const response = await getLatestSongApi();
-			console.log('fetchLatestSongData :: ', response);
 			if (response.status === 200) {
 				if (response.data.landmark) {
 					const song: LandmarkSong = {
@@ -133,7 +129,6 @@ function PlayBack() {
 		try {
 			if (playlistSongId !== -1) {
 				const response = await saveNowPlaySongApi({ isLandmark, playlistSongId });
-				console.log('saveNowPlaySongApi :: ', response);
 			}
 		} catch (error) {
 			console.error(error);
@@ -147,7 +142,6 @@ function PlayBack() {
 
 	const onEnd: YouTubeProps['onEnd'] = () => {
 		playNextSong();
-		console.log('끝남 ㅋ');
 	};
 
 	useEffect(() => {

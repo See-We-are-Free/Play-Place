@@ -3,9 +3,10 @@ import { BottomContent } from '@/components/atoms/SongMarkerListItem/style';
 import Image from 'next/image';
 import Play from '@root/public/assets/icons/Play.svg';
 import { IAroundPeople } from '@/types/radar';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import SongPlayWave from '@root/public/assets/icons/SongPlayWave.svg';
 import ContentLayout from '@/components/templates/layout/ContentLayout/ContentLayout';
+import usePlayer from '@/hooks/player/usePlayer';
 import {
 	Artist,
 	BodyLeft,
@@ -26,6 +27,18 @@ interface MarkerDetailInfoProps {
 
 function MarkerDetailInfo(props: MarkerDetailInfoProps) {
 	const { item, isDetailOpen, setIsDetailOpen } = props;
+	const { playNewSong } = usePlayer();
+
+	const handlePlay = () => {
+		playNewSong({
+			songId: -1,
+			playTime: -1,
+			youtubeId: item.youtubeId,
+			albumImg: item.albumImg,
+			artist: item.artist,
+			title: item.title,
+		});
+	};
 
 	return (
 		<CustomBottomSheet open={isDetailOpen} setOpen={setIsDetailOpen}>
@@ -33,8 +46,10 @@ function MarkerDetailInfo(props: MarkerDetailInfoProps) {
 				<ContentLayout $padding="20px">
 					<MarkerDetailInfoHeader>
 						<SongPlayWave />
-						<NicknameWrapper>{item.nickname}</NicknameWrapper>
-						<span>님이 현재 듣고 있는 음악</span>
+						<div>
+							<NicknameWrapper>{item.nickname}</NicknameWrapper>
+							<span>님이 현재 듣고 있는 음악</span>
+						</div>
 					</MarkerDetailInfoHeader>
 					<MarkerDetailInfoBody>
 						<BodyLeft>
@@ -46,7 +61,7 @@ function MarkerDetailInfo(props: MarkerDetailInfoProps) {
 								<Artist>{item.artist}</Artist>
 							</Info>
 						</BodyLeft>
-						<PlayButton type="button" onClick={() => console.log('하이')}>
+						<PlayButton type="button" onClick={handlePlay}>
 							<Play />
 						</PlayButton>
 					</MarkerDetailInfoBody>

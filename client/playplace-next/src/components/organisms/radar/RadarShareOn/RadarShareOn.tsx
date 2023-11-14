@@ -20,7 +20,6 @@ function RadarShareOn() {
 	const SongMarkerListMemoized = memo(SongMarkerList);
 
 	const handleMarkerInfoOpen = (item: IAroundPeople) => {
-		console.log('handleMarkerInfoOpen', item);
 		setDetailItem(item);
 		setIsDetailOpen(true);
 	};

@@ -5,23 +5,34 @@ export const MarkerDetailInfoHeader = styled.div`
 	flex-direction: row;
 	gap: 4px;
 	justify-content: flex-start;
-	align-items: center;
+	align-items: baseline;
 	margin-bottom: 10px;
 
 	svg {
+		padding-top: 4px;
+		margin-right: 6px;
 		width: 22px;
 		height: 22px;
-		margin-right: 6px;
 	}
 
-	span:last-child {
-		font-size: 16px;
-		color: var(--white-500);
+	& > div {
+		display: flex;
+		flex-direction: row;
+		gap: 4px;
+		justify-content: flex-start;
+		align-items: center;
+		flex-wrap: wrap;
+
+		span:last-child {
+			font-size: 16px;
+			color: var(--white-500);
+		}
 	}
 `;
 
 export const NicknameWrapper = styled.span`
 	font-size: 20px;
+	text-wrap: nowrap;
 `;
 
 export const MarkerDetailInfoBody = styled.div`
