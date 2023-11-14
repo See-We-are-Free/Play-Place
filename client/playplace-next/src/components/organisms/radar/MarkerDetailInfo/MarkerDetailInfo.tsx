@@ -33,8 +33,10 @@ function MarkerDetailInfo(props: MarkerDetailInfoProps) {
 				<ContentLayout $padding="20px">
 					<MarkerDetailInfoHeader>
 						<SongPlayWave />
-						<NicknameWrapper>{item.nickname}</NicknameWrapper>
-						<span>님이 현재 듣고 있는 음악</span>
+						<div>
+							<NicknameWrapper>{item.nickname}</NicknameWrapper>
+							<span>님이 현재 듣고 있는 음악</span>
+						</div>
 					</MarkerDetailInfoHeader>
 					<MarkerDetailInfoBody>
 						<BodyLeft>
