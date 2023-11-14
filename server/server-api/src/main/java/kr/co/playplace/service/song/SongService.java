@@ -247,8 +247,17 @@ public class SongService {
     // redis 저장 dto id 확인
     @Scheduled(cron = "0 0 10 ? * MON") // 매주 월요일 오전 10시에 실행
     public void getAreaStatistics(){
-        List<GetAreaSongDto> getAreaSongDtoList = songQueryRepository.findSongsWithArea();
-        getAreaSongDtoList = getAreaSongDtoList.stream().sorted(Comparator.comparing(GetAreaSongDto::getCount).reversed()).collect(Collectors.toList()); // count로 정렬
+        List<GetAreaSongDto> getAreaSongDtoList = songHistoryRepository.findAreaSong().stream()
+                .map(result -> {
+                    log.debug(result[1] + "");
+                    Song song = songRepository.findById(Long.parseLong(result[0] + "")).get();
+                    Village village = villageRepository.findById(Integer.parseInt(result[1] + "")).get();
+                    Long count = Long.parseLong(result[2] + "");
+                    return new GetAreaSongDto(song, village, count);
+                })
+                .collect(Collectors.toList());
+//        List<GetAreaSongDto> getAreaSongDtoList = songQueryRepository.findSongsWithArea();
+//        getAreaSongDtoList = getAreaSongDtoList.stream().sorted(Comparator.comparing(GetAreaSongDto::getCount).reversed()).collect(Collectors.toList()); // count로 정렬
         for(GetAreaSongDto getAreaSongDto : getAreaSongDtoList){
 //            for(int i = 0; i < 10; i++){
 //            if(getAreaSongDtoList.size() <= i) return; // list의 개수가 10개보다 적으면 종료
@@ -264,7 +273,15 @@ public class SongService {
     // TODO: redis 저장 dto id 확인
     @Scheduled(cron = "0 0 10 ? * MON") // 매주 월요일 오전 10시에 실행
     public void getWeatherStatistics(){
-        List<GetWeatherSongDto> getWeatherSongDtoList = songQueryRepository.findSongsWithWeather();
+        List<GetWeatherSongDto> getWeatherSongDtoList = songHistoryRepository.findWeatherSong().stream()
+                .map(result -> {
+                    Song song = songRepository.findById(Long.parseLong(result[0] + "")).get();
+                    Weather weather = Weather.values()[Integer.parseInt(result[1] + "")];
+                    Long count = Long.parseLong(result[2] + "");
+                    return new GetWeatherSongDto(song, weather, count);
+                })
+                .collect(Collectors.toList());
+//        List<GetWeatherSongDto> getWeatherSongDtoList = songQueryRepository.findSongsWithWeather();
         for(GetWeatherSongDto getWeatherSongDto : getWeatherSongDtoList){
             // mysql에 저장
             SongWeatherStats songWeatherStats = getWeatherSongDto.toEntity();
@@ -278,7 +295,16 @@ public class SongService {
     // TODO: redis 저장 dto id 확인
     @Scheduled(cron = "0 0 10 ? * MON") // 매주 월요일 오전 10시에 실행
     public void getTimezoneStatistics(){
-        List<GetTimezoneSongDto> getTimezoneSongDtoList = songQueryRepository.findSongsWithTimezone();
+        List<GetTimezoneSongDto> getTimezoneSongDtoList = songHistoryRepository.findTimeZoneSong().stream()
+                .map(result -> {
+                    log.debug(result[1] + "");
+                    Song song = songRepository.findById(Long.parseLong(result[0] + "")).get();
+                    Timezone timezone = Timezone.values()[Integer.parseInt(result[1] + "")];
+                    Long count = Long.parseLong(result[2] + "");
+                    return new GetTimezoneSongDto(song, timezone, count);
+                })
+                .collect(Collectors.toList());
+//        List<GetTimezoneSongDto> getTimezoneSongDtoList = songQueryRepository.findSongsWithTimezone();
         for(GetTimezoneSongDto getTimezoneSongDto : getTimezoneSongDtoList){
             // mysql에 저장
             SongTimeStats songTimeStats = getTimezoneSongDto.toEntity();

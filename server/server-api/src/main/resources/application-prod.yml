@@ -10,7 +10,6 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
-    defer-datasource-initialization: true
   security:
     oauth2:
       client:
