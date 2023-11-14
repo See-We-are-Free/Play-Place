@@ -18,7 +18,7 @@ const Text = forwardRef<HTMLParagraphElement, ITextProps>((props, ref) => {
 		onClick = () => {},
 		color = 'default',
 		fontSize = 12,
-		$overflowHidden = true,
+		$overflowHidden = false,
 		$textSlide = false,
 	} = props;
 
