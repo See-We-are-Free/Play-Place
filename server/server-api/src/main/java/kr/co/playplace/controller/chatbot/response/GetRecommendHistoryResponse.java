@@ -18,12 +18,14 @@ public class GetRecommendHistoryResponse {
 
     private String imgUrl;
     private String comment;
+    private String answerDate;
     private List<SongDto> songs;
 
     public static GetRecommendHistoryResponse of(ChatbotMessage chatbotMessage, List<SongDto> songList){
         return GetRecommendHistoryResponse.builder()
                 .imgUrl(chatbotMessage.getImgUrl())
                 .comment(chatbotMessage.getComment())
+                .answerDate(chatbotMessage.getModifiedDate().toString())
                 .songs(songList)
                 .build();
     }

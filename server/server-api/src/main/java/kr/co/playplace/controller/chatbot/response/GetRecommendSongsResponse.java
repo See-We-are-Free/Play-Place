@@ -19,13 +19,11 @@ public class GetRecommendSongsResponse {
 
     private String comment;
     private List<Song> songs;
-    private String answerDate; // 챗봇 답변일
 
     public static GetRecommendSongsResponse of(ChatbotMessage chatbotMessage, List<Song> songList){
         return GetRecommendSongsResponse.builder()
                 .comment(chatbotMessage.getComment())
                 .songs(songList)
-                .answerDate(chatbotMessage.getModifiedDate().toString())
                 .build();
     }
 }

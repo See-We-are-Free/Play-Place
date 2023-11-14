@@ -95,7 +95,8 @@ public class GetSongInYoutube {
                 String youtubeId = (String) id.get("videoId");
                 // snippet -> title, artist, albumImg
                 JSONObject snippet = (JSONObject) jsonObject.get("snippet");
-                String title = (String) snippet.get("title");
+                String inputTitle = (String) snippet.get("title");
+                String title = StringEscapeUtils.unescapeHtml4(inputTitle);
                 String artist = (String) snippet.get("channelTitle");
                 artist = artist.substring(0, artist.length()-8);
                 log.info(artist);

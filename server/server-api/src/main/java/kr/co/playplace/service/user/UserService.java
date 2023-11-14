@@ -44,15 +44,15 @@ public class UserService {
         find.get().changeOauthId();
         userRepository.save(find.get());
 
-        // google token으로 revoke url 요청 날리기
-        RefreshToken token = tokenRepository.findByAccessToken(accessToken)
+        // google token으로 revoke url 요청 날리기 -> revoke 후 재가입 불가 -> 일단 주석처리
+        /*RefreshToken token = tokenRepository.findByAccessToken(accessToken)
                 .orElseThrow(IllegalArgumentException::new);
         String googleToken = token.getGoogleToken();
 
         RestTemplate restTemplate = new RestTemplate();
         // 랜덤으로 세계 맥주에 대한 정보를 주는 url
         String url = "https://accounts.google.com/o/oauth2/revoke?token=" + googleToken;
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class, 25);
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class, 25);*/
     }
 
     public int changePushState() {

@@ -10,6 +10,7 @@ public enum ErrorCode {
 
     /* 204 NO_CONTENT */
     NOT_FOUND_RECENT_SONG("PLAY04", HttpStatus.NO_CONTENT, "최근에 재생한 곡이 없습니다."),
+    NOT_FOUND_LANDMARK_SONG("LAND02", HttpStatus.NO_CONTENT, "랜드마크에 곡이 없습니다."),
 
     /* 400 BAD_REQUEST */
     INVALID_REFRESH_TOKEN("MEMBER03", HttpStatus.BAD_REQUEST, "유효한 토큰이 아닙니다."), // UserException
@@ -20,7 +21,6 @@ public enum ErrorCode {
     /* 401 UNAUTHORIZED */
     /* 403 FORBIDDEN */
     /* 404 NOT_FOUND */
-    NOT_FOUND_LANDMARK_SONG("LAND02", HttpStatus.NOT_FOUND, "랜드마크에 곡이 없습니다."),
     NOT_FOUND_AREA_SONG("HOME03", HttpStatus.NOT_FOUND, "해당하는 지역에서 재생된 곡이 없습니다."),
     NOT_FOUND_WEATHER_SONG("HOME03", HttpStatus.NOT_FOUND, "해당하는 날씨에 재생된 곡이 없습니다."),
     NOT_FOUND_TIME_SONG("HOME03", HttpStatus.NOT_FOUND, "해당하는 시간대에 재생된 곡이 없습니다."),
