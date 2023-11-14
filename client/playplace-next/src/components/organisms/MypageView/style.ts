@@ -81,6 +81,7 @@ export const Profile = styled.button`
 	svg {
 		width: 14px;
 		height: 14px;
+		fill: var(--white-500);
 	}
 `;
 
