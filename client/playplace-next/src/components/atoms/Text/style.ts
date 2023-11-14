@@ -34,8 +34,8 @@ const TextStyle = {
 };
 
 const slideText = keyframes`
-	0% { transform: translateX(0); }
-	100% { transform: translateX(-100%)}
+	from { transform: translateX(0); }
+	to { transform: translateX(-50%)}
 `;
 
 const textSlide = css`
