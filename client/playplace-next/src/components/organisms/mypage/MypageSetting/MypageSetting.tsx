@@ -54,6 +54,7 @@ function MypageSetting() {
 			const response = await DeleteUserApi();
 			if (response.status === 200) {
 				CustomToast(ToastStyles.success, 'PlayPlace를 이용해주셔서 감사합니다');
+				localStorage.removeItem('accessToken');
 				router.push('/login');
 			}
 		} catch (error) {

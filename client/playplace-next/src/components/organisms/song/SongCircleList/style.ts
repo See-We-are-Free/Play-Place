@@ -31,6 +31,7 @@ export const SongCircleListInfo = styled.div`
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
+	width: 200px;
 `;
 
 export default SongCircleListContainer;
