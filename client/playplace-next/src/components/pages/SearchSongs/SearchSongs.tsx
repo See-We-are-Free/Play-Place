@@ -43,18 +43,20 @@ function SearchSongs(props: ISearchSongsprops) {
 		<SearchTemplate>
 			<SearchBar handleSearch={() => handleSearch(text)} text={text} setText={setText} />
 			<SearchSongsList>
-				<SearSongTitle>
-					{isLanding ? (
-						<>
-							<Text text="음악 제목 또는 아티스트 명으로 검색하세요." color="gray" fontSize={14} />
-						</>
-					) : getSong.length ? (
-						<Text text="곡 검색 결과" color="gradientMain" fontSize={16} />
-					) : (
-						<Text text="검색결과가 없습니다." color="gray" fontSize={14} />
-					)}
-				</SearSongTitle>
-				{getSong && <SearchList searchList={getSong} landMarkId={landmarkId} closeSearch={closeSearch} />}
+				<div id="bottom-sheet-search-list">
+					<SearSongTitle>
+						{isLanding ? (
+							<>
+								<Text text="음악 제목 또는 아티스트 명으로 검색하세요." color="gray" fontSize={14} />
+							</>
+						) : getSong.length ? (
+							<Text text="곡 검색 결과" color="gradientMain" fontSize={16} />
+						) : (
+							<Text text="검색결과가 없습니다." color="gray" fontSize={14} />
+						)}
+					</SearSongTitle>
+					{getSong && <SearchList searchList={getSong} landMarkId={landmarkId} closeSearch={closeSearch} />}
+				</div>
 			</SearchSongsList>
 		</SearchTemplate>
 	);
