@@ -55,8 +55,6 @@ function PlayMaps() {
 
 	// 현재 위치로 이동
 	const locateUser = useCallback(() => {
-		console.log('함수 locateUser');
-
 		if (center.lat && center.lng) {
 			const newLocation = {
 				lat: center.lat,
@@ -71,35 +69,35 @@ function PlayMaps() {
 	}, [center.lat, center.lng, map]);
 
 	const onUnmount = useCallback(function callback() {
-		console.log('함수 onUnmount');
-
 		// 컴포넌트가 언마운트될때 호출 map 상태 변수를 null로 설정하여 초기화
 		setMap(null);
 	}, []);
 
 	const onLoad = useCallback(async function callback(loadMap: google.maps.Map) {
-		console.log('함수 onLoad');
-
 		if (typeof window !== undefined && window.AndMap) {
 			const data = window.AndMap.getLastKnownLocation();
 
 			if (data) {
 				const location = JSON.parse(data);
 				setMapCenter(location);
+				return;
 			}
 		}
+
+		navigator.geolocation.getCurrentPosition((position) => {
+			const newLocation = {
+				lat: position.coords.latitude,
+				lng: position.coords.longitude,
+			};
+			setMapCenter(newLocation);
+		});
 		setMap(loadMap);
 	}, []);
 
 	const onMapIdle = useCallback(() => {
-		console.log('함수 onMapIdle');
-
 		if (map) {
 			const newCenter = map.getCenter();
-			console.log('newCenter', newCenter);
-			if (center && newCenter && center.lat !== newCenter.lat() && center.lng !== newCenter.lng()) {
-				console.log('Before', center);
-				console.log('After', newCenter);
+			if (mapCenter && newCenter && (mapCenter.lat !== newCenter.lat() || mapCenter.lng !== newCenter.lng())) {
 				if (newCenter) {
 					setMapCenter({
 						lat: newCenter.lat(),
@@ -108,39 +106,29 @@ function PlayMaps() {
 				}
 			}
 		}
-	}, [center, map]);
-
-	const debounce = <F extends (...args: unknown[]) => void>(func: F, wait: number) => {
-		let timeout: NodeJS.Timeout | null = null;
-		return function executedFunction(...args: Parameters<F>) {
-			const later = () => {
-				clearTimeout(timeout as NodeJS.Timeout);
-				func(...args);
-			};
-			clearTimeout(timeout as NodeJS.Timeout);
-			timeout = setTimeout(later, wait);
-		};
-	};
-
-	const debouncedOnMapIdle = debounce(onMapIdle, 500);
+	}, []);
 
 	const callAndroidLocation = useCallback(() => {
-		console.log('함수 callAndroidLocation');
-
 		if (typeof window !== undefined && window.AndMap) {
 			const data = window.AndMap.getLastKnownLocation();
 
 			if (data) {
 				const location = JSON.parse(data);
-				console.log('location', location);
 				setCenter(location);
 			}
+			return;
 		}
+
+		navigator.geolocation.getCurrentPosition((position) => {
+			const newLocation = {
+				lat: position.coords.latitude,
+				lng: position.coords.longitude,
+			};
+			setCenter(newLocation);
+		});
 	}, []);
 
 	const getLandmarks = useCallback(async () => {
-		console.log('함수 getLandmarks');
-
 		try {
 			const response = await getLandmarksApi();
 
@@ -153,8 +141,6 @@ function PlayMaps() {
 	}, []);
 
 	const detailLandMarkTest = async (landmarkId: number) => {
-		console.log('함수 detailLandMarkTest');
-
 		try {
 			const response = await getLandmarkDetailApi(landmarkId);
 			if (response && response.status === 200) {
@@ -167,8 +153,6 @@ function PlayMaps() {
 	};
 
 	const checkLandmarkInfo = (detail: LandMarkInfo) => {
-		console.log('함수 checkLandmarkInfo');
-
 		const distance = CalDistance(center.lat, detail.latitude, center.lng, detail.longitude);
 
 		if (distance <= 0.1) {
@@ -181,18 +165,14 @@ function PlayMaps() {
 		setChoose(true);
 	};
 
-	// 수정해야함.
 	useEffect(() => {
-		console.log('useEffect [choose, detailLandmark.landmarkId]');
 		if (choose && detailLandmark.landmarkId) {
 			detailLandMarkTest(detailLandmark.landmarkId);
-			setChoose(false); // 이 부분이 useEffect를 재호출합니다.
+			setChoose(false);
 		}
 	}, [choose, detailLandmark.landmarkId]);
 
 	useEffect(() => {
-		console.log('useEffect landMarks.length === 0 []');
-
 		if (landMarks.length === 0) {
 			getLandmarks();
 		}
@@ -214,7 +194,19 @@ function PlayMaps() {
 
 	// eslint-disable-next-line consistent-return
 	useEffect(() => {
-		console.log('useEffect [map, debouncedOnMapIdle]');
+		const debounce = <F extends (...args: unknown[]) => void>(func: F, wait: number) => {
+			let timeout: NodeJS.Timeout | null = null;
+			return function executedFunction(...args: Parameters<F>) {
+				const later = () => {
+					clearTimeout(timeout as NodeJS.Timeout);
+					func(...args);
+				};
+				clearTimeout(timeout as NodeJS.Timeout);
+				timeout = setTimeout(later, wait);
+			};
+		};
+
+		const debouncedOnMapIdle = debounce(onMapIdle, 5000);
 
 		if (map) {
 			const idleListener = google.maps.event.addListener(map, 'idle', debouncedOnMapIdle);
@@ -225,23 +217,9 @@ function PlayMaps() {
 		}
 	}, []);
 
-	// useEffect(() => {
-	// 	console.log('useEffect [map, onMapIdle]');
-
-	// 	if (map) {
-	// 		const idleListener = google.maps.event.addListener(map, 'idle', onMapIdle);
-
-	// 		return () => {
-	// 			google.maps.event.removeListener(idleListener);
-	// 		};
-	// 	}
-	// 	return undefined;
-	// }, []);
-
 	useEffect(() => {
-		console.log('useEffect interval');
 		if (!intervalId) {
-			const id = setInterval(callAndroidLocation, 500);
+			const id = setInterval(callAndroidLocation, 1000);
 			setIntervalId(id);
 		}
 
