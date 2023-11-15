@@ -5,13 +5,15 @@ const PlayBarSongInfoContainer = styled.div`
 	flex-direction: row;
 	gap: 10px;
 
-	& > div {
+	& > div:first-child {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		overflow: hidden;
 		border-radius: 4px;
+		min-width: 45px;
+		min-height: 45px;
 
 		& > img {
 			transform: scale(2);
