@@ -45,11 +45,16 @@ export const SongMarkerButton = styled.button<SongMarkerContainerProps>`
 	&:focus {
 		outline: none;
 	}
+
+	& > p {
+		width: 100%;
+	}
 `;
 
 export const SongMarkerContainer = styled.div`
 	& > p {
 		width: 100%;
+		text-wrap: nowrap;
 	}
 `;
 

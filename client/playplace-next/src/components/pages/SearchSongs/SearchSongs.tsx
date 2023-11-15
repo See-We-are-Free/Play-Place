@@ -31,7 +31,11 @@ function SearchSongs(props: ISearchSongsprops) {
 				setGetSong(response.data);
 			}
 		} catch (error) {
-			CustomToast(ToastStyles.error, '음악 검색에 실패했습니다. 잠시 후 다시 시도하세요.');
+			if (landmarkId) {
+				CustomToast(ToastStyles.noTabbarError, `음악 검색에 실패했습니다. 잠시 후 다시 시도하세요.`);
+			} else {
+				CustomToast(ToastStyles.error, `음악 검색에 실패했습니다. 잠시 후 다시 시도하세요.`);
+			}
 		}
 	};
 
