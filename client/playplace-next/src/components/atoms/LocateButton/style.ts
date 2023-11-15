@@ -3,14 +3,14 @@ import styled from 'styled-components';
 const LocateButtonContainer = styled.button`
 	position: absolute;
 	z-index: 3;
-	top: 10px;
-	right: 10px;
+	bottom: 10px;
+	left: 10px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	width: 40px;
 	height: 40px;
-	background-color: var(--black-700);
+	background-color: var(--white);
 	border-radius: 50%;
 
 	path {

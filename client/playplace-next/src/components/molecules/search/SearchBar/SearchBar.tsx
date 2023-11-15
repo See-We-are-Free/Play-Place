@@ -18,6 +18,8 @@ function SearchBar(props: ISearchBarProps) {
 	const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
 		if (event.key === 'Enter') {
 			handleSearch(text);
+			const inputElement = event.target as HTMLInputElement;
+			inputElement.blur();
 		}
 	};
 

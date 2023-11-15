@@ -19,11 +19,12 @@ const SongCircleItemsContainer = styled.div`
 	border-radius: 70%;
 	position: relative;
 	margin: 10px 0;
+	overflow: hidden;
 `;
 
 export const CircleImage = styled(Image)`
-	width: 90%;
-	height: 90%;
+	width: 180%;
+	height: 180%;
 	border-radius: 70%;
 `;
 

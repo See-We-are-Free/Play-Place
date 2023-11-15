@@ -8,7 +8,7 @@ import CustomBottomSheet from '@/components/molecules/CustomBottomSheet/CustomBo
 import { Song } from '@/types/songs';
 import LandMarkDefault from '@root/public/assets/images/LandMarkDefault.png';
 import MapBottomSheet from '@/components/organisms/MapBottomSheet/MapBottomSheet';
-import { SearchHeader, containerStyle, nightModeStyles } from './style';
+import { PlayMapContainer, SearchHeader, containerStyle, nightModeStyles } from './style';
 
 function PlayMaps() {
 	// 구글 맵
@@ -208,7 +208,7 @@ function PlayMaps() {
 	};
 
 	const markerCircleOptions = {
-		strokeColor: '#FF7575',
+		strokeColor: 'white',
 		strokeOpacity: 1,
 		strokeWeight: 2,
 		fillColor: '#FF7575',
@@ -218,11 +218,12 @@ function PlayMaps() {
 	};
 
 	return (
-		<>
+		<PlayMapContainer>
 			{center && landMarks && isLoaded && (
 				<div style={{ position: 'relative', ...containerStyle }}>
 					<LocateButton onLocateClick={locateUser} />
 					<GoogleMap
+						id="map"
 						mapContainerStyle={{ width: '100%', height: '100%' }}
 						center={mapCenter}
 						zoom={18}
@@ -280,7 +281,7 @@ function PlayMaps() {
 					)}
 				</div>
 			)}
-		</>
+		</PlayMapContainer>
 	);
 }
 

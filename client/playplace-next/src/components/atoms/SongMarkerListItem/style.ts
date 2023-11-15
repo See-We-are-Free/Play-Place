@@ -51,7 +51,11 @@ export const SongMarkerButton = styled.button<SongMarkerContainerProps>`
 	}
 `;
 
-export const SongMarkerContainer = styled.div``;
+export const SongMarkerContainer = styled.div`
+	& > p {
+		width: 100%;
+	}
+`;
 
 export const ImageWrapper = styled.div`
 	width: 50px;
