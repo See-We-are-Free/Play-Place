@@ -56,6 +56,7 @@ const GlobalStyles = createGlobalStyle`
         --content-width-full : 100%;
         
         /* z-index */
+        --zindex-song-thumbnail-button: 1;
         --zindex-header: 999;
         --zindex-dropdown: 1000;
         --zindex-sticky: 1020;

@@ -14,6 +14,19 @@ const NowPlaySongInfoContainer = styled.div`
 		flex-direction: column;
 		gap: 30px;
 
+		& > div {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			overflow: hidden;
+			border-radius: 4px;
+
+			& > img {
+				transform: scale(2);
+			}
+		}
+
 		#text {
 			display: flex;
 			flex-direction: column;

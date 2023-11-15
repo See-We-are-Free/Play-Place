@@ -27,6 +27,10 @@ const GroupSongListItemContainer = styled.div<GroupSongListItemContainerProps>`
 				white-space: nowrap;
 				text-overflow: ellipsis;
 				color: ${({ $isNowPlay }) => ($isNowPlay ? `var(--primary-orange)` : `var(--white-100)`)};
+
+				&:last-child {
+					color: ${({ $isNowPlay }) => ($isNowPlay ? `var(--primary-orange)` : `var(--white-500)`)};
+				}
 			}
 		}
 	}

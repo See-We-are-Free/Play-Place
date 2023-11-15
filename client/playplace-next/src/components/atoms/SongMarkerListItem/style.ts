@@ -65,11 +65,18 @@ export const ImageWrapper = styled.div`
 	top: 4px;
 	left: 50%;
 	transform: translateX(-51%);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	border-radius: 50%;
 
 	img {
 		width: 100%;
 		height: 100%;
 		border-radius: 50%;
+		transform: scale(2);
 	}
 `;
 

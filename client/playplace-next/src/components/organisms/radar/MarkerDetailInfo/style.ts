@@ -51,11 +51,18 @@ export const BottomSheetImageWrapper = styled.div`
 	width: 60px;
 	height: 60px;
 	aspect-ratio: 1/1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	border-radius: 10px;
 
 	img {
 		border-radius: 10px;
 		width: 100%;
 		height: 100%;
+		transform: scale(1.9);
 	}
 `;
 

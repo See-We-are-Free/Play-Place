@@ -30,6 +30,7 @@ export const SongSquareButton = styled.button`
 	position: absolute;
 	top: 35%;
 	left: 36%;
+	z-index: var(--zindex-song-thumbnail-button);
 
 	svg {
 		height: 24px;
