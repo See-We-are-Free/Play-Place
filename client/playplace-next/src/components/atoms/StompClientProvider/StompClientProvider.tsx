@@ -1,26 +1,14 @@
-import React, {
-	Dispatch,
-	ReactNode,
-	SetStateAction,
-	useCallback,
-	useContext,
-	useEffect,
-	useMemo,
-	useRef,
-	useState,
-} from 'react';
+import React, { ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import * as StompJs from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { IAroundPeople } from '@/types/radar';
 import StompClientContext, { StompClientContextType } from '@/utils/common/StompClientContext';
 import UserInfoContext from '@/utils/common/UserInfoContext';
-import { ILocation } from '@/types/maps';
 
 function StompClientProvider({ children }: { children: ReactNode }) {
 	const { isSongShare } = useContext(UserInfoContext);
 	const client = useRef<StompJs.Client | null>(null);
 	const [data, setData] = useState<IAroundPeople[] | null>(null);
-	const [currentLocation, setCurrentLocation] = useState<ILocation | null>(null);
 	const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
 
 	const subscribe = useCallback(() => {
@@ -96,7 +84,7 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 			heartbeatIncoming: 4000,
 			heartbeatOutgoing: 4000,
 			onConnect: () => {
-				// console.log('연결됨');
+				console.log('연결됨');
 				subscribe();
 			},
 			onStompError: (frame) => {
@@ -112,47 +100,26 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 		client.current?.deactivate();
 	}, []);
 
-	const getCurrentLocation = useCallback(async (setStateCallback: Dispatch<SetStateAction<ILocation | null>>) => {
+	const getCurrentLocation = useCallback(async () => {
 		if (window.AndMap) {
 			const appLocation = window.AndMap.getLastKnownLocation();
 			if (appLocation) {
 				const location = JSON.parse(appLocation);
-				const newLocation: ILocation = {
-					lat: location.lat,
-					lng: location.lng,
-				};
-				setStateCallback(newLocation);
+				publish(location.lat, location.lng);
 			}
 			return;
 		}
 
 		navigator.geolocation.getCurrentPosition(
 			(position) => {
-				if (setStateCallback) {
-					setStateCallback({
-						lat: position.coords.latitude,
-						lng: position.coords.longitude,
-					});
-				}
+				publish(position.coords.latitude, position.coords.longitude);
 			},
 			(error) => {
 				console.error('getCurrentPosition :: 위치 정보를 가져오는 데 실패했습니다.', error);
-				setStateCallback({ lat: 35.205534, lng: 126.811585 }); // 기본 위치 설정
+				// setStateCallback({ lat: 35.205534, lng: 126.811585 }); // 기본 위치 설정
 			},
 		);
-	}, []);
-
-	const getMarkerList = useCallback(async () => {
-		if (currentLocation) {
-			publish(currentLocation.lat, currentLocation.lng);
-		}
-	}, [currentLocation, publish]);
-
-	useEffect(() => {
-		if (!currentLocation) {
-			getCurrentLocation(setCurrentLocation);
-		}
-	}, [currentLocation, getCurrentLocation]);
+	}, [publish]);
 
 	useEffect(() => {
 		if (!isSongShare) {
@@ -164,12 +131,10 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 		}
 
 		if (isSongShare && !intervalId) {
-			getCurrentLocation(setCurrentLocation);
-			getMarkerList();
+			getCurrentLocation();
 			setIntervalId(
 				setInterval(() => {
-					getCurrentLocation(setCurrentLocation);
-					getMarkerList();
+					getCurrentLocation();
 				}, 10000),
 			);
 		}
@@ -182,7 +147,7 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 				setIntervalId(null);
 			}
 		};
-	}, [isSongShare]);
+	}, [getCurrentLocation, intervalId, isSongShare]);
 
 	useEffect(() => {
 		if (isSongShare) {
