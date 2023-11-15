@@ -52,6 +52,11 @@ const RoundTypes = {
 		background-origin: border-box;
 		background-clip: content-box, border-box;
 	`,
+	five: css`
+		border: 8px solid var(--black-500);
+		width: 100%;
+		height: 100%;
+	`,
 };
 
 export const SongInnerCircle = styled.div<ISongCircleStyleProps>`
