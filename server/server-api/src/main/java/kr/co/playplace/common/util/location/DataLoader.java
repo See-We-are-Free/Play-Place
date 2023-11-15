@@ -163,7 +163,7 @@ public class DataLoader {
                 weatherType = 3;
             } else if(songId <= 33) {
                 weatherType = 1;
-            } else if(songId <= 39) {
+            } else if(songId <= 38) {
                 weatherType = 0;
             } else if(songId <= 44) {
                 weatherType = 2;
@@ -209,8 +209,9 @@ public class DataLoader {
         int cnt = rand.nextInt(3);
 
         for(int i = 0; i < cnt; i++) {
-            int weatherType = rand.nextInt(4);
-            int timeZoneType = rand.nextInt(4);
+            int idx = rand.nextInt(2);
+            int weatherType = idx * 3;
+            int timeZoneType = rand.nextInt(3) + 1;
 
             Optional<Song> song = songRepository.findById(songId);
 
@@ -247,7 +248,6 @@ public class DataLoader {
                     createRandomSongHistory(user, village.get());
 
                     createStaticSongHistory(user, village.get(), 45);
-                    createStaticSongHistory(user, village.get(), 47);
                 }
 
                 songService.getAreaStatistics();
