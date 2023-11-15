@@ -33,6 +33,14 @@ const usePlayer = () => {
 	const playNextSong = () => {
 		if (!nowPlaySong) return;
 		if (!playback) return;
+		if (!nowPlaySong.youtubeId && playQueue.length) {
+			setNowPlaySong(playQueue[0]);
+			return;
+		}
+		if (!playQueue.length) {
+			CustomToast(ToastStyles.error, '재생목록이 비어있습니다.');
+		}
+
 		const nowIdx = findnowIdx();
 
 		if (nowIdx !== -1) {
@@ -46,6 +54,13 @@ const usePlayer = () => {
 	const playPreviousSong = () => {
 		if (!nowPlaySong) return;
 		if (!playback) return;
+		if (!nowPlaySong.youtubeId && playQueue.length) {
+			setNowPlaySong(playQueue[0]);
+			return;
+		}
+		if (!playQueue.length) {
+			CustomToast(ToastStyles.error, '재생목록이 비어있습니다.');
+		}
 
 		const nowIdx = findnowIdx();
 
