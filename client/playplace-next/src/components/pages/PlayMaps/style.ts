@@ -96,3 +96,15 @@ export const SearchHeader = styled.div`
 		background-color: var(--black-600);
 	}
 `;
+
+export const PlayMapContainer = styled.div`
+	#map {
+		div[style='display: inline-flex; position: absolute; right: 0px; bottom: 0px;'] {
+			display: none !important;
+		}
+
+		div[style='margin: 0px 5px; z-index: 1000000; position: absolute; left: 0px; bottom: 0px;'] {
+			display: none !important;
+		}
+	}
+`;
