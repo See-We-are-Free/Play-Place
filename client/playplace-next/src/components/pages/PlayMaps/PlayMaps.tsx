@@ -199,19 +199,19 @@ function PlayMaps() {
 	// 현재위치 표시
 	const circleRangeOptions = {
 		strokeColor: '#FF7575',
-		strokeOpacity: 0.8,
-		strokeWeight: 2,
-		fillColor: '#FF7575',
+		strokeOpacity: 0,
+		strokeWeight: 0,
+		fillColor: '#C779D0',
 		fillOpacity: 0.35,
 		radius: 100,
 		center,
 	};
 
 	const markerCircleOptions = {
-		strokeColor: 'white',
+		strokeColor: '#FFFFFF',
 		strokeOpacity: 1,
 		strokeWeight: 2,
-		fillColor: '#FF7575',
+		fillColor: '#C779D0',
 		fillOpacity: 1,
 		radius: 5,
 		center,
