@@ -42,13 +42,12 @@ function SongGroup(props: ISongGroupProps) {
 	const confirmRemove = () => {
 		if (typeof window !== 'undefined' && window.AndAlert) {
 			window.AndAlert.cofirmTest('PlayMap', `${groupName} 그룹 재생목록을 삭제하시겠습니까?`);
+			fetchData();
 			setConfirm(true);
 		}
 	};
 
 	const removeSongGroup = async () => {
-		// 승현TODO : '${groupName}' 그룹 재생목록을 삭제하시겠습니까?
-
 		try {
 			const response = await deleteGroupFromPlayListApi(userLandmarkGroupId);
 			setNowPlaySong(playQueue[0]);
