@@ -7,14 +7,6 @@ interface ITextWrapperProps {
 	$textSlide?: boolean;
 }
 
-export const checkTextOverflow = (elementRef: React.RefObject<HTMLElement>) => {
-	if (elementRef.current) {
-		const { scrollWidth, clientWidth } = elementRef.current;
-		return scrollWidth > clientWidth;
-	}
-	return false;
-};
-
 const overflowHidden = css`
 	width: 100%;
 	white-space: nowrap;
