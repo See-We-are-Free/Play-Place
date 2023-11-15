@@ -10,16 +10,18 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 	const client = useRef<StompJs.Client | null>(null);
 	const [data, setData] = useState<IAroundPeople[] | null>(null);
 	const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
+	const [isSubscribed, setIsSubscribed] = useState(false);
+	const subscriptionRef = useRef<StompJs.StompSubscription | null>(null);
 
 	const subscribe = useCallback(() => {
-		if (!client.current?.active) {
+		if (!client.current?.active || isSubscribed || subscriptionRef.current) {
 			// console.log('연결 없음, 구독을 시도할 수 없음');
 			return;
 		}
 
 		try {
 			// console.log('구독 ========== /user/queue/location');
-			client.current.subscribe('/user/queue/location', ({ body }) => {
+			subscriptionRef.current = client.current.subscribe('/user/queue/location', ({ body }) => {
 				const parsedBody: IAroundPeople[] = JSON.parse(body);
 				// console.log('Before parsedBody', data);
 				// console.log('After parsedBody', parsedBody);
@@ -41,11 +43,20 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 				} else {
 					// console.log('변경된 값이 없습니다.');
 				}
+				setIsSubscribed(true);
 			});
 		} catch (err) {
 			console.error(err);
 		}
-	}, [data]);
+	}, [data, isSubscribed]);
+
+	const unsubscribe = useCallback(() => {
+		if (subscriptionRef.current && isSubscribed) {
+			subscriptionRef.current.unsubscribe();
+			subscriptionRef.current = null;
+			setIsSubscribed(false);
+		}
+	}, [isSubscribed]);
 
 	const publish = useCallback(async (latitude: number, longitude: number) => {
 		if (!client.current?.active) {
@@ -98,7 +109,8 @@ function StompClientProvider({ children }: { children: ReactNode }) {
 	const disconnect = useCallback(() => {
 		// console.log('연결 해제');
 		client.current?.deactivate();
-	}, []);
+		unsubscribe();
+	}, [unsubscribe]);
 
 	const getCurrentLocation = useCallback(async () => {
 		if (window.AndMap) {
