@@ -202,12 +202,10 @@ public class SongQueryService {
 
         // TODO: mysql 접근 로직 수정
         if(recentSongDto.isEmpty()) {
-            Optional<NowPlay> nowPlay = nowPlayRepository.findByUser_Id(userId);
             return null;
-        } else {
-            return recentSongDto.get();
         }
 
+        return recentSongDto.get();
     }
 
 }
