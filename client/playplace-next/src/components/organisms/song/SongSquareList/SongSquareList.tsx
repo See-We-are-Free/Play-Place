@@ -5,7 +5,8 @@ import React, { WheelEvent, useRef } from 'react';
 import SongSquareItems from '@/components/molecules/song/SongSquareItems/SongSquareItems';
 import Text from '@/components/atoms/Text/Text';
 import usePlayer from '@/hooks/player/usePlayer';
-import SongSquareListContainer, { SongSquareListContent, SongSquareListScroll } from './style';
+import RoundPlay from '@root/public/assets/icons/RoundPlay.svg';
+import SongSquareListContainer, { SongSquareButton, SongSquareListContent, SongSquareListScroll } from './style';
 
 interface SongSquareListProps {
 	weatherSongList: WeatherSongList;
@@ -30,7 +31,10 @@ function SongSquareList(props: SongSquareListProps) {
 				{weatherSongList.songs ? (
 					weatherSongList.songs.map((v) => (
 						<SongSquareListContent key={v.youtubeId}>
-							<SongSquareItems imgSrc={v.albumImg || ''} onClick={() => playNewSong(v)} />
+							<SongSquareButton onClick={() => playNewSong(v)}>
+								<RoundPlay />
+							</SongSquareButton>
+							<SongSquareItems imgSrc={v.albumImg || ''} />
 							<Text text={v.title} color="default" fontSize={14} $overflowHidden />
 							<Text text={v.artist} color="gray" fontSize={10} $overflowHidden />
 						</SongSquareListContent>

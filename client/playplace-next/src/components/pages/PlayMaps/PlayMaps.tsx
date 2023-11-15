@@ -208,7 +208,7 @@ function PlayMaps() {
 	};
 
 	const markerCircleOptions = {
-		strokeColor: '#FF7575',
+		strokeColor: 'white',
 		strokeOpacity: 1,
 		strokeWeight: 2,
 		fillColor: '#FF7575',

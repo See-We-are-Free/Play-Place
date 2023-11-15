@@ -4,14 +4,13 @@ import SongSquareItemsContainer from './style';
 
 interface ISongSquareItemsProps {
 	imgSrc: string;
-	onClick: () => void;
 }
 
 function SongSquareItems(props: ISongSquareItemsProps) {
-	const { imgSrc, onClick } = props;
+	const { imgSrc } = props;
 
 	return (
-		<SongSquareItemsContainer onClick={onClick}>
+		<SongSquareItemsContainer>
 			<SongThumbnail src={imgSrc || ''} $isFullSize />
 			{/* <SongThumbnail src={HypeBoy} $height={180} $width={130} /> */}
 		</SongSquareItemsContainer>

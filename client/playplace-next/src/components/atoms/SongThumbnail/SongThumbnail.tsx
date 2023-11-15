@@ -10,7 +10,7 @@ interface ISongThumbnailProps {
 	$isFullSize?: boolean;
 }
 function SongThumbnail(props: ISongThumbnailProps) {
-	const { src, alt = '', $width = 45, $height = 45, $isFullSize = false } = props;
+	const { src, alt = '', $width = 100, $height = 100, $isFullSize = false } = props;
 
 	return (
 		<SongThumbnailWrapper $width={$width} $height={$height} $isFullSize={$isFullSize}>
