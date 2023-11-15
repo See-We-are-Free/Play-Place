@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import SongCircleList from '@/components/organisms/song/SongCircleList/SongCircleList';
 import SongSquareList from '@/components/organisms/song/SongSquareList/SongSquareList';
 import SongRectList from '@/components/organisms/song/SongRectList/SongRectList';
@@ -6,16 +6,17 @@ import HomeTemplate from '@/components/templates/HomeTemplate/HomeTemplate';
 import { postLocateSongsApi, postTimezoneSongApi, postVillageApi, postWeatherSongApi } from '@/utils/api/songs';
 import { AreaSongList, TimezoneSongList, Village, WeatherSongList } from '@/types/songs';
 import { HomeApiBody } from '@/types/api';
+import UserInfoContext from '@/utils/common/UserInfoContext';
 
 interface IHomeProps {
 	setVillage: React.Dispatch<React.SetStateAction<Village>>;
 }
 
 function Home(props: IHomeProps) {
+	const { getLocation } = useContext(UserInfoContext);
 	const { setVillage } = props;
-
 	const [present, setPresent] = useState<HomeApiBody | null>(null);
-	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 
 	const [locateData, setLocateData] = useState<AreaSongList>({
 		songs: [],
@@ -87,22 +88,11 @@ function Home(props: IHomeProps) {
 	};
 
 	useEffect(() => {
-		if (typeof window !== 'undefined' && window.AndMap && !present) {
-			const data = window.AndMap.getLastKnownLocation();
-			if (data) {
-				const location = JSON.parse(data);
-				const newPresent: HomeApiBody = {
-					lat: location.lat,
-					lon: location.lng,
-				};
-				setPresent(newPresent);
-				setIsLoading(true);
-			}
-		} else if (!present) {
-			setPresent({ lat: 35.205534, lon: 126.811585 }); // 기본 위치 설정
-			setIsLoading(true);
+		const location = getLocation();
+		if (location) {
+			setPresent({ lat: location.lat, lon: location.lng });
 		}
-	}, [present]);
+	}, []);
 
 	useEffect(() => {
 		if (isLoading && present) {
@@ -112,7 +102,7 @@ function Home(props: IHomeProps) {
 			getTime();
 			setIsLoading(false);
 		}
-	}, [isLoading]);
+	}, [present]);
 
 	return (
 		<>
