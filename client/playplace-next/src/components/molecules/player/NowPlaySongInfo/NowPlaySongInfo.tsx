@@ -12,7 +12,7 @@ function NowPlaySongInfo() {
 	return (
 		<NowPlaySongInfoContainer>
 			<div id="song">
-				<SongThumbnail src={nowPlaySong?.albumImg || ''} $width={100} $isFullSize />
+				<SongThumbnail src={nowPlaySong?.albumImg || ''} $width={200} $isFullSize />
 				<div>
 					<NowPlaySongTitle>
 						<Text text={nowPlaySong?.title || ''} fontSize={24} $overflowHidden />
