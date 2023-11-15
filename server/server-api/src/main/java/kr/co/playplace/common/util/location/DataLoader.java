@@ -155,9 +155,36 @@ public class DataLoader {
         Random rand = new Random();
 
         for(int i = 0; i < 10; i++) {
-            long songId = 1 + rand.nextInt(39);
-            int weatherType = rand.nextInt(4);
-            int timeZoneType = rand.nextInt(4);
+            long songId = 1 + rand.nextInt(81);
+            int weatherType = -1;
+            int timeZoneType = -1;
+
+            if(songId < 18) {
+                weatherType = 3;
+            } else if(songId <= 33) {
+                weatherType = 1;
+            } else if(songId <= 39) {
+                weatherType = 0;
+            } else if(songId <= 44) {
+                weatherType = 2;
+            } else {
+                weatherType = rand.nextInt(4);
+            }
+
+            if(songId < 18) {
+                int idx = rand.nextInt(2);
+                timeZoneType = idx * 3;
+            } else if(songId <= 33) {
+                int idx = rand.nextInt(3) + 2;
+                timeZoneType = idx % 4;
+            } else if(songId <= 39) {
+                timeZoneType = rand.nextInt(2) + 1;
+            } else if(songId <= 44) {
+                int idx = rand.nextInt(2);
+                timeZoneType = idx * 3;
+            } else {
+                timeZoneType = rand.nextInt(4);
+            }
 
             Optional<Song> song = songRepository.findById(songId);
 
