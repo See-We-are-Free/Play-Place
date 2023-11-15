@@ -203,6 +203,32 @@ public class DataLoader {
         }
     }
 
+    public void createStaticSongHistory(Users user, Village village, long songId) {
+        Random rand = new Random();
+
+        int cnt = rand.nextInt(3);
+
+        for(int i = 0; i < cnt; i++) {
+            int weatherType = rand.nextInt(4);
+            int timeZoneType = rand.nextInt(4);
+
+            Optional<Song> song = songRepository.findById(songId);
+
+            Weather weather = Weather.values()[weatherType];
+            Timezone timezone = Timezone.values()[timeZoneType];
+
+            SongHistory songHistory = SongHistory.builder()
+                    .user(user)
+                    .song(song.get())
+                    .village(village)
+                    .weather(weather)
+                    .timezone(timezone)
+                    .build();
+
+            songHistoryRepository.save(songHistory);
+        }
+    }
+
     @Bean
     public CommandLineRunner SongHistoryDataLoad(UserRepository userRepository, VillageRepository villageRepository) {
         return args -> {
@@ -215,17 +241,20 @@ public class DataLoader {
 
                 for(int i = 1; i <= 3586; i++) {
                     if(i % 500 == 0) {
-                        log.debug("insert song history: {}", i);
+                        log.debug("create song history: {}", i);
                     }
                     Optional<Village> village = villageRepository.findById(i);
                     createRandomSongHistory(user, village.get());
+
+                    createStaticSongHistory(user, village.get(), 45);
+                    createStaticSongHistory(user, village.get(), 47);
                 }
 
                 songService.getAreaStatistics();
                 songService.getTimezoneStatistics();
                 songService.getWeatherStatistics();
 
-                log.debug("insert data done");
+                log.debug("create data done");
             }
         };
     }
