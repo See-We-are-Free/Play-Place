@@ -16,19 +16,24 @@ export const nightModeStyles = [
 	},
 	{
 		featureType: 'poi',
-		elementType: 'labels.text.fill',
-		stylers: [{ color: '#d59563' }],
+		elementType: 'labels',
+		stylers: [{ visibility: 'off' }],
 	},
-	{
-		featureType: 'poi.park',
-		elementType: 'geometry',
-		stylers: [{ color: '#263c3f' }],
-	},
-	{
-		featureType: 'poi.park',
-		elementType: 'labels.text.fill',
-		stylers: [{ color: '#6b9a76' }],
-	},
+	// {
+	// 	featureType: 'poi',
+	// 	elementType: 'labels.text.fill',
+	// 	stylers: [{ color: '#d59563', visibility: 'off' }],
+	// },
+	// {
+	// 	featureType: 'poi.park',
+	// 	elementType: 'geometry',
+	// 	stylers: [{ color: '#263c3f', visibility: 'off' }],
+	// },
+	// {
+	// 	featureType: 'poi.park',
+	// 	elementType: 'labels.text.fill',
+	// 	stylers: [{ color: '#6b9a76', visibility: 'off' }],
+	// },
 	{
 		featureType: 'road',
 		elementType: 'geometry',
@@ -62,12 +67,12 @@ export const nightModeStyles = [
 	{
 		featureType: 'transit',
 		elementType: 'geometry',
-		stylers: [{ color: '#2f3948' }],
+		stylers: [{ visibility: 'off' }],
 	},
 	{
 		featureType: 'transit.station',
 		elementType: 'labels.text.fill',
-		stylers: [{ color: '#d59563' }],
+		stylers: [{ visibility: 'off' }],
 	},
 	{
 		featureType: 'water',
