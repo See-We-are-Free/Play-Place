@@ -30,14 +30,17 @@ export const SongRectListInfoPlay = styled.div`
 	justify-content: space-between;
 	bottom: 10%;
 	padding: 0 10px;
+	background: -webkit-linear-gradient(transparent 20%, rgba(0, 0, 0, 0.9) 100%);
 `;
 
 export const SongRectListInfo = styled.div`
+	width: 80%;
 	display: flex;
 	flex-direction: column;
 `;
 
 export const SongRectListPlay = styled.button`
+	width: 20%;
 	svg {
 		width: 24px;
 		height: 24px;
