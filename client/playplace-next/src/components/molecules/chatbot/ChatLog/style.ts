@@ -5,6 +5,7 @@ const ChatLogContainer = styled.div`
 	flex-direction: column;
 
 	#date {
+		width: 100%;
 		text-align: center;
 	}
 `;

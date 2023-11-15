@@ -8,6 +8,7 @@ const ChatLogsContainer = styled.div`
 	overflow-y: scroll;
 
 	#date {
+		width: 100%;
 		text-align: center;
 	}
 `;
