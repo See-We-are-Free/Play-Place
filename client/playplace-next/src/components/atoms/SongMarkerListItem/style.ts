@@ -54,6 +54,7 @@ export const SongMarkerButton = styled.button<SongMarkerContainerProps>`
 export const SongMarkerContainer = styled.div`
 	& > p {
 		width: 100%;
+		text-wrap: nowrap;
 	}
 `;
 
