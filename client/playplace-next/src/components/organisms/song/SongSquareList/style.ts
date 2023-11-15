@@ -20,8 +20,21 @@ export const SongSquareListScroll = styled.ul`
 `;
 
 export const SongSquareListContent = styled.div`
+	position: relative;
 	display: flex;
 	flex-direction: column;
+	width: 130px;
+`;
+
+export const SongSquareButton = styled.button`
+	position: absolute;
+	top: 35%;
+	left: 36%;
+
+	svg {
+		height: 24px;
+		width: 24px;
+	}
 `;
 
 export default SongSquareListContainer;
