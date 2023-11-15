@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const SongSquareItemsContainer = styled.button`
+const SongSquareItemsContainer = styled.div`
 	border-radius: var(--radius-s);
 	margin: 10px 0;
 	padding: 0px;
