@@ -44,7 +44,12 @@ export const UserContainer = styled.div`
 	}
 `;
 
-export const EmojiWrapper = styled.div``;
+export const EmojiWrapper = styled.div`
+	img {
+		width: 50px;
+		height: 50px;
+	}
+`;
 
 export const BackgroundRound = styled.div`
 	width: calc(100vh - 550px);

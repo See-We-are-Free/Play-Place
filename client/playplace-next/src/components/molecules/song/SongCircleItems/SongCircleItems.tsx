@@ -29,6 +29,7 @@ function SongCircleItems(props: ISongCircleItemsProps) {
 			<SongInnerCircle $roundSequence={CircleSequenceStyles.two} />
 			<SongInnerCircle $roundSequence={CircleSequenceStyles.three} />
 			<SongInnerCircle $roundSequence={CircleSequenceStyles.four} />
+			<SongInnerCircle $roundSequence={CircleSequenceStyles.five} />
 			<SongCircleButton type="button" onClick={() => playNewSong(song)}>
 				<RoundPlay />
 			</SongCircleButton>

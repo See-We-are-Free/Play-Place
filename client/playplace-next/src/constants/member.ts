@@ -4,6 +4,13 @@ import ProfileImg3 from '@root/public/assets/images/profileImages/profileImg3.pn
 import ProfileImg4 from '@root/public/assets/images/profileImages/profileImg4.png';
 import ProfileImg5 from '@root/public/assets/images/profileImages/profileImg5.png';
 import ProfileImg6 from '@root/public/assets/images/profileImages/profileImg6.png';
+import ProfileImg7 from '@root/public/assets/images/profileImages/profileImg7.png';
+import ProfileImg8 from '@root/public/assets/images/profileImages/profileImg8.png';
+import ProfileImg9 from '@root/public/assets/images/profileImages/profileImg9.png';
+import ProfileImg10 from '@root/public/assets/images/profileImages/profileImg10.png';
+import ProfileImg11 from '@root/public/assets/images/profileImages/profileImg11.png';
+import ProfileImg12 from '@root/public/assets/images/profileImages/profileImg12.png';
+import ProfileImg13 from '@root/public/assets/images/profileImages/profileImg13.png';
 import { StaticImageData } from 'next/image';
 
 interface ProfileImagesType {
@@ -17,6 +24,13 @@ export const PROFILE_IMAGES: ProfileImagesType = {
 	3: ProfileImg4,
 	4: ProfileImg5,
 	5: ProfileImg6,
+	6: ProfileImg7,
+	7: ProfileImg8,
+	8: ProfileImg9,
+	9: ProfileImg10,
+	10: ProfileImg11,
+	11: ProfileImg12,
+	12: ProfileImg13,
 };
 
 export const AGREEMENT_DETAIL: { title: string; content: string }[] = [
