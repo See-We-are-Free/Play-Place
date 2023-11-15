@@ -30,7 +30,6 @@ export const SongRectListInfoPlay = styled.div`
 	justify-content: space-between;
 	bottom: 10%;
 	padding: 0 10px;
-	background: -webkit-linear-gradient(transparent 20%, rgba(0, 0, 0, 0.9) 100%);
 `;
 
 export const SongRectListInfo = styled.div`
