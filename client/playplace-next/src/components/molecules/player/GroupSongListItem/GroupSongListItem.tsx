@@ -62,7 +62,7 @@ function GroupSongListItem(props: IGroupSongListItemProps) {
 			<div id="song-info">
 				<SongThumbnail src={song.albumImg} />
 				<div id="song-info-text">
-					<Text text={song.title} fontSize={14} />
+					<Text text={song.title} fontSize={14} $overflowHidden />
 					<Text
 						text={`${song.artist}${song.playTime !== -1 ? ` ・ ${formatPlayTime(song.playTime)}` : ''}`}
 						color="gray"

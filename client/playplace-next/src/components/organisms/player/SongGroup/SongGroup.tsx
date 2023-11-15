@@ -91,7 +91,7 @@ function SongGroup(props: ISongGroupProps) {
 		<SongGroupContainer $isFold={toggle}>
 			<div id="group-header" role="presentation" onClick={() => setToggle()}>
 				<div id="group-info">
-					<Text text={groupName} fontSize={16} />
+					<Text text={groupName} fontSize={16} $overflowHidden />
 					<Text text={`${songs.length} / ${isBasicGroup ? 999 : 99}`} color="gray" />
 				</div>
 				<div id="group-control">
