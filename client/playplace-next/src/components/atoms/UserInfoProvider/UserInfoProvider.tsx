@@ -80,6 +80,10 @@ function UserInfoProvider({ children }: { children: ReactNode }) {
 	};
 
 	useEffect(() => {
+		localStorage.setItem(
+			'accessToken',
+			`eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbHNndXIzODQ1QGdtYWlsLmNvbSIsInJvbGUiOiJST0xFX1JPTEVfVVNFUiIsImlhdCI6MTcwMDAyNjYxMSwiZXhwIjoxNzAwMTEzMDExfQ.o-4KnYyWRXIC38QUuHw0j8cF05IlCifzfOvrZOwSl9I`,
+		);
 		if (params.get('accessToken')) {
 			localStorage.setItem('accessToken', params.get('accessToken') || '');
 			router.push('/');
