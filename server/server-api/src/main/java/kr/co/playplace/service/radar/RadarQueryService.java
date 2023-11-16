@@ -89,6 +89,7 @@ public class RadarQueryService {
             Optional<UserLocation> userNearby = userLocationRepository.findById(userNearbyId);
 
             if(userNearby.isEmpty()) {
+                log.debug("{}가 이미 만료되었습니다.", userNearbyId);
                 geoOperations.remove("geoPoints", userNearbyId.toString());
                 continue;
             }
@@ -98,6 +99,7 @@ public class RadarQueryService {
             RecentSongDto recentSongDto = songQueryService.getOtherUsersRecentSong(userNearbyId);
 
             if(recentSongDto == null) {
+                log.debug("{}가 현재 노래를 듣고 있지 않습니다.", userNearbyId);
                 continue;
             }
 
@@ -105,6 +107,8 @@ public class RadarQueryService {
 
             list.add(usersNearbyResponse);
         }
+
+        log.debug("{}의 레이더에 뜨는 가까운 사용자 : {} 명", userId, list.size());
 
         return list;
 
