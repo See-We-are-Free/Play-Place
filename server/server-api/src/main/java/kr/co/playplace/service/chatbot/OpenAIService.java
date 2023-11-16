@@ -45,10 +45,8 @@ public class OpenAIService {
 
         Map<String, Object> message = new HashMap<>();
         message.put("role", "system");
-        message.put("content", "이미지 라벨을 바탕으로 이미지에 대한 설명과 추천 노래를 답해주세요. 이미지에 대한 설명은 한글로 친구에게 말하듯이 해주세요. " +
-                "노래는 5개 추천해주시고, 한국 노래 한 개를 반드시 포함해주세요. " +
-                "응답은 다음과 같은 json 형식으로 부탁 드립니다. " +
-                "comment: 이미지의 느낌을 한줄로 구어체로 설명, songs: [{title: 노래 제목, artist: 아티스트 이름}, ...]}");
+        message.put("content", "이미지 라벨을 바탕으로 이미지에 대한 설명과 추천 노래를 답해주세요." +
+                "응답은 다음과 같은 json 형식으로 부탁 드립니다. comment의 내용은 한글로 부탁해요 comment: 이미지의 느낌을 한줄로 설명, songs: [{title: 노래 제목, artist: 아티스트 이름}, ...]}");
 
 
         Map<String, Object> userMessage = new HashMap<>();
