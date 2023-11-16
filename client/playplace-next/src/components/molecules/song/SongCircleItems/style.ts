@@ -53,7 +53,7 @@ const RoundTypes = {
 		background-clip: content-box, border-box;
 	`,
 	five: css`
-		border: 8px solid var(--black-500);
+		border: 8px solid var(--black-700);
 		width: 100%;
 		height: 100%;
 	`,
