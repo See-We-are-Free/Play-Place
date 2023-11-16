@@ -8,7 +8,10 @@ import CustomBottomSheet from '@/components/molecules/CustomBottomSheet/CustomBo
 import { Song } from '@/types/songs';
 import LandMarkDefault from '@root/public/assets/images/LandMarkDefault.png';
 import MapBottomSheet from '@/components/organisms/MapBottomSheet/MapBottomSheet';
-import { SearchHeader, containerStyle, nightModeStyles } from './style';
+import { PlayMapContainer, SearchHeader, containerStyle, nightModeStyles } from './style';
+
+// google api 키
+const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS || '';
 
 function PlayMaps() {
 	// 구글 맵
@@ -44,8 +47,11 @@ function PlayMaps() {
 	// 랜드만크안에 들어있는 곡 정보
 	const [landMarkList, setLandMarkList] = useState<Song[]>([]);
 
-	// google api 키
-	const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS || '';
+	// map 로딩
+	const { isLoaded } = useJsApiLoader({
+		id: 'google-map-script',
+		googleMapsApiKey,
+	});
 
 	// 현재 위치로 이동
 	const locateUser = useCallback(() => {
@@ -62,12 +68,6 @@ function PlayMaps() {
 		}
 	}, [center.lat, center.lng, map]);
 
-	// map 로딩
-	const { isLoaded } = useJsApiLoader({
-		id: 'google-map-script',
-		googleMapsApiKey,
-	});
-
 	const onUnmount = useCallback(function callback() {
 		// 컴포넌트가 언마운트될때 호출 map 상태 변수를 null로 설정하여 초기화
 		setMap(null);
@@ -80,24 +80,35 @@ function PlayMaps() {
 			if (data) {
 				const location = JSON.parse(data);
 				setMapCenter(location);
+				return;
 			}
 		}
+
+		navigator.geolocation.getCurrentPosition((position) => {
+			const newLocation = {
+				lat: position.coords.latitude,
+				lng: position.coords.longitude,
+			};
+			setMapCenter(newLocation);
+		});
 		setMap(loadMap);
 	}, []);
 
 	const onMapIdle = useCallback(() => {
 		if (map) {
 			const newCenter = map.getCenter();
-			if (newCenter) {
-				setMapCenter({
-					lat: newCenter.lat(),
-					lng: newCenter.lng(),
-				});
+			if (mapCenter && newCenter && (mapCenter.lat !== newCenter.lat() || mapCenter.lng !== newCenter.lng())) {
+				if (newCenter) {
+					setMapCenter({
+						lat: newCenter.lat(),
+						lng: newCenter.lng(),
+					});
+				}
 			}
 		}
-	}, [map]);
+	}, []);
 
-	const callAndroidLocation = () => {
+	const callAndroidLocation = useCallback(() => {
 		if (typeof window !== undefined && window.AndMap) {
 			const data = window.AndMap.getLastKnownLocation();
 
@@ -105,10 +116,19 @@ function PlayMaps() {
 				const location = JSON.parse(data);
 				setCenter(location);
 			}
+			return;
 		}
-	};
 
-	const getLandmarks = async () => {
+		navigator.geolocation.getCurrentPosition((position) => {
+			const newLocation = {
+				lat: position.coords.latitude,
+				lng: position.coords.longitude,
+			};
+			setCenter(newLocation);
+		});
+	}, []);
+
+	const getLandmarks = useCallback(async () => {
 		try {
 			const response = await getLandmarksApi();
 
@@ -118,7 +138,7 @@ function PlayMaps() {
 		} catch (error) {
 			console.error(error);
 		}
-	};
+	}, []);
 
 	const detailLandMarkTest = async (landmarkId: number) => {
 		try {
@@ -145,17 +165,15 @@ function PlayMaps() {
 		setChoose(true);
 	};
 
-	// 수정해야함.
 	useEffect(() => {
-		// console.log(detailLandmark);
-		if (choose) {
+		if (choose && detailLandmark.landmarkId) {
 			detailLandMarkTest(detailLandmark.landmarkId);
 			setChoose(false);
 		}
 	}, [choose, detailLandmark.landmarkId]);
 
 	useEffect(() => {
-		if (landMarkList.length === 0) {
+		if (landMarks.length === 0) {
 			getLandmarks();
 		}
 
@@ -164,7 +182,6 @@ function PlayMaps() {
 			const customEvent = event as CustomEvent<{ landmarkId: number }>;
 			const { landmarkId } = customEvent.detail;
 			detailLandMarkTest(landmarkId);
-			console.log(1);
 		};
 
 		window.addEventListener('addLandmarkSong', handleAddLandmarkSong);
@@ -172,24 +189,38 @@ function PlayMaps() {
 		// 컴포넌트 언마운트 시 이벤트 리스너 제거
 		return () => {
 			window.removeEventListener('addLandmarkSong', handleAddLandmarkSong);
-			console.log(2);
 		};
-	}, []);
+	}, [landMarks.length]);
 
+	// eslint-disable-next-line consistent-return
 	useEffect(() => {
+		const debounce = <F extends (...args: unknown[]) => void>(func: F, wait: number) => {
+			let timeout: NodeJS.Timeout | null = null;
+			return function executedFunction(...args: Parameters<F>) {
+				const later = () => {
+					clearTimeout(timeout as NodeJS.Timeout);
+					func(...args);
+				};
+				clearTimeout(timeout as NodeJS.Timeout);
+				timeout = setTimeout(later, wait);
+			};
+		};
+
+		const debouncedOnMapIdle = debounce(onMapIdle, 5000);
+
 		if (map) {
-			const idleListener = google.maps.event.addListener(map, 'idle', onMapIdle);
+			const idleListener = google.maps.event.addListener(map, 'idle', debouncedOnMapIdle);
 
 			return () => {
 				google.maps.event.removeListener(idleListener);
 			};
 		}
-		return undefined;
-	}, [map, onMapIdle]);
+	}, []);
 
 	useEffect(() => {
 		if (!intervalId) {
-			setIntervalId(setInterval(callAndroidLocation, 500));
+			const id = setInterval(callAndroidLocation, 1000);
+			setIntervalId(id);
 		}
 
 		return () => {
@@ -197,35 +228,36 @@ function PlayMaps() {
 				clearInterval(intervalId);
 			}
 		};
-	}, [intervalId]);
+	}, [intervalId, callAndroidLocation]);
 
 	// 현재위치 표시
 	const circleRangeOptions = {
 		strokeColor: '#FF7575',
-		strokeOpacity: 0.8,
-		strokeWeight: 2,
-		fillColor: '#FF7575',
+		strokeOpacity: 0,
+		strokeWeight: 0,
+		fillColor: '#C779D0',
 		fillOpacity: 0.35,
 		radius: 100,
 		center,
 	};
 
 	const markerCircleOptions = {
-		strokeColor: '#FF7575',
+		strokeColor: '#FFFFFF',
 		strokeOpacity: 1,
 		strokeWeight: 2,
-		fillColor: '#FF7575',
+		fillColor: '#C779D0',
 		fillOpacity: 1,
 		radius: 5,
 		center,
 	};
 
 	return (
-		<>
+		<PlayMapContainer>
 			{center && landMarks && isLoaded && (
 				<div style={{ position: 'relative', ...containerStyle }}>
 					<LocateButton onLocateClick={locateUser} />
 					<GoogleMap
+						id="map"
 						mapContainerStyle={{ width: '100%', height: '100%' }}
 						center={mapCenter}
 						zoom={18}
@@ -283,7 +315,7 @@ function PlayMaps() {
 					)}
 				</div>
 			)}
-		</>
+		</PlayMapContainer>
 	);
 }
 

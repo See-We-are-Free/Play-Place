@@ -27,7 +27,7 @@ function JoinInfo(props: JoinInfoProps) {
 
 	const join = async () => {
 		try {
-			if (email && googleToken && nickname && nickname.length !== 0 && nickname.length >= 10 && profileImg !== null) {
+			if (email && googleToken && nickname && nickname.length !== 0 && nickname.length <= 10 && profileImg !== null) {
 				const body: JoinInfoType = {
 					email,
 					googleToken,
@@ -36,11 +36,9 @@ function JoinInfo(props: JoinInfoProps) {
 				};
 				const response = await joinApi({ body });
 				if (response && response.status === 200) {
-					console.log(response);
 					const { headers } = response;
 					if (headers instanceof AxiosHeaders) {
 						const token = headers.get('authorization');
-						console.log(token);
 						CustomToast(ToastStyles.success, `${nickname} 님 환영합니다.`);
 						localStorage.setItem('accessToken', `${token}`);
 						router.push('/');
@@ -48,10 +46,6 @@ function JoinInfo(props: JoinInfoProps) {
 				}
 			} else {
 				CustomToast(ToastStyles.error, '값을 입력해주세요!');
-				console.log('email', email);
-				console.log('googleToken', googleToken);
-				console.log('nickname', nickname);
-				console.log('profileImg', profileImg);
 			}
 		} catch (error) {
 			console.error(error);

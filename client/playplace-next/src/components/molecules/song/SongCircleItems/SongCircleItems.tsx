@@ -2,18 +2,18 @@ import React from 'react';
 import { CircleSequenceStyles } from '@/types/styles.d';
 import RoundPlay from '@root/public/assets/icons/RoundPlay.svg';
 import DefaultThumbnail from '@root/public/assets/images/thumbnail.png';
+import { Song } from '@/types/songs';
+import usePlayer from '@/hooks/player/usePlayer';
 import SongCircleItemsContainer, { SongCircleButton, CircleImage, SongInnerCircle } from './style';
 
 interface ISongCircleItemsProps {
 	imgSrc: string;
+	song: Song;
 }
 
 function SongCircleItems(props: ISongCircleItemsProps) {
-	const { imgSrc } = props;
-
-	const test = () => {
-		alert('버튼');
-	};
+	const { imgSrc, song } = props;
+	const { playNewSong } = usePlayer();
 
 	return (
 		<SongCircleItemsContainer>
@@ -29,7 +29,8 @@ function SongCircleItems(props: ISongCircleItemsProps) {
 			<SongInnerCircle $roundSequence={CircleSequenceStyles.two} />
 			<SongInnerCircle $roundSequence={CircleSequenceStyles.three} />
 			<SongInnerCircle $roundSequence={CircleSequenceStyles.four} />
-			<SongCircleButton type="button" onClick={test}>
+			<SongInnerCircle $roundSequence={CircleSequenceStyles.five} />
+			<SongCircleButton type="button" onClick={() => playNewSong(song)}>
 				<RoundPlay />
 			</SongCircleButton>
 		</SongCircleItemsContainer>

@@ -18,7 +18,7 @@ function Text(props: ITextProps) {
 		onClick = () => {},
 		color = 'default',
 		fontSize = 12,
-		$overflowHidden = true,
+		$overflowHidden = false,
 		$textSlide = false,
 	} = props;
 
@@ -35,5 +35,4 @@ function Text(props: ITextProps) {
 		</TextWrapper>
 	);
 }
-
 export default Text;

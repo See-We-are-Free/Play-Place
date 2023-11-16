@@ -23,7 +23,7 @@ function PlayBarSongInfo(props: IPlayBarSongInfoProps) {
 			<SongThumbnail src={nowPlaySong?.albumImg || ''} alt="" />
 			<div id="song">
 				{/* TODO : overflow ellipse 해결하기 */}
-				<Text text={nowPlaySong?.title || '현재 재생중인 곡이 없습니다'} fontSize={14} />
+				<Text text={nowPlaySong?.title || '현재 재생중인 곡이 없습니다'} fontSize={14} $overflowHidden />
 				<Text text={nowPlaySong?.artist || ''} color="gray" fontSize={12} />
 			</div>
 		</PlayBarSongInfoContainer>

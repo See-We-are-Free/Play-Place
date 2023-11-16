@@ -23,7 +23,6 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
-import android.webkit.JsResult;
 import android.webkit.WebView;
 import android.widget.Toast;
 
@@ -70,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private long backBtnTime = 0;
     private static final String TAG = "permission";
    private static final String BASE_URL = "https://k9c109.p.ssafy.io/pp/login";
-    // private static final String BASE_URL = "http://172.30.1.67:3000/pp";
+    //   private static final String BASE_URL = "http://172.30.1.5:3000/pp";
 
 
     /* Activity 시작점 */
@@ -148,7 +147,6 @@ public class MainActivity extends AppCompatActivity {
                     locationJson.put("lng", mLastLocation.getLongitude());
                     String jsonString = locationJson.toString();
 
-                    Log.i(TAG, jsonString);
                     return jsonString;
 
                 } catch (JSONException e) {
@@ -345,7 +343,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
+        if (requestCode == REQUEST_CAMERA_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                captureImage();
+            } else {
+                Toast.makeText(this, "카메라 권한이 필요합니다. \n[설정] 앱에서 권한을 허용해주세요.", Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
             if (grantResults.length <= 0) {
                 // If user interaction was interrupted, the permission request is cancelled and you
                 // receive empty arrays.
@@ -359,7 +363,7 @@ public class MainActivity extends AppCompatActivity {
                     if ("android.permission.ACCESS_FINE_LOCATION".equals(permission)) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(this);
                         builder.setTitle("알림");
-                        builder.setMessage("위치 정보 권한이 필요합니다.\n\n[설정] -> [권한]에서 '위치' 항목을 사용으로 설정해 주세요.");
+                        builder.setMessage("위치 액세스 권한이 필요합니다. \n[설정] 앱에서 권한을 허용해주세요.");
                         builder.setPositiveButton("OK", (dialog, id) -> {
                             Intent intent = new Intent();
                             intent.setAction(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);

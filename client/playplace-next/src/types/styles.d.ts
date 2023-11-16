@@ -19,6 +19,7 @@ export enum CircleSequenceStyles {
 	two = 'two',
 	three = 'three',
 	four = 'four',
+	five = 'five',
 }
 
 export enum HeaderStyles {

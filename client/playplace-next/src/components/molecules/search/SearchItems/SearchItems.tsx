@@ -52,7 +52,7 @@ function SearchItems(props: ISearchItemsProps) {
 			try {
 				const response = await postLandmarkAddSong(song);
 				if (response.status === 200) {
-					CustomToast(ToastStyles.success, `랜드마크에 1곡이 등록되었습니다.`);
+					CustomToast(ToastStyles.noTabbarSuccess, `랜드마크에 1곡이 등록되었습니다.`);
 					const customEvent = new CustomEvent('addLandmarkSong', {
 						detail: {
 							landmarkId,
@@ -78,9 +78,8 @@ function SearchItems(props: ISearchItemsProps) {
 	useEffect(() => {
 		if (typeof window !== undefined && confirm === true) {
 			window.confirmCallback = function (result: boolean) {
-				console.log(result); // true 또는 false
 				if (result === false) {
-					CustomToast(ToastStyles.success, `랜드마크 음악 추가 취소`);
+					CustomToast(ToastStyles.noTabbarError, `랜드마크 음악 추가 취소`);
 				} else {
 					addLandmarkSong();
 				}

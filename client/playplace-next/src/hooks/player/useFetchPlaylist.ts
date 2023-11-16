@@ -12,8 +12,8 @@ function useFetchPlaylist() {
 	const fetchData = async () => {
 		try {
 			const response = await getPlaylistApi();
-			console.log('fetchPlayList :: ', response);
 			if (response.status === 200) {
+				console.log('fetchData', JSON.stringify(response.data));
 				setBasicSongs(response.data.basicSongs);
 				setLandmarkGroups(response.data.landmarks);
 
@@ -27,7 +27,7 @@ function useFetchPlaylist() {
 				setPlayQueue(queue);
 			}
 		} catch (error) {
-			console.error(error);
+			console.log(error);
 		}
 	};
 

@@ -16,9 +16,14 @@ export const SearchItemsSongInfo = styled.div`
 
 export const SearchItemsContent = styled.div`
 	display: flex;
-	gap: 5px;
+	gap: 10px;
 	width: calc(100% - 30px);
 	overflow: hidden;
+
+	& > div {
+		min-width: 45px;
+		min-height: 45px;
+	}
 `;
 
 export const SearchItemsButton = styled.button`

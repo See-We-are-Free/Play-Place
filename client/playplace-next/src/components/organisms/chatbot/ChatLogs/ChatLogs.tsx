@@ -18,13 +18,14 @@ function ChatLogs() {
 	const [loading, setLoading] = useState(true);
 	const [imgSrc, setImgSrc] = useState('');
 	const [isDone, setIsDone] = useState(false);
+	const [isFirst, setIsFirst] = useState(true);
 
 	const fetchChatLogs = async () => {
 		try {
 			const response = await getChatLogsApi();
-			console.log(JSON.stringify(response));
 			if (response.status === 200) {
 				setChatLogs(response.data.data);
+				if (response.data.data.length) setIsFirst(false);
 			}
 		} catch (error) {
 			console.error(error);
@@ -59,6 +60,7 @@ function ChatLogs() {
 					setLoading(false);
 					setIsDone(false);
 					setImgSrc('');
+					setIsFirst(false);
 				}
 			}
 		} catch (error) {
@@ -69,7 +71,6 @@ function ChatLogs() {
 
 	useEffect(() => {
 		if (imgSrc) {
-			console.log('이미지 분석요청 시작');
 			getRecommendSongs();
 		}
 	}, [imgSrc]);
@@ -100,7 +101,11 @@ function ChatLogs() {
 					<></>
 				) : (
 					<>
-						<PPChat message="안녕, 나는 플로디야. 사진을 찍어주면 어울리는 음악를 추천해줄게!" isloading={false} />
+						{isFirst ? (
+							<PPChat message="안녕, 나는 플로디야. 사진을 찍어주면 어울리는 음악를 추천해줄게!" isloading={false} />
+						) : (
+							<PPChat message="추천을 더 받고 싶다면 사진을 다시 한번 촬영해줘!" isloading={false} />
+						)}
 						{imgSrc ? (
 							<>
 								<UserChat imgSrc={imgSrc} />

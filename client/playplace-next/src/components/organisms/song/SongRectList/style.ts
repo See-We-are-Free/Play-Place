@@ -33,11 +33,13 @@ export const SongRectListInfoPlay = styled.div`
 `;
 
 export const SongRectListInfo = styled.div`
+	width: 80%;
 	display: flex;
 	flex-direction: column;
 `;
 
 export const SongRectListPlay = styled.button`
+	width: 20%;
 	svg {
 		width: 24px;
 		height: 24px;

@@ -1,13 +1,13 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { UserInfo } from '@/types/auth';
-// import { ILocation } from '@/types/maps';
+import { ILocation } from '@/types/maps';
 
 export interface UserInfoContextType {
 	user: UserInfo;
 	setUser: Dispatch<SetStateAction<UserInfo>>;
 	isSongShare: boolean;
 	setIsSongShare: Dispatch<SetStateAction<boolean>>;
-	getLocation: () => void;
+	getLocation: () => ILocation;
 }
 
 const UserInfoContext = React.createContext<UserInfoContextType>({

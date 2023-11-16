@@ -33,7 +33,10 @@ function MapBottomInfo(props: IMapBottomInfoProps) {
 		if (isDistance === true) {
 			setOpen(true);
 		} else {
-			CustomToast(ToastStyles.error, '100m 이내에 있는 랜드마크에만 등록할 수 있습니다! 이동 후 다시 시도하세요.');
+			CustomToast(
+				ToastStyles.noTabbarError,
+				'100m 이내에 있는 랜드마크에만 등록할 수 있습니다! 이동 후 다시 시도하세요.',
+			);
 		}
 	};
 
@@ -48,11 +51,10 @@ function MapBottomInfo(props: IMapBottomInfoProps) {
 		try {
 			const response = await addGroupToPlaylistApi(landmarkId);
 
-			console.log('addGroupToPlaylistApi :: ', response);
 			if (response.status === 200) {
 				fetchData();
 				setPlayModal('playlist');
-				CustomToast(ToastStyles.success, `랜드마크 재생목록에 ${landMarkTitle} 이/가 추가 됐습니다.`);
+				CustomToast(ToastStyles.noTabbarSuccess, `랜드마크 재생목록에 ${landMarkTitle} 이/가 추가 됐습니다.`);
 			}
 		} catch (error) {
 			console.error(error);
@@ -63,13 +65,12 @@ function MapBottomInfo(props: IMapBottomInfoProps) {
 		if (typeof window !== undefined && confirm === true) {
 			window.confirmCallback = function (result: boolean) {
 				if (result === false) {
-					CustomToast(ToastStyles.success, `랜드마크 재생목록 추가 취소`);
+					CustomToast(ToastStyles.noTabbarError, `랜드마크 재생목록 추가 취소`);
 				} else {
 					addGroupToPlaylist();
 				}
 			};
 		}
-
 		setConfirm(false);
 	}, [confirm]);
 

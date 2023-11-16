@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import PlayGroup from '@root/public/assets/icons/PlayGroup.svg';
+// import PlayGroup from '@root/public/assets/icons/PlayGroup.svg';
 import Down from '@root/public/assets/icons/Down.svg';
 import TrashBox from '@root/public/assets/icons/TrashBox.svg';
 import Text from '@/components/atoms/Text/Text';
@@ -42,16 +42,14 @@ function SongGroup(props: ISongGroupProps) {
 	const confirmRemove = () => {
 		if (typeof window !== 'undefined' && window.AndAlert) {
 			window.AndAlert.cofirmTest('PlayMap', `${groupName} 그룹 재생목록을 삭제하시겠습니까?`);
+			fetchData();
 			setConfirm(true);
 		}
 	};
 
 	const removeSongGroup = async () => {
-		// 승현TODO : '${groupName}' 그룹 재생목록을 삭제하시겠습니까?
-
 		try {
 			const response = await deleteGroupFromPlayListApi(userLandmarkGroupId);
-			console.log(response);
 			setNowPlaySong(playQueue[0]);
 
 			if (response.status === 200) {
@@ -68,7 +66,6 @@ function SongGroup(props: ISongGroupProps) {
 	useEffect(() => {
 		if (typeof window !== undefined && confirm === true) {
 			window.confirmCallback = function (result: boolean) {
-				console.log(result); // true 또는 false
 				if (result === false) {
 					CustomToast(ToastStyles.success, `랜드마크 그룹 삭제 취소`);
 				} else {
@@ -93,11 +90,11 @@ function SongGroup(props: ISongGroupProps) {
 		<SongGroupContainer $isFold={toggle}>
 			<div id="group-header" role="presentation" onClick={() => setToggle()}>
 				<div id="group-info">
-					<Text text={groupName} fontSize={16} />
+					<Text text={groupName} fontSize={16} $overflowHidden />
 					<Text text={`${songs.length} / ${isBasicGroup ? 999 : 99}`} color="gray" />
 				</div>
 				<div id="group-control">
-					<IconButton Icon={<PlayGroup />} color="black300" onClick={() => alert('play group')} size="s" />
+					{/* <IconButton Icon={<PlayGroup />} color="black300" onClick={() => {}} size="s" /> */}
 					<IconButton id="fold-btn" Icon={<Down />} color="black300" onClick={setToggle} size="s" />
 					{editMode ? <IconButton Icon={<TrashBox />} color="danger" onClick={confirmRemove} size="s" /> : <></>}
 				</div>

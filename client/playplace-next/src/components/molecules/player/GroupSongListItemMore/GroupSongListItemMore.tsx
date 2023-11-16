@@ -46,8 +46,9 @@ function GroupSongListItemMore(props: IGroupSongListItemMoreProps) {
 		}
 
 		try {
+			console.log('songId', songId);
 			const response = await deleteSongFromPlayListApi(isLandmark, songId);
-			console.log('deleteSongFromPlayListApi', response);
+			console.log('res', JSON.stringify(response));
 			if (response.status === 200) {
 				closeSheet();
 				playNextSong();
@@ -55,7 +56,7 @@ function GroupSongListItemMore(props: IGroupSongListItemMoreProps) {
 				CustomToast(ToastStyles.noTabbarSuccess, '1곡이 삭제되었습니다.');
 			}
 		} catch (error) {
-			console.error(error);
+			fetchData();
 		}
 	};
 

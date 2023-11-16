@@ -4,7 +4,7 @@ import Text from '@/components/atoms/Text/Text';
 import NowPlayProgress from '@/components/atoms/player/NowPlayProgress/NowPlayProgress';
 import { useRecoilState } from 'recoil';
 import { nowPlaySongState } from '@/recoil/play';
-import NowPlaySongInfoContainer from './style';
+import NowPlaySongInfoContainer, { NowPlaySongTitle } from './style';
 
 function NowPlaySongInfo() {
 	const [nowPlaySong] = useRecoilState(nowPlaySongState);
@@ -12,10 +12,14 @@ function NowPlaySongInfo() {
 	return (
 		<NowPlaySongInfoContainer>
 			<div id="song">
-				<SongThumbnail src={nowPlaySong?.albumImg || ''} $width={100} $isFullSize />
-				<div id="text">
-					<Text text={nowPlaySong?.title || ''} fontSize={24} />
-					<Text text={nowPlaySong?.artist || ''} fontSize={18} color="gray" />
+				<SongThumbnail src={nowPlaySong?.albumImg || ''} $width={200} $isFullSize />
+				<div>
+					<NowPlaySongTitle>
+						<Text text={nowPlaySong?.title || ''} fontSize={24} $overflowHidden />
+					</NowPlaySongTitle>
+					<div id="text">
+						<Text text={nowPlaySong?.artist || ''} fontSize={18} color="gray" />
+					</div>
 				</div>
 			</div>
 			<div id="progress">
