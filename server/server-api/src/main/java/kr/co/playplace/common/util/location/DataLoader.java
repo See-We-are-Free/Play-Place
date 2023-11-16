@@ -155,31 +155,31 @@ public class DataLoader {
         Random rand = new Random();
 
         for(int i = 0; i < 10; i++) {
-            long songId = 1 + rand.nextInt(81);
+            long songId = 1 + rand.nextInt(146);
             int weatherType = -1;
             int timeZoneType = -1;
 
-            if(songId < 18) {
+            if(songId <= 23) {
                 weatherType = 3;
-            } else if(songId <= 33) {
+            } else if(songId <= 40) {
                 weatherType = 1;
-            } else if(songId <= 38) {
+            } else if(songId <= 58) {
                 weatherType = 0;
-            } else if(songId <= 44) {
+            } else if(songId <= 69) {
                 weatherType = 2;
             } else {
                 weatherType = rand.nextInt(4);
             }
 
-            if(songId < 18) {
+            if(songId <= 23) {
                 int idx = rand.nextInt(2);
                 timeZoneType = idx * 3;
-            } else if(songId <= 33) {
+            } else if(songId <= 40) {
                 int idx = rand.nextInt(3) + 2;
                 timeZoneType = idx % 4;
-            } else if(songId <= 39) {
+            } else if(songId <= 58) {
                 timeZoneType = rand.nextInt(2) + 1;
-            } else if(songId <= 44) {
+            } else if(songId <= 69) {
                 int idx = rand.nextInt(2);
                 timeZoneType = idx * 3;
             } else {
@@ -234,11 +234,10 @@ public class DataLoader {
     public CommandLineRunner SongHistoryDataLoad(UserRepository userRepository, VillageRepository villageRepository) {
         return args -> {
             long count = userRepository.count();
-            if(count == 0) {
+            if(count == 1) {
                 redisTemplate.getConnectionFactory().getConnection().flushAll();
 
-                Users user = new Users("dump", 1, "playplace@gmail.com", 0, 0, 0, "ROLE_ADMIN" );
-                userRepository.save(user);
+                Users user = userRepository.findById(1L).get();
 
                 for(int i = 1; i <= 3586; i++) {
                     if(i % 500 == 0) {
