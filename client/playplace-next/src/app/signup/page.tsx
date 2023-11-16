@@ -19,6 +19,13 @@ function SignUp() {
 	const header = <Header $headerType={HeaderStyles.signup} />;
 
 	useEffect(() => {
+		const accessToken = localStorage.getItem('accessToken');
+		if (accessToken) {
+			localStorage.removeItem('accessToken');
+		}
+	}, []);
+
+	useEffect(() => {
 		if (!email && !googleToken) {
 			if (params.get('email') && params.get('googleToken')) {
 				setEmail(params.get('email'));
