@@ -1,28 +1,31 @@
 package kr.co.playplace.controller.radar.response;
 
-import kr.co.playplace.entity.song.Song;
-import kr.co.playplace.entity.user.Users;
+import kr.co.playplace.service.radar.dto.UserLocation;
+import kr.co.playplace.service.song.dto.RecentSongDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Builder
 @AllArgsConstructor
 @Data
 public class UsersNearbyResponse {
-    long userId;
-    String nickname;
-    long songId;
-    String title;
-    int level;
+    private long userId;
+    private String nickname;
+    private String youtubeId;
+    private String title;
+    private String artist;
+    private String albumImg;
+    private int level;
 
-    public static UsersNearbyResponse of(Users user, Song song, int level) {
+    public static UsersNearbyResponse of(UserLocation userLocation, RecentSongDto recentSongDto, int level) {
         return UsersNearbyResponse.builder()
-                    .userId(user.getId())
-                    .nickname(user.getNickname())
-                    .songId(song.getId())
-                    .title(song.getTitle())
+                    .userId(userLocation.getId())
+                    .nickname(userLocation.getNickname())
+                    .youtubeId(recentSongDto.getYoutubeId())
+                    .title(recentSongDto.getTitle())
+                    .artist(recentSongDto.getArtist())
+                    .albumImg(recentSongDto.getAlbumImg())
                     .level(level).build();
     }
 }

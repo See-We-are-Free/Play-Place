@@ -14,12 +14,14 @@ public class JoinUserRequest {
     String email;
     String nickname;
     int profileImg;
+    String googleToken;
 
     @Builder
-    public JoinUserRequest(String email, String nickname, int profileType) {
+    public JoinUserRequest(String email, String nickname, int profileType, String googleToken) {
         this.email = email;
         this.nickname = nickname;
         this.profileImg = profileType;
+        this.googleToken = googleToken;
     }
 
     public JoinUserDto toJoinUserDto() {
@@ -27,6 +29,7 @@ public class JoinUserRequest {
                 .profileImg(this.profileImg)
                 .email(this.email)
                 .nickname(this.nickname)
+                .googleToken(googleToken)
                 .build();
     }
 }

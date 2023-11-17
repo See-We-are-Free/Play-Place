@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface LandmarkSongRepository extends JpaRepository<LandmarkSong, Long> {
 
-    Optional<List<LandmarkSong>> findAllByLandmarkId(Long landmarkId);
+    List<LandmarkSong> findAllByLandmarkId(Long landmarkId);
 }

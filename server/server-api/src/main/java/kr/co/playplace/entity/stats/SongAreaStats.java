@@ -26,6 +26,6 @@ public class SongAreaStats extends TimeBaseEntity {
     @JoinColumn(name = "village_id")
     private Village village;
 
-    private int count;
+    private Long count;
 
 }

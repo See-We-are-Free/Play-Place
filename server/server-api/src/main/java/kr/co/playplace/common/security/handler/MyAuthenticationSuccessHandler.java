@@ -32,6 +32,7 @@ public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucce
         String email = oAuth2User.getAttribute("email");
         // 서비스 제공 플랫폼(GOOGLE, KAKAO, NAVER)이 어디인지 가져온다.
         String provider = oAuth2User.getAttribute("provider");
+        String googleToken = oAuth2User.getAttribute("googleToken");
 
         // CustomOAuth2UserService에서 셋팅한 로그인한 회원 존재 여부를 가져온다.
         boolean isExist = oAuth2User.getAttribute("exist");
@@ -44,12 +45,14 @@ public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucce
         // 회원이 존재할경우
         if (isExist) {
             // 회원이 존재하면 jwt token 발행을 시작한다.
-            GeneratedToken token = jwtUtil.generateToken(email, role);
+            GeneratedToken token = jwtUtil.generateToken(email, role, googleToken);
 
             log.info("accessToken = {}", token.getAccessToken());
 
             // accessToken을 쿼리스트링에 담는 url을 만들어준다.
-            String targetUrl = UriComponentsBuilder.fromUriString("https://k9c109.p.ssafy.io/pp/login")
+            String targetUrl = UriComponentsBuilder
+                    .fromUriString("https://k9c109.p.ssafy.io/pp/login")
+//                    .fromUriString("http://localhost:3000/pp/login")
                     .queryParam("accessToken", token.getAccessToken())
                     .build()
                     .encode(StandardCharsets.UTF_8)
@@ -61,9 +64,12 @@ public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucce
 
         } else {
             // 회원이 존재하지 않을경우, 서비스 제공자와 email을 쿼리스트링으로 전달하는 url을 만들어준다.
-            String targetUrl = UriComponentsBuilder.fromUriString("https://k9c109.p.ssafy.io/pp/signup")
+            String targetUrl = UriComponentsBuilder
+                    .fromUriString("https://k9c109.p.ssafy.io/pp/signup")
+//                    .fromUriString("http://localhost:3000/pp/signup")
                     .queryParam("email", (String) oAuth2User.getAttribute("email"))
                     .queryParam("provider", provider)
+                    .queryParam("googleToken", googleToken)
                     .build()
                     .encode(StandardCharsets.UTF_8)
                     .toUriString();

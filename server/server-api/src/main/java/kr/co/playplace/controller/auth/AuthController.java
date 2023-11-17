@@ -5,6 +5,7 @@ import kr.co.playplace.common.util.SecurityUtils;
 import kr.co.playplace.service.user.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,11 +36,11 @@ public class AuthController {
 
         String newAccessToken = tokenService.republishAccessToken(accessToken);
         if (StringUtils.hasText(newAccessToken)) {
-            response.setHeader("Authorization", accessToken);
+            response.setHeader("Authorization", newAccessToken);
             return ResponseEntity.ok(StatusResponseDto.addStatus(200));
         }
 
-        return ResponseEntity.badRequest().body(StatusResponseDto.addStatus(400));
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
 }

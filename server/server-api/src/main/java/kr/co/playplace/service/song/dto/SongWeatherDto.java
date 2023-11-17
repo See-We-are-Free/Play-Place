@@ -2,12 +2,14 @@ package kr.co.playplace.service.song.dto;
 
 import kr.co.playplace.entity.Weather;
 import kr.co.playplace.entity.song.Song;
+import kr.co.playplace.entity.stats.SongWeatherStats;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
 
 @Getter
@@ -18,25 +20,28 @@ import org.springframework.data.redis.core.RedisHash;
 public class SongWeatherDto {
 
     @Id
+    private Long id;
     private Long songId;
     private String youtubeId;
     private String title;
     private String artist;
     private String albumImg;
     private long playTime;
+    @Indexed
     private Weather weather;
-    private int count;
+    private Long count;
 
-    public static SongWeatherDto of(Song song, Weather weather, int count){
+    public static SongWeatherDto of(SongWeatherStats songWeatherStats){
         return SongWeatherDto.builder()
-                .songId(song.getId())
-                .youtubeId(song.getYoutubeId())
-                .title(song.getTitle())
-                .artist(song.getArtist())
-                .albumImg(song.getAlbumImg())
-                .playTime(song.getPlayTime())
-                .weather(weather)
-                .count(count)
+                .id(songWeatherStats.getId())
+                .songId(songWeatherStats.getSong().getId())
+                .youtubeId(songWeatherStats.getSong().getYoutubeId())
+                .title(songWeatherStats.getSong().getTitle())
+                .artist(songWeatherStats.getSong().getArtist())
+                .albumImg(songWeatherStats.getSong().getAlbumImg())
+                .playTime(songWeatherStats.getSong().getPlayTime())
+                .weather(songWeatherStats.getWeather())
+                .count(songWeatherStats.getCount())
                 .build();
     }
 

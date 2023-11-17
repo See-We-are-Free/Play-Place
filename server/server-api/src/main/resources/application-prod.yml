@@ -5,13 +5,12 @@ spring:
     password: ${MYSQL_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
-        show_sql: true
-        format_sql: true
-        generate_statistics: true
-#    defer-datasource-initialization: true
+#        show_sql: true
+#        format_sql: true
+    defer-datasource-initialization: true
   security:
     oauth2:
       client:
@@ -19,7 +18,7 @@ spring:
           google:
             client-id: ${CLIENT_ID}
             client-secret: ${CLIENT_SECRET}
-#            redirect-uri: "https://k9c109.p.ssafy.io:8080/login/oauth2/code/google"
+            #            redirect-uri: "https://k9c109.p.ssafy.io:8080/login/oauth2/code/google"
             redirect-uri: "https://k9c109.p.ssafy.io/login/oauth2/code/google"
             authorization-grant-type: authorization_code
             scope: email
@@ -27,5 +26,12 @@ spring:
     host: ${REDIS_HOST}
     port: 6379
     password: ${REDIS_PASSWORD}
+  cloud:
+    gcp:
+      project-id: playplace
+      credentials:
+        location: classpath:playplace-c109-63af6b6b49fd.json
 jwt:
   secret: ${JWT_SECRET}
+openai:
+  api-key: ${OPENAPI_KEY}

@@ -1,15 +1,19 @@
 package kr.co.playplace.controller.song;
 
+import kr.co.playplace.common.util.GetSongInYoutube;
 import kr.co.playplace.controller.song.request.*;
 import kr.co.playplace.controller.song.response.GetLikeSongResponse;
 import kr.co.playplace.controller.song.response.GetRecentSongResponse;
 import kr.co.playplace.controller.song.response.SaveSongResponse;
+import kr.co.playplace.controller.song.response.SearchSongResponse;
 import kr.co.playplace.service.song.SongQueryService;
 import kr.co.playplace.service.song.SongService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -19,6 +23,8 @@ public class SongController {
 
     private final SongService songService;
     private final SongQueryService songQueryService;
+
+    private final GetSongInYoutube getSongInYoutube;
 
     @PostMapping
     public ResponseEntity<?> saveSong(@RequestBody SaveSongRequest saveSongRequest){
@@ -56,9 +62,15 @@ public class SongController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/like/{songId}") // 곡 좋아요/좋아요 취소
+    @GetMapping("/like/{songId}") // 곡 좋아요 여부 조회
     public ResponseEntity<?> getLikeSong(@PathVariable("songId") long songId){
         GetLikeSongResponse getLikeSongResponse = songService.getLikeSong(songId);
         return ResponseEntity.ok().body(getLikeSongResponse);
+    }
+
+    @GetMapping("/search/{keyword}") // 곡 검색
+    public ResponseEntity<?> searchSongInYoutube(@PathVariable("keyword") String keyword){
+        List<SearchSongResponse> searchSongResponse = getSongInYoutube.searchSongsInYoutube(keyword);
+        return ResponseEntity.ok().body(searchSongResponse);
     }
 }

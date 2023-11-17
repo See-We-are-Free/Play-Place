@@ -86,7 +86,7 @@ public class GetWeather {
      * "TO_GRID"(위경도->좌표, lat_X:위도, lng_Y:경도)
      * "TO_GPS"(좌표->위경도,  lat_X:x, lng_Y:y)
     */
-    private LatXLngY convertGRID_GPS(String mode, double lng_Y, double lat_X)
+    private LatXLngY convertGRID_GPS(String mode, double lat_X, double lng_Y)
     {
         double RE = 6371.00877; // 지구 반경(km)
         double GRID = 5.0; // 격자 간격(km)

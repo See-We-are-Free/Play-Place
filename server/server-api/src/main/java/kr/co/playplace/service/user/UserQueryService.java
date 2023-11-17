@@ -25,4 +25,8 @@ public class UserQueryService {
         String email = SecurityUtils.getUserId();
         return FindUserInfoResponse.of(userRepository.findByOuthId(email).get());
     }
+
+    public boolean findUserIsRadar(long userId) {
+        return userRepository.existsByIdAndIsRadar(userId, 1);
+    }
 }

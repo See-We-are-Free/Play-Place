@@ -5,10 +5,7 @@ import kr.co.playplace.entity.song.Song;
 import kr.co.playplace.entity.stats.SongAreaStats;
 import kr.co.playplace.entity.user.UserLandmarkGroup;
 import kr.co.playplace.service.playlist.dto.GetUserLandmarkSongDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
@@ -16,11 +13,12 @@ import java.util.List;
 @Builder
 @ToString
 @AllArgsConstructor
+@NoArgsConstructor
 public class GetAreaSongDto {
 
     private Song song;
     private Village village;
-    private int count;
+    private Long count;
 
     public SongAreaStats toEntity(){
         return SongAreaStats.builder()

@@ -8,6 +8,7 @@ import kr.co.playplace.common.util.SecurityUtils;
 import kr.co.playplace.controller.song.request.*;
 import kr.co.playplace.controller.song.response.GetLikeSongResponse;
 import kr.co.playplace.controller.song.response.SaveSongResponse;
+import kr.co.playplace.controller.user.response.FindLikeListResponse;
 import kr.co.playplace.entity.Timezone;
 import kr.co.playplace.entity.Weather;
 import kr.co.playplace.entity.location.Village;
@@ -18,6 +19,7 @@ import kr.co.playplace.entity.stats.SongTimeStats;
 import kr.co.playplace.entity.stats.SongWeatherStats;
 import kr.co.playplace.entity.user.*;
 import kr.co.playplace.repository.landmark.UserLandmarkSongRepository;
+import kr.co.playplace.repository.song.RecentSongDtoRedisRepository;
 import kr.co.playplace.repository.stats.*;
 import kr.co.playplace.repository.user.JjimRepository;
 import kr.co.playplace.repository.user.NowPlayRepository;
@@ -64,6 +66,7 @@ public class SongService {
     private final SongAreaDtoRedisRepository songAreaDtoRedisRepository;
     private final SongWeatherDtoRedisRepository songWeatherDtoRedisRepository;
     private final SongTimeDtoRedisRepository songTimeDtoRedisRepository;
+    private final RecentSongDtoRedisRepository recentSongDtoRedisRepository;
 
     private final S3Uploader s3Uploader;
     private final Geocoder geocoder;
@@ -152,93 +155,160 @@ public class SongService {
 
     public void playSong(SavePlaySongRequest savePlaySongRequest){ // redis에 저장
         long userId = SecurityUtils.getUser().getUserId();
-        String key = "play:"+userId;
-        if(redisTemplate.hasKey(key)){
-            redisTemplate.delete(key);
-        }
+        Optional<RecentSongDto> find = recentSongDtoRedisRepository.findByUserId(userId);
+        find.ifPresent(recentSongDtoRedisRepository::delete);
         if(savePlaySongRequest.isLandmark()){
-            redisTemplate.opsForHash().put(key, savePlaySongRequest.getPlaylistSongId(),"true");
+            Optional<UserLandmarkSong> userLandmarkSong = userLandmarkSongRepository.findById(savePlaySongRequest.getPlaylistSongId());
+            Optional<Song> song = songRepository.findById(userLandmarkSong.get().getSong().getId());
+            RecentSongDto recentSongDto = RecentSongDto.of(userId, song.get(), savePlaySongRequest);
+            recentSongDtoRedisRepository.save(recentSongDto);
         }else{
-            redisTemplate.opsForHash().put(key, savePlaySongRequest.getPlaylistSongId(),"false");
+            Optional<UserSong> userSong = userSongRepository.findById(savePlaySongRequest.getPlaylistSongId());
+            Optional<Song> song = songRepository.findById(userSong.get().getSong().getId());
+            RecentSongDto recentSongDto = RecentSongDto.of(userId, song.get(), savePlaySongRequest);
+            recentSongDtoRedisRepository.save(recentSongDto);
         }
+//        String key = "play:"+userId;
+//        if(redisTemplate.hasKey(key)){
+//            redisTemplate.delete(key);
+//        }
+//        if(savePlaySongRequest.isLandmark()){
+//            redisTemplate.opsForHash().put(key, savePlaySongRequest.getPlaylistSongId(),"true");
+//        }else{
+//            redisTemplate.opsForHash().put(key, savePlaySongRequest.getPlaylistSongId(),"false");
+//        }
     }
 
+    // redis 저장 형태 dto로 바꿈
     @Scheduled(cron = "0 0/30 * * * ?") // Redis -> MySQL 30분 마다 동기화
     public void syncPlaySong(){
-        Set<String> changeUserKeys = redisTemplate.keys("play:*");
-        if (changeUserKeys.isEmpty()) return;
+        List<RecentSongDto> recentSongDtoList = (List<RecentSongDto>) recentSongDtoRedisRepository.findAll();
+        if(recentSongDtoList.isEmpty()) return;
 
-        for (String key : changeUserKeys) {
-            long userId = Long.parseLong(key.split(":")[1]);
-            Users user = userRepository.findById(userId).orElse(null);
-            if (user != null) syncSongForNowplay(user); // mysql update
-            redisTemplate.delete(key); // Redis 데이터 삭제
+        for (RecentSongDto recentSongDto : recentSongDtoList){
+            Users user = userRepository.findById(recentSongDto.getSongId()).get();
+            if(recentSongDto.isLandmark()){
+                UserLandmarkSong userLandmarkSong = userLandmarkSongRepository.findById(recentSongDto.getPlayListSongId()).get();
+                NowPlay nowPlay = NowPlay.builder()
+                        .user(user)
+                        .userSong(null)
+                        .userLandmarkSong(userLandmarkSong)
+                        .build();
+                nowPlayRepository.save(nowPlay);
+            }else{
+                UserSong userSong = userSongRepository.findById(recentSongDto.getPlayListSongId()).get();
+                NowPlay nowPlay = NowPlay.builder()
+                        .user(user)
+                        .userSong(userSong)
+                        .userLandmarkSong(null)
+                        .build();
+                nowPlayRepository.save(nowPlay);
+            }
+            recentSongDtoRedisRepository.delete(recentSongDto);
         }
+
+//        Set<String> changeUserKeys = redisTemplate.keys("play:*");
+//        if (changeUserKeys.isEmpty()) return;
+//
+//        for (String key : changeUserKeys) {
+//            long userId = Long.parseLong(key.split(":")[1]);
+//            Users user = userRepository.findById(userId).orElse(null);
+//            if (user != null) syncSongForNowplay(user); // mysql update
+//            redisTemplate.delete(key); // Redis 데이터 삭제
+//        }
     }
 
-    private void syncSongForNowplay(Users user){
-        Set<Object> companyIdsObjects = redisTemplate.opsForHash().keys("play:" + user.getId());
-        Set<Long> playlistSongIds = companyIdsObjects.stream()
-                .map(objectId -> (Long) objectId)
-                .collect(Collectors.toSet());
-        Long playlistSongId = playlistSongIds.iterator().next();
+//    private void syncSongForNowplay(Users user){ // redis 저장 형태 dto로 바꿈 -> 필요없어짐
+//        Set<Object> companyIdsObjects = redisTemplate.opsForHash().keys("play:" + user.getId());
+//        Set<Long> playlistSongIds = companyIdsObjects.stream()
+//                .map(objectId -> (Long) objectId)
+//                .collect(Collectors.toSet());
+//        Long playlistSongId = playlistSongIds.iterator().next();
+//
+//        Object check = redisTemplate.opsForHash().get("play:" + user.getId(), playlistSongIds.iterator().next());
+//        if (check == null) return;
+//        if (check.equals("true")) { // 랜드마크 송 저장
+//            UserLandmarkSong userLandmarkSong = userLandmarkSongRepository.findById(playlistSongId).get();
+//            NowPlay nowPlay = NowPlay.builder()
+//                    .user(user)
+//                    .userLandmarkSong(userLandmarkSong)
+//                    .build();
+//            nowPlayRepository.save(nowPlay);
+//        } else { // 유저 송 저장
+//            UserSong userSong = userSongRepository.findById(playlistSongId).get();
+//            NowPlay nowPlay = NowPlay.builder()
+//                    .user(user)
+//                    .userSong(userSong)
+//                    .build();
+//            nowPlayRepository.save(nowPlay);
+//        }
+//    }
 
-        Object check = redisTemplate.opsForHash().get("play:" + user.getId(), playlistSongIds.iterator().next());
-        if (check == null) return;
-        if (check.equals("true")) { // 랜드마크 송 저장
-            UserLandmarkSong userLandmarkSong = userLandmarkSongRepository.findById(playlistSongId).get();
-            NowPlay nowPlay = NowPlay.builder()
-                    .user(user)
-                    .userLandmarkSong(userLandmarkSong)
-                    .build();
-            nowPlayRepository.save(nowPlay);
-        } else { // 유저 송 저장
-            UserSong userSong = userSongRepository.findById(playlistSongId).get();
-            NowPlay nowPlay = NowPlay.builder()
-                    .user(user)
-                    .userSong(userSong)
-                    .build();
-            nowPlayRepository.save(nowPlay);
-        }
-    }
-
+    // redis 저장 dto id 확인
     @Scheduled(cron = "0 0 10 ? * MON") // 매주 월요일 오전 10시에 실행
     public void getAreaStatistics(){
-        List<GetAreaSongDto> getAreaSongDtoList = songQueryRepository.findSongsWithArea();
-        getAreaSongDtoList = getAreaSongDtoList.stream().sorted(Comparator.comparing(GetAreaSongDto::getCount).reversed()).collect(Collectors.toList()); // count로 정렬
-        for(int i=0; i<10; i++){
-            if(getAreaSongDtoList.size() <= i) return; // list의 개수가 10개보다 적으면 종료
+        List<GetAreaSongDto> getAreaSongDtoList = songHistoryRepository.findAreaSong().stream()
+                .map(result -> {
+                    Song song = songRepository.findById(Long.parseLong(result[0] + "")).get();
+                    Village village = villageRepository.findById(Integer.parseInt(result[1] + "")).get();
+                    Long count = Long.parseLong(result[2] + "");
+                    return new GetAreaSongDto(song, village, count);
+                })
+                .collect(Collectors.toList());
+//        List<GetAreaSongDto> getAreaSongDtoList = songQueryRepository.findSongsWithArea();
+//        getAreaSongDtoList = getAreaSongDtoList.stream().sorted(Comparator.comparing(GetAreaSongDto::getCount).reversed()).collect(Collectors.toList()); // count로 정렬
+        for(GetAreaSongDto getAreaSongDto : getAreaSongDtoList){
+//            for(int i = 0; i < 10; i++){
+//            if(getAreaSongDtoList.size() <= i) return; // list의 개수가 10개보다 적으면 종료
             // mysql에 저장
-            SongAreaStats songAreaStats = getAreaSongDtoList.get(i).toEntity();
+            SongAreaStats songAreaStats = getAreaSongDto.toEntity();
             songAreaStatsRepository.save(songAreaStats);
             // redis에 저장
-            SongAreaDto songAreaDto = SongAreaDto.of(getAreaSongDtoList.get(i).getSong(), getAreaSongDtoList.get(i).getVillage());
+            SongAreaDto songAreaDto = SongAreaDto.of(songAreaStats);
             songAreaDtoRedisRepository.save(songAreaDto);
         }
     }
 
+    // TODO: redis 저장 dto id 확인
     @Scheduled(cron = "0 0 10 ? * MON") // 매주 월요일 오전 10시에 실행
     public void getWeatherStatistics(){
-        List<GetWeatherSongDto> getWeatherSongDtoList = songQueryRepository.findSongsWithWeather();
+        List<GetWeatherSongDto> getWeatherSongDtoList = songHistoryRepository.findWeatherSong().stream()
+                .map(result -> {
+                    Song song = songRepository.findById(Long.parseLong(result[0] + "")).get();
+                    Weather weather = Weather.values()[Integer.parseInt(result[1] + "")];
+                    Long count = Long.parseLong(result[2] + "");
+                    return new GetWeatherSongDto(song, weather, count);
+                })
+                .collect(Collectors.toList());
+//        List<GetWeatherSongDto> getWeatherSongDtoList = songQueryRepository.findSongsWithWeather();
         for(GetWeatherSongDto getWeatherSongDto : getWeatherSongDtoList){
             // mysql에 저장
             SongWeatherStats songWeatherStats = getWeatherSongDto.toEntity();
             songWeatherStatsRepository.save(songWeatherStats);
             // redis에 저장
-            SongWeatherDto songWeatherDto = SongWeatherDto.of(getWeatherSongDto.getSong(), getWeatherSongDto.getWeather(), getWeatherSongDto.getCount());
+            SongWeatherDto songWeatherDto = SongWeatherDto.of(songWeatherStats);
             songWeatherDtoRedisRepository.save(songWeatherDto);
         }
     }
 
+    // TODO: redis 저장 dto id 확인
     @Scheduled(cron = "0 0 10 ? * MON") // 매주 월요일 오전 10시에 실행
     public void getTimezoneStatistics(){
-        List<GetTimezoneSongDto> getTimezoneSongDtoList = songQueryRepository.findSongsWithTimezone();
+        List<GetTimezoneSongDto> getTimezoneSongDtoList = songHistoryRepository.findTimeZoneSong().stream()
+                .map(result -> {
+                    Song song = songRepository.findById(Long.parseLong(result[0] + "")).get();
+                    Timezone timezone = Timezone.values()[Integer.parseInt(result[1] + "")];
+                    Long count = Long.parseLong(result[2] + "");
+                    return new GetTimezoneSongDto(song, timezone, count);
+                })
+                .collect(Collectors.toList());
+//        List<GetTimezoneSongDto> getTimezoneSongDtoList = songQueryRepository.findSongsWithTimezone();
         for(GetTimezoneSongDto getTimezoneSongDto : getTimezoneSongDtoList){
             // mysql에 저장
             SongTimeStats songTimeStats = getTimezoneSongDto.toEntity();
             songTimeStatsRepository.save(songTimeStats);
             // redis에 저장
-            SongTimezoneDto songTimezoneDto = SongTimezoneDto.of(getTimezoneSongDto.getSong(), getTimezoneSongDto.getTimezone(), getTimezoneSongDto.getCount());
+            SongTimezoneDto songTimezoneDto = SongTimezoneDto.of(songTimeStats);
             songTimeDtoRedisRepository.save(songTimezoneDto);
         }
     }
@@ -250,6 +320,7 @@ public class SongService {
 
     public GetLikeSongResponse getLikeSong(long songId){
         Optional<Users> user = userRepository.findById(SecurityUtils.getUser().getUserId());
+        log.info(user.get().toString());
         // redis -> mysql
         Set<Object> songs = redisTemplate.opsForHash().keys("like:" + user.get().getId());
         if (!songs.isEmpty()) {
@@ -260,13 +331,30 @@ public class SongService {
         return new GetLikeSongResponse(result);
     }
 
+    public List<FindLikeListResponse> getLikeList(){
+        Optional<Users> user = userRepository.findById(SecurityUtils.getUser().getUserId());
+        // redis -> mysql
+        Set<Object> songs = redisTemplate.opsForHash().keys("like:" + user.get().getId());
+        if (!songs.isEmpty()) {
+            syncLike();
+        }
+        // mysql check
+        List<Jjim> result = jjimRepository.findAllByJjimId_UserId(user.get().getId());
+        List<FindLikeListResponse> findLikeListResponseList = new ArrayList<>();
+        for(Jjim jjim : result){
+            Optional<Song> song = songRepository.findById(jjim.getJjimId().getSongId());
+            findLikeListResponseList.add(FindLikeListResponse.of(song.get()));
+        }
+        return findLikeListResponseList;
+    }
+
     @Scheduled(cron = "0 0/30 * * * ?") // Redis -> MySQL 30분 마다 동기화
     public void syncLike() {
         Set<String> changeSongKeys = redisTemplate.keys("like:*");
         if (changeSongKeys.isEmpty()) return;
-
         for (String key : changeSongKeys) {
             Long userId = Long.parseLong(key.split(":")[1]);
+            log.info(userId.toString());
             Users user = userRepository.findById(userId).orElse(null);
             if (user != null) syncLikeForUser(user); // mysql update
             redisTemplate.delete(key); // Redis 데이터 삭제
@@ -278,6 +366,7 @@ public class SongService {
         Set<Long> songIds = songIdsObjects.stream()
                 .map(objectId -> (Long) objectId)
                 .collect(Collectors.toSet());
+        log.info(songIds.toString());
 
         List<Song> songs = songRepository.findAllById(songIds);
         if (songIds.isEmpty()) return;
@@ -287,11 +376,13 @@ public class SongService {
         for (Song song : songs) {
             Object check = redisTemplate.opsForHash().get("like:" + user.getId(), song.getId());
             if (check == null) continue;
-            if (check.equals("true")) {
+            if (check.equals(true)) {
+                log.info("true");
                 if(!jjimRepository.existsByJjimId_UserIdAndJjimId_SongId(user.getId(), song.getId())) {
                     saveSong.add(song);
                 }
             } else {
+                log.info("false");
                 Optional<Jjim> like = jjimRepository.findByJjimId_UserIdAndJjimId_SongId(user.getId(), song.getId());
                 like.ifPresent(jjimRepository::delete);
             }

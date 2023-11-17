@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.Random;
 
 @Slf4j
 @Component
@@ -32,7 +33,8 @@ public class S3Uploader {
     }
 
     private String upload(File uploadFile, String dirName) {
-        String fileName = dirName + "/" + uploadFile.getName();
+        String fileName = dirName + "/" + randomFileName() + uploadFile.getName();
+        log.info(fileName);
         String uploadImageUrl = putS3(uploadFile, fileName);
 
         removeNewFile(uploadFile);  // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
@@ -65,5 +67,17 @@ public class S3Uploader {
             return Optional.of(convertFile);
         }
         return Optional.empty();
+    }
+
+    private String randomFileName(){
+        int leftLimit = 48; // numeral '0'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 10;
+        Random random = new Random();
+        return random.ints(leftLimit, rightLimit + 1)
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
     }
 }

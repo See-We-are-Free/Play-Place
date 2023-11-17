@@ -27,11 +27,14 @@ public class Users extends TimeBaseEntity {
     @ColumnDefault("0")
     private int isRemoved;
 
-    @ColumnDefault("1")
+    @ColumnDefault("0")
     private int isPush;
 
-    @ColumnDefault("1")
+    @ColumnDefault("0")
     private int isShake;
+
+    @ColumnDefault("0")
+    private int isRadar;
 
     private String role;
 
@@ -46,6 +49,9 @@ public class Users extends TimeBaseEntity {
         this.role = role;
     }
 
+    public void changeOauthId(){
+        this.outhId = null;
+    }
     public void changePushState() {
         this.isPush = this.isPush == 0 ? 1 : 0;
     }
@@ -54,7 +60,15 @@ public class Users extends TimeBaseEntity {
         this.isShake = this.isShake == 0 ? 1 : 0;
     }
 
+    public void changeRadarState() {
+        this.isRadar = this.isRadar == 0 ? 1 : 0;
+    }
+
     public void changeProfileImg(int numImg) {
         this.profileImg = numImg;
+    }
+
+    public void changeNickname(String nickname){
+        this.nickname = nickname;
     }
 }

@@ -23,7 +23,7 @@ public class SongWeatherStats extends TimeBaseEntity {
     private Song song;
 
     private Weather weather;
-    private int count;
+    private Long count;
 //    private int sunnyCount;
 //    private int snowCount;
 //    private int rainCount;
