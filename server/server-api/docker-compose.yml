@@ -1,0 +1,49 @@
+version: "3"
+services:
+  db:
+    image: mysql:8.0.34
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: playplace
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  my-spring-app:
+    build: .
+    depends_on:
+      - db
+    image: playplace-spring:latest
+    container_name: playplace-spring
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/playplace?useUnicode=true&rewriteBatchedStatements=true&useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SPRING_PROFILES_ACTIVE: prod
+
+      JAVA_OPTS: -Duser.timezone=Asia/Seoul
+      TZ: Asia/Seoul
+
+      CLIENT_ID: ${CLIENT_ID}
+      CLIENT_SECRET: ${CLIENT_SECRET}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+
+      S3_ACCESS_KEY: ${S3_ACCESS_KEY}
+      S3_SECRET_KEY: ${S3_SECRET_KEY}
+
+      GEOCODER_API_KEY: ${GEOCODER_API_KEY}
+      WEATHER_SERVICE_KEY: ${WEATHER_SERVICE_KEY}
+      YOUTUBE_API_KEY: ${YOUTUBE_API_KEY}
+      OPENAPI_KEY: ${OPENAPI_KEY}
+      GOOGLE_APPLICATION_CREDENTIALS: ${GOOGLE_APPLICATION_CREDENTIALS}
+    ports:
+      - "8080:8080"
+volumes:
+  mysql-data:

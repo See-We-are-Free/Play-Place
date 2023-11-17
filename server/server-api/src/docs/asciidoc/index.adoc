@@ -1,0 +1,31 @@
+ifndef::snippets[]
+:snippets: ../../build/generated-snippets
+endif::[]
+= pp REST API 문서
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+[[landmark-API]]
+== landmark API
+
+include::api/landmark/landmark_search.adoc[]
+include::api/landmark/landmark_song_search.adoc[]
+include::api/landmark/landmark_song_save.adoc[]
+include::api/landmark/landmark_playlist_save.adoc[]
+
+
+[[user-API]]
+== user API
+
+include::api/user/user_search.adoc[]
+include::api/user/user_change_push.adoc[]
+include::api/user/user_change_shake.adoc[]
+include::api/user/user_change_profile.adoc[]
+
+
+
+

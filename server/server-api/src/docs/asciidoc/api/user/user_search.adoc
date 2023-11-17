@@ -1,0 +1,9 @@
+[[user-search]]
+=== 유저 정보 조회
+
+==== HTTP Request
+include::{snippets}/user-search/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/user-search/http-response.adoc[]
+include::{snippets}/user-search/response-fields.adoc[]

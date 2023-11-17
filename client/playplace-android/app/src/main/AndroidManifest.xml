@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--    카메라 없는 유저도 애플리케이션 다운 가능-->
+    <!--    카메라가 필수 기능인지 체크-->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <!--    가속도계 센서 진동, 운동가속도 기능 사용-->
+    <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true"/>
+
+    <!--    인터넷 엑세스-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!--    정확한 위치 엑세스-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!--    카메라 엑세스  -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <!-- 백그라운드 위치 액세스-->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+    <!-- 진동 권한 -->
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.PlayPlace"
+
+        android:usesCleartextTraffic="true"
+
+        tools:targetApi="31">
+        <activity
+            android:name="kr.co.playplace.MainActivity"
+            android:screenOrientation="portrait"
+            android:exported="true" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

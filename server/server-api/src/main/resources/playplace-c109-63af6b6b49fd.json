@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "playplace-c109",
+  "private_key_id": "63af6b6b49fd69613413fc52466e5bef17e3c8fa",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDhxCBuGM2z7nGp\nz1p+8rr2pCFKsjrgX2qwgKiikGyXr2Ie3v3+J58OLTDQOUPE45BbiPSY6fLGZ4Tk\nl/52hV3CueWnVWJhZ83mdfF2CTUFBZ1YZmfppkhPGw/7L2hmwtt/jppSMiKCtG7t\ndmm+nEi15GNwqoSQjxpD2xFTEUk3VWhMrE+fC3sjp7pW5sL/Yf3Bzgpiup3o3drh\nXeCVc2Y2L/d29VCs0HA6clcMQWr/VxuEXn9yAW8q0C+GNGOose+NBNKj/ZKBt8vs\nreHhdEGYc7f/q/GuDo5bY1yvEA4lkNJHCH5IYyAxVSZZeZFZPKuzi9aYnJwPEfmM\np2Sm+16tAgMBAAECggEADS2nHPYar8mX3esqI6XkjvgWr2cG88juD956uX6HsDT/\nG8E1f0vtx2SQ6F6nW4tTBlzQtkpVrwok4jkTE/UF+5NhWeqsgvYNuUmiLhssep4Q\nyLO1lhhsOR3hyW5DgFgYevImhOzDQfDpVrgmRQeXYPKzcUSq10tbI6HaeYhVR0L7\naRndrB/M8rvCZpf3CB0npPLx6q1EmkN1ohfluyINUYq6+lM/P25a2xcxfxJO6/h0\niT6tgyUiMUKyT2chu6dn5nCESiCu/LvCpCGFSLlFqF6LSNrL7U9cE78hPlp/xzpl\nJFNaCHWkIlsnFhBvEZ075B7/Bz+sFACY5a0ODC6QAQKBgQD8vNyJSAwB/eyT5gCa\nuV5rBV1U4sdacCGiwPnV6U0Y7gIV/e0GR+xJ9GUVEAKOsNjNtbUuy2wgZLtD3WEk\nKqVzNT5e/wPcllTsAVEUarc3jPjoOYrsrXWHqPV58Szy6H4iputy+sjDdbDCBTo4\nSct/ofyAssTLQy/+c4sXFrLIAQKBgQDkriQbusbJpis7KZJuzRyVcHsXKROZsfJ2\n3CGJHVMkHslMtRPUTZAc8SlKiIWHIhExBMBZ/3E/wegdAX9J4RSDLdKD7fx65vP2\n2Lby2vrY4hOclmBoIt/vTTMqJVQGJM2ZumE2AqRCkVR16hQb7SAqeOQUMzjLGLpW\nfdxhSfo2rQKBgQCLWAFrexqLuplGDciFhfBFpyaHF6V7+ljBKA5W3xNPzGHACEk3\nbk4blDBrBXGzhFN0T1u+mg9aaM9KonLdgtnHhDKII6fYZdYabLtsO04axZGyT4+F\n4Djte70j51G193Mb3dXwhc5M3cV/o2wu/pjBHOlfd7DCtJ9wdfnY1/3oAQKBgQCi\nx98GKic1BWcCny4QV0tAiSflraS5JDU/LKVmkAxNyuhqBP/PgULTh0toNdQvBC4O\noZ42siGwS9xpQVaVhXXvht+yb+boqZwCG/Pm3b/wQMXLEjQgDKsxEdgY6SdtlCcS\nhdyK8MhyZjckFHMqCdp6wUFBq9CCqeCCjucgDePhpQKBgCbxBRLmddw+FPFbKRM9\nCFrGrV9sOVI/Bw18yZM6mbhu/2yrQ0nMyXKp3IZwVHNZ7Cs4qCYWo21Ytx48Qy3k\ngWUExfQhKAMAFDsSBVX1aT9/LVAW2v+0Ejoo1ziIcG7Ty9JLgJfIKrzTWh+4J0IA\nzW9AcnUmBTpN6wgNd41LoPDj\n-----END PRIVATE KEY-----\n",
+  "client_email": "playplace@playplace-c109.iam.gserviceaccount.com",
+  "client_id": "117599333904634647329",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/playplace%40playplace-c109.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
