@@ -19,6 +19,7 @@ const GlobalStyles = createGlobalStyle`
         --bg-black-alpa-50: rgba(0, 0, 0, 0.50);
         --bg-black-alpa-75: rgba(0, 0, 0, 0.75);
 
+        --danger : #FF4343;
         --white: #fff;
         --white-100: #F1F1F1;
         --white-200: #E2E2E2;
@@ -55,15 +56,22 @@ const GlobalStyles = createGlobalStyle`
         --content-width-full : 100%;
         
         /* z-index */
+        --zindex-song-thumbnail-button: 1;
+        --zindex-header: 999;
         --zindex-dropdown: 1000;
         --zindex-sticky: 1020;
         --zindex-fixed: 1030;
         --zindex-modal-backdrop: 1050;
         --zindex-modal: 1055;
+        --zindex-chatbot-modal: 1060;
         --zindex-popover: 1070;
         --zindex-tooltip: 1080;
         --zindex-toast: 1090;
-        --zindex-header: 999;
+        --zindex-bottomsheet-backdrop: 1099;
+        --zindex-bottomsheet: 1100;
+        --zindex-mypage-background: 1111;
+        --zindex-mypage-content: 1113;
+        --zindex-loader-spinner: 1114;
     }
 
     body{
@@ -75,11 +83,22 @@ const GlobalStyles = createGlobalStyle`
         line-height: normal;
         background: var(--black-700);
         color: var(--white-100);
+        
+        &.no-scroll {
+            overflow: hidden;
+        }
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+        &::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera*/
+        }
     };
+    
+
 
     // 스크롤 바
     &::-webkit-scrollbar {
-    } 
+    }
 
     a{
         text-decoration: none;
@@ -105,6 +124,23 @@ const GlobalStyles = createGlobalStyle`
         border: 0;
         background: transparent;
         cursor: pointer;
+    }
+
+    /* BottomSheet */
+    [data-rsbs-backdrop] {
+        cursor: default !important;
+        z-index: var(--zindex-bottomsheet-backdrop);
+    }
+    [data-rsbs-overlay] {
+        z-index: var(--zindex-bottomsheet);
+        background-color: var(--black-600);
+    }
+    [data-rsbs-has-header='false'] [data-rsbs-header] {
+        &:before {
+            background-color: var(--black-400);
+            width: 80px;
+            margin: 10px;
+        }
     }
 `;
 

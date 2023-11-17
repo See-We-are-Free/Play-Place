@@ -43,7 +43,7 @@ export const AgreementListItem = styled.li`
 			background-color: var(--black-600);
 
 			&:checked {
-				background: var(--white-100);
+				background: var(--primary-mint);
 			}
 		}
 	}

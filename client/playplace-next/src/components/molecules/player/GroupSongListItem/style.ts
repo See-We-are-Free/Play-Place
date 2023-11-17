@@ -1,24 +1,44 @@
 import styled from 'styled-components';
 
-const GroupSongListItemContainer = styled.div`
+interface GroupSongListItemContainerProps {
+	$isNowPlay: boolean;
+}
+const GroupSongListItemContainer = styled.div<GroupSongListItemContainerProps>`
 	position: relative;
 	display: flex;
 	flex-direction: row;
 	gap: 10px;
+	align-items: center;
+	justify-content: space-between;
+	overflow: hidden;
 
 	#song-info {
+		width: 100%;
+		overflow: hidden;
 		display: flex;
-		flex-direction: column;
-		justify-content: space-evenly;
+		align-items: center;
+		gap: 10px;
+
+		#song-info-text {
+			width: calc(100% - 60px);
+
+			p {
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				color: ${({ $isNowPlay }) => ($isNowPlay ? `var(--primary-orange)` : `var(--white-100)`)};
+
+				&:last-child {
+					color: ${({ $isNowPlay }) => ($isNowPlay ? `var(--primary-orange)` : `var(--white-500)`)};
+				}
+			}
+		}
 	}
 
 	#more {
-		position: absolute;
-		top: 50%;
-		transform: translateY(-50%);
-		right: 0;
-		width: 30px;
-		height: 30px;
+		width: 22px;
+		height: 22px;
+
 		svg {
 			width: 22px;
 			height: 22px;

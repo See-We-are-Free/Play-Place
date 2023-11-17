@@ -50,4 +50,34 @@ const clusterOptions = {
 	styles: clusterStyles,
 };
 
+function deg2rad(deg: number) {
+	return deg * (Math.PI / 180);
+}
+
+export function CalDistance(lat1: number, lat2: number, lng1: number, lng2: number) {
+	const Earth = 6371;
+	const dLat = deg2rad(lat2 - lat1);
+	const dLon = deg2rad(lng2 - lng1);
+	const a =
+		Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+		Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+	const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+	const distance = Earth * c; // 두 지점 간의 거리 (단위: km)
+	return distance;
+}
+
+export function landMarkIcon() {
+	return `
+	<svg width="57" height="69" viewBox="0 0 57 69" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path fill-rule="evenodd" clip-rule="evenodd" d="M0.13283 28C0.13283 12.536 12.6689 0 28.1328 0C43.5968 0 56.1328 12.536 56.1328 28C57.1328 33.8333 52.9328 50.2 28.1329 69C3.33304 50.2001 -0.867085 33.8336 0.13283 28.0001V28Z" fill="url(#paint0_linear_1209_1100)"/>
+		<defs>
+			<linearGradient id="paint0_linear_1209_1100" x1="4.19213e-07" y1="34.4998" x2="56.2657" y2="34.4998" gradientUnits="userSpaceOnUse">
+			<stop stop-color="#FEAC5E" />
+			<stop offset="0.255208" stop-color="#C779D0" />
+			<stop offset="1" stop-color="#4BC0C8" />
+			</linearGradient>
+		</defs>
+	</svg>`;
+}
+
 export default clusterOptions;

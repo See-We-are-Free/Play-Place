@@ -5,6 +5,7 @@ import PlayBar from '@/components/organisms/player/PlayBar/PlayBar';
 import PlayModal from '@/components/pages/PlayModal/PlayModal';
 import PlayBack from '@/components/atoms/player/PlayBack/PlayBack';
 import { Toaster } from 'react-hot-toast';
+import ChatbotModal from '@/components/pages/ChatbotModal/ChatbotModal';
 import Providers from './providers';
 
 export const metadata: Metadata = {
@@ -25,12 +26,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 						<PlayBar />
 						<Tabbar />
 						<PlayModal />
+						<ChatbotModal />
 						<PlayBack />
 						<Toaster
 							position="bottom-center"
 							reverseOrder
 							containerStyle={{
-								bottom: 150,
+								bottom: 30,
 								fontSize: 10,
 							}}
 							toastOptions={{

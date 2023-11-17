@@ -5,9 +5,25 @@ const PlayBarSongInfoContainer = styled.div`
 	flex-direction: row;
 	gap: 10px;
 
+	& > div:first-child {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+		border-radius: 4px;
+		min-width: 45px;
+		min-height: 45px;
+
+		& > img {
+			transform: scale(2);
+		}
+	}
+
 	#song {
 		display: flex;
 		flex-direction: column;
+		align-items: flex-start;
 		justify-content: space-evenly;
 		overflow: hidden;
 

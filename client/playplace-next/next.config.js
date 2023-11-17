@@ -8,8 +8,9 @@ const nextConfig = {
 	compiler: {
 		styledComponents: true,
 	},
+	reactStrictMode: false,
 	images: {
-		domains: ['image.bugsm.co.kr'],
+		domains: ['i.ytimg.com', 'image.bugsm.co.kr', `playplacebucket.s3.ap-northeast-2.amazonaws.com`],
 	},
 	webpack: (config) => {
 		config.module.rules.push({
@@ -17,10 +18,6 @@ const nextConfig = {
 			use: ['@svgr/webpack'],
 		});
 		return config;
-	},
-	images: {
-		domains: ['i.ytimg.com'],
-		domains: ['image.bugsm.co.kr', 'i.ytimg.com'],
 	},
 	// async redirects() {
 	// 	return [

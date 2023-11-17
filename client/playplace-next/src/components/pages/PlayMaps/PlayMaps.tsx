@@ -1,63 +1,72 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { GoogleMap, useJsApiLoader, Circle, MarkerF, MarkerClustererF } from '@react-google-maps/api';
-import { LandMarkInfo, MapsCenter } from '@/types/maps';
+import { LandMarkInfo, ILocation } from '@/types/maps';
 import LocateButton from '@/components/atoms/LocateButton/LocateButton';
-import { getDevelopLandmarksApi } from '@/utils/api/playmaps';
+import getLandmarksApi, { getLandmarkDetailApi } from '@/utils/api/landmarks';
+import clusterOptions, { CalDistance } from '@/constants/map';
+import CustomBottomSheet from '@/components/molecules/CustomBottomSheet/CustomBottomSheet';
+import { Song } from '@/types/songs';
 import LandMarkDefault from '@root/public/assets/images/LandMarkDefault.png';
-import clusterOptions from '@/constants/map';
-import { containerStyle, nightModeStyles } from './style';
+import MapBottomSheet from '@/components/organisms/MapBottomSheet/MapBottomSheet';
+import { PlayMapContainer, SearchHeader, containerStyle, nightModeStyles } from './style';
 
-function deg2rad(deg: number) {
-	return deg * (Math.PI / 180);
-}
-
-function CalDistance(lat1: number, lat2: number, lng1: number, lng2: number) {
-	const Earth = 6371;
-	const dLat = deg2rad(lat2 - lat1);
-	const dLon = deg2rad(lng2 - lng1);
-	const a =
-		Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-		Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-	const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-	const distance = Earth * c; // 두 지점 간의 거리 (단위: km)
-	return distance;
-}
-
-function landMarkIcon() {
-	return `
-	<svg width="57" height="69" viewBox="0 0 57 69" fill="none" xmlns="http://www.w3.org/2000/svg">
-		<path fill-rule="evenodd" clip-rule="evenodd" d="M0.13283 28C0.13283 12.536 12.6689 0 28.1328 0C43.5968 0 56.1328 12.536 56.1328 28C57.1328 33.8333 52.9328 50.2 28.1329 69C3.33304 50.2001 -0.867085 33.8336 0.13283 28.0001V28Z" fill="url(#paint0_linear_1209_1100)"/>
-		<defs>
-			<linearGradient id="paint0_linear_1209_1100" x1="4.19213e-07" y1="34.4998" x2="56.2657" y2="34.4998" gradientUnits="userSpaceOnUse">
-			<stop stop-color="#FEAC5E" />
-			<stop offset="0.255208" stop-color="#C779D0" />
-			<stop offset="1" stop-color="#4BC0C8" />
-			</linearGradient>
-			<Image src='${LandMarkDefault}' alt="" />
-		</defs>
-	</svg>`;
-}
+// google api 키
+const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS || '';
 
 function PlayMaps() {
 	// 구글 맵
 	const [map, setMap] = useState<google.maps.Map | null>(null);
 	// 현재 위치
-	const [center, setCenter] = useState<MapsCenter>({
-		lat: 0,
-		lng: 0,
-	});
+	const [center, setCenter] = useState<ILocation>({ lat: 0, lng: 0 });
+
+	// 지도 기준 현 위치
+	const [mapCenter, setMapCenter] = useState<ILocation>({ lat: 0, lng: 0 });
+
+	const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
+
+	// 바텀시트를 여는 state
+	const [open, setOpen] = useState<boolean>(false);
 	// 랜드마크 정보 저장 배열
 	const [landMarks, setLandMarks] = useState<LandMarkInfo[]>([]);
 	// 랜드마크 100m 정보에 따른 boolean값
 	const [isDistance, setIsDistance] = useState<boolean>(false);
+	// 랜드마크 상세정보
 
-	// google api 키
-	const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS || '';
+	// 랜드마크를 눌렀을 때
+	const [choose, setChoose] = useState<boolean>(false);
+
+	// 랜드마크정보
+	const [detailLandmark, setDetailLandmark] = useState<LandMarkInfo>({
+		landmarkId: 0,
+		latitude: 0,
+		longitude: 0,
+		title: '',
+		representativeImg: '',
+	});
+
+	// 랜드만크안에 들어있는 곡 정보
+	const [landMarkList, setLandMarkList] = useState<Song[]>([]);
+
 	// map 로딩
 	const { isLoaded } = useJsApiLoader({
 		id: 'google-map-script',
 		googleMapsApiKey,
 	});
+
+	// 현재 위치로 이동
+	const locateUser = useCallback(() => {
+		if (center.lat && center.lng) {
+			const newLocation = {
+				lat: center.lat,
+				lng: center.lng,
+			};
+			setMapCenter(newLocation);
+			if (map) {
+				map.panTo(newLocation);
+				map.setZoom(18);
+			}
+		}
+	}, [center.lat, center.lng, map]);
 
 	const onUnmount = useCallback(function callback() {
 		// 컴포넌트가 언마운트될때 호출 map 상태 변수를 null로 설정하여 초기화
@@ -65,87 +74,196 @@ function PlayMaps() {
 	}, []);
 
 	const onLoad = useCallback(async function callback(loadMap: google.maps.Map) {
-		// const svgResponse = await fetch(Location);
+		if (typeof window !== undefined && window.AndMap) {
+			const data = window.AndMap.getLastKnownLocation();
+
+			if (data) {
+				const location = JSON.parse(data);
+				setMapCenter(location);
+				return;
+			}
+		}
+
+		navigator.geolocation.getCurrentPosition((position) => {
+			const newLocation = {
+				lat: position.coords.latitude,
+				lng: position.coords.longitude,
+			};
+			setMapCenter(newLocation);
+		});
 		setMap(loadMap);
 	}, []);
 
-	// 현재 위치로 이동
-	const locateUser = useCallback(() => {
+	const onMapIdle = useCallback(() => {
+		if (map) {
+			const newCenter = map.getCenter();
+			if (mapCenter && newCenter && (mapCenter.lat !== newCenter.lat() || mapCenter.lng !== newCenter.lng())) {
+				if (newCenter) {
+					setMapCenter({
+						lat: newCenter.lat(),
+						lng: newCenter.lng(),
+					});
+				}
+			}
+		}
+	}, []);
+
+	const callAndroidLocation = useCallback(() => {
+		if (typeof window !== undefined && window.AndMap) {
+			const data = window.AndMap.getLastKnownLocation();
+
+			if (data) {
+				const location = JSON.parse(data);
+				setCenter(location);
+			}
+			return;
+		}
+
 		navigator.geolocation.getCurrentPosition((position) => {
 			const newLocation = {
 				lat: position.coords.latitude,
 				lng: position.coords.longitude,
 			};
 			setCenter(newLocation);
-			if (map) {
-				map.panTo(newLocation);
-			}
 		});
-	}, [map]);
+	}, []);
 
-	const test = async () => {
-		// const response = await getLandmarksApi();
-		const response = await getDevelopLandmarksApi(); // 개발용
-		if (response && response.status === 200) {
-			setLandMarks(response.data.data);
+	const getLandmarks = useCallback(async () => {
+		try {
+			const response = await getLandmarksApi();
+
+			if (response && response.status === 200) {
+				setLandMarks(response.data.data);
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	}, []);
+
+	const detailLandMarkTest = async (landmarkId: number) => {
+		try {
+			const response = await getLandmarkDetailApi(landmarkId);
+			if (response && response.status === 200) {
+				setLandMarkList(response.data.data);
+			}
+			setOpen(true);
+		} catch (error) {
+			console.error(error);
 		}
 	};
 
-	const test2 = (LandLat: number, LandLng: number) => {
-		const distance = CalDistance(center.lat, LandLat, center.lng, LandLng);
+	const checkLandmarkInfo = (detail: LandMarkInfo) => {
+		const distance = CalDistance(center.lat, detail.latitude, center.lng, detail.longitude);
 
 		if (distance <= 0.1) {
-			setIsDistance(false);
-		} else {
 			setIsDistance(true);
+		} else {
+			setIsDistance(false);
 		}
 
-		console.log(isDistance);
+		setDetailLandmark(detail);
+		setChoose(true);
 	};
 
 	useEffect(() => {
-		test();
-		// 사용자의 위치 권한을 체크하고, 현재 위치를 가져와 center 상태를 업데이트합니다.
-		navigator.geolocation.getCurrentPosition((position) => {
-			setCenter({
-				lat: position.coords.latitude,
-				lng: position.coords.longitude,
-			});
-		});
+		if (choose && detailLandmark.landmarkId) {
+			detailLandMarkTest(detailLandmark.landmarkId);
+			setChoose(false);
+		}
+	}, [choose, detailLandmark.landmarkId]);
+
+	useEffect(() => {
+		if (landMarks.length === 0) {
+			getLandmarks();
+		}
+
+		const handleAddLandmarkSong = (event: Event) => {
+			// event를 CustomEvent로 캐스팅하고 detail 속성에 접근합니다.
+			const customEvent = event as CustomEvent<{ landmarkId: number }>;
+			const { landmarkId } = customEvent.detail;
+			detailLandMarkTest(landmarkId);
+		};
+
+		window.addEventListener('addLandmarkSong', handleAddLandmarkSong);
+
+		// 컴포넌트 언마운트 시 이벤트 리스너 제거
+		return () => {
+			window.removeEventListener('addLandmarkSong', handleAddLandmarkSong);
+		};
+	}, [landMarks.length]);
+
+	// eslint-disable-next-line consistent-return
+	useEffect(() => {
+		const debounce = <F extends (...args: unknown[]) => void>(func: F, wait: number) => {
+			let timeout: NodeJS.Timeout | null = null;
+			return function executedFunction(...args: Parameters<F>) {
+				const later = () => {
+					clearTimeout(timeout as NodeJS.Timeout);
+					func(...args);
+				};
+				clearTimeout(timeout as NodeJS.Timeout);
+				timeout = setTimeout(later, wait);
+			};
+		};
+
+		const debouncedOnMapIdle = debounce(onMapIdle, 5000);
+
+		if (map) {
+			const idleListener = google.maps.event.addListener(map, 'idle', debouncedOnMapIdle);
+
+			return () => {
+				google.maps.event.removeListener(idleListener);
+			};
+		}
 	}, []);
+
+	useEffect(() => {
+		if (!intervalId) {
+			const id = setInterval(callAndroidLocation, 1000);
+			setIntervalId(id);
+		}
+
+		return () => {
+			if (intervalId) {
+				clearInterval(intervalId);
+			}
+		};
+	}, [intervalId, callAndroidLocation]);
 
 	// 현재위치 표시
 	const circleRangeOptions = {
 		strokeColor: '#FF7575',
-		strokeOpacity: 0.8,
-		strokeWeight: 2,
-		fillColor: '#FF7575',
+		strokeOpacity: 0,
+		strokeWeight: 0,
+		fillColor: '#C779D0',
 		fillOpacity: 0.35,
 		radius: 100,
 		center,
 	};
 
 	const markerCircleOptions = {
-		strokeColor: '#FF7575',
+		strokeColor: '#FFFFFF',
 		strokeOpacity: 1,
 		strokeWeight: 2,
-		fillColor: '#FF7575',
+		fillColor: '#C779D0',
 		fillOpacity: 1,
 		radius: 5,
 		center,
 	};
 
 	return (
-		<>
-			{landMarks && isLoaded && (
+		<PlayMapContainer>
+			{center && landMarks && isLoaded && (
 				<div style={{ position: 'relative', ...containerStyle }}>
 					<LocateButton onLocateClick={locateUser} />
 					<GoogleMap
+						id="map"
 						mapContainerStyle={{ width: '100%', height: '100%' }}
-						center={center}
+						center={mapCenter}
 						zoom={18}
 						onLoad={onLoad}
 						onUnmount={onUnmount}
+						onIdle={onMapIdle}
 						options={{
 							styles: nightModeStyles,
 							mapTypeControl: false,
@@ -159,12 +277,17 @@ function PlayMaps() {
 								<>
 									{landMarks.map((landMark) => (
 										<MarkerF
-											key={landMark.landMarkId}
+											key={landMark.landmarkId}
 											position={{ lat: landMark.latitude, lng: landMark.longitude }}
 											clusterer={clusterer}
-											onClick={() => test2(landMark.latitude, landMark.longitude)}
+											onClick={() => {
+												checkLandmarkInfo(landMark);
+											}}
 											icon={{
-												url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(landMarkIcon())}`,
+												url:
+													landMark.representativeImg === 'test.png' || landMark.representativeImg === null
+														? LandMarkDefault.src
+														: landMark.representativeImg,
 												scaledSize: new google.maps.Size(50, 50),
 												origin: new google.maps.Point(0, 0),
 												anchor: new google.maps.Point(25, 50),
@@ -178,9 +301,21 @@ function PlayMaps() {
 						<Circle center={center} options={circleRangeOptions} />
 						<Circle center={center} options={markerCircleOptions} />
 					</GoogleMap>
+					{open && (
+						<CustomBottomSheet open={open} setOpen={setOpen}>
+							<SearchHeader>
+								<MapBottomSheet
+									isDistance={isDistance}
+									landMarkTitle={`${detailLandmark.title}`}
+									landMarkList={landMarkList}
+									landmarkId={detailLandmark.landmarkId}
+								/>
+							</SearchHeader>
+						</CustomBottomSheet>
+					)}
 				</div>
 			)}
-		</>
+		</PlayMapContainer>
 	);
 }
 

@@ -19,11 +19,12 @@ const SongCircleItemsContainer = styled.div`
 	border-radius: 70%;
 	position: relative;
 	margin: 10px 0;
+	overflow: hidden;
 `;
 
 export const CircleImage = styled(Image)`
-	width: 90%;
-	height: 90%;
+	width: 180%;
+	height: 180%;
 	border-radius: 70%;
 `;
 
@@ -50,6 +51,11 @@ const RoundTypes = {
 			linear-gradient(90deg, #feac5e 0%, #c779d0 25.52%, #4bc0c8 100%);
 		background-origin: border-box;
 		background-clip: content-box, border-box;
+	`,
+	five: css`
+		border: 8px solid var(--black-700);
+		width: 100%;
+		height: 100%;
 	`,
 };
 

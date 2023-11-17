@@ -1,0 +1,13 @@
+import React, { forwardRef } from 'react';
+
+type Props = {
+	children: React.ReactNode;
+} & Omit<React.PropsWithoutRef<JSX.IntrinsicElements['div']>, 'children'>;
+
+const SheetContent = forwardRef<HTMLDivElement, Props>(({ className, ...props }: Props, ref) => (
+	<div {...props} ref={ref} />
+));
+
+SheetContent.displayName = 'SheetContent';
+
+export default SheetContent;

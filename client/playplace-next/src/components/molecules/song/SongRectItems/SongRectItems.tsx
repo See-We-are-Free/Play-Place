@@ -1,6 +1,6 @@
 import React from 'react';
 import SongThumbnail from '@/components/atoms/SongThumbnail/SongThumbnail';
-import SongRectItemsContainer from './style';
+import SongRectItemsContainer, { SongAlpaBackground } from './style';
 
 interface ISongRectItemsProps {
 	imgSrc: string;
@@ -8,13 +8,15 @@ interface ISongRectItemsProps {
 
 function SongRectItems(props: ISongRectItemsProps) {
 	const { imgSrc } = props;
-	console.log(imgSrc);
 
 	return (
-		<SongRectItemsContainer>
-			{/* <SongThumbnail src={HypeBoy} $height={180} $width={130} /> */}
-			<SongThumbnail src="" $height={180} $width={130} />
-		</SongRectItemsContainer>
+		<>
+			<SongRectItemsContainer>
+				{/* <SongThumbnail src={HypeBoy} $height={180} $width={130} /> */}
+				<SongThumbnail src={imgSrc || ''} $isFullSize />
+			</SongRectItemsContainer>
+			<SongAlpaBackground />
+		</>
 	);
 }
 

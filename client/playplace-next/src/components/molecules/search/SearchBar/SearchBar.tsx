@@ -15,9 +15,22 @@ function SearchBar(props: ISearchBarProps) {
 		setText(event.target.value);
 	};
 
+	const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+		if (event.key === 'Enter') {
+			handleSearch(text);
+			const inputElement = event.target as HTMLInputElement;
+			inputElement.blur();
+		}
+	};
+
 	return (
 		<SearchBarContainer>
-			<SearchBarInput type="text" placeholder="검색어를 입력하세요" onChange={handleInputChange} />
+			<SearchBarInput
+				type="text"
+				placeholder="검색어를 입력하세요"
+				onChange={handleInputChange}
+				onKeyDown={handleKeyDown}
+			/>
 			<SearchBarButton type="button" onClick={() => handleSearch(text)}>
 				<Search />
 			</SearchBarButton>

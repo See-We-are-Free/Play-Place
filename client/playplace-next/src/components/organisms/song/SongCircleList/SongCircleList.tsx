@@ -1,12 +1,12 @@
 import SongCircleItems from '@/components/molecules/song/SongCircleItems/SongCircleItems';
 import { WheelEvent, useRef } from 'react';
 import Text from '@/components/atoms/Text/Text';
-import { AreaSong } from '@/types/songs';
+import { AreaSongList } from '@/types/songs';
 import SongSubtitle from '@/components/molecules/song/SongSubtitle/SongSubtitle';
 import SongCircleListContainer, { SongCircleListContent, SongCircleListInfo, SongCircleListScroll } from './style';
 
 interface SongCircleListProps {
-	locationSongList: AreaSong;
+	locationSongList: AreaSongList;
 }
 
 function SongCircleList(props: SongCircleListProps) {
@@ -26,10 +26,10 @@ function SongCircleList(props: SongCircleListProps) {
 			<SongCircleListScroll onWheel={handleScroll} ref={containerRef}>
 				{locationSongList.songs.map((v) => (
 					<SongCircleListContent key={v.youtubeId}>
-						<SongCircleItems imgSrc={v.albumImg} />
+						<SongCircleItems imgSrc={v.albumImg} song={v} />
 						<SongCircleListInfo>
-							<Text text={v.title} color="default" fontSize={16} />
-							<Text text={v.artist} color="gray" fontSize={12} />
+							<Text text={v.title} color="default" fontSize={16} $overflowHidden />
+							<Text text={v.artist} color="gray" fontSize={12} $overflowHidden />
 						</SongCircleListInfo>
 					</SongCircleListContent>
 				))}

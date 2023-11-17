@@ -1,5 +1,5 @@
-import { JoinApiParams } from '@/types/auth';
-import http, { localHttp } from './http';
+import { JoinApiParams, FixInfoApiParams } from '@/types/auth';
+import http from './http';
 
 /**
  * 회원가입 API
@@ -16,12 +16,37 @@ export const getUserInfoApi = () => {
 	return response;
 };
 
-export const developJoinApi = ({ body }: JoinApiParams) => {
-	const response = localHttp.post('/users', body);
+export const getRefreshToken = () => {
+	const response = http.get('/refresh');
 	return response;
 };
 
-export const developGetUserInfoApi = () => {
-	const response = localHttp.get('/users');
+export const getLikeSongApi = () => {
+	const response = http.get('/users/like');
+	return response;
+};
+
+export const patchUserApi = ({ body }: FixInfoApiParams) => {
+	const response = http.patch('/users', body);
+	return response;
+};
+
+export const patchPushApi = () => {
+	const response = http.patch('users/push');
+	return response;
+};
+
+export const patchShakeApi = () => {
+	const response = http.patch('users/shake');
+	return response;
+};
+
+export const logoutUserApi = () => {
+	const response = http.post('auth/logout');
+	return response;
+};
+
+export const DeleteUserApi = () => {
+	const response = http.delete('/users');
 	return response;
 };

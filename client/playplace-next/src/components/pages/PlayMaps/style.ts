@@ -1,3 +1,5 @@
+import styled from 'styled-components';
+
 export const containerStyle = {
 	width: '100%',
 	height: 'calc(100vh - 140px)',
@@ -14,19 +16,24 @@ export const nightModeStyles = [
 	},
 	{
 		featureType: 'poi',
-		elementType: 'labels.text.fill',
-		stylers: [{ color: '#d59563' }],
+		elementType: 'labels',
+		stylers: [{ visibility: 'off' }],
 	},
-	{
-		featureType: 'poi.park',
-		elementType: 'geometry',
-		stylers: [{ color: '#263c3f' }],
-	},
-	{
-		featureType: 'poi.park',
-		elementType: 'labels.text.fill',
-		stylers: [{ color: '#6b9a76' }],
-	},
+	// {
+	// 	featureType: 'poi',
+	// 	elementType: 'labels.text.fill',
+	// 	stylers: [{ color: '#d59563', visibility: 'off' }],
+	// },
+	// {
+	// 	featureType: 'poi.park',
+	// 	elementType: 'geometry',
+	// 	stylers: [{ color: '#263c3f', visibility: 'off' }],
+	// },
+	// {
+	// 	featureType: 'poi.park',
+	// 	elementType: 'labels.text.fill',
+	// 	stylers: [{ color: '#6b9a76', visibility: 'off' }],
+	// },
 	{
 		featureType: 'road',
 		elementType: 'geometry',
@@ -60,12 +67,12 @@ export const nightModeStyles = [
 	{
 		featureType: 'transit',
 		elementType: 'geometry',
-		stylers: [{ color: '#2f3948' }],
+		stylers: [{ visibility: 'off' }],
 	},
 	{
 		featureType: 'transit.station',
 		elementType: 'labels.text.fill',
-		stylers: [{ color: '#d59563' }],
+		stylers: [{ visibility: 'off' }],
 	},
 	{
 		featureType: 'water',
@@ -83,3 +90,21 @@ export const nightModeStyles = [
 		stylers: [{ color: '#17263c' }],
 	},
 ];
+
+export const SearchHeader = styled.div`
+	& > header {
+		background-color: var(--black-600);
+	}
+`;
+
+export const PlayMapContainer = styled.div`
+	#map {
+		div[style='display: inline-flex; position: absolute; right: 0px; bottom: 0px;'] {
+			display: none !important;
+		}
+
+		div[style='margin: 0px 5px; z-index: 1000000; position: absolute; left: 0px; bottom: 0px;'] {
+			display: none !important;
+		}
+	}
+`;

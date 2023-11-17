@@ -1,51 +1,60 @@
-import RefreshIcon from '@root/public/assets/icons/Refresh.svg';
 import Text from '@/components/atoms/Text/Text';
-import { useState } from 'react';
-import { UserInfo } from '@/types/auth';
+import { memo, useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { PROFILE_IMAGES } from '@/constants/member';
-// import { developGetAroundPeople } from '@/utils/api/radar';
-// import { IAroundPeople } from '@/types/radar';
-import { BackgorundRound, BackgroundContainer, EmojiWrapper, RadarShareOnContainer, UserContainer } from './style';
+import { IAroundPeople } from '@/types/radar';
+import SongMarkerList from '@/components/molecules/SongMarkerList/SongMarkerList';
+import getRandomMarkerList from '@/utils/common/randomMarkerList';
+import StompClientContext from '@/utils/common/StompClientContext';
+import UserInfoContext from '@/utils/common/UserInfoContext';
+import { BackgroundRound, BackgroundContainer, EmojiWrapper, RadarShareOnContainer, UserContainer } from './style';
+import MarkerDetailInfo from '../MarkerDetailInfo/MarkerDetailInfo';
 
 function RadarShareOn() {
-	// const [people, setPeople] = useState<IAroundPeople | null>(null);
-	const [user] = useState<UserInfo>({
-		emojiIdx: 0,
-		nickname: '임하스',
-	});
+	const { user } = useContext(UserInfoContext);
+	const { data } = useContext(StompClientContext);
+	const [markerList, setMarkerList] = useState<IAroundPeople[] | null>(null);
+	const [randomList, setRandomList] = useState<(IAroundPeople | null)[] | null>();
+	const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
+	const [detailItem, setDetailItem] = useState<IAroundPeople | null>(null);
+	const SongMarkerListMemoized = memo(SongMarkerList);
 
-	const handleRefresh = async () => {
-		// const response = await developGetAroundPeople();
-		// if (response.status === 200) {
-		// 	setPeople(response.data);
-		// }
+	const handleMarkerInfoOpen = (item: IAroundPeople) => {
+		setDetailItem(item);
+		setIsDetailOpen(true);
 	};
 
-	// useEffect(() => {
-	// 	console.log('people', people);
-	// 	if (!people) {
-	// 		handleRefresh();
-	// 	}
-	// }, [people]);
+	useEffect(() => {
+		if (data && data !== markerList) {
+			setMarkerList(data);
+		}
+	}, [data, markerList]);
+
+	useEffect(() => {
+		if (markerList) {
+			setRandomList(getRandomMarkerList(markerList));
+		}
+	}, [markerList]);
 
 	return (
-		<RadarShareOnContainer>
-			<button type="button" onClick={handleRefresh}>
-				<RefreshIcon />
-				<Text text="재탐색" />
-			</button>
+		<>
+			<RadarShareOnContainer>
+				{randomList && <SongMarkerListMemoized markerList={randomList} handleMarkerInfoOpen={handleMarkerInfoOpen} />}
+				<BackgroundContainer>
+					<UserContainer>
+						<EmojiWrapper>
+							<Image src={PROFILE_IMAGES[user.profileImg]} alt={`${user.nickname} 님의 프로필 이미지`} />
+						</EmojiWrapper>
+						<Text text={user.nickname} />
+					</UserContainer>
+					<BackgroundRound />
+				</BackgroundContainer>
+			</RadarShareOnContainer>
 
-			<BackgroundContainer>
-				<UserContainer>
-					<EmojiWrapper>
-						<Image src={PROFILE_IMAGES[user.emojiIdx]} alt={`${user.nickname} 님의 프로필 이미지`} />
-					</EmojiWrapper>
-					<Text text={user.nickname} />
-				</UserContainer>
-				<BackgorundRound />
-			</BackgroundContainer>
-		</RadarShareOnContainer>
+			{isDetailOpen && detailItem && (
+				<MarkerDetailInfo item={detailItem} isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} />
+			)}
+		</>
 	);
 }
 

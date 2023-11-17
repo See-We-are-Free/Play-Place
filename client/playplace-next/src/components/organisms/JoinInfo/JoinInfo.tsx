@@ -2,51 +2,50 @@
 
 import { JoinInfoType } from '@/types/auth';
 import { joinApi } from '@/utils/api/auth';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Button from '@/components/atoms/Button/Button';
-import { ButtonStyles } from '@/types/styles.d';
+import { ButtonStyles, ToastStyles } from '@/types/styles.d';
 
 import { AxiosHeaders } from 'axios';
 import ContentLayout from '@/components/templates/layout/ContentLayout/ContentLayout';
 import EmojiList from '@/components/molecules/EmojiList/EmojiList';
 import Text from '@/components/atoms/Text/Text';
+import CustomToast from '@/components/atoms/CustomToast/CustomToast';
 import NicknameContainer from './style';
 
-function JoinInfo() {
-	const params = useSearchParams();
+interface JoinInfoProps {
+	email: string;
+	googleToken: string;
+}
+
+function JoinInfo(props: JoinInfoProps) {
+	const { email, googleToken } = props;
 	const router = useRouter();
-	const [email, setEmail] = useState<string | null>(null);
 	const [nickname, setNickname] = useState<string | null>(null);
 	const [profileImg, setProfileImg] = useState<number | null>(null);
 
 	const join = async () => {
 		try {
-			if (email && nickname && profileImg !== null) {
+			if (email && googleToken && nickname && nickname.length !== 0 && nickname.length <= 10 && profileImg !== null) {
 				const body: JoinInfoType = {
 					email,
+					googleToken,
 					nickname,
 					profileImg,
 				};
 				const response = await joinApi({ body });
-				// const response = await developJoinApi({ body }); // 개발용
 				if (response && response.status === 200) {
-					console.log(response);
 					const { headers } = response;
 					if (headers instanceof AxiosHeaders) {
-						// TODOS: 토큰 저장
 						const token = headers.get('authorization');
-						console.log(token);
-						alert('회원가입 OR 로그인 성공');
+						CustomToast(ToastStyles.success, `${nickname} 님 환영합니다.`);
 						localStorage.setItem('accessToken', `${token}`);
 						router.push('/');
 					}
 				}
 			} else {
-				alert('값을 입력해주세요.');
-				console.log('email', email);
-				console.log('nickname', nickname);
-				console.log('profileImg', profileImg);
+				CustomToast(ToastStyles.error, '값을 입력해주세요!');
 			}
 		} catch (error) {
 			console.error(error);
@@ -61,20 +60,20 @@ function JoinInfo() {
 		setNickname(event.target.value);
 	};
 
-	useEffect(() => {
-		if (!email) {
-			if (params.get('email')) {
-				setEmail(params.get('email'));
-			} else {
-				alert('잘못된 접근입니다.');
-				router.push('/');
-			}
-		}
-	}, [email, params]);
+	const handleKeyboardInputChange = (event: React.KeyboardEvent<HTMLInputElement>) => {
+		const inputValue: string = event.currentTarget.value;
+		setNickname(inputValue);
+	};
 
-	if (!email) {
-		return <></>;
-	}
+	useEffect(() => {
+		const debounceTimeout = setTimeout(() => {
+			setNickname(nickname);
+		}, 300);
+
+		return () => {
+			clearTimeout(debounceTimeout);
+		};
+	}, [nickname, setNickname]);
 
 	return (
 		<>
@@ -84,10 +83,11 @@ function JoinInfo() {
 					<Text text="닉네임" fontSize={16} />
 					<input
 						type="text"
-						onChange={handleInputChange}
 						value={nickname || ''}
 						placeholder="한글 또는 영문 10자 이내"
 						maxLength={10}
+						onChange={handleInputChange}
+						onKeyDown={handleKeyboardInputChange}
 					/>
 				</NicknameContainer>
 			</ContentLayout>

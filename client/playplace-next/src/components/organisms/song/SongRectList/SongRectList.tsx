@@ -1,10 +1,11 @@
 import React, { WheelEvent, useRef } from 'react';
 import SongSubtitle from '@/components/molecules/song/SongSubtitle/SongSubtitle';
 import { TIME_TITLE } from '@/constants/home';
-import { TimezoneSong } from '@/types/songs';
+import { TimezoneSongList } from '@/types/songs';
 import SongRectItems from '@/components/molecules/song/SongRectItems/SongRectItems';
 import Text from '@/components/atoms/Text/Text';
 import RoundPlay from '@root/public/assets/icons/RoundPlay.svg';
+import usePlayer from '@/hooks/player/usePlayer';
 import SongRectListContainer, {
 	SongRectListContent,
 	SongRectListInfo,
@@ -14,11 +15,12 @@ import SongRectListContainer, {
 } from './style';
 
 interface SongRectListProps {
-	TimeZoneSongList: TimezoneSong;
+	timeZoneSongList: TimezoneSongList;
 }
 
 function SongRectList(props: SongRectListProps) {
-	const { TimeZoneSongList } = props;
+	const { timeZoneSongList } = props;
+	const { playNewSong } = usePlayer();
 
 	const containerRef = useRef<HTMLUListElement | null>(null);
 
@@ -29,23 +31,19 @@ function SongRectList(props: SongRectListProps) {
 		}
 	};
 
-	const test = () => {
-		console.log(1);
-	};
-
 	return (
 		<SongRectListContainer>
-			<SongSubtitle colorSubtitle={TIME_TITLE[TimeZoneSongList.timezone]} normalSubtitle="듣기 좋은 음악" />
+			<SongSubtitle colorSubtitle={TIME_TITLE[timeZoneSongList.timezone]} normalSubtitle="듣기 좋은 음악" />
 			<SongRectListScroll onWheel={handleScroll} ref={containerRef}>
-				{TimeZoneSongList.songs.map((v) => (
+				{timeZoneSongList.songs.map((v) => (
 					<SongRectListContent key={v.youtubeId}>
 						<SongRectItems imgSrc={v.albumImg} />
 						<SongRectListInfoPlay>
 							<SongRectListInfo>
-								<Text text={v.title} color="default" fontSize={14} />
-								<Text text={v.artist} color="gray" fontSize={10} />
+								<Text text={v.title} color="default" fontSize={14} $overflowHidden />
+								<Text text={v.artist} color="gray" fontSize={10} $overflowHidden />
 							</SongRectListInfo>
-							<SongRectListPlay type="button" onClick={test}>
+							<SongRectListPlay type="button" onClick={() => playNewSong(v)}>
 								<RoundPlay />
 							</SongRectListPlay>
 						</SongRectListInfoPlay>

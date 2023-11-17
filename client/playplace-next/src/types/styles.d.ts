@@ -19,6 +19,7 @@ export enum CircleSequenceStyles {
 	two = 'two',
 	three = 'three',
 	four = 'four',
+	five = 'five',
 }
 
 export enum HeaderStyles {
@@ -30,9 +31,12 @@ export enum HeaderStyles {
 	playlist = 'playlist',
 	search = 'search',
 	signup = 'signup',
+	chatbot = 'chatbot',
 }
 
 export enum ToastStyles {
 	success = 'success',
+	noTabbarSuccess = 'noTabbarSuccess',
 	error = 'error',
+	noTabbarError = 'noTabbarError',
 }

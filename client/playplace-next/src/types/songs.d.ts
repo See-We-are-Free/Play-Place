@@ -16,17 +16,31 @@ export interface LandmarkSong extends Song {
 }
 
 export interface AreaSong {
+	songId: number;
+	youtubeId: string;
+	title: string;
+	artist: string;
+	albumImg: string;
+	playTime: number;
 	villageName: string;
 	villageCode: number;
+}
+
+export interface AreaSongList {
 	songs: Song[];
 }
 
-export interface WeatherSong {
+export interface WeatherSongList {
 	weather: string;
 	songs: Song[];
 }
 
-export interface TimezoneSong {
+export interface TimezoneSongList {
 	timezone: string;
 	songs: Song[];
+}
+
+export interface Village {
+	villageName: string;
+	villageCode: number;
 }

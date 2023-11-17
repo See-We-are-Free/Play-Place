@@ -11,6 +11,7 @@ interface HeaderProps {
 	location?: string | null;
 	pageName?: string | null;
 	children?: ReactNode | null;
+	closeSearch?: () => void;
 }
 
 /**
@@ -21,12 +22,12 @@ interface HeaderProps {
  * @param children? ReactNode | null, 오른쪽 컨텐츠
  */
 function Header(props: HeaderProps) {
-	const { $headerType = HeaderStyles.home, location = null, pageName = null, children = null } = props;
+	const { $headerType = HeaderStyles.home, location = null, pageName = null, children = null, closeSearch } = props;
 	return (
 		<HeaderWrapper>
 			<HeaderContainer>
 				<HeaderLeftItemWrapper>
-					<HeaderLeftItem $headerType={$headerType} location={location} pageName={pageName} />
+					<HeaderLeftItem $headerType={$headerType} location={location} pageName={pageName} handler={closeSearch} />
 				</HeaderLeftItemWrapper>
 				<HeaderRightItemWrapper>
 					<HeaderRightItem>{children}</HeaderRightItem>

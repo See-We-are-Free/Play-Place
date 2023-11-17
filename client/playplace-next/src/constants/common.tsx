@@ -23,6 +23,14 @@ export const HEADER_LIST: HeaderListType = {
 	playlist: '재생목록',
 	search: '검색',
 	signup: '회원가입',
+	chatbot: '플로디',
+};
+
+export const MY_MENUS: HeaderListType = {
+	profile: '프로필',
+	plody: '플로디',
+	like: '좋아요',
+	setting: '설정',
 };
 
 export default MENUS;

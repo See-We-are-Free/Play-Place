@@ -6,7 +6,7 @@ const SONG_DATA: Song[] = [
 		youtubeId: '1A',
 		title: 'HypeBoy',
 		artist: 'NewJeans',
-		albumImg: 'test',
+		albumImg: '',
 		playTime: 200,
 	},
 	{
@@ -14,7 +14,7 @@ const SONG_DATA: Song[] = [
 		youtubeId: '1B',
 		title: 'HypeBoy',
 		artist: 'NewJeans',
-		albumImg: 'test',
+		albumImg: '',
 		playTime: 200,
 	},
 	{
@@ -22,7 +22,7 @@ const SONG_DATA: Song[] = [
 		youtubeId: '1C',
 		title: 'HypeBoy',
 		artist: 'NewJeans',
-		albumImg: 'test',
+		albumImg: '',
 		playTime: 200,
 	},
 	{
@@ -30,7 +30,7 @@ const SONG_DATA: Song[] = [
 		youtubeId: '1D',
 		title: 'HypeBoy',
 		artist: 'NewJeans',
-		albumImg: 'test',
+		albumImg: '',
 		playTime: 200,
 	},
 	{
@@ -38,7 +38,7 @@ const SONG_DATA: Song[] = [
 		youtubeId: '1E',
 		title: 'HypeBoy',
 		artist: 'NewJeans',
-		albumImg: 'test',
+		albumImg: '',
 		playTime: 200,
 	},
 	{
@@ -46,7 +46,7 @@ const SONG_DATA: Song[] = [
 		youtubeId: '1F',
 		title: 'HypeBoy',
 		artist: 'NewJeans',
-		albumImg: 'test',
+		albumImg: '',
 		playTime: 200,
 	},
 	{
@@ -54,7 +54,7 @@ const SONG_DATA: Song[] = [
 		youtubeId: '1G',
 		title: 'HypeBoy',
 		artist: 'NewJeans',
-		albumImg: 'test',
+		albumImg: '',
 		playTime: 200,
 	},
 ];

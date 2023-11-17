@@ -12,6 +12,13 @@ const LoginContainer = styled.div`
 		width: calc(100% - 20px);
 		position: fixed;
 		bottom: 30px;
+
+		&::before {
+			width: 100%;
+		}
+		&::after {
+			width: calc(100% - 2px);
+		}
 	}
 `;
 
