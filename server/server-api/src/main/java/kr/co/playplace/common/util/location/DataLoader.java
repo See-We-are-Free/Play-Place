@@ -243,10 +243,19 @@ public class DataLoader {
                     if(i % 500 == 0) {
                         log.debug("create song history: {}", i);
                     }
-                    Optional<Village> village = villageRepository.findById(i);
-                    createRandomSongHistory(user, village.get());
+//                    Optional<Village> village = villageRepository.findById(i);
+//                    createRandomSongHistory(user, village.get());
+//
+//                    createStaticSongHistory(user, village.get(), 45);
+                    Optional<Village> villageOptional = villageRepository.findById(i);
 
-                    createStaticSongHistory(user, village.get(), 45);
+                    if (villageOptional.isPresent()) {
+                        Village village = villageOptional.get();
+                        createRandomSongHistory(user, village);
+                        createStaticSongHistory(user, village, 45);
+                    } else {
+                        log.warn("Village not found for id: {}", i);
+                    }
                 }
 
                 songService.getAreaStatistics();
