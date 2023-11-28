@@ -247,7 +247,8 @@ public class SongService {
     // redis 저장 dto id 확인
     @Scheduled(cron = "0 0 10 ? * MON") // 매주 월요일 오전 10시에 실행
     public void getAreaStatistics(){
-        List<GetAreaSongDto> getAreaSongDtoList = songHistoryRepository.findAreaSong().stream()
+        LocalDateTime oneWeekAgo = LocalDateTime.now().minusWeeks(1);
+        List<GetAreaSongDto> getAreaSongDtoList = songHistoryRepository.findAreaSong(oneWeekAgo).stream()
                 .map(result -> {
                     Song song = songRepository.findById(Long.parseLong(result[0] + "")).get();
                     Village village = villageRepository.findById(Integer.parseInt(result[1] + "")).get();
@@ -272,7 +273,8 @@ public class SongService {
     // TODO: redis 저장 dto id 확인
     @Scheduled(cron = "0 0 10 ? * MON") // 매주 월요일 오전 10시에 실행
     public void getWeatherStatistics(){
-        List<GetWeatherSongDto> getWeatherSongDtoList = songHistoryRepository.findWeatherSong().stream()
+        LocalDateTime oneWeekAgo = LocalDateTime.now().minusWeeks(1);
+        List<GetWeatherSongDto> getWeatherSongDtoList = songHistoryRepository.findWeatherSong(oneWeekAgo).stream()
                 .map(result -> {
                     Song song = songRepository.findById(Long.parseLong(result[0] + "")).get();
                     Weather weather = Weather.values()[Integer.parseInt(result[1] + "")];
@@ -294,7 +296,8 @@ public class SongService {
     // TODO: redis 저장 dto id 확인
     @Scheduled(cron = "0 0 10 ? * MON") // 매주 월요일 오전 10시에 실행
     public void getTimezoneStatistics(){
-        List<GetTimezoneSongDto> getTimezoneSongDtoList = songHistoryRepository.findTimeZoneSong().stream()
+        LocalDateTime oneWeekAgo = LocalDateTime.now().minusWeeks(1);
+        List<GetTimezoneSongDto> getTimezoneSongDtoList = songHistoryRepository.findTimeZoneSong(oneWeekAgo).stream()
                 .map(result -> {
                     Song song = songRepository.findById(Long.parseLong(result[0] + "")).get();
                     Timezone timezone = Timezone.values()[Integer.parseInt(result[1] + "")];
