@@ -27,7 +27,7 @@ spring:
         max-request-size: 10MB
   sql:
     init:
-      mode: always
+      mode: never
       schema-locations: classpath:db.mysql/dump_data.sql
 
 cloud:
