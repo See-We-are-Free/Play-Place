@@ -233,8 +233,8 @@ public class DataLoader {
     @Bean
     public CommandLineRunner SongHistoryDataLoad(UserRepository userRepository, VillageRepository villageRepository) {
         return args -> {
-            long count = userRepository.count();
-            if(count == 1) {
+            long count = songHistoryRepository.count();
+            if(count == 0) {
                 redisTemplate.getConnectionFactory().getConnection().flushAll();
 
                 Users user = userRepository.findById(1L).get();
