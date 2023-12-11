@@ -54,7 +54,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 2;
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 1981;
     private static final int REQUEST_CODE_LOCATION_SETTINGS = 2981;
-    private static final String[] PERMISSIONS = new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+    private static final String[] PERMISSIONS = new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION };
     private FusedLocationProviderClient mFusedLocationClient;
     private SettingsClient mSettingsClient;
     private LocationRequest mLocationRequest;
@@ -68,9 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private ShakeDetector mShakeDetector;
     private long backBtnTime = 0;
     private static final String TAG = "permission";
-   private static final String BASE_URL = "https://k9c109.p.ssafy.io/pp/login";
-    //   private static final String BASE_URL = "http://172.30.1.5:3000/pp";
-
+    private static final String BASE_URL = "https://playplace.co.kr/pp";
 
     /* Activity 시작점 */
     @Override
@@ -96,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
                 vibrator.vibrate(200);
             }
         });
-
 
         /* 위치 관련 설정 */
         LocationInit();
@@ -210,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
                     .show();
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -243,28 +242,27 @@ public class MainActivity extends AppCompatActivity {
 
         mSettingsClient = LocationServices.getSettingsClient(this);
 
-//        mLocationRequest = new LocationRequest();
+        // mLocationRequest = new LocationRequest();
         mLocationRequest = LocationRequest.create();
         mLocationRequest.setInterval(500);
         mLocationRequest.setFastestInterval(500);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-//        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        // mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
         builder.addLocationRequest(mLocationRequest);
         mLocationSettingsRequest = builder.build();
     }
 
-
     /* 카메라 권한 요청 함수 */
     public void checkCamera() {
         if (checkSelfPermission(Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED ||
                 checkSelfPermission(Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED ||
                 checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            //카메라 권한 획득 여부 확인
+            // 카메라 권한 획득 여부 확인
             if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
                 // 카메라 권한 요청
-                requestPermissions(new String[]{Manifest.permission.INTERNET, Manifest.permission.CAMERA}, 1);
+                requestPermissions(new String[] { Manifest.permission.INTERNET, Manifest.permission.CAMERA }, 1);
             }
         }
     }
@@ -274,18 +272,20 @@ public class MainActivity extends AppCompatActivity {
 
         // 카메라 권한 요청이 없다면 요청
         if (isPermitted != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION_CODE);
+            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA },
+                    REQUEST_CAMERA_PERMISSION_CODE);
             return;
         }
 
         // 카메라 권한이 있을 때는 진행.
         Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        File path = getFilesDir();
-//        File file = new File(path, "sample.png");
-//
-//        String strpa = getApplicationContext().getPackageName();
-//        cameraImageUri = FileProvider.getUriForFile(this, strpa + ".fileprovider", file);
-//        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, cameraImageUri);
+        // File path = getFilesDir();
+        // File file = new File(path, "sample.png");
+        //
+        // String strpa = getApplicationContext().getPackageName();
+        // cameraImageUri = FileProvider.getUriForFile(this, strpa + ".fileprovider",
+        // file);
+        // intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, cameraImageUri);
         if (intentCamera.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intentCamera, REQUEST_IMAGE_CAPTURE);
         }
@@ -302,9 +302,6 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isPermissionGranted() {
         for (String permission : PERMISSIONS) {
-            if (permission.equals(Manifest.permission.ACCESS_BACKGROUND_LOCATION) && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-                continue;
-            }
             final int result = ContextCompat.checkSelfPermission(this, permission);
 
             if (PackageManager.PERMISSION_GRANTED != result) {
@@ -321,9 +318,9 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("MissingPermission")
     private void startLocationUpdates() {
         mSettingsClient.checkLocationSettings(mLocationSettingsRequest)
-                .addOnSuccessListener(this, locationSettingsResponse ->
-                        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper())
-                )
+                .addOnSuccessListener(this,
+                        locationSettingsResponse -> mFusedLocationClient.requestLocationUpdates(mLocationRequest,
+                                mLocationCallback, Looper.myLooper()))
                 .addOnFailureListener(this, e -> {
                     if (e instanceof ResolvableApiException) {
                         resolveLocationSettings(e);
@@ -341,7 +338,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_CAMERA_PERMISSION_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -351,7 +349,8 @@ public class MainActivity extends AppCompatActivity {
             }
         } else if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
             if (grantResults.length <= 0) {
-                // If user interaction was interrupted, the permission request is cancelled and you
+                // If user interaction was interrupted, the permission request is cancelled and
+                // you
                 // receive empty arrays.
                 Log.i(TAG, "Permission Pass");
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -370,7 +369,8 @@ public class MainActivity extends AppCompatActivity {
                             intent.setData(Uri.fromParts("package", getPackageName(), null));
                             startActivity(intent);
                         });
-                        builder.setNegativeButton("Cancel", (dialog, id) -> Toast.makeText(MainActivity.this, "Cancel Click", Toast.LENGTH_SHORT).show());
+                        builder.setNegativeButton("Cancel", (dialog, id) -> Toast
+                                .makeText(MainActivity.this, "Cancel Click", Toast.LENGTH_SHORT).show());
                         AlertDialog alertDialog = builder.create();
                         alertDialog.show();
                     }
