@@ -258,9 +258,9 @@ public class DataLoader {
                     }
                 }
 
-//                songService.getAreaStatistics();
-//                songService.getTimezoneStatistics();
-//                songService.getWeatherStatistics();
+                songService.getAreaStatistics();
+                songService.getTimezoneStatistics();
+                songService.getWeatherStatistics();
 
                 log.debug("create data done");
             }
